@@ -1,0 +1,252 @@
+/* Deze programma wordt door index.html voor de voorgeving gebruikt.
+	Program	: index.css
+	Datum		: 01-07-2016 
+*/	
+*{
+	padding:0;
+	margin :0;
+}
+body{
+	margin-left: 70px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	/*margin: 30px;*/
+
+	width: 90%;
+	/* border:	2px solid red; */
+}
+h1 {
+	text-align : center;
+}
+article{
+	border : 3px solid black;
+}
+.page-artical{	
+	border	:	3px solid green;
+}
+/***Pesoonlijke gegevens***/
+#persoon-gegevens{
+	margin: 15px;
+	margin-bottom: 20px;
+	width	:	97%;
+	height	:	310px;
+	border	:	3px solid red;
+}
+.field label{
+	width	:	120px;
+	float	: 	left;
+	padding: 2px 0 0 0;
+}
+.field input{
+	margin	: 2px 0 7px 0;
+	padding	: 1px 3px 2px 3px; /*1023*/
+	border	: 1px solid #000;
+	background-color: transparent;
+	width		: 200px;
+}
+
+#personalia{
+	float		:	left;
+	width		:	330px;
+	height	:	275px;
+	/*border 	: 	3px solid yellow;*/
+	margin	:	15px;
+}
+
+#upload {
+	float: right;
+	fixed-top:15px;
+}
+
+aside#sociale-links h4{
+	margin-bottom:-20px;
+	color: green;
+}
+
+#sociale-links{
+	margin-right: 70px;
+	float		:	right;
+	width		:	300px;
+	height	:	220px;
+	/* border : 3px solid yellow; */	
+}
+#sociale-links #media{
+	margin-top: 20px;
+	margin-right: 50px;
+	width		: 285px;
+	padding	: 5px 0 10px 10px;
+	border	: 1px solid black;
+	font-family	: verdana;
+}
+#media legend{
+	color: #999;
+	font-weight: bold;
+	padding: 4px 6px 4px 0;
+	margin: 0 0 5px 0;
+	font-size: 0.8em;
+}
+
+#media label{
+	width	:	90px;
+	float	: 	left;
+	padding: 2px 0 0 0;
+}
+#media	input{
+	margin	: 2px 0 7px 0;
+	padding	: 1px 3px 2px 3px; /*1023*/
+	border	: 1px solid #000;
+	background-color: transparent;
+	width		: 200px;
+}
+
+
+/***Gewenste functies***/
+
+#gewenste-functies {
+	margin-left: 15px;
+}
+section#functies h3 {
+	margin-left: 15px;
+}
+
+#functies{	
+	margin-left: 15px;
+	margin-bottom:20px;
+	border	:	3px solid orange;
+	width		:	97%;
+	height	:	280px;
+}
+
+/***Mobiliteit & Aanvullende voorzieningen***/
+
+#indicatie, #typeUitkering {
+	
+}
+
+
+section#uitkering {
+	margin-right: 70px;
+	float		:	right;
+	width		:	300px;
+	height	:	220px;
+	/* border : 3px solid yellow; */
+}
+
+section.voorziening h3{
+	margin-left: 15px;
+}
+.voorziening{
+	margin-left: 15px;
+	margin-bottom: 20px;
+	width	:	97%;
+	height	:	300px;
+	border	: 3px solid green;
+}
+
+.rijbewijsJ {
+	color:blue;
+}
+
+.rijbewijsN {
+	color:Red;
+}
+
+#mobiliteit #mobiel{
+	margin-left: 15px;
+	margin-bottom: 15px;
+	float		: left;
+	width		: 500px;
+	padding	: 5px 0 10px 10px;
+	border	: 1px solid black;
+	font-family	: verdana;
+}
+#mobiliteit legend{
+	color: #999;
+	font-weight: bold;
+	padding: 4px 6px 4px 0;
+	margin: 0 0 5px 0;
+	font-size: 0.8em;
+}
+
+#mobiliteit label{
+	width	:	90px;
+	float	: 	left;
+	padding: 2px 0 0 0;
+}
+#mobiliteit	input{
+	margin	: 2px 0 7px 0;
+	padding	: 1px 3px 2px 3px; /*1023*/
+	border	: 1px solid #000;
+	background-color: transparent;
+	width		: 200px;
+}
+
+#aanvulling #tekstVeld{
+	float		:	right;
+	width 	:	400px;
+	height	:	180px;
+}
+
+/***Sector***/
+#sector{
+	width		:	800px;
+	height	:	 50px;
+	border 	: 	3px solid green;
+}
+
+/***De grootte van het bedrijf***/
+#bedrijf-grootte{
+	width		:	800px;
+	height	:	 50px;
+	border	:	3px solid green;
+}
+/***Gewenste functie plaatsen***/
+#plaatsen{
+	width		:	800px;
+	height	:	200px;
+	border 	: 	3px solid red;
+}
+#rij-een{
+	display	: 	inline-block;
+	float		:	left;
+	border	: 	3px solid red;
+	width		:	150px;
+	height	:	150px;
+	margin	:	5px;	
+}
+#rij-twee{
+	float		:	left;
+	border	: 	3px solid red;
+	width		:	150px;
+	height	:	150px;
+	margin	:	5px;	
+}
+#rij-drie{
+	float		:	left;
+	border	: 	3px solid red;
+	width		:	150px;
+	height	:	150px;
+	margin	:	5px;
+}
+/***Opmerkingen***/
+#opmerking{
+	width		:	800px;
+	height	:	100px;
+	border 	: 	3px solid blue;
+}
+#opmerking #tekst-veld{
+	width		:	800px;
+	height	:	60px;
+	border 	: 	1px solid black;
+}
+.button{
+	background-color: transparent;
+	color: #000;
+	font-weight: bold;
+	width: auto;
+	margin: 0 5px 0 0;
+	padding: 1px 5px 2px 5px;
+	cursor: pointer;
+	float: right;
+}
+
