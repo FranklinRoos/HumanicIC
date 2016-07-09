@@ -1,0 +1,472 @@
+<!--	Deze program vormt een interface voor de interactieve werking met database 
+		ten behoeve van Humanic Developent
+		Program	: index.html
+		Datum		: 01-07-2016 -->	 	
+
+<!DOCHTYPE html>		
+<html>
+	<head>
+		<title>Fuikwebsite</title>
+		<link href="./CSS3/fuikweb.css" rel="stylesheet" type="text/css"/>
+		<link href="./CSS3/slider.css" rel="stylesheet" type="text/css"/>
+		<link href="./CSS3/slider.less" rel="stylesheet" type="text/css"/>
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		
+		<!-- <script src="./js/slider.js"></script> -->
+		<!-- <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script> -->
+		<script src="https://code.jquery.com/jquery-2.2.4.min.js"  ></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		
+		
+	</head>
+	<body>
+		<!-- <header>
+			<h1>Registrisatie van Kandidaten</h1>
+		</header> -->
+			
+		<!-- <article class="page-artical"> -->
+		<div class="container">
+			<h2>Registratie formulier</h2>
+			<!-- <form id="fuikweb-register" method="#"action="#" role="form"> -->
+			<form class="form-horizontal" role="form">
+				<section id="persoonlijke-gegevens">
+							
+						 <section id="personalia">
+							<div class="kop">
+								<p>Vul je persoonlijke gegevens in, velden met een * zijn verplicht.</p>
+							</div>
+	<!-- 						<h4>Personalia:</h4> -->
+							<div class="row">
+								<label class="col-sm-3 text-left" for="login-naam">Loginnaam *</label>
+								<!-- <input type="text" class='form-control' id="login-naam" name="LoginNaam" required="required" autofocus="autofocus"/> -->
+								<div class="col-sm-9">
+									<input type="text" class="form-control input-sm' id="login-naam" name="loginNaam"  required="required" maxlength="3" autofocus="autofocus"/>
+								</div>
+							</div>
+							<div class="row">
+								<label class="col-sm-3" for="achternaam">Achternaam *</label>
+								<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
+								<div class="col-sm-9">
+									<input type="text" class="form-control input-sm" id="achternaam" name="achterNaam" required="required"/>
+								</div>	
+							</div>
+							<div class="row">
+								<label class="col-sm-3" for="tussenvoegsel">Tussenvoegsel</label>
+								<!-- <input type="email" class="form-control" id="tussenvoegsel" name="TussenVoegsel"/> -->
+								<div class="col-sm-2">
+									<input type="text" class="form-control input-sm" id="tussenvoegsel" name="tussenVoegsel"/>
+								</div>	
+							</div>
+							<div class="row">
+								<label class="col-sm-3 text-left" for="voornaam">Voornaam *</label>
+								<!-- <input type="text" class="form-control" id="voornaam" name="VoorNaam" required="required" pattern="[a-zA-Z0-9]{5,}" title="At least 5 letters and numbers"/> -->
+								<div class="col-sm-9">
+									<input type="text" class="form-control input-sm" id="voornaam" name="voorNaam" required="required"  />
+								</div>
+							</div>
+							<div class="row">
+								<label class=" col-sm-3 text-left" for="voornaam">Email *</label>
+								<!-- <input type="text" class="form-control" id="voornaam" name="VoorNaam" required="required" pattern="[a-zA-Z0-9]{5,}" title="At least 5 letters and numbers"/> -->
+								<div class="col-sm-9">
+									<input type="email" class="form-control input-sm" id="voornaam" name="email" required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" />
+								</div>
+							</div>
+							<div class="row">
+								<label class="col-sm-3 col-offset-1" for="straat">Straat</label>
+								<!-- <input type="text" class="form-control" id="straat" name="Straat" required="required"/> -->
+								<div class="col-sm-9">
+									<input type="text" class="form-control input-sm" id="straat" name="Straat" required="required"/>
+								</div>
+							</div>
+							<div class="row">
+								<label class="col-sm-3" for="huisnummer">Huisnummer</label>
+								<!-- <input type="text" class="form-control" id="huisnummer" name="HuisNummer" placeholder="Huisnummer"/> -->
+								<div class="col-sm-2">
+									<input type="text" class="form-control input-sm" id="huisnummer" name="huisNummer" >
+								</div>
+							</div>
+							<div class="row">
+								<label class="col-sm-3" for="toevoeging">Toevoeging</label>
+								<!-- <input type="text" class="form-control" id="huisnummer" name="HuisNummer" placeholder="Huisnummer"/> -->
+								<div class="col-sm-2">
+									<input type="text" class="form-control input-sm" id="toevoeging" name="toevoeging"/>
+								</div>
+							</div>
+							<div class="row">
+								<label class="col-sm-3" for="postcode">Postcode</label>
+								<!-- <input type="text" class="form-control" id="postcode" name="PostCode" placeholder="1032CJ"/> -->
+								<div class="col-sm-3">
+									<input type="text" class="form-control input-sm" id="postcode" name="postCode" placeholder="1032CJ"/>
+								</div>	
+							</div>
+							<div class="row">
+								<label class="col-sm-3" for="plaats">Plaats</label>
+								<!-- <input type="text" class="form-control" id="plaats" name="Plaats" placeholder="Amsterdam"/> -->
+								<div class="col-sm-9">
+									<input type="text" class="form-control input-sm" id="plaats" name="plaats"/>
+								</div>	
+							</div>
+							<div class="row">
+								<label class="col-sm-3" for="geboortedatum">Geboortedatum</label>
+								<!-- <input type="text" class="form-control" id="geboortedatum" name="GeboorteDatum" placeholder="dd-mm-jjjj"/> -->
+								<div class="col-sm-4">
+									<input type="text" class="form-control input-sm" id="geboortedatum" name="geboorteDatum" placeholder="dd-mm-jjjj"/>
+								</div>	
+							</div>
+						</section>
+					
+					<section id="sociaal_foto">
+						<div id="foto" class="form-group">
+								<label  for="foto">Foto uploaden</label>
+								<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
+								<!-- <div  class="col-sm-4 text-left"> -->
+								<div>
+									<input class="form-control col-sm-4" type="file" class="form-control" id="fototest" name="foto" placeholder="test"/>
+									<img class="col-sm-4" id="myImg" sc="#" alt="your image"/>
+								</div>
+						</div>
+						<div id="cv" class="form-group">
+								<label  for="cv">CV uploaden</label>
+								<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
+								<!-- <div  class="col-sm-4 text-left"> -->
+								<div>
+									<input class="form-control col-sm-4" type="file" class="form-control" id="fototest" name="cv" />
+									
+								</div>
+						</div>
+						<section id="sociale_media">
+						<div class="form-group">
+								<label class="control-label col-sm-2" for="linkedin">LinkedIn</label>
+								<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
+								<div class="col-sm-10">
+									<input type="text" class="form-control input-sm" id="linkedin" name="linkedIn" placeholder="linkedIn link" />
+								</div>	
+						</div>
+						<div class="form-group">
+								<label class="control-label col-sm-2" for="facebook">Facebook</label>
+								<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
+								<div class="col-sm-10">
+									<input type="text" class="form-control input-sm" id="facebook" name="faceBook" placeholder="facebook link"/>
+								</div>	
+						</div>
+						<div class="form-group">
+								<label class="control-label col-sm-2" for="twitter">Twitter</label>
+								<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
+								<div class="col-sm-10">
+									<input type="text" class="form-control input-sm" id="twitter" name="twitter" placeholder="twitter link"/>
+								</div>	
+						</div>
+						</section>
+					</section>	
+					
+				</section>	
+									
+				<section id="functies">
+						<div class="kop">
+							<p>Vink de functie(s) aan waarin je geinteresseerd bent en geef je werkervaring aan in die functie
+						</div>
+					
+					
+						<div class="row">
+							<label class="col-sm-2 text-left"><input id="functieCheck1" type="checkbox" value="" > Java developer</label>
+							
+							<div  id="ervaringSlider1" class="ervaringSlider col-sm-2">
+								<input id="ervaring1" data-slider-id="ervaringSlider1" type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="0" tooltip="hide"/>		
+								<div>
+									<span  id="ex1CurrentSliderValLabel"> <span id="ex1SliderVal">&nbsp 0</span></span>
+								</div>	
+								
+							</div>
+							<label class="col-sm-2 text-left"><input id="functieCheck2" type="checkbox" value="" > Functioneel ontwerper</label>
+							
+								<div id="ervaringSlider2" class="ervaringSlider col-sm-2">
+									<input id="ervaring2" data-slider-id="ervaringSlider2" type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="0" tooltip="always"/>		
+									<div >
+										<span id="ex2CurrentSliderValLabel"> <span id="ex2SliderVal">0</span></span>
+									</div>
+									<!-- <input type="range" value= "5" min="0" max="10"> -->
+								</div> 
+						</div>
+						<div class="row">
+							<label class="col-sm-3 text-left"><input id="functieCheck2" type="checkbox" value="" > Functioneel ontwerper</label>
+							
+								<div id="ervaringSlider2" class="ervaringSlider col-sm-2">
+									<input id="ervaring2" data-slider-id="ervaringSlider2" type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="0" tooltip="always"/>		
+									<div >
+										<span id="ex2CurrentSliderValLabel"> <span id="ex2SliderVal">0</span></span>
+									</div>
+									<!-- <input type="range" value= "5" min="0" max="10"> -->
+								</div> 
+								
+							
+						</div>
+						<div class="row">
+							<label class="divSlider col-sm-3 text-left"><input id="functieCheck3" type="checkbox" value="" > .NET developer</label>
+							<div id="ervaringSlider3" class="ervaringSlider col-sm-2">
+								<input id="ervaring3" data-slider-id="ervaringSlider3" type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="0" tooltip="always"/>		
+								
+								<div>
+									<span id="ex3CurrentSliderValLabel"> <span id="ex3SliderVal">0</span></span>
+								</div>	
+								<!-- <input type="range" value= "5" min="0" max="10"> -->
+							</div>
+						</div>
+						<div class="row">
+							<label class="col-sm-3 text-left"><input id="functieCheck4" type="checkbox" value="" > Test Coordinator</label>
+							<div  id="ervaringSlider4" class="ervaringSlider col-sm-2">
+								<input id="ervaring4" data-slider-id="ervaringSlider4" type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="0" tooltip="always"/>
+								<div>
+									<span id="ex4CurrentSliderValLabel"> <span id="ex4SliderVal">0</span></span>
+								</div>	
+								<!-- <input type="range" value= "5" min="0" max="10"> -->
+							</div>
+						</div>
+						<div class="row">
+							<label class="col-sm-3 text-left"><input id="functieCheck5" type="checkbox" value="" > Front-end developer</label>
+							<div id="ervaringSlider5" class="ervaringSlider col-sm-2">
+								<input id="ervaring5" data-slider-id="ervaringSlider5" type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="0" tooltip="always"/>		
+								
+								<div>
+									<span id="ex5CurrentSliderValLabel"> <span id="ex5SliderVal">0</span></span>
+									<!-- <input type="range" value= "5" min="0" max="10"> -->
+								</div>
+							</div>
+						</div>	 
+						<div class="row">
+							<label class="divSlider col-sm-3 text-left"><input id="functieCheck6" type="checkbox" value="" > Back-end developer</label>
+							<div id="ervaringSlider6" class="ervaringSlider col-sm-2">
+								<input  id="ervaring6" data-slider-id="ervaringSlider6" type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1"  tooltip="always"/>		
+							
+								<div>
+									<span id="ex6CurrentSliderValLabel"> <span id="ex6SliderVal">0</span></span>
+									<!-- <input type="range" value= "5" min="0" max="10"> -->
+								</div>
+							</div>
+						</div>	
+							
+				</section>
+				
+				<section id="mobielFinUitkering">
+					
+					
+					<section id="mobielFinancieel">
+						<div class="form-group">
+							<label class="col-sm-5 text-left"><input id="rijbewijsCheck" type="checkbox" value="" > Rijbewijs</label>					
+						</div>
+						<div class="form-group" id="auto">
+							<label class="col-sm-5 text-left"><input id="autoCheck" type="checkbox" value="" > Auto</label>					
+						</div>
+						<div class="form-group" id="financieel">
+							<label class="col-sm-5" for="salaris">Salaris indicatie</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control input-sm" id="salaris" name="salaris" />	
+							</div>	
+						</div>
+						<div class="form-group" id="uitkering">
+							<label class="col-sm-5 " for="uitkering">Soort uitkering</label>
+							<div class="col-sm-4">
+								<select class="form-control input-sm" name="uitkering">
+									<option value="WW">WW</option>
+									<option value="IOAW">IOAW</option>
+									<option value="Wajong">Wajong</option>
+									<option value="WAO">WAO</option>
+							  </select>
+							</div>	
+						</div>
+						<div class="form-group" id="ww">
+							<label class="col-sm-5 " for="salaris">Uitkering geldig tot</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control input-sm" id="salaris" name="salaris" placeholder="mm-jjjj" />
+							</div>	
+						</div>
+					</section>	
+					
+					<section id="sectorwerk">
+						
+						<div id="sector">
+							<div class="kop">
+								<p>Vink de sector(s) aan waar je in werkzaam bent geweest</p>
+							</div>
+							<label class="checkbox-inline">
+								<input type="checkbox" value="">ICT
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" value="">Zorg
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" value="">Industrie
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" value="">Retail
+							</label>
+						</div>
+						<br>
+						<br>
+						<br>
+						<div id="bedrijf">
+							<div class="kop">
+								<p>Gewenste grootte van het bedrijf (in aantal medewerkers)</p>
+							</div>
+							<label class="checkbox-inline">
+								<input type="checkbox" value="">1-10
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" value="">10-50
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" value="">50-100
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" value="">100-500
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" value="">>500
+							</label>
+						</div>
+					</section>
+				</section> 
+				
+										
+				<section id="regio">
+					<div class="kop">
+						<p>Geef de maximale reisafstand en/of reisduur op en vink de gewenste regio's aan</p>
+					</div>	
+					<div class="form-group">
+							<label class="col-sm-1" for="reisafstand">Reisafstand</label>
+							<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
+							<div class="col-sm-2">
+								<input type="text" class="form-control input-sm" id="reisafstand" name="reisafstand" placeholder="in km" />
+							</div>
+
+							<label class="col-sm-1" for="reisduur">Reisduur</label>
+							<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
+							<div class="col-sm-2">
+								<input type="text" class="form-control input-sm" id="reisduur" name="reisduur"  />
+							</div>							
+					</div>	
+					
+					
+					<div class="form-group">
+							<label class="col-sm-2 text-left">
+								<input  type="checkbox" name="noordholland" value="" > Noord-Holland
+							</label>
+							
+							<label class="col-sm-2 text-left">
+								<input  type="checkbox" name="limburg" value="" > Limburg
+							</label>
+							
+							<label class="col-sm-2 text-left">
+								<input  type="checkbox" name="flevoland" value="" > Flevoland
+							</label>
+							<label class="col-sm-2 text-left">
+								<input  type="checkbox" name="amsterdam" value="" > Amsterdam
+							</label>
+					</div>
+					<div class="form-group">
+							<label class="col-sm-2 text-left">
+								<input  type="checkbox" name="zuidholland" value="" > Zuid-Holland
+							</label>
+							
+							<label class="col-sm-2 text-left">
+								<input  type="checkbox" name="gelderland" value="" > Gelderland
+							</label>
+							
+							<label class="col-sm-2 text-left">
+								<input  type="checkbox" name="drenthe" value="" > Drenthe
+							</label>
+							
+							<label class="col-sm-2 text-left">
+								<input  type="checkbox" name="Rotterdam" value="" > Rotterdam
+							</label>
+					</div>
+					<div class="form-group">
+							<label class="col-sm-2 text-left">
+								<input  type="checkbox" name="zeeland" value="" > Zeeland
+							</label>
+							
+							<label class="col-sm-2 text-left">
+								<input  type="checkbox" name="overijssel" value="" > Overijssel
+							</label>
+							
+							<label class="col-sm-2 text-left">
+								<input  type="checkbox" name="friesland" value="" > Friesland
+							</label>
+							
+							<label class="col-sm-2 text-left">
+								<input  type="checkbox" name="eindhoven" value="" > Eindhoven
+							</label>
+					</div>
+					<div class="form-group">
+							<label class="col-sm-2 text-left">
+								<input  type="checkbox" name="noordbrabant" value="" > Noord-Brabant
+							</label>
+							
+							<label class="col-sm-2 text-left">
+								<input  type="checkbox" name="utrecht" value="" > Utrecht
+							</label>
+							
+							<label class="col-sm-2 text-left">
+								<input  type="checkbox" name="groningen" value="" > Groningen
+							</label>
+														
+							<label class="col-sm-2 text-left">
+								<input  type="checkbox" name="nijmegen" value="" > Nijmegen
+							</label>
+					</div>	
+				</section>
+				
+				
+				<section id="opmerkingSection">
+					<div class="kop">
+						<p>Opmerkingen</p>
+					</div>	
+					<div class="col-sm-6">
+						<textarea class="form-control"  name="opmerkingen" rows="5">	</textarea>									 
+					</div>	
+					<br>
+				</section>
+				
+				<section id="opslaan">
+					<br>
+					<br>
+					<div class="text-right">
+						<div class="col-sm-12">
+							<button class="btn btn-primary btn-md" type="button" name="opslaan" >Verzenden</button>
+							<button class="btn btn-primary btn-md" type="button" name="wissen">Wissen</button>
+						</div>	
+				</section>
+			</form>
+		</div>
+			
+		<footer>
+		</footer>
+		<script src="http://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="js/bootstrap-slider.js" type="text/javascript"></script>
+		<script src="js/fuik.js" type="text/javascript"></script>		
+		<script src="js/slider.js" type="text/javascript"></script>
+        <script>
+            
+				$("#file").change(function () {
+					if (this.files && this.files[0]) {
+						var reader = new FileReader();
+						reader.onload = imageIsLoaded;
+						reader.readAsDataURL(this.files[0]);
+					}
+				});
+			
+
+			
+	`		function imageIsLoaded(e) {
+				$('#myImg').attr('src', e.target.result);
+			};
+		
+			<!-- $("#functieCheck1").change(function() {	
+					<!-- alert("oke");
+					<!-- }); --> -->
+			 -->
+			
+			<!-- $("#ervaring1").slider("disable"); -->
+        </script>
+	</body>
+</html>		

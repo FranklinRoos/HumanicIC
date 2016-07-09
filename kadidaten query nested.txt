@@ -1,0 +1,42 @@
+SELECT * FROM 
+	user 
+LEFT OUTER JOIN (user_functie
+		 INNER JOIN functie
+		 ON functie.id = user_functie.functie_id)
+ON user_functie.user_id = user.user_id
+LEFT OUTER JOIN (user_bedrijf
+		 INNER JOIN bedrijf
+		 ON bedrijf.id = user_bedrijf.id)
+ON user_bedrijf.user_id = user.user_id
+LEFT OUTER JOIN (user_mobiliteit
+		 INNER JOIN mobiliteit
+		 ON mobiliteit.id = user_mobiliteit.id)
+ON user_mobiliteit.user_id = user.user_id
+
+LEFT OUTER JOIN (user_reis
+		 INNER JOIN regios
+		 ON reis.id = user_reis.reis_id)
+ON user_reis.user_id = user.user_id
+
+LEFT OUTER JOIN (user_regio
+		 INNER JOIN regio
+		 ON regio.id = user_regio.regio_id)
+ON user_regio.user_id = user.user_id
+
+LEFT OUTER JOIN (user_sector
+		 INNER JOIN sector
+		 ON sector.id = user_sector.sector_id)
+ON user_sector.user_id = user.user_id
+
+LEFT OUTER JOIN (user_sociale_media
+		 INNER JOIN sociale_media
+		 ON sociale_media.id = user_sociale_media.sociale_media_id)
+ON user_sociale_media.user_id = user.user_id
+
+LEFT OUTER JOIN (user_voorzieningen
+		 INNER JOIN voorzieningen
+		 ON voorzieningen.id = user_voorzieningen.voorzieningen_id)
+ON user_voorzieningen.user_id = user.user_id
+
+WHERE functie.naam = 'Java developer'
+AND mobiliteit.soort = 'auto'
