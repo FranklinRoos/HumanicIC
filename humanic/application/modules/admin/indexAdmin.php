@@ -9,11 +9,11 @@ $pageNavId=1;
 fHeader($pageNavId);//actief=$pageNavId);
 navigatie($pageNavId);
 
-if($_SESSION['blad']!=='admin_page')    
+/*if($_SESSION['blad']!=='admin_page')    
 {
   //unset ($_SESSION['blad']);
   $_SESSION['blad']='admin_page';
-}
+}*/
 
 
 echo"<div class=\"container\">";
@@ -49,9 +49,9 @@ if(isset($_SESSION['loginnaam']))
  elseif(!isset($_SESSION['loginnaam'])) 
      {
      
-     echo "<br /><h2 align=center>Dit is de website van HumanicIC</h2>";
-    echo "<br /><h3>U dient eerst<a href=\"../humanic-portal/login.php\"> ingelogd</a> te zijn</h3>";
-    fFooter($pageNavId);
+     echo "<br /><div class=\"bericht\"><h2 align=center>Dit is de website van HumanicIC</h2>";
+    echo "<br /><h3>U dient eerst<a href=\"../humanic-portal/login.php\"> ingelogd</a> te zijn</h3></div>";
+    fFooter();
      
     }
 
