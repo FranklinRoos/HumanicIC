@@ -23,16 +23,24 @@ function fHeader($pageNavId="1")
         echo "<meta name=\"description\" content=\"".$content["page_description"]."\">";
         echo "<meta name=\"keywords\" content=\"".$content["page_keywords"]."\">";
     }
-    echo "<meta name=\"author\" content=\"Franklin Roos, Thijs v Hout, Ron de Wit & Sellahatin\">";
+    echo "<meta name=\"author\" content=\"Franklin Roos, Thijs v Hout,Bart Kijlstra, Ron de Wit & Sellahatin\">";
     echo "<title>Humanic IC</title>";
     //<!-- Bootstrap -->
-    echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/bootstrap.min.css\" type=\"text/css\">";
+    //echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/bootstrap.min.css\" type=\"text/css\">";
+    echo "<link rel=\"stylesheet\" href=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">";
     //<!-- Optional theme -->
-    echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/bootstrap-theme.min.css\" type=\"text/css\">";
+   // echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/bootstrap-theme.min.css\" type=\"text/css\">";
     //<!-- My theme -->
     echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/dropmenu.css\" type=\"text/css\"/>";
+   echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/slider.css\" type=\"text/css\"/>";
+    echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/slider.less\" type=\"text/css\"/>";    
+    
     echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/style.css\" type=\"text/css\"/>";
     echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/fuikweb.css\" type=\"text/css\"/>";
+    echo "<script src=\"https://code.jquery.com/jquery-2.2.4.min.js\"  ></script></script>";
+    echo  "<script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js\"></script>";
+    
+    
     $path=$GLOBALS['path'];
     //$path=substr_replace($path ,"",-1);
     echo "<script src=\"$path/jquery-1.11.3.min.js\"></script>
@@ -92,14 +100,19 @@ function fFooter($pageNavId="1")
     //echo "<div class=\"container\">";
     echo "<p class=\"text-muted\">";      
     echo "<ul class=\"nav nav-pills\">";
-
+    //toegevoegd op zat 9 juli 2016
+    global $imagepath;
+    //echo "<div><img width=\"250\" height=\"90\" src=\"$imagepath/header2.png\" style=\" margin:30px;\"  class=\"mbr-contacts_img mbr-contacts_img--left\" />";
+    //echo "</div>";
     $sql = mysql_query("SELECT * FROM `nav` WHERE `nav_place` = 'footer' AND  `nav_show`= 'y' ");
+    //echo "<div><img width=\"250\" height=\"90\" src=\"$imagepath/header2.png\" style=\" margin:30px;\"  class=\"mbr-contacts_img mbr-contacts_img--left\" /></div>";
+    
     if (mysql_num_rows($sql)==0)  
     {
         die ("Je hebt geen gegevens nav tot je beschikking");
     }     
     while ($row = mysql_fetch_assoc($sql))
-    {
+    {       
         if ($row['nav_id']==$pageNavId)
         {
             echo "<li role=\"presentation\" class=\"active\"><a href=\"".$GLOBALS['path'].$row['nav_url']."\">".$row['nav_naam']."</a></li>";
@@ -108,7 +121,7 @@ function fFooter($pageNavId="1")
             echo "<li role=\"presentation\"><a href=\"".$GLOBALS['path'].$row['nav_url']."\">".$row['nav_naam']."</a></li>";
         }
     }
-
+    echo "<div class=\"merk\">Copyright (c) 2016 Humanic Development BV</div>";
     echo "</ul></p>";
     //echo "</div>";
     echo "</footer>";
