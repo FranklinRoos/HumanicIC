@@ -85,7 +85,7 @@ function overzicht()
         echo "</table>"; */
         
         //donderdag 7 juli 2016 toegevoegd
-          echo "<h3 align=center>Overzicht Geregistreerde Gebruikers</h3>";
+          echo "<h3 style=\"text-align:center; color:#ffcc00;\">Overzicht Geregistreerde Gebruikers</h3>";
         echo "<table id=\"edit\" cellpadding=\"3\" cellspacing=\"3\" >";
         echo "<tr>";
         //echo "<th width=\"50\" align=\"left\">Edit</th>";
