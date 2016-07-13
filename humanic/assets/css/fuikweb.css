@@ -7,13 +7,8 @@
 	margin :0;
 }
 body{
-	margin-left: 70px;
-	margin-top: 30px;
-	margin-bottom: 30px;
-	/*margin: 30px;*/
-
-	width: 90%;
 	/* border:	2px solid red; */
+	
 }
 h1 {
 	text-align : center;
@@ -21,58 +16,162 @@ h1 {
 article{
 	border : 3px solid black;
 }
-.page-artical{	
+.page-artical{
 	border	:	3px solid green;
 }
 /***Pesoonlijke gegevens***/
-#persoon-gegevens{
-	margin: 15px;
-	margin-bottom: 20px;
-	width	:	97%;
-	height	:	310px;
-	border	:	3px solid red;
+#persoonlijke-gegevens{
+	margin-bottom : 2px;
+	
+	width : 100%;
+	/* height : 450px; */
 }
-.field label{
-	width	:	120px;
-	float	: 	left;
-	padding: 2px 0 0 0;
-}
-.field input{
-	margin	: 2px 0 7px 0;
-	padding	: 1px 3px 2px 3px; /*1023*/
-	border	: 1px solid #000;
-	background-color: transparent;
-	width		: 200px;
-}
-
 #personalia{
-	float		:	left;
-	width		:	330px;
-	height	:	275px;
-	/*border 	: 	3px solid yellow;*/
-	margin	:	15px;
+	float :left;
+	padding : 10px 10px;
+	/* margin-left: 10px; */
+	width	:	50%;
+/* 	height	:	325px; */
+	border	:	1px solid black;
+	font-size : 12px;
+	margin-bottom : 25px;
 }
 
-#upload {
+#sociale_media{
+	
+/* 	heigth : 325px; */
+	border : 1px solid black;
+}
+
+#sociaal_foto{
+	
 	float: right;
-	fixed-top:15px;
+	margin-right : 10px;
+	width : 40%;
 }
 
-aside#sociale-links h4{
-	margin-bottom:-20px;
-	color: green;
+#fototest{
+	width : 60%;
+}
+
+#foto {
+	margin-left : 2px;
+}
+
+#cv {
+	margin-left : 2px;
+}
+
+.kop{
+	font-size : 11px;
+	color : blue;
+	font-weight : bold;
+	
+}
+
+#functies{
+	clear : left;
+	width : auto;
+	padding : 5px;
+	border : 1px solid black;
+	margin-bottom : 20px;
+	font-size : 12px;
+	
+}
+
+#mobielFinUitkering{
+	/* margin-bottom : 25px;
+	 */
+	width : 100%;
+	height : 250px;
+	/* border : 1px solid black; */
+}
+#mobielFinancieel{
+	float : left;
+	padding : 10px 5px;
+	/* margin: 10px; */
+	width	:	50%;
+/* 	height	:	325px; */
+	border	:	1px solid black;
+	;
+	font-size : 12px;
+} 
+
+#sectorwerk{
+	float : right;
+	padding : 10px 5px;
+	width : 40%;
+	
+	border : 1px solid black;
+}
+
+#sector{
+	/* border : 1px solid black; */
+	margin-bottom : 20px;
+	
+}
+
+#bedrijf{
+	/* border : 1px solid black; */
+	
+	
+}
+
+#regio{
+	clear : both;
+	width : 100%;
+	padding : 5px;
+	border : 1px solid black;
+	/* margin-top : 20px;
+ */
+	font-size : 12px;
+	
+}
+
+/* #uitkering{
+	float: right;
+	margin-right : 10px;
+	width : 45%;
+/* 	heigth : 325px; */
+	/* border : 1px solid black; 
+} */
+
+/* .range{
+	float : right;
+} */
+
+
+
+/* #ervaringHeader{
+	font-size : 12px;
+	padding : -5px;
+} */
+
+/* #achternaam {
+	width : 500px;
+} */
+
+/* #divSlider {
+	margin-left : 10px;
+	vertical-align : middle;
+} */
+label {
+	font-size : small;
+	padding-left : 15px;
+}
+
+.checkbox {
+	float :right;
 }
 
 #sociale-links{
-	margin-right: 70px;
 	float		:	right;
 	width		:	300px;
 	height	:	220px;
-	/* border : 3px solid yellow; */	
+	border : 3px solid yellow;	
 }
 #sociale-links #media{
-	margin-top: 20px;
-	margin-right: 50px;
+	margin-top: 65px;
 	width		: 285px;
 	padding	: 5px 0 10px 10px;
 	border	: 1px solid black;
@@ -99,63 +198,32 @@ aside#sociale-links h4{
 	width		: 200px;
 }
 
+#auto{
+	display : none;
+                //display : block;
+}
+
+.ervaringSlider {
+	display : none;
+}
+
 
 /***Gewenste functies***/
-
-#gewenste-functies {
-	margin-left: 15px;
-}
-section#functies h3 {
-	margin-left: 15px;
-}
-
-#functies{	
-	margin-left: 15px;
-	margin-bottom:20px;
+/* #functies{
 	border	:	3px solid orange;
-	width		:	97%;
-	height	:	280px;
-}
+	width		:	800px;
+	height	:	200px;
+} */
 
-/***Mobiliteit & Aanvullende voorzieningen***/
-
-#indicatie, #typeUitkering {
-	
-}
-
-
-section#uitkering {
-	margin-right: 70px;
-	float		:	right;
-	width		:	300px;
-	height	:	220px;
-	/* border : 3px solid yellow; */
-}
-
-section.voorziening h3{
-	margin-left: 15px;
-}
+/***Aanvullende voorzieningen***/
 .voorziening{
-	margin-left: 15px;
-	margin-bottom: 20px;
-	width	:	97%;
-	height	:	300px;
+	width		:	800px;
+	height	:	200px;
 	border	: 3px solid green;
 }
-
-.rijbewijsJ {
-	color:blue;
-}
-
-.rijbewijsN {
-	color:Red;
-}
-
 #mobiliteit #mobiel{
-	margin-left: 15px;
-	margin-bottom: 15px;
 	float		: left;
-	width		: 500px;
+	width		: 300px;
 	padding	: 5px 0 10px 10px;
 	border	: 1px solid black;
 	font-family	: verdana;
@@ -187,12 +255,12 @@ section.voorziening h3{
 	height	:	180px;
 }
 
-/***Sector***/
-#sector{
+/***Sectoor***/
+/* #sector{
 	width		:	800px;
 	height	:	 50px;
 	border 	: 	3px solid green;
-}
+} */
 
 /***De grootte van het bedrijf***/
 #bedrijf-grootte{
@@ -229,16 +297,19 @@ section.voorziening h3{
 	margin	:	5px;
 }
 /***Opmerkingen***/
-#opmerking{
-	width		:	800px;
-	height	:	100px;
-	border 	: 	3px solid blue;
+#opmerkingSection{
+	width : 100%;
+	margin-top : 26px;
+	margin-bottom : 25px;
+/* 	border : 1px solid black; */
 }
-#opmerking #tekst-veld{
-	width		:	800px;
-	height	:	60px;
-	border 	: 	1px solid black;
+
+#opslaan{
+	margin-top : 50px;
+	float : right;
 }
+
+
 .button{
 	background-color: transparent;
 	color: #000;
@@ -249,4 +320,6 @@ section.voorziening h3{
 	cursor: pointer;
 	float: right;
 }
+
+
 
