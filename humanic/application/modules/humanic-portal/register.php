@@ -12,7 +12,7 @@ navigatie($active=$pageNavId);
 
 // haal je gegevens voor de pagina uit database
 
-$sql = mysql_query("SELECT * FROM `pages` where `page_nav_id`='2' and `page_show` ='y'");
+/*$sql = mysql_query("SELECT * FROM `pages` where `page_nav_id`='2' and `page_show` ='y'");
 if (mysql_num_rows($sql)==0)   
 {
     die ("Je hebt geen gegevens tot je beschikking");
@@ -25,7 +25,7 @@ while ($content = mysql_fetch_assoc($sql))
     
     //echo "<h3>Registration Form</h3>";
     
-}
+}*/
 if (!isSet($_POST["regsubmit"]))
 {    
     showAanmeldForm();

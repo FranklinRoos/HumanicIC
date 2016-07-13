@@ -6,6 +6,12 @@ include("../../config/default_functions.php");
 include("include/humanic-functions.php");
 include("include/formValidatie.php");
 
+if(!isSet($_SESSION['loginnaam'])) {
+                    echo "<script type=\"text/javascript\">
+                                    window.location = \"".$GLOBALS['path']."/application/modules/admin/indexAdmin.php\"
+                                     </script>";
+}
+
 if(!isSet($_SESSION['blad']))
   {
     $_SESSION['blad']='kandidaat_page';

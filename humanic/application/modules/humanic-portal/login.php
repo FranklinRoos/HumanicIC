@@ -83,7 +83,7 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
             uitloggen();// r485 in humanic-functions.php(of psinfofunctions)
             unset($_SESSION["loginnaam"]);
             unset($_GET["idinuit"]);
-            unset($_SESSION["taal"]);//taalkeuze staat nu weer default op nederlands
+            //unset($_SESSION["taal"]);//taalkeuze staat nu weer default op nederlands
             $pageNavId=2;
 
             fHeader($pageNavId);
@@ -91,7 +91,7 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
             echo "<div class=\"container\">";
             echo "<h1>Je bent uitgelogd</h1>";
             echo "<br/>";
-            echo "<h3>Ik dank je voor je bezoek aan mijn website,";
+            echo "<h3>Ik dank je voor je bezoek aan onze website,";
             echo "<br/>";
             echo "en hoop je hier spoedig weer te mogen verwelkomen.</h3>";
             echo "<br/><br/>";
@@ -106,32 +106,47 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
             fHeader($pageNavId);
             navigatie($pageNavId);
             echo "<div class=\"container\">";
-            echo "<h3>Inloggen</h3>";
-            //echo "<p>";
               if (!isSet($_POST["submit"]) &&  !isSet($_SESSION['loginnaam']))// anders krijg je het login formulier weer te zien als je de brouwser vernieuwd
                  {                                                                                     // terwijl je reeds ingelogd bent
                    showForm(); //deze functie zit in humanic-portal/include/humanic-functions.php
                  }
                elseif(!isSet($_POST["submit"]) &&  isSet($_SESSION['loginnaam']))//als je reeds ingelogd bent en de brouwser verniewd, zou je anders in een loop blijven
-               {
-                     $sql = mysql_query("SELECT * FROM `user` where `user_form-activ`='no' and `user_activ` ='yes'");                    
+               {  
+                   
+                    echo "<script type=\"text/javascript\">
+                                    window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/kandidaat.php\"
+                                     </script>";
+                   
+                   
+                  /* $userid = $_SESSION["user_id"];
+                     $sql = mysql_query("SELECT * FROM `user` where `user_id` = $userid and `user_activ` ='yes' ");                    
                         if (mysql_num_rows($sql)==0)   
                             {
                                  die ("Je hebt geen gegevens tot je beschikking");
                             }
 
                       while ($content = mysql_fetch_assoc($sql)) 
-                          {
-                                    $_SESSION["suc6login"] = "suc6login";
+                          {    
+                              
+                               if($row['user_form-activ'] == 'no')
+                                 {
+                                   $formactiv ='no';
+                                   $_SESSION['user-form'] = $formactiv;
+                                    //$_SESSION["suc6login"] = "suc6login";
                                      echo "<script type=\"text/javascript\">
                                     window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/kandidaat.php\"
-                                     </script>";     
-                            }
-
+                                     </script>";
+                                  }
+                               else 
+                                   {
+                                    //$formactiv = 'yes';
+                                     $_SESSION['user-form'] = $formactiv;
                                      $_SESSION["suc6login"] = "suc6login";
                                      echo "<script type=\"text/javascript\">
-                                    window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/kandidaat.php\"
-                                     </script>"; 
+                                    window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/userUpdate.php\"
+                                     </script>";
+                                  }
+                           }*/
 
                }
               else
