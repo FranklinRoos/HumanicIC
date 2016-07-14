@@ -2,6 +2,8 @@
 
 function berichtOverzicht()
 {
+  global $connection;
+
   if(isset($_GET['contact_page']))
      {
       $_SESSION['contact_page']=$_GET['contact_page'];
@@ -29,11 +31,11 @@ function berichtOverzicht()
     $to = $_SESSION['contact_page'] * 5 + 5;*/
 
 
-    $berichten = mysql_query("SELECT * FROM contact") or die(mysql_error());
-    $count_berichten = mysql_num_rows($berichten); 
+    $berichten = mysqli_query($connection, "SELECT * FROM contact") or die(mysqli_error());
+    $count_berichten = mysqli_num_rows($berichten); 
     
-    $objecten = mysql_query("SELECT * FROM contact LIMIT $start,5") or die(mysql_error());
-    if (mysql_num_rows($objecten) == 0) 
+    $objecten = mysqli_query($connection, "SELECT * FROM contact LIMIT $start,5") or die(mysqli_error());
+    if (mysqli_num_rows($objecten) == 0) 
     {
         die("<i>Nog geen users aanwezig !</i>");
     }
@@ -49,7 +51,7 @@ function berichtOverzicht()
         echo "<th width=\"90\" align=\"left\">Bericht</th>";
         echo "</tr>";
 
-	while ($bericht = mysql_fetch_object($objecten)) 
+	while ($bericht = mysqli_fetch_object($objecten)) 
         {
             echo "<tr>";
             echo "<td width=\"50\" align=\"left\"><a href=\"".$_SERVER['PHP_SELF']."?contact_id=".$bericht->contact_id."\">view</a></td>";
@@ -76,17 +78,19 @@ function berichtOverzicht()
 
 function berichtBekijken ()//function userBewerken()
 {
+    global $connection;
+
     if (!isset($_GET['contact_id']))
     {
         redirect($_SERVER['PHP_SELF']);
         die();
     }
-    $bericht = mysql_query("SELECT * FROM contact WHERE contact_id = ".$_GET['contact_id']." LIMIT 1") or die(mysql_error());
-    if (mysql_num_rows($bericht) == 0)
+    $bericht = mysqli_query($connection, "SELECT * FROM contact WHERE contact_id = ".$_GET['contact_id']." LIMIT 1") or die(mysqli_error());
+    if (mysqli_num_rows($bericht) == 0)
     {
         die("Deze user bestaat niet !");
     }
-    $bericht = mysql_fetch_object($bericht);
+    $bericht = mysqli_fetch_object($bericht);
     echo "Lezen van bericht van: <a class=\"edit\">".utf8_encode($bericht->contact_naam)."</a> met ID: <a class=\"edit\">".($bericht->contact_id)."</a><br /><br />";
     echo "<form action=\"".$_SERVER['PHP_SELF']."\" method=\"POST\" enctype=\"multipart/form-data\">";
     echo "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"2\">";

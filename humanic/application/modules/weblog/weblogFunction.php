@@ -2,6 +2,8 @@
  
 function reactieOverzicht()//administrator overzicht
 {
+    global $connection;
+
     
      if(isset($_GET['reactEdit_page']))
      {
@@ -30,12 +32,12 @@ function reactieOverzicht()//administrator overzicht
     $from = $_SESSION['reactEdit_page']*$qpp+1;
     $to = $_SESSION['reactEdit_page'] * $qpp + $qpp;
     
-    $reacties = mysql_query("SELECT * FROM reactie WHERE reactie_display='y'AND reactie_status='aan' ORDER BY blog_id ") or die(mysql_error());
-    $count_reacties = mysql_num_rows($reacties);
+    $reacties = mysqli_query($connection, "SELECT * FROM reactie WHERE reactie_display='y'AND reactie_status='aan' ORDER BY blog_id ") or die(mysqli_error());
+    $count_reacties = mysqli_num_rows($reacties);
     
     
-    $objecten = mysql_query("SELECT * FROM reactie WHERE reactie_display='y'AND reactie_status='aan' ORDER BY blog_id LIMIT $start,10") or die(mysql_error());
-    if (mysql_num_rows($objecten) == 0) 
+    $objecten = mysqli_query($connection, "SELECT * FROM reactie WHERE reactie_display='y'AND reactie_status='aan' ORDER BY blog_id LIMIT $start,10") or die(mysqli_error());
+    if (mysqli_num_rows($objecten) == 0) 
     {
          die("<i>Nog geen blogs aanwezig !</i>");
     }
@@ -52,7 +54,7 @@ function reactieOverzicht()//administrator overzicht
         echo "<th width=\"50\" align=\"left\">Display</th>";
         echo "</tr>";
 
-	while ($bericht = mysql_fetch_object($objecten)) 
+	while ($bericht = mysqli_fetch_object($objecten)) 
         {
             echo "<tr>";
             echo "<td width=\"50\" align=\"left\"><a href=\"".$_SERVER['PHP_SELF']."?reactie_id=".$bericht->reactie_id."\">edit</a></td>";
@@ -67,7 +69,7 @@ function reactieOverzicht()//administrator overzicht
         echo "<tr><td colspan='3'></td>";
         //echo "<tr><td>".($prev>=0?"<a href=reactieEdit.php?page=".$prev."> prev</a>":"prev")."</td>";
         //echo "<td>$from..$to</td>";
-        //echo "<td>".(mysql_num_rows($objecten)>9?"<a href=reactieEdit.php?page=".$next."> next</a>":"next")."</td>";
+        //echo "<td>".(mysqli_num_rows($objecten)>9?"<a href=reactieEdit.php?page=".$next."> next</a>":"next")."</td>";
         
         echo "<tr><td>".($prev>=0?"<a href=reactieEdit.php?reactEdit_page=".$prev."> prev</a>":"prev")."</td>";
         echo "<td>$from..$to</td>";
@@ -78,17 +80,19 @@ function reactieOverzicht()//administrator overzicht
 
 function reactieBewerken()
 {
+    global $connection;
+
     if (!isset($_GET['reactie_id']))
     {
         redirect($_SERVER['PHP_SELF']);
         die();
     }
-    $bericht = mysql_query("SELECT * FROM reactie WHERE reactie_display='y' AND reactie_status='aan' AND reactie_id = ".$_GET['reactie_id']." LIMIT 1") or die(mysql_error());
-    if (mysql_num_rows($bericht) == 0)
+    $bericht = mysqli_query($connection, "SELECT * FROM reactie WHERE reactie_display='y' AND reactie_status='aan' AND reactie_id = ".$_GET['reactie_id']." LIMIT 1") or die(mysqli_error());
+    if (mysqli_num_rows($bericht) == 0)
     {
         die("Deze reactie bestaat niet !");
     }
-    $bericht = mysql_fetch_object($bericht);
+    $bericht = mysqli_fetch_object($bericht);
     echo "Wijzigen van Reactie-content: <a class=\"edit\">".utf8_encode($bericht->reactie_content)."</a> met ID: <a class=\"edit\">".($bericht->reactie_id)."</a><br /><br />";
     echo "<form action=\"".$_SERVER['PHP_SELF']."\" method=\"POST\" enctype=\"multipart/form-data\">";
     echo "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"2\">";
@@ -128,6 +132,8 @@ function reactieBewerken()
 
 function reactieBewerktOpslaan()
 {   
+    global $connection;
+
     $zoek = array("'", "á", "é", "í", "ó", "ú", "ñ", "ç", "Á", "É", "Í", "Ó", "Ú", "Ñ", "Ç", "à", "è", "ì", "ò", "ù", "À", "È", "Ì", "Ò", "Ù",
      "ä", "ë", "ï", "ö", "ü", "Ä", "Ë", "Ï", "Ö", "Ü", "â", "ê", "î", "ô", "û", "Â", "Ê", "Î", "Ô", "Û", "ā", "ū", "ś", "ī");
 
@@ -151,10 +157,10 @@ function reactieBewerktOpslaan()
 
     if (isset($_POST['submit_edit_item']))
     {
-        mysql_query("UPDATE `reactie` SET `reactie_id` ='".$_POST['reactie_id']."', `reactie_content` ='".$reactie_content."',"
+        mysqli_query($connection, "UPDATE `reactie` SET `reactie_id` ='".$_POST['reactie_id']."', `reactie_content` ='".$reactie_content."',"
                 . " `reactie_postdate`='".$reactie_postdate."', `reactie_display` = '".$reactie_display."' "
                 . "WHERE `reactie_id` = ".$_POST['reactie_id']."")
-                or die(mysql_error());
+                or die(mysqli_error());
        
     }
     $result_id=$_POST['reactie_id'];
@@ -164,8 +170,10 @@ function reactieBewerktOpslaan()
 
 function showTekstReactie($result_id)//admin functie
 {
-    $result_sql = mysql_query("SELECT * FROM reactie WHERE reactie_id=".$result_id."");
-    while($q=mysql_fetch_array($result_sql))
+    global $connection;
+
+    $result_sql = mysqli_query($connection, "SELECT * FROM reactie WHERE reactie_id=".$result_id."");
+    while($q=mysqli_fetch_array($result_sql))
     {
         echo "De tekst is gewijzigd en ziet er als onderstaand uit.<br />";
         echo "<a href=\"".$_SERVER['PHP_SELF']."?reactie_id=".$q['reactie_id']."\" >Klik hier als u nog iets in de tekst wilt veranderen.</a><br /><br />";
@@ -184,6 +192,8 @@ function showTekstReactie($result_id)//admin functie
 
 function overzichtReactieDelete()//administrator Blog-overzicht,selectie te verwijderen blog
 {
+    global $connection;
+
     
      if(isset($_GET['reactDelete_page']))
      {
@@ -204,8 +214,8 @@ function overzichtReactieDelete()//administrator Blog-overzicht,selectie te verw
     $from = $_SESSION['reactDelete_page']*$qpp+1;
     $to = $_SESSION['reactDelete_page'] * $qpp + $qpp;
 
-    $reacties_del = mysql_query("SELECT * FROM reactie WHERE reactie_display='y' AND reactie_status='aan' ") or die(mysql_error());   
-    $count_reacties_del = mysql_num_rows($reacties_del);  
+    $reacties_del = mysqli_query($connection, "SELECT * FROM reactie WHERE reactie_display='y' AND reactie_status='aan' ") or die(mysqli_error());   
+    $count_reacties_del = mysqli_num_rows($reacties_del);  
 
     
    /* $start=$_SESSION['reactDelete_page']*5;
@@ -216,8 +226,8 @@ function overzichtReactieDelete()//administrator Blog-overzicht,selectie te verw
     
     
 
-    $objecten = mysql_query("SELECT * FROM reactie WHERE reactie_display='y' AND reactie_status='aan'  ORDER BY `blog_id` DESC LIMIT $start,5") or die(mysql_error());
-    if (mysql_num_rows($objecten) == 0) 
+    $objecten = mysqli_query($connection, "SELECT * FROM reactie WHERE reactie_display='y' AND reactie_status='aan'  ORDER BY `blog_id` DESC LIMIT $start,5") or die(mysqli_error());
+    if (mysqli_num_rows($objecten) == 0) 
     {
          die("<i>Nog geen blogs aanwezig !</i>");
     }
@@ -234,7 +244,7 @@ function overzichtReactieDelete()//administrator Blog-overzicht,selectie te verw
         echo "<th width=\"50\" align=\"left\">Display</th>";
         echo "</tr>";
 
-	while ($bericht = mysql_fetch_object($objecten)) 
+	while ($bericht = mysqli_fetch_object($objecten)) 
         {
             echo "<tr>";
             echo "<td width=\"50\" align=\"left\"><a href=\"".$_SERVER['PHP_SELF']."?blog_id=".$bericht->blog_id."\">Delete</a></td>";
@@ -251,7 +261,7 @@ function overzichtReactieDelete()//administrator Blog-overzicht,selectie te verw
         echo "<tr><td colspan='3'></td>";
         //echo "<tr><td>".($prev>=0?"<a href=reactieDelete.php?page=".$prev."> prev</a>":"prev")."</td>";
         //echo "<td>$from..$to</td>";
-        //echo "<td>".(mysql_num_rows($objecten)>4?"<a href=reactieDelete.php?page=".$next."> next</a>":"next")."</td>";
+        //echo "<td>".(mysqli_num_rows($objecten)>4?"<a href=reactieDelete.php?page=".$next."> next</a>":"next")."</td>";
         echo "<tr><td>".($prev>=0?"<a href=reactieDelete.php?reactDelete_page=".$prev."> prev</a>":"prev")."</td>";
         echo "<td>$from..$to</td>";
         echo "<td>".(($count_reacties_del - $to)>0?"<a href=reactieDelete.php?reactDelete_page=".$next."> next</a>":"next")."</td>";
@@ -265,6 +275,8 @@ function overzichtReactieDelete()//administrator Blog-overzicht,selectie te verw
 
 function reactieDelete()
 {
+    global $connection;
+
     if (!isset($_GET['blog_id']))
     {
         redirect($_SERVER['PHP_SELF']);
@@ -272,10 +284,10 @@ function reactieDelete()
     }
     else
     {
-        mysql_query("UPDATE `reactie` SET `reactie_display` = 'n',`reactie_status`='del' WHERE `reactie_id` = ".$_POST['reactie_id']."")
-                or die(mysql_error());  
+        mysqli_query($connection, "UPDATE `reactie` SET `reactie_display` = 'n',`reactie_status`='del' WHERE `reactie_id` = ".$_POST['reactie_id']."")
+                or die(mysqli_error());  
     }
-    //$bericht = mysql_query("DELETE  FROM `reactie` WHERE `blog_id` = '".$_GET['blog_id']."' LIMIT 1") or die(mysql_error());
+    //$bericht = mysqli_query($connection, "DELETE  FROM `reactie` WHERE `blog_id` = '".$_GET['blog_id']."' LIMIT 1") or die(mysqli_error());
     
 }
 
@@ -291,6 +303,8 @@ function confirmReactieDelete()
 
 function blogDelete()
 {
+    global $connection;
+
     if (!isset($_GET['blog_id']))
     {
         redirect($_SERVER['PHP_SELF']);
@@ -299,17 +313,19 @@ function blogDelete()
     else
       {
         
-        $bericht2 =  mysql_query("UPDATE `reactie` SET `reactie_display` = 'n',`reactie_status` ='del'WHERE `blog_id` = ".$_GET['blog_id']."")
-                or die(mysql_error());  
-        $bericht = mysql_query("UPDATE `weblog` SET `blog_display`='n',`blog_status`='del' WHERE `blog_id` = ".$_GET['blog_id']."")
-                or die(mysql_error());
+        $bericht2 =  mysqli_query($connection, "UPDATE `reactie` SET `reactie_display` = 'n',`reactie_status` ='del'WHERE `blog_id` = ".$_GET['blog_id']."")
+                or die(mysqli_error());  
+        $bericht = mysqli_query($connection, "UPDATE `weblog` SET `blog_display`='n',`blog_status`='del' WHERE `blog_id` = ".$_GET['blog_id']."")
+                or die(mysqli_error());
        }
-    //$bericht2 = mysql_query("DELETE  FROM `reactie` WHERE `blog_id` = '".$_GET['blog_id']."' LIMIT 1") or die(mysql_error());
-    //$bericht = mysql_query("DELETE  FROM `weblog` WHERE `blog_id` = '".$_GET['blog_id']."' LIMIT 1") or die(mysql_error());
+    //$bericht2 = mysqli_query($connection, "DELETE  FROM `reactie` WHERE `blog_id` = '".$_GET['blog_id']."' LIMIT 1") or die(mysqli_error());
+    //$bericht = mysqli_query($connection, "DELETE  FROM `weblog` WHERE `blog_id` = '".$_GET['blog_id']."' LIMIT 1") or die(mysqli_error());
 
 }
 function overzicht()//administrator Blog-overzicht
 {
+    global $connection;
+
     $GLOBALS['path']="http://localhost/psinfo/";
     global $path;
     
@@ -339,10 +355,10 @@ function overzicht()//administrator Blog-overzicht
     $from = $_SESSION['blogEdit_page']*5+1;
     $to = $_SESSION['blogEdit_page'] * 5 + 5; */
     
-    $blogs = mysql_query("SELECT * FROM weblog WHERE blog_display='y' AND `blog_status`='aan'") or die(mysql_error());  
-    $count_blogs = mysql_num_rows($blogs);
-    $objecten = mysql_query("SELECT * FROM weblog WHERE blog_display='y' AND `blog_status`='aan' LIMIT $start,5") or die(mysql_error());
-    if (mysql_num_rows($objecten) == 0) 
+    $blogs = mysqli_query($connection, "SELECT * FROM weblog WHERE blog_display='y' AND `blog_status`='aan'") or die(mysqli_error());  
+    $count_blogs = mysqli_num_rows($blogs);
+    $objecten = mysqli_query($connection, "SELECT * FROM weblog WHERE blog_display='y' AND `blog_status`='aan' LIMIT $start,5") or die(mysqli_error());
+    if (mysqli_num_rows($objecten) == 0) 
     {
          die("<i>Nog geen blogs aanwezig !</i>");
     }
@@ -359,7 +375,7 @@ function overzicht()//administrator Blog-overzicht
         echo "<th width=\"50\" align=\"left\">Display</th>";
         echo "</tr>";
 
-	while ($bericht = mysql_fetch_object($objecten)) 
+	while ($bericht = mysqli_fetch_object($objecten)) 
         {
             echo "<tr>";
             echo "<td width=\"50\" align=\"left\"><a href=\"".$_SERVER['PHP_SELF']."?blog_id=".$bericht->blog_id."\">edit</a></td>";
@@ -374,7 +390,7 @@ function overzicht()//administrator Blog-overzicht
         echo "<tr><td colspan='3'></td>";
         //echo "<tr><td>".($prev>=0?"<a href=blogEdit.php?page=".$prev."> prev</a>":"prev")."</td>";
         //echo "<td>$from..$to</td>";
-        //echo "<td>".(mysql_num_rows($objecten)>5?"<a href=blogEdit.php?page=".$next."> next</a>":"next")."</td>";
+        //echo "<td>".(mysqli_num_rows($objecten)>5?"<a href=blogEdit.php?page=".$next."> next</a>":"next")."</td>";
         
         echo "<tr><td>".($prev>=0?"<a href=blogEdit.php?blogEdit_page=".$prev."> prev</a>":"prev")."</td>";
         echo "<td>$from..$to</td>";
@@ -386,6 +402,8 @@ function overzicht()//administrator Blog-overzicht
 
 function overzichtDelete()//administrator Blog-overzicht,selectie te verwijderen blog
 {
+    global $connection;
+
     $GLOBALS['path']="http://localhost/psinfo/";
     global $path;
     
@@ -416,10 +434,10 @@ function overzichtDelete()//administrator Blog-overzicht,selectie te verwijderen
     $from = $_SESSION['blogDelete_page']*5+1;
     $to = $_SESSION['blogDelete_page'] * 5 + 5; */
     
-    $blog_del= mysql_query("SELECT * FROM weblog WHERE blog_display='y' AND blog_status='aan' ") or die(mysql_error());
-    $count_blog_del = mysql_num_rows($blog_del);
-    $objecten = mysql_query("SELECT * FROM weblog WHERE blog_display='y' AND blog_status='aan'  ORDER BY `blog_id` DESC LIMIT $start,5") or die(mysql_error());
-    if (mysql_num_rows($objecten) == 0) 
+    $blog_del= mysqli_query($connection, "SELECT * FROM weblog WHERE blog_display='y' AND blog_status='aan' ") or die(mysqli_error());
+    $count_blog_del = mysqli_num_rows($blog_del);
+    $objecten = mysqli_query($connection, "SELECT * FROM weblog WHERE blog_display='y' AND blog_status='aan'  ORDER BY `blog_id` DESC LIMIT $start,5") or die(mysqli_error());
+    if (mysqli_num_rows($objecten) == 0) 
     {
          die("<i>Nog geen blogs aanwezig !</i>");
     }
@@ -436,7 +454,7 @@ function overzichtDelete()//administrator Blog-overzicht,selectie te verwijderen
         echo "<th width=\"50\" align=\"left\">Display</th>";
         echo "</tr>";
 
-	while ($bericht = mysql_fetch_object($objecten)) 
+	while ($bericht = mysqli_fetch_object($objecten)) 
         {
             echo "<tr>";
             echo "<td width=\"50\" align=\"left\"><a href=\"".$_SERVER['PHP_SELF']."?blog_id=".$bericht->blog_id."\">Delete</a></td>";
@@ -453,7 +471,7 @@ function overzichtDelete()//administrator Blog-overzicht,selectie te verwijderen
         echo "<tr><td colspan='3'></td>";
         //echo "<tr><td>".($prev>=0?"<a href=blogDelete.php?page=".$prev."> prev</a>":"prev")."</td>";
         //echo "<td>$from..$to</td>";
-        //echo "<td>".(mysql_num_rows($objecten)>4?"<a href=blogDelete.php?page=".$next."> next</a>":"next")."</td>";
+        //echo "<td>".(mysqli_num_rows($objecten)>4?"<a href=blogDelete.php?page=".$next."> next</a>":"next")."</td>";
         
         echo "<tr><td>".($prev>=0?"<a href=blogDelete.php?blogDelete_page=".$prev."> prev</a>":"prev")."</td>";
         echo "<td>$from..$to</td>";
@@ -475,17 +493,19 @@ function confirmDelete()//admin functie
 
 function blogBewerken()
 {
+    global $connection;
+
     if (!isset($_GET['blog_id']))
     {
         redirect($_SERVER['PHP_SELF']);
         die();
     }
-    $bericht = mysql_query("SELECT * FROM weblog WHERE blog_id = ".$_GET['blog_id']." LIMIT 1") or die(mysql_error());
-    if (mysql_num_rows($bericht) == 0)
+    $bericht = mysqli_query($connection, "SELECT * FROM weblog WHERE blog_id = ".$_GET['blog_id']." LIMIT 1") or die(mysqli_error());
+    if (mysqli_num_rows($bericht) == 0)
     {
         die("Deze blog bestaat niet !");
     }
-    $bericht = mysql_fetch_object($bericht);
+    $bericht = mysqli_fetch_object($bericht);
     echo "Wijzigen van blogtitel: <a class=\"edit\">".utf8_encode($bericht->blog_title)."</a> met ID: <a class=\"edit\">".($bericht->blog_id)."</a><br /><br />";
     echo "<form action=\"".$_SERVER['PHP_SELF']."\" method=\"POST\" enctype=\"multipart/form-data\">";
     echo "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"2\">";
@@ -528,6 +548,8 @@ function blogBewerken()
 
 function blogBewerktOpslaan()
 {   
+    global $connection;
+
     $zoek = array("'", "á", "é", "í", "ó", "ú", "ñ", "ç", "Á", "É", "Í", "Ó", "Ú", "Ñ", "Ç", "à", "è", "ì", "ò", "ù", "À", "È", "Ì", "Ò", "Ù",
      "ä", "ë", "ï", "ö", "ü", "Ä", "Ë", "Ï", "Ö", "Ü", "â", "ê", "î", "ô", "û", "Â", "Ê", "Î", "Ô", "Û", "ā", "ū", "ś", "ī");
 
@@ -557,11 +579,11 @@ function blogBewerktOpslaan()
 
     if (isset($_POST['submit_edit_item']))
     {
-        mysql_query("UPDATE `weblog` SET `blog_id` ='".$_POST['blog_id']."', `blog_title` ='".$blog_title."',"
+        mysqli_query($connection, "UPDATE `weblog` SET `blog_id` ='".$_POST['blog_id']."', `blog_title` ='".$blog_title."',"
                 . " `blog_summary`='".$blog_summary."' , `blog_content` ='".$blog_content."',"
                 . " `blog_postdate` = '".$blog_postdate."', "
                 . "`blog_display`='".$blog_display."' WHERE `blog_id` = ".$_POST['blog_id']." ")
-                or die(mysql_error());
+                or die(mysqli_error());
        
     }
     $result_id=$_POST['blog_id'];
@@ -571,8 +593,10 @@ function blogBewerktOpslaan()
 
 function show_tekst($result_id)//admin functie
 {
-    $result_sql = mysql_query("SELECT * FROM weblog WHERE blog_id=".$result_id."");
-    while($q=mysql_fetch_array($result_sql))
+    global $connection;
+
+    $result_sql = mysqli_query($connection, "SELECT * FROM weblog WHERE blog_id=".$result_id."");
+    while($q=mysqli_fetch_array($result_sql))
     {
         echo "De tekst is gewijzigd en ziet er als onderstaand uit.<br />";
         echo "<a href=\"".$_SERVER['PHP_SELF']."?boek_id=".$q['blog_id']."\" >Klik hier als u nog iets in de tekst wilt veranderen.</a><br /><br />";
@@ -631,6 +655,8 @@ function blogAddShowForm()//admin functie
 
 function blogAddOpslaan()//admin functie
 {
+    global $connection;
+
     $zoek = array("'", "á", "é", "í", "ó", "ú", "ñ", "ç", "Á", "É", "Í", "Ó", "Ú", "Ñ", "Ç", "à", "è", "ì", "ò", "ù", "À", "È", "Ì", "Ò", "Ù",
      "ä", "ë", "ï", "ö", "ü", "Ä", "Ë", "Ï", "Ö", "Ü", "â", "ê", "î", "ô", "û", "Â", "Ê", "Î", "Ô", "Û", "ā", "ū", "ś", "ī");
 
@@ -665,8 +691,8 @@ function blogAddOpslaan()//admin functie
    
     if (isset($_POST['submit_add_blog']))
     {
-        mysql_query("INSERT INTO `weblog`(`blog_title`, `blog_content`, `blog_postdate`, `blog_tijdstip`, `blog_summary`, `blog_display`) 
-                             VALUES('".$blog_title."' , '".$blog_content."' , '".$blog_postdate."', '".$blog_tijdstip."','".$blog_summary."', '".$blog_display."')") or die(mysql_error());
+        mysqli_query($connection, "INSERT INTO `weblog`(`blog_title`, `blog_content`, `blog_postdate`, `blog_tijdstip`, `blog_summary`, `blog_display`) 
+                             VALUES('".$blog_title."' , '".$blog_content."' , '".$blog_postdate."', '".$blog_tijdstip."','".$blog_summary."', '".$blog_display."')") or die(mysqli_error());
       
     }
     echo "<h2>Uw blog is toegevoegd in de database</h2>";

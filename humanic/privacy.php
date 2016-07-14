@@ -20,13 +20,13 @@ if(!isSet($_SESSION['blad']))
 echo "<div class=\"container\">";
 // haal je gegevens voor privacy uit database
 
-$sql = mysql_query("SELECT * FROM `pages` where `page_nav_id`=$pageNavId and `page_show` ='y'");
-if (mysql_num_rows($sql)==0)   
+$sql = mysqli_query($connection, "SELECT * FROM `pages` where `page_nav_id`=$pageNavId and `page_show` ='y'");
+if (mysqli_num_rows($sql)==0)   
 {
     die ("Je hebt geen gegevens tot je beschikking");
 }
 
-while ($content = mysql_fetch_assoc($sql)) 
+while ($content = mysqli_fetch_assoc($sql)) 
 {
     echo "<h1>".$content["page_title"]."</h1>";
     echo "<br /><p>";

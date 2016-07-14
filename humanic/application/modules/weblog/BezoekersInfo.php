@@ -18,12 +18,12 @@ if($_SESSION["user_authorisatie"]=="admin")
      }
  
 
-   $sql = mysql_query("SELECT * FROM `user` where `user_online`='y'");
-    if (mysql_num_rows($sql)==0)   
+   $sql = mysqli_query($connection, "SELECT * FROM `user` where `user_online`='y'");
+    if (mysqli_num_rows($sql)==0)   
     {
         die ("Je hebt geen gegevens tot je beschikking");
     }
-   /* while ($content = mysql_fetch_assoc($sql)) 
+   /* while ($content = mysqli_fetch_assoc($sql)) 
     {
         $userid = $row['user_id'];
         $_SESSION['user_id'] = $userid;

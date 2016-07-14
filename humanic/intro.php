@@ -9,14 +9,14 @@ fHeader($pageNavId);//actief=$pageNavId);
 if(iSset($_SESSION["user_authorisatie"])&& $_SESSION["user_authorisatie"]=="admin")
   {  navigatieA($pageNavId);
 // haal de gegevens voor de pagina uit de database
-$sql = mysql_query("SELECT * FROM `pages` WHERE `page_nav_id`=$pageNavId and `page_show` ='y'");
+$sql = mysqli_query($connection, "SELECT * FROM `pages` WHERE `page_nav_id`=$pageNavId and `page_show` ='y'");
 
 echo "<div class=\"container\">";
-if (mysql_num_rows($sql)==0)   
+if (mysqli_num_rows($sql)==0)   
 {
     die ("Je hebt geen gegevens tot je beschikking");
 }
-while ($content = mysql_fetch_assoc($sql)) 
+while ($content = mysqli_fetch_assoc($sql)) 
 {   // show de inhoud
     echo "<h1>".$content["page_title"]."</h1>";
     echo "<br /><p>";
@@ -56,14 +56,14 @@ else
  {
      navigatie($pageNavId);
 // haal de gegevens voor de pagina uit de database
-$sql = mysql_query("SELECT * FROM `pages` WHERE `page_nav_id`=$pageNavId and `page_show` ='y'");
+$sql = mysqli_query($connection, "SELECT * FROM `pages` WHERE `page_nav_id`=$pageNavId and `page_show` ='y'");
 
 echo "<div class=\"container\">";
-if (mysql_num_rows($sql)==0)   
+if (mysqli_num_rows($sql)==0)   
 {
     die ("Je hebt geen gegevens tot je beschikking");
 }
-while ($content = mysql_fetch_assoc($sql)) 
+while ($content = mysqli_fetch_assoc($sql)) 
 {   // show de inhoud
     echo "<h1>".$content["page_title"]."</h1>";
     echo "<br /><p>";

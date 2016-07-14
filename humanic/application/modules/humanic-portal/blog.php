@@ -79,17 +79,17 @@ if (!isset($_SESSION["loginnaam"]))
   echo "<div id=\"blogLinks\">";     
   echo "<h2>";
   echo "Blog - Overzicht Pieter Spierenburg</h2>";
-$blogs = mysql_query("SELECT * FROM `weblog` WHERE `blog_display`='y'")or die(mysql_error());
-$count_blogs = mysql_num_rows($blogs ); 
+$blogs = mysqli_query($connection, "SELECT * FROM `weblog` WHERE `blog_display`='y'")or die(mysqli_error());
+$count_blogs = mysqli_num_rows($blogs ); 
   
  $query1 = "SELECT * FROM `weblog` WHERE `blog_display`='y'  ORDER BY `blog_id` DESC LIMIT $start,5 ";
- $result1 = mysql_query($query1);
+ $result1 = mysqli_query($connection, $query1);
  
-       if (mysql_num_rows($result1)==0)   
+       if (mysqli_num_rows($result1)==0)   
                      {
                        die ("Je hebt geen gegevens tot je beschikking");
                      }
- while($row=mysql_fetch_assoc($result1))
+ while($row=mysqli_fetch_assoc($result1))
    {
     
     $title = $row['blog_title'];
@@ -110,12 +110,12 @@ $count_blogs = mysql_num_rows($blogs );
     echo "<tr><td width=70%  rowspan=4 colspan=4 div id=\"content\">".$row['blog_content']."</td></tr></div>";
      
       $query2 = "SELECT * FROM `reactie` WHERE `reactie_display`='y' ";
-      $result2 = mysql_query($query2);
-       if (mysql_num_rows($result2)==0)   
+      $result2 = mysqli_query($connection, $query2);
+       if (mysqli_num_rows($result2)==0)   
                 {
                   die ("Je hebt geen gegevens tot je beschikking");
                  }
-      while($row=mysql_fetch_assoc($result2))
+      while($row=mysqli_fetch_assoc($result2))
          { //hier wordt datum naar NL omgezet
            $date_r = $row['reactie_postdate'];
            $datesplit = split('-',$date_r);
@@ -145,7 +145,7 @@ $count_blogs = mysql_num_rows($blogs );
     echo "<tr><td colspan='3'></td>";
     //echo "<tr><td>".($prev>=0?"<a href=blog.php?page=".$prev. "> prev&nbsp;</a>":"prev&nbsp;")."</td>";
     //echo "<td>$from...$to</td>";
-    //echo "<td>".(mysql_num_rows($result1)>5?"<a href=blog.php?page=" .$next.">&nbsp;next</a>":"&nbsp;next")."</td>";
+    //echo "<td>".(mysqli_num_rows($result1)>5?"<a href=blog.php?page=" .$next.">&nbsp;next</a>":"&nbsp;next")."</td>";
     
     echo "<tr><td>".($prev>=0?"<a href=blog.php?blog_page=".$prev. "> prev&nbsp;</a>":"prev&nbsp;")."</td>";
     echo "<td>$from...$to</td>";

@@ -21,12 +21,14 @@ function showFormModifyAccount ($naam= "",$email="")
     
       
 }
-
+ 
 function handleModifyAccount ()
 {
+    global  $connection;
+            
     if(md5(trim($_POST['modpasswd1']))==md5(trim($_POST['modpasswd2'])))
     {
-        $sql = mysql_query("UPDATE `user` SET `user_wachtwoord`='".md5(trim($_POST['modpasswd1']))."' WHERE `user_inlognaam`= '".$_SESSION['loginnaam']."'");
+        $sql = mysqli_query($connection, "UPDATE `user` SET `user_wachtwoord`='".md5(trim($_POST['modpasswd1']))."' WHERE `user_inlognaam`= '".$_SESSION['loginnaam']."'");
        
     }
     else
@@ -56,9 +58,11 @@ function showFormTerminate()
 
 function handleFormTerminate()
 {
+  global $connection;
+
     if (md5(trim($_POST['termpasswd']))==$_SESSION['passwd'])
     {
-        $sql = mysql_query("UPDATE `user` SET `user_activ`='no' WHERE `user_inlognaam`= '".$_SESSION['loginnaam']."'");
+        $sql = mysqli_query($connection, "UPDATE `user` SET `user_activ`='no' WHERE `user_inlognaam`= '".$_SESSION['loginnaam']."'");
           // Unset all of the session variables.
              $_SESSION = array();
              session_destroy();   

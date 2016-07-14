@@ -26,12 +26,12 @@ and open the template in the editor.
      //<?php 
 
      echo "<h1>Registratie status</h1>";
-       $sql = mysql_query("SELECT * FROM `user` WHERE `user_activ`='no'");
-        if (mysql_num_rows($sql)==0)  
+       $sql = mysqli_query($connection, "SELECT * FROM `user` WHERE `user_activ`='no'");
+        if (mysqli_num_rows($sql)==0)  
         {
             die ("Je heb geen gegevens tot je beschikking");
         }
-        while ($row = mysql_fetch_assoc($sql)) 
+        while ($row = mysqli_fetch_assoc($sql)) 
          {           
             if(isSet($row['activ_code'])&& $_GET['acode'] == $row['activ_code'])
                  {
@@ -43,7 +43,7 @@ and open the template in the editor.
                      $code = "";
                      $user = $row['user_id'];
                      //print_r($_GET['acode']);
-                     $sql2 = mysql_query("UPDATE `user` SET `user_activ`='yes' ,
+                     $sql2 = mysqli_query($connection, "UPDATE `user` SET `user_activ`='yes' ,
                      `activ_code`='".$code."', `datum_gezien`='".$laatsgezien."',
                      `tijdstip_gezien`='".$laatsgezienTijdstip."', `user_sinds`= '".$laatsgezien."' WHERE `user_id`=$user");
                      

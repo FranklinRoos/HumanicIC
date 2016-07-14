@@ -23,13 +23,13 @@ h1 {
         margin-top: 70px;
         font-weight: bold;
         color:purple;
-        //text-align: center;
+        
         
 }
 
 h2 {
     font-weight: bold;
-    //text-align: center;
+    
    
 }
 
@@ -60,9 +60,9 @@ h3.user {
 
 h4 {
     
-    //font-style:oblique;
+    
     font-size:24px;
-    //font-family: serif;
+    
     font-family: 'Lateef', cursive;
     font-weight: bold;
     color: #006600;
@@ -71,7 +71,7 @@ h4 {
 
 h5 {
     font-weight: bold;
-    //color: #0000FF;
+    
     color:#006600;
 }
 
@@ -79,8 +79,8 @@ h6 {
     float: left;
     font-style:oblique;
     font-family: serif;
-    //color: #95958D;
-    color: white;//kleur van de footer-tekst
+    
+    color: white;/*kleur van de footer-tekst*/
  
 }
 
@@ -105,7 +105,7 @@ h6 {
 } */
 
 .merk {
-	//color: #000099;
+	
         color: orange;
 	font-size:110%;
 	text-align: center;
@@ -249,22 +249,18 @@ a.edit:hover {
     height: 100%;
     width: 50%;
     margin-right: 15px;
-    padding: 0; //px 15px 20px 15px;
+    padding: 0; 
 }
 
 body {
         width: 95%;
-        //font-size:100%;
+        
         line-height: 1.2em; 
 	margin: 0px 25px;
 	padding: 0;      
-       // background-image:url("../images/pieterspc.png");
-      // background-image:url("../images-humanic/air-balloon-planet-2560x1440-2560x1440-3.jpg");
-        //background-repeat:repeat-x;
-        //background-image: url("paper.gif");
-        //background-color: #cccccc;
-         background-color: #e0ffff;//lichtgroen
-       //background-image: url("http://psinfo/assets/images/pieterspc.png");
+       
+         background-color: #e0ffff;
+       
 }
 
 #bestel2 {
@@ -282,7 +278,7 @@ body {
 }
 
 #bestel2 td, #bestel2 th {
-        //border: 1px solid #98bf21;
+        
         padding: 3px 7px 2px 7px;
         font-weight: normal;
 }
@@ -409,7 +405,7 @@ body {
         
     }   
  
-    // userUpdateFunctions
+    /* userUpdateFunctions*/
   div#bewerk1 h4 {
         color: yellow;
         text-align: center;
@@ -419,7 +415,7 @@ body {
     section#section-bewerk {
         padding: 15px;
         margin-left: 10%; 
-        background-color: grey; //achtergrondkleur van het vlak(de section) waar de userUpdate tabel in 
+        background-color: grey; /**/
     }
     
     .bewerk {        
@@ -430,14 +426,14 @@ body {
         margin-left:25px;
     }    
   
-    h3.data-overzicht { // css bij function overzicht () in userUpdate.php vanaf r16
+    h3.data-overzicht { /* css bij function overzicht () in userUpdate.php vanaf r16*/
         color:silver;
         text-align: center;
     } 
     
  table#edit {
         margin-left: -180px;
-        //background-color: black; // deze tabel achtergrond kleur gebruik ik als de background-color van de body donker is
+        
         background-color:grey;
         color:black;
     }
@@ -445,7 +441,7 @@ body {
 #edit th { 
         background-color: #A7C942;
         color: #fff;
-       // width:120px;
+       
 } 
 
 #edit td, #edit th {
@@ -484,12 +480,12 @@ hr {
 }
 
 div.bericht h3 {
-    //color: white; // deze tekst kleur gebruik ik als de background-color donker is
+    
     color: purple;
 }
 
 .bericht {
-    //color: white; // deze tekst kleur gebruik ik als de background-color donker is
+    
     color: black;
 }
 
@@ -515,10 +511,9 @@ div.bericht h3 {
     font-weight: normal;
     color: white;
     padding: 10px;
-    //background-color: #00aaff;
-    //background-color: rgb(214, 243, 248);
+    
     background-color: rgb(58, 114, 183);
-   // border: 1px solid rgb(201, 229, 243);
+   
 }
 .intro{
     color: black;
@@ -544,9 +539,9 @@ div.bericht h3 {
 #introLinks{
     float: left;
     height: 100%;
-    width : 45%;//een verhouding van 55% / 45%
+    width : 45%;
     background: silver;
-    //border-right: 2px solid #000;
+    
     margin-right: 15px;
     padding: 0px 15px 20px 15px;
  
@@ -585,19 +580,17 @@ div.bericht h3 {
 }
 
 .navbar-inverse {
-   // background-image: -o-linear-gradient(top,#FFCC99 0,#FFCC99 100%);
-   //background-image: -webkit-gradient(linear,left top,left bottom,from(#FFCC99),to(#FFCC99));
-    // background-image: linear-gradient(to bottom,#FFCC99 0,#ffb72a 100%);
+   
     background-image: linear-gradient(to bottom,#ffffff,#ffb72a 100%);
      opacity: 0.9;
 }
 
 #reactie{
-         //background-color: silver;//#CCCCA3;
+         
          width : 47%;
          color: #000099;
          background: #CCCCA3;
-         //width: 250px; 
+        
          font-family: serif; 
          font-size: 12pt;
          padding: 10px;
@@ -624,20 +617,19 @@ div.bericht h3 {
     float: left;
     padding: 10px;
     background-image:url("../images/pieterspc.png");
-    //border: 1px solid #C9E5F3;
-    //background-color: #D6F3F8;
+    
     width: 27.65%;
     
     
 }
 
 h4.regdata {
-    //color: yellow; // deze tekst kleur gebruik ik als de background-color donker is
+    
     color: black;
 }
 
 h4.regbericht {
-    //color: white;  // deze tekst kleur gebruik ik als de background-color donker is
+    
     color: black;
 }
 
@@ -646,10 +638,7 @@ h4.regbericht {
 }
 
 
-.table{
-   // border: 1px solid #000;
-    
-}
+
 
 .instappen {
     font-size: 30px;
@@ -665,12 +654,12 @@ section#loginblok, section#aanmeldblok {
 }
 
 section#loginblok h3 {
-   // color:yellow;  // deze tekst kleur gebruik ik als de background-color donker is
+   
    color: purple;
 }
 
 table#login {  
-    // color:yellow;  // deze tekst kleur gebruik ik als de background-color donker is
+    
     color: black;
 }
 
@@ -734,7 +723,7 @@ div#middle {
     float: left;
     padding: 10px;
     border: 1px solid #C9E5F3;
-    //background-color: #D6F3F8;
+    
     width: 27.65%;
 }
 

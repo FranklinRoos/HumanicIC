@@ -16,23 +16,25 @@ function showPaswVergForm()// deze functie gebruik ik (nog) niet , is een test.
 /* @var $_POST type */
 function handlePaswVergForm($email) // deze functie gebruik ik (nog) niet , is een test.
 {
+  global $connection;
+
 // Als het gaat om bevestigen van het mailtje
 if(getUseremail($email) === true)//het email-adres komt voor in de db
 {
     $activatiecode = sqlsafe($_GET['code']);
     $select_code = "SELECT * FROM `user` WHERE `vergeetcode` = '".$activatiecode."'";
-    $query_code = mysql_query($select_code) or die (mysql_error());
-    $show_code = mysql_fetch_assoc($query_code);
+    $query_code = mysqli_query($connection, $select_code) or die (mysqli_error());
+    $show_code = mysqli_fetch_assoc($query_code);
 
-    if(mysql_num_rows($query_code) == "0")
+    if(mysqli_num_rows($query_code) == "0")
     {
         echo "<div style=\"color:red;\">U heeft een verkeerde activatiecode ingevuld, of uw heeft reeds een bevestiging gedaan!</div>";
     }
     else
     {
         // Email selecteren
-        $res = mysql_query("SELECT * FROM `user` WHERE `vergeetcode` = '".$activatiecode."'");
-        $show = mysql_fetch_assoc($res);
+        $res = mysqli_query($connection, "SELECT * FROM `user` WHERE `vergeetcode` = '".$activatiecode."'");
+        $show = mysqli_fetch_assoc($res);
                     
         // Password maken
         $pass = randomcode(10);
@@ -41,7 +43,7 @@ if(getUseremail($email) === true)//het email-adres komt voor in de db
         echo "Er is een mail met een nieuw wachtwoord gestuurd.";
                     
         // Database updaten
-        mysql_query("UPDATE `user` SET `vergeetcode` = '', `user_wachtwoord` = '".md5($pass)."' WHERE `vergeetcode` = '".$activatiecode."'");
+        mysqli_query($connection, "UPDATE `user` SET `vergeetcode` = '', `user_wachtwoord` = '".md5($pass)."' WHERE `vergeetcode` = '".$activatiecode."'");
                                         
         // Mail versturen
         //$headers   = array();
@@ -62,9 +64,9 @@ else
 
     if(($_SERVER['REQUEST_METHOD'] == "POST") && ($_POST['vergeten'])) 
     {
-        $que = mysql_query("SELECT * FROM `".$ledentabel."` WHERE emailadres = '".sqlsafe($_POST['emailadres'])."'");
+        $que = mysqli_query($connection,"SELECT * FROM `".$ledentabel."` WHERE emailadres = '".sqlsafe($_POST['emailadres'])."'");
                     
-        if(mysql_num_rows($que) == 0)
+        if(mysqli_num_rows($que) == 0)
         {
             echo "<p>Het ingevuld emailadres is niet geldig of staat niet in de database!</p>";
         }
@@ -77,7 +79,7 @@ else
             echo "<p>Er is een bevestigingsmail naar je e-mailadres gestuurd.</p>";
                     
             // Database updaten dus code inserten
-            mysql_query("UPDATE `".$ledentabel."` SET `vergeetcode` = '".$activatiecode."' WHERE `emailadres` = '".sqlsafe($_POST['emailadres'])."'");
+            mysqli_query($connection, "UPDATE `".$ledentabel."` SET `vergeetcode` = '".$activatiecode."' WHERE `emailadres` = '".sqlsafe($_POST['emailadres'])."'");
                     
             // Mail versturen
             $aan = sqlsafe($_POST['emailadres']);
@@ -121,6 +123,7 @@ function showForm()
 
 function handleForm()
     {
+        global $connection;
         
         if (!isset($_SESSION["tellerInloggen"]))
         {
@@ -144,14 +147,14 @@ function handleForm()
                 if (md5(trim($_POST['passwd']))==trim($correct_passwd))//hier wordt het ww behorende bij de loginnaam vergeleken met het opgegeven ww
                   {
                       maakSessieVariabelen();
-                       $sql2 = mysql_query("SELECT * FROM `user` WHERE `user_inlognaam`='".$_POST["login"]."' AND `user_activ`='yes'");
+                       $sql2 = mysqli_query($connection,"SELECT * FROM `user` WHERE `user_inlognaam`='".$_POST["login"]."' AND `user_activ`='yes'");
                       
-                        if (mysql_num_rows($sql2)==0)  
+                        if (mysqli_num_rows($sql2)==0)  
                             {
                              die ("U bent nog niet geregistreerd,of uw registratite is nog niet voltooid  ");
                             
                             }
-                       while ($row = mysql_fetch_assoc($sql2))//de login procedure is succesvol doorlopen,dus kunnen de sessie-variabelen nu gemaakt worden
+                       while ($row = mysqli_fetch_assoc($sql2))//de login procedure is succesvol doorlopen,dus kunnen de sessie-variabelen nu gemaakt worden
                          {
                              $_SESSION['user-form'] = $row['user_form-activ'];
                              $_SESSION['passwd'] = md5(trim($_POST['passwd']));
@@ -189,10 +192,10 @@ function handleForm()
                              //$_SESSION["password"] = md5(trim($_POST["passwd"]));
                              $_SESSION["suc6login"] = "suc6login";
                              //De kolommen 'datum_gezien' , 'tijdstip_gezien' en 'user_online' van de ingelogde user worden bijgewerkt
-                               $sql3 = mysql_query("UPDATE `user` SET
+                               $sql3 = mysqli_query($connection, "UPDATE `user` SET
 		                         `user_online` = 'y', `datum_gezien` = '".$_SESSION['current_date']."', `tijdstip_gezien`= '".$_SESSION['current_tijdstip']."'                      
 		                         WHERE `user_id` = '".$_SESSION["user_id"]."'")
-		                         or die(mysql_error());
+		                         or die(mysqli_error());
                                       $useronline = $row['user_online'];
                                       $_SESSION['useronline'] = $useronline;
                              
@@ -205,13 +208,13 @@ function handleForm()
                            window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/login.php\"
                            </script>";    
               
-                        $sql = mysql_query("SELECT * FROM `pages` WHERE `page_nav_id`=$pageNavId and `page_show` ='y'");
+                        $sql = mysqli_query($connection, "SELECT * FROM `pages` WHERE `page_nav_id`=$pageNavId and `page_show` ='y'");
                         echo "<div class=\"container\">";
-                       if (mysql_num_rows($sql)==0)   
+                       if (mysqli_num_rows($sql)==0)   
                           {
                             die ("Je hebt geen gegevens tot je beschikking");
                            }
-                           while ($content = mysql_fetch_assoc($sql)) 
+                           while ($content = mysqlì_fetch_assoc($sql)) 
                              {
                                echo "<h1>".$content["page_title"]."</h1>";
                                echo "<br /><p>";
@@ -251,15 +254,17 @@ function handleForm()
   
 function maakSessieVariabelen() 
 {
+        global $connection;
+
                      // Eerst gegevens uit de USER-Tabel halen 
-                         $sql4 = mysql_query("SELECT * FROM `user` WHERE `user_inlognaam`='".$_POST["login"]."' AND `user_activ`='yes'");
+                         $sql4 = mysqli_query($connection, "SELECT * FROM `user` WHERE `user_inlognaam`='".$_POST["login"]."' AND `user_activ`='yes'");
                       
-                        if (mysql_num_rows($sql4)==0)  
+                        if (mysqli_num_rows($sql4)==0)  
                             {
                              die ("U bent nog niet geregistreerd,of uw registratite is nog niet voltooid  ");
                             
                             }
-                       while ($row = mysql_fetch_assoc($sql4))//de login procedure is succesvol doorlopen,dus kunnen de sessie-variabelen nu gemaakt worden
+                       while ($row = mysqli_fetch_assoc($sql4))//de login procedure is succesvol doorlopen,dus kunnen de sessie-variabelen nu gemaakt worden
                          {
                              $_SESSION['achternaam'] = $row['achternaam'];
                              $_SESSION['tussenvoegsel'] = $row['tussenvoegsel'];
@@ -282,14 +287,14 @@ function maakSessieVariabelen()
                          }
                     // Gegevens uit de SECTOR-Tabel halen 
                          $userid = $_SESSION["user_id"];
-                    $sql5 = mysql_query("SELECT * FROM `user_sector` WHERE `user_id`='".$userid."' ");
+                    $sql5 = mysqli_query("SELECT * FROM `user_sector` WHERE `user_id`='".$userid."' ");
                       
-                        if (mysql_num_rows($sql4)==0)  
+                        if (mysqli_num_rows($sql4)==0)  
                             {
                              die ("U bent nog niet geregistreerd,of uw registratite is nog niet voltooid  ");
                             
                             }
-                       while ($row = mysql_fetch_assoc($sql4))//de login procedure is succesvol doorlopen,dus kunnen de sessie-variabelen nu gemaakt worden
+                       while ($row = mysqli_fetch_assoc($sql4))//de login procedure is succesvol doorlopen,dus kunnen de sessie-variabelen nu gemaakt worden
                          {
                             if($row['sector_naam']=='ICT')
                              $_SESSION['werkbox1'] = '1';
@@ -304,14 +309,14 @@ function maakSessieVariabelen()
                              $_SESSION['werkbox4'] = '4';
 
                          }     
-           $sql6 = mysql_query("SELECT * FROM `user_functie` WHERE `user_id`='".$userid."' ");
+           $sql6 = mysqli_query($connection, "SELECT * FROM `user_functie` WHERE `user_id`='".$userid."' ");
                       
-                        if (mysql_num_rows($sql4)==0)  
+                        if (mysqli_num_rows($sql4)==0)  
                             {
                              die ("U bent nog niet geregistreerd,of uw registratite is nog niet voltooid  ");
                             
                             }
-                       while ($row = mysql_fetch_assoc($sql4))//de login procedure is succesvol doorlopen,dus kunnen de sessie-variabelen nu gemaakt worden
+                       while ($row = mysqli_fetch_assoc($sql4))//de login procedure is succesvol doorlopen,dus kunnen de sessie-variabelen nu gemaakt worden
                          {
                             if($row['functie_id']=='1')
                              $_SESSION['fbox'] = '1';
@@ -354,13 +359,15 @@ function maakSessieVariabelen()
     
 function getAuthorisatie($usernaam)    
 {
+      global $connection;
+
       $auth = "usr";
-      $sql = mysql_query("SELECT * FROM `user`");
-      if (mysql_num_rows($sql)==0)  
+      $sql = mysqli_query($connection, "SELECT * FROM `user`");
+      if (mysqli_num_rows($sql)==0)  
         {
             die ("Je heb geen gegevens tot je beschikking");
         }
-        while ($row = mysql_fetch_assoc($sql)) 
+        while ($row = mysqli_fetch_assoc($sql)) 
         {           
             if (strtolower($usernaam) == strtolower($row['user_inlognaam']))
             { 
@@ -372,13 +379,15 @@ function getAuthorisatie($usernaam)
 
  function getPassword($usernaam)
     {
+        global $connection;
+
         $pass = "";
-        $sql = mysql_query("SELECT * FROM `user`");
-        if (mysql_num_rows($sql)==0)  
+        $sql = mysqli_query($connection, "SELECT * FROM `user`");
+        if (mysqli_num_rows($sql)==0)  
         {
             die ("Je heb geen gegevens tot je beschikking");
         }
-        while ($row = mysql_fetch_assoc($sql)) 
+        while ($row = mysqli_fetch_assoc($sql)) 
         {           
             if (strtolower($usernaam) == strtolower($row['user_inlognaam']))
             { 
@@ -433,6 +442,7 @@ function showAanmeldForm($naam="",$email="")
     
 function handleAanmeldForm()
     {
+        global $connection;
       
       if (isSet($_POST['regsubmit']) && isSet($_POST["regpasswd1"]) && $_POST["regpasswd1"] !=""
                 && isSet($_POST["regpasswd2"]) && $_POST["regpasswd2"] !=""
@@ -516,9 +526,9 @@ function handleAanmeldForm()
                                $password = "123";
                                $dbname = "kandidaten";
                     
-                    $sql = mysql_query("INSERT INTO user (`user_inlognaam`, `user_wachtwoord`,`user_email`,`activ_code`)
+                    $sql = mysqli_query($connection, "INSERT INTO user (`user_inlognaam`, `user_wachtwoord`,`user_email`,`activ_code`)
                         VALUES ('".$_POST['reglogin']."', '".md5($_POST['regpasswd1'])."', '".$_POST['emailuser']."', '".$_SESSION['code']."')");
-                    if (mysql_affected_rows()==0)
+                    if (mysqli_affected_rows($connection)==0)
                     {
                         //de gegevens zijn niet toegevoegd.
                         echo "error adding info, try again later";
@@ -571,13 +581,15 @@ function handleAanmeldForm()
    
 function getUsername($usernaam) //controle op dubbele loginnaam
     {
+        global $connection;
+
         $usrdouble = false;
-        $sql = mysql_query("SELECT * FROM `user`");
-        if (mysql_num_rows($sql)==0)  
+        $sql = mysqli_query($connection, "SELECT * FROM `user`");
+        if (mysqli_num_rows($sql)==0)  
         {
             die ("Je heb geen gegevens tot je beschikking");
         }
-        while ($row = mysql_fetch_assoc($sql)) 
+        while ($row = mysqli_fetch_assoc($sql)) 
         {           
             if (strtolower($usernaam) == strtolower($row['user_inlognaam']))
             { 
@@ -596,9 +608,11 @@ function check_email($email) { // return TRUE or FALSE
 
 function uitloggen()
 {
+  global $connection;
+
   If(isSet($_SESSION['user_id']))
   {    
-  $sql = mysql_query("UPDATE `user` SET `user_online`='n' WHERE `user_id` = ".$_SESSION['user_id']." ") or die(mysql_error());
+  $sql = mysqli_query($connection, "UPDATE `user` SET `user_online`='n' WHERE `user_id` = ".$_SESSION['user_id']." ") or die(mysqli_error());
   }
    // Unset all of the session variables.
   $_SESSION = array();
@@ -609,14 +623,16 @@ function uitloggen()
 
 
 function getUseremail($useremail) //controle op dubbele loginnaam
-    {
+    { 
+        global $connection;
+
         $emaildouble = false;
-        $sql = mysql_query("SELECT * FROM `user`");
-        if (mysql_num_rows($sql)==0)  
+        $sql = mysqli_query($connection, "SELECT * FROM `user`");
+        if (mysqli_num_rows($sql)==0)  
         {
             die ("Je heb geen gegevens tot je beschikking");
         }
-        while ($row = mysql_fetch_assoc($sql)) 
+        while ($row = mysqli_fetch_assoc($sql)) 
         {           
             if ($useremail == $row['user_email'])
             { 
@@ -680,7 +696,9 @@ function showBestelForm($naam="", $adres="", $postcode="", $woonplaats="", $land
       }
 
 function handleBestelForm()//deze functie heb ik niet meer gebruikt
- {
+ {  
+        global $connection;
+
         $boek_id = "9";
         $boek_titel = "Please please me's number one";
         $email = $_POST['email'];
@@ -691,6 +709,7 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
         $woonplaats = $_POST["woonplaats"];
         $land = $_POST['land'];
        
+        // BK: Hoe gaat dit i.c.m. de lokale variabelen hierboven?
          global $naam;
             global $adres;
             global $postcode;
@@ -814,12 +833,12 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
        else //Er zijn geen fouten,presenteer de gegevens  
        {
         
-          $sql = mysql_query("INSERT INTO bestelling (`boek_id`,`user_id`,`user_inlognaam`, `boek_titel`, `aantal`,
+          $sql = mysqli_query($connection, "INSERT INTO bestelling (`boek_id`,`user_id`,`user_inlognaam`, `boek_titel`, `aantal`,
               `user_email`,`bestelling_naam`,`straatnaam`, `postcode`, `woonplaats`, `land`, `mobiel`)
               VALUES ('".$boek_id."', '".$_SESSION['user_id']."', '".$_SESSION['loginnaam']."', '".$boek_titel."', '".$_POST['aantal']."',"
                   . " '".$_POST['email']."', '".$_POST['naam']."', '".$_POST['adres']."', '".$_POST['postcode']."',"
                   . " '".$_POST['woonplaats']."', '".$_POST['land']."','".$_POST['telefoon']."')");
-                 if (mysql_affected_rows()==0)
+                 if (mysqli_affected_rows($connection)==0)
                     {
                         //de gegevens zijn niet toegevoegd.
                         echo "error adding info, try again later";
@@ -873,6 +892,8 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
  
  function handleContactForm ()
  {
+        global $connection;
+
           // Initialiseer fout variabelen
         $fout=FALSE;
         $naam_fout=FALSE;
@@ -946,9 +967,9 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
      {
        if(isSet($_SESSION['loginnaam']))
          {
-          $sql = mysql_query("INSERT INTO contact (`user_id`,`user_inlognaam`, `contact_naam`,`contact_email`,`contact_subject`,`contact_bericht`)
+          $sql = mysqli_query($onnection, "INSERT INTO contact (`user_id`,`user_inlognaam`, `contact_naam`,`contact_email`,`contact_subject`,`contact_bericht`)
               VALUES ('".$_SESSION['user_id']."', '".$_SESSION['loginnaam']."', '".$_POST['naam']."', '".$_POST['email']."', '".$_POST['subject']."', '".$_POST['bericht']."')");
-                 if (mysql_affected_rows()==0)
+                 if (mysqli_affected_rows($connection)==0)
                     {
                         //de gegevens zijn niet toegevoegd.
                         echo "error adding info, try again later";
@@ -969,9 +990,9 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
             }
           else
             {
-                   $sql = mysql_query("INSERT INTO contact (`contact_naam`,`contact_email`,`contact_subject`,`contact_bericht`)
+                   $sql = mysqli_query($connection, "INSERT INTO contact (`contact_naam`,`contact_email`,`contact_subject`,`contact_bericht`)
               VALUES ('".$_POST['naam']."', '".$_POST['email']."', '".$_POST['subject']."', '".$_POST['bericht']."')");
-                 if (mysql_affected_rows()==0)
+                 if (mysqli_affected_rows($connection)==0)
                     {
                         //de gegevens zijn niet toegevoegd.
                         echo "error adding info, try again later";
@@ -1495,6 +1516,8 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
  
  function handleKandidaatRegForm () 
  {
+        global $connection;
+        
         $email = $_POST['email'];
         //$telefoon = $_POST["telefoon"]; 
         $achternaam = $_POST['achterNaam'];
@@ -1631,12 +1654,12 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
       /* else //Er zijn geen fouten,presenteer de gegevens  
        {
         
-          $sql = mysql_query("INSERT INTO bestelling (`boek_id`,`user_id`,`user_inlognaam`, `boek_titel`, `aantal`,
+          $sql = mysqli_query($connection, "INSERT INTO bestelling (`boek_id`,`user_id`,`user_inlognaam`, `boek_titel`, `aantal`,
               `user_email`,`bestelling_naam`,`straatnaam`, `postcode`, `woonplaats`, `land`, `mobiel`)
               VALUES ('".$boek_id."', '".$_SESSION['user_id']."', '".$_SESSION['loginnaam']."', '".$boek_titel."', '".$_POST['aantal']."',"
                   . " '".$_POST['email']."', '".$_POST['naam']."', '".$_POST['adres']."', '".$_POST['postcode']."',"
                   . " '".$_POST['woonplaats']."', '".$_POST['land']."','".$_POST['telefoon']."')");
-                 if (mysql_affected_rows()==0)
+                 if (mysqli_affected_rows()==0)
                     {
                         //de gegevens zijn niet toegevoegd.
                         echo "error adding info, try again later";

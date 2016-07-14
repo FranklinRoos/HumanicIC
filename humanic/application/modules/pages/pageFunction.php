@@ -2,8 +2,10 @@
 
 function overzicht()
 {
-    $objecten = mysql_query("SELECT * FROM pages") or die(mysql_error());
-    if (mysql_num_rows($objecten) == 0) 
+    global $connection;
+
+    $objecten = mysqli_query($connection, "SELECT * FROM pages") or die(mysqli_error());
+    if (mysqli_num_rows($objecten) == 0) 
     {
         die("<i>Nog geen page aanwezig!</i>");
     }
@@ -18,7 +20,7 @@ function overzicht()
         echo "<th width=\"50\" align=\"left\">Show</th>";
         echo "</tr>";
 
-	while ($bericht = mysql_fetch_object($objecten)) 
+	while ($bericht = mysqli_fetch_object($objecten)) 
         {
             echo "<tr>";
             echo "<td width=\"50\" align=\"left\"><a href=\"".htmlspecialchars($_SERVER["PHP_SELF"])."?page_id=".$bericht->page_id."\">edit</a></td>";
@@ -62,18 +64,20 @@ function overzicht()
 
 function pageBewerken()
 {
+    global $connection;
+
     if (!isset($_GET['page_id']))
     {
         redirect(htmlspecialchars($_SERVER["PHP_SELF"]));
         die();
     }
-    $bericht = mysql_query("SELECT * FROM pages WHERE page_id = ".$_GET['page_id']." LIMIT 1") or die(mysql_error());
-    if (mysql_num_rows($bericht) == 0)
+    $bericht = mysqli_query($connection, "SELECT * FROM pages WHERE page_id = ".$_GET['page_id']." LIMIT 1") or die(mysqli_error());
+    if (mysqli_num_rows($bericht) == 0)
     {
         die("Deze page bestaat niet !");
         echo "</div>";
     }
-    $bericht = mysql_fetch_object($bericht);
+    $bericht = mysqli_fetch_object($bericht);
     echo "Wijzigen van page:&nbsp<a class=\"edit\">".utf8_encode($bericht->page_title)."</a> met ID nummer:&nbsp<a class=\"edit\">".($bericht->page_id)."</a><br /><br />";
     echo "<form action=\"".htmlspecialchars($_SERVER["PHP_SELF"])."\" method=\"POST\" enctype=\"multipart/form-data\">";
     echo "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"2\">";
@@ -117,6 +121,8 @@ function pageBewerken()
 
 function pageBewerktOpslaan()
 {   
+    global $connection;
+
     $zoek = array("'", "á", "é", "í", "ó", "ú", "ñ", "ç", "Á", "É", "Í", "Ó", "Ú", "Ñ", "Ç", "à", "è", "ì", "ò", "ù", "À", "È", "Ì", "Ò", "Ù",
      "ä", "ë", "ï", "ö", "ü", "Ä", "Ë", "Ï", "Ö", "Ü", "â", "ê", "î", "ô", "û", "Â", "Ê", "Î", "Ô", "Û", "ā", "ū", "ś", "ī");
 
@@ -144,7 +150,7 @@ function pageBewerktOpslaan()
     
     if (isset($_POST['submit_edit_item']))
     {
-        mysql_query("UPDATE `pages` SET `page_nav_id` ='".$_POST['page_nav_id']."', `page_content` ='".$page_content."', `page_title` ='".$page_title."', `page_description` ='".$page_description."', `page_keywords`='".$page_keywords."', `page_show`='".$page_show."' WHERE `page_id` = ".$_POST['page_id']." ") or die(mysql_error());
+        mysqli_query($connection, "UPDATE `pages` SET `page_nav_id` ='".$_POST['page_nav_id']."', `page_content` ='".$page_content."', `page_title` ='".$page_title."', `page_description` ='".$page_description."', `page_keywords`='".$page_keywords."', `page_show`='".$page_show."' WHERE `page_id` = ".$_POST['page_id']." ") or die(mysqli_error());
         //UPDATE `artikelen` SET `artikelID`=[value-1],`navid`=[value-2],`artikelnaam`=[value-3],`prijsexbtw`=[value-4],`omschrijving`=[value-5],`page_title`=[value-6],`display`=[value-7],`Update_time`=[value-8] WHERE
     }
     $result_id=$_POST['page_id'];
@@ -153,8 +159,10 @@ function pageBewerktOpslaan()
 
 function show_tekst($result_id)
 {
-    $result_sql = mysql_query("SELECT * FROM pages WHERE page_id=".$result_id."");
-    while($q=mysql_fetch_array($result_sql))
+    global $connection;
+
+    $result_sql = mysqli_query($connection, "SELECT * FROM pages WHERE page_id=".$result_id."");
+    while($q=mysqli_fetch_array($result_sql))
     {
         echo "De tekst is gewijzigd en ziet er als onderstaand uit.<br />";
         echo "<a href=\"".htmlspecialchars($_SERVER["PHP_SELF"])."?page_id=".$q['page_id']."\" >Klik hier als u nog iets in de tekst wilt veranderen.</a><br /><br />";

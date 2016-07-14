@@ -1,6 +1,8 @@
 <?php
 function fHeader($pageNavId="1")
 {
+    global $connection;
+    
     echo "<!DOCTYPE html>";
     echo "<html lang=\"en\">";
     echo "<head>";
@@ -13,12 +15,13 @@ function fHeader($pageNavId="1")
 
     //<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     // haal de gegevens voor de desbetreffende pagina uit de database
-    $sql = mysql_query("SELECT * FROM `pages` where `page_nav_id`=$pageNavId and `page_show` ='y'");
-    if (mysql_num_rows($sql)==0)   
+    $sql = mysqli_query($connection, "SELECT * FROM `pages` where `page_nav_id`=$pageNavId and `page_show` ='y'")
+                or die ("Je hebt geen gegevens tot je beschikking");
+    if (mysqli_num_rows($sql)==0)   
     {
         die ("Je hebt geen gegevens tot je beschikking");
     }
-    while ($content = mysql_fetch_assoc($sql)) 
+    while ($content = mysqli_fetch_assoc($sql)) 
     {
         echo "<meta name=\"description\" content=\"".$content["page_description"]."\">";
         echo "<meta name=\"keywords\" content=\"".$content["page_keywords"]."\">";
@@ -95,6 +98,8 @@ function fHeader($pageNavId="1")
 
 function fFooter($pageNavId="1")
 {
+    global $connection;
+    
     echo "<div id=\"footer\">";
     echo "<footer class=\"footer\">";
     //echo "<div class=\"container\">";
@@ -104,14 +109,14 @@ function fFooter($pageNavId="1")
     global $imagepath;
     //echo "<div><img width=\"250\" height=\"90\" src=\"$imagepath/header2.png\" style=\" margin:30px;\"  class=\"mbr-contacts_img mbr-contacts_img--left\" />";
     //echo "</div>";
-    $sql = mysql_query("SELECT * FROM `nav` WHERE `nav_place` = 'footer' AND  `nav_show`= 'y' ");
+    $sql = mysqli_query($connection, "SELECT * FROM `nav` WHERE `nav_place` = 'footer' AND  `nav_show`= 'y' ");
     //echo "<div><img width=\"250\" height=\"90\" src=\"$imagepath/header2.png\" style=\" margin:30px;\"  class=\"mbr-contacts_img mbr-contacts_img--left\" /></div>";
     
-    if (mysql_num_rows($sql)==0)  
+    if (mysqli_num_rows($sql)==0)  
     {
         die ("Je hebt geen gegevens nav tot je beschikking");
     }     
-    while ($row = mysql_fetch_assoc($sql))
+    while ($row = mysqli_fetch_assoc($sql))
     {       
         if ($row['nav_id']==$pageNavId)
         {
@@ -149,6 +154,8 @@ function footer()
 
 function navigatie($pageNavId="1")
 {
+    global $connection;
+    
     //echo "<nav class=\"navbar navbar-inverse navbar-fixed-top\">";
     //echo "<nav class=\"navbar navbar-inverse navbar-fixed-top\">";
     echo "<nav class=\"navbar navbar-inverse \">";
@@ -165,10 +172,10 @@ function navigatie($pageNavId="1")
     echo "<ul class=\"nav navbar-nav\">";
     // selecteer alles (voor de navigatie) voor de header en show=y 
      //  if(isSet($_SESSION['taal']) && $_SESSION['taal'] == 'nl'){
-    $sql = mysql_query("SELECT * FROM `nav` where `nav_place`='header' AND `nav_auth`='usr' AND `nav_taal`='nl' AND `nav_show`='y' order by `volgorde` ");
+    $sql = mysqli_query($connection, "SELECT * FROM `nav` where `nav_place`='header' AND `nav_auth`='usr' AND `nav_taal`='nl' AND `nav_show`='y' order by `volgorde` ");
  
     // aanmaken array voor gebruik in function
-    while($ln = mysql_fetch_assoc($sql))
+    while($ln = mysqli_fetch_assoc($sql))
     {
     $menu_items[] = (object) array(
     'id'   =>$ln['nav_id'] , 
@@ -183,10 +190,10 @@ function navigatie($pageNavId="1")
     
    /* else {
         $_SESSION['taal']= 'en';
-    $sql = mysql_query("SELECT * FROM `nav` where `nav_place`='header' AND `nav_authorisatie`='usr' AND `nav_taal`='en' AND `nav_show`='y' order by `volgorde` ");
+    $sql = mysqli_query($connection, "SELECT * FROM `nav` where `nav_place`='header' AND `nav_authorisatie`='usr' AND `nav_taal`='en' AND `nav_show`='y' order by `volgorde` ");
  
     // aanmaken array voor gebruik in function
-    while($ln = mysql_fetch_assoc($sql))
+    while($ln = mysqli_fetch_assoc($sql))
     {
     $menu_items[] = (object) array(
     'id'   =>$ln['nav_id'] , 
@@ -222,6 +229,8 @@ function navigatie($pageNavId="1")
 
 function navigatieA($pageNavId="1")
 {
+    global $connection;
+    
     //echo "<nav class=\"navbar navbar-inverse navbar-fixed-top\">";
     //echo "<nav class=\"navbar navbar-inverse navbar-fixed-top\">";
     echo "<nav class=\"navbar navbar-inverse \">";
@@ -236,10 +245,10 @@ function navigatieA($pageNavId="1")
     echo "<img src=\"".$GLOBALS['path']."assets/images/header2.png\" alt=\"humanic-logo\" width=\"80\" height=\"50\"</a>";
     echo "<ul class=\"nav navbar-nav\">";
     // selecteer alles (voor de navigatie) voor de header en show=y 
-    $sql = mysql_query("SELECT * FROM `nav` where `nav_place`='header'  and `nav_show`='y' order by `volgorde` ");
+    $sql = mysqli_query($connection, "SELECT * FROM `nav` where `nav_place`='header'  and `nav_show`='y' order by `volgorde` ");
 
     // aanmaken array voor gebruik in function
-    while($ln = mysql_fetch_assoc($sql))
+    while($ln = mysqli_fetch_assoc($sql))
     {
     $menu_items[] = (object) array(
     'id'   =>$ln['nav_id'] , 
@@ -366,16 +375,18 @@ function generate_menu($parent)
 
 function navigatieAdmin($pageNavId="1")
 {
+    global $connection;
+    
     echo "<div class=\"navbar navbar-fixed-top\">";
     echo "<ul class=\"nav nav-tabs\" style=\"background-color: #FFF;\">";
     // haal uit database gegevens
     // verwerk het in de list-item
-    $sql = mysql_query("SELECT * FROM `navadmin` WHERE  `navadmin_show` = 'y'  order by `navadmin_volgorde`");
-    if (mysql_num_rows($sql)==0)  
+    $sql = mysqli_query($connection, "SELECT * FROM `navadmin` WHERE  `navadmin_show` = 'y'  order by `navadmin_volgorde`");
+    if (mysqli_num_rows($sql)==0)  
     {
         die ("Je hebt geen gegevens nav tot je beschikking,ga fietsen");
     } 
-    while ($row = mysql_fetch_assoc($sql))
+    while ($row = mysqli_fetch_assoc($sql))
     {
         if ($row['navadmin_id']==$pageNavId)
         {
@@ -391,16 +402,18 @@ function navigatieAdmin($pageNavId="1")
 
 function navigatiePtr($pageNavId="1")
 {
+    global $connection;
+    
     echo "<div class=\"navbar navbar-fixed-top\">";
     echo "<ul class=\"nav nav-tabs\" style=\"background-color: #FFF;\">";
     // haal uit database gegevens
     // verwerk het in de list-item
-    $sql = mysql_query("SELECT * FROM `navadmin` WHERE  `navadmin_show` = 'y' and `navadmin_auth` = 'ptr' order by `navadmin_volgorde`");
-    if (mysql_num_rows($sql)==0)  
+    $sql = mysqli_query($connection, "SELECT * FROM `navadmin` WHERE  `navadmin_show` = 'y' and `navadmin_auth` = 'ptr' order by `navadmin_volgorde`");
+    if (mysqli_num_rows($sql)==0)  
     {
         die ("Je hebt geen gegevens nav tot je beschikking,ga fietsen");
     } 
-    while ($row = mysql_fetch_assoc($sql))
+    while ($row = mysqli_fetch_assoc($sql))
     {
         if ($row['navadmin_id']==$pageNavId)
         {
@@ -473,13 +486,15 @@ function handleFormAdmin()
     
 function getPasswordAdmin($usernaam)
 {
+    global $connection;
+    
     $pass = "";
-    $sql = mysql_query("SELECT * FROM `user`");
-    if (mysql_num_rows($sql)==0)  
+    $sql = mysqli_query($connection, "SELECT * FROM `user`");
+    if (mysqli_num_rows($sql)==0)  
     {
         die ("Je heb geen gegevens tot je beschikking");
     }
-    while ($row = mysql_fetch_assoc($sql)) 
+    while ($row = mysqli_fetch_assoc($sql)) 
     {
         if ($usernaam == $row['user_inlognaam'])
         { 

@@ -43,7 +43,7 @@ if($_SESSION["user_authorisatie"]=="admin")
           $_GET['blog_id']="";
          //Bevestig de verwijdering
            confirmDelete();
-           echo "mysql_close($connection)";
+           echo "mysqli_close($connection)";
           }
       // }   
 }
@@ -65,7 +65,7 @@ if($_SESSION["user_authorisatie"]=="ptr")
           $_GET['blog_id']="";
          //Bevestig de verwijdering
            confirmDelete();
-           echo "mysql_close($connection)";
+           echo "mysqli_close($connection)";
           }
       // }   
 }

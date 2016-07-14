@@ -14,12 +14,10 @@ if($_SESSION['blad']!=='login_page')
 {
   $_SESSION['blad']='login_page';
 }
-
-
 if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze informatie komt uit functie handeleForm regel 184
 { // inloggen was succesvol
    
-    
+
     unset($_SESSION["suc6login"]);
         // inloggen
     $pageNavId=2;
@@ -70,9 +68,9 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
         //De naam met een hoofdletter laten beginnen bij de presentatie 
         echo "<h4 class=\"regbericht\">".ucfirst($_SESSION["loginnaam"])." ,je was hier voor het laats op ".$datum." om ".$_SESSION['laatsgezienTijdstip']."</h4>";
          
-      /* mysql_query("INSERT INTO `online`(`user_id`) // dit was experimenteel , de tabel 'online' kan dan ook uit de database
+      /* mysqli_query($connection, "INSERT INTO `online`(`user_id`) // dit was experimenteel , de tabel 'online' kan dan ook uit de database
 		VALUES ('".$_SESSION["user_id"]."')")
-		or die(mysql_error());   */     
+		or die(mysqli_error());   */     
           
  }        
   else
@@ -114,13 +112,13 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
                  }
                elseif(!isSet($_POST["submit"]) &&  isSet($_SESSION['loginnaam']))//als je reeds ingelogd bent en de brouwser verniewd, zou je anders in een loop blijven
                {
-                     $sql = mysql_query("SELECT * FROM `user` where `user_form-activ`='no' and `user_activ` ='yes'");                    
-                        if (mysql_num_rows($sql)==0)   
+                     $sql = mysqli_query($connection, "SELECT * FROM `user` where `user_form-activ`='no' and `user_activ` ='yes'");                    
+                        if (mysqli_num_rows($sql)==0)   
                             {
                                  die ("Je hebt geen gegevens tot je beschikking");
                             }
 
-                      while ($content = mysql_fetch_assoc($sql)) 
+                      while ($content = mysqli_fetch_assoc($sql)) 
                           {
                                     $_SESSION["suc6login"] = "suc6login";
                                      echo "<script type=\"text/javascript\">

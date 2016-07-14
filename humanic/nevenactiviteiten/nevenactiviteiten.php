@@ -11,14 +11,14 @@ navigatie($pageNavId);
 // haal de gegevens voor de pagina uit de database
 if (isset($_SESSION["loginnaam"]))//eerst checken of er wel ingelogd is
 {
-$sql = mysql_query("SELECT * FROM `pages` where `page_nav_id`=$pageNavId and `page_show` ='y'");
+$sql = mysqli_query($connection, "SELECT * FROM `pages` where `page_nav_id`=$pageNavId and `page_show` ='y'");
 
 echo "<div class=\"container\" style=\"margin-top:50px;\">";
-if (mysql_num_rows($sql)==0)   
+if (mysqli_num_rows($sql)==0)   
 {
     die ("Je hebt geen gegevens tot je beschikking");
 }
-while ($content = mysql_fetch_assoc($sql)) 
+while ($content = mysqli_fetch_assoc($sql)) 
 {
     echo "<div class=\"col-sm-12\">";
     echo "<h1>".$content["page_title"]."</h1>";

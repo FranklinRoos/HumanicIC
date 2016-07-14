@@ -4,8 +4,10 @@ include("application/config/config.php");
 include("application/config/connect.php");
 include("application/config/default_functions.php");
 
+
 $pageNavId=1;
 fHeader($pageNavId);//actief=$pageNavId);
+
 
 /*if(!isSet($_SESSION['blad']))
 {
@@ -26,13 +28,12 @@ elseif(isSet($_SESSION["user_authorisatie"])&& $_SESSION["user_authorisatie"]=="
          {
            navigatieA($pageNavId);
          }
-       
-$sql = mysql_query("SELECT * FROM `pages` WHERE `page_nav_id`=$pageNavId  and `page_taal` = 'nl' and `page_show` ='y' ");
-    if (mysql_num_rows($sql)==0)   
+$sql = mysqli_query($connection,"SELECT * FROM `pages` WHERE `page_nav_id`=$pageNavId  and `page_taal` = 'nl' and `page_show` ='y' ");
+    if (mysqli_num_rows($sql)==0)   
       {
          die ("Je hebt geen gegevens tot je beschikking");
       }
-while ($content = mysql_fetch_assoc($sql)) 
+while ($content = mysqli_fetch_assoc($sql)) 
    {   // show de inhoud
        //echo "<div id=\"kolomLinks\">";
        // echo "<div id=\"messageL\">";

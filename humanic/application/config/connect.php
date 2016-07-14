@@ -2,9 +2,9 @@
 
         if ( !isset($connection ) )
         {
-                $connection = mysql_connect ($host, $user, $pass)
+                $connection = mysqli_connect ($host, $user, $pass)
         or die ("Could not connect");
-                mysql_select_db($database) or die("Unable to select database");
+                mysqli_select_db($connection, $database) or die("Unable to select database");
         }
         
 /*

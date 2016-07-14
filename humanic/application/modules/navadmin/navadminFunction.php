@@ -2,9 +2,11 @@
 
 function overzicht()
 {
+    global $connection;
+
     
-    $objecten = mysql_query("SELECT * FROM navadmin") or die(mysql_error());
-    if (mysql_num_rows($objecten) == 0) 
+    $objecten = mysqli_query($connection, "SELECT * FROM navadmin") or die(mysqli_error());
+    if (mysqli_num_rows($objecten) == 0) 
     {
         die("<i>Nog geen navigatie aanwezig!</i>");
     }
@@ -16,7 +18,7 @@ function overzicht()
         echo "<th width=\"150\" align=\"left\">Navadmin_show</th>";        
         echo "</tr>";
 
-	while ($bericht = mysql_fetch_object($objecten)) 
+	while ($bericht = mysqli_fetch_object($objecten)) 
         {
             echo "<tr>";
             echo "<td width=\"50\" align=\"left\"><a href=\"".$_SERVER['PHP_SELF']."?navadmin_id=".$bericht->navadmin_id."\">edit</a></td>";
@@ -30,18 +32,20 @@ function overzicht()
 
 function navBewerken()
 {
+    global $connection;
+
     if (!isset($_GET['navadmin_id']))
     {
         redirect($_SERVER['PHP_SELF']);
         die();
     }
-    $bericht = mysql_query("SELECT * FROM navadmin WHERE navadmin_id = ".$_GET['navadmin_id']." LIMIT 1") or die(mysql_error());
-    if (mysql_num_rows($bericht) == 0)
+    $bericht = mysqli_query($connection, "SELECT * FROM navadmin WHERE navadmin_id = ".$_GET['navadmin_id']." LIMIT 1") or die(mysqli_error());
+    if (mysqli_num_rows($bericht) == 0)
     {
         die("nav bestaat niet !");
         echo "</div>";
     }
-    $bericht = mysql_fetch_object($bericht);
+    $bericht = mysqli_fetch_object($bericht);
     echo "Wijzigen van navadmin: <a class=\"edit\">".utf8_encode($bericht->navadmin_naam)."</a> met id: <a class=\"edit\">".($bericht->navadmin_id)."</a><br /><br />";
     echo "<form action=\"".$_SERVER['PHP_SELF']."\" method=\"POST\" enctype=\"multipart/form-data\">";
     echo "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"2\">";
@@ -70,6 +74,8 @@ function navBewerken()
 
 function navBewerktOpslaan()
 {   
+    global $connection;
+
     $zoek = array("'", "á", "é", "í", "ó", "ú", "ñ", "ç", "Á", "É", "Í", "Ó", "Ú", "Ñ", "Ç", "à", "è", "ì", "ò", "ù", "À", "È", "Ì", "Ò", "Ù",
      "ä", "ë", "ï", "ö", "ü", "Ä", "Ë", "Ï", "Ö", "Ü", "â", "ê", "î", "ô", "û", "Â", "Ê", "Î", "Ô", "Û", "ā", "ū", "ś", "ī");
 
@@ -88,7 +94,7 @@ function navBewerktOpslaan()
 
     if (isset($_POST['submit_edit_item']))
     {
-        mysql_query("UPDATE `navadmin` SET `navadmin_id` ='".$_POST['navadmin_id']."', `navadmin_naam` ='".$navadmin_naam."', `navadmin_show`='".$navadmin_show."' WHERE `navadmin_id` = ".$_POST['navadmin_id']." ") or die(mysql_error());
+        mysqli_query($connection, "UPDATE `navadmin` SET `navadmin_id` ='".$_POST['navadmin_id']."', `navadmin_naam` ='".$navadmin_naam."', `navadmin_show`='".$navadmin_show."' WHERE `navadmin_id` = ".$_POST['navadmin_id']." ") or die(mysqli_error());
     }
     $result_id=$_POST['navadmin_id'];
     show_tekst($result_id); 
@@ -96,8 +102,10 @@ function navBewerktOpslaan()
 
 function show_tekst($result_id)
 {
-    $result_sql = mysql_query("SELECT * FROM navadmin WHERE navadmin_id=".$result_id."");
-    while($q=mysql_fetch_array($result_sql))
+    global $connection;
+
+    $result_sql = mysqli_query($connection, "SELECT * FROM navadmin WHERE navadmin_id=".$result_id."");
+    while($q=mysqli_fetch_array($result_sql))
     {
         echo "De tekst is gewijzigd en ziet er als onderstaand uit.<br />";
         echo "<a href=\"".htmlspecialchars($_SERVER["PHP_SELF"])."?navadmin_id=".$q['navadmin_id']."\" >Klik hier als u nog iets in de tekst wilt veranderen.</a><br /><br />";

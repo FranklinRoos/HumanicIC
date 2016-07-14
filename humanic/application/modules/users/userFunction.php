@@ -2,6 +2,8 @@
 
 function overzicht()
 {
+    global $connection;
+    
      if(isset($_GET['user_page']))
      {
       $_SESSION['user_page']=$_GET['user_page'];
@@ -29,14 +31,14 @@ function overzicht()
     $to = $_SESSION['user_page'] * 10 + 10; */
 
     
-    $users = mysql_query("SELECT * FROM user ") or die(mysql_error());// ik doe hier een call(query) naar de databse op alle users in de 'user'tabel
-    $count_users = mysql_num_rows($users);// hier tel ik vervolgens hoeveel users de query heeft opgeleverd
+    $users = mysqli_query($connection, "SELECT * FROM user ") or die(mysqli_error());// ik doe hier een call(query) naar de databse op alle users in de 'user'tabel
+    $count_users = mysqli_num_rows($users);// hier tel ik vervolgens hoeveel users de query heeft opgeleverd
     //print "$count_users<br>";
     //print "$to<br>";
-    $objecten = mysql_query("SELECT * FROM user LIMIT $start,10") or die(mysql_error());
-    $count_Limit_users = mysql_num_rows($objecten);
+    $objecten = mysqli_query($connection, "SELECT * FROM user LIMIT $start,10") or die(mysqli_error());
+    $count_Limit_users = mysqli_num_rows($objecten);
     
-    if (mysql_num_rows($objecten) == 0) 
+    if (mysqli_num_rows($objecten) == 0) 
     {
         die("<i>Nog geen users aanwezig !</i>");
     }
@@ -56,7 +58,7 @@ function overzicht()
         echo "<th width=\"50\" align=\"left\">Tijdstip laats gezien</th>";
         echo "</tr>";
 
-	while ($bericht = mysql_fetch_object($objecten)) 
+	while ($bericht = mysqli_fetch_object($objecten)) 
         {
             echo "<tr>";
             echo "<td width=\"50\" align=\"left\"><a href=\"".$_SERVER['PHP_SELF']."?user_id=".$bericht->user_id."\">edit</a></td>";
@@ -76,7 +78,7 @@ function overzicht()
         echo "<tr><td colspan='3'></td>";
         //echo "<tr><td>".($prev>=0?"<a href=user.php?user_page=".$prev. "> prev </a>":"prev")."</td>";
         //echo "<td>$from...$to</td>";
-        //echo "<td>".(mysql_num_rows($objecten)>9?"<a href=user.php?user_page=" .$next. "> next </a>":"next")."</td>";
+        //echo "<td>".(mysqli_num_rows($objecten)>9?"<a href=user.php?user_page=" .$next. "> next </a>":"next")."</td>";
 
         echo "<tr><td>".($prev>=0?"<a href=user.php?user_page=".$prev. "> prev </a>":"prev")."</td>";
         echo "<td>$from...$to</td>";
@@ -110,7 +112,7 @@ function overzicht()
         
         echo "</tr>";
 
-	while ($bericht = mysql_fetch_object($objecten)) 
+	while ($bericht = mysqli_fetch_object($objecten)) 
         {
             $imagepath=$GLOBALS['path']."assets/images/";
             echo "<tr>";
@@ -141,7 +143,7 @@ function overzicht()
         echo "<tr><td colspan='3'></td>";
         //echo "<tr><td>".($prev>=0?"<a href=user.php?user_page=".$prev. "> prev </a>":"prev")."</td>";
         //echo "<td>$from...$to</td>";
-        //echo "<td>".(mysql_num_rows($objecten)>9?"<a href=user.php?user_page=" .$next. "> next </a>":"next")."</td>";
+        //echo "<td>".(mysqli_num_rows($objecten)>9?"<a href=user.php?user_page=" .$next. "> next </a>":"next")."</td>";
 
         echo "<tr><td>".($prev>=0?"<a href=user.php?user_page=".$prev. "> prev </a>":"prev")."</td>";
         echo "<td>$from...$to</td>";
@@ -158,17 +160,19 @@ function overzicht()
 }
 function userBewerken()
 {
+    global $connection;
+    
     if (!isset($_GET['user_id']))
     {
         redirect($_SERVER['PHP_SELF']);
         die();
     }
-    $bericht = mysql_query("SELECT * FROM user WHERE user_id = ".$_GET['user_id']." LIMIT 1") or die(mysql_error());
-    if (mysql_num_rows($bericht) == 0)
+    $bericht = mysqli_query($connection, "SELECT * FROM user WHERE user_id = ".$_GET['user_id']." LIMIT 1") or die(mysqli_error());
+    if (mysqli_num_rows($bericht) == 0)
     {
         die("Deze user bestaat niet !");
     }
-    $bericht = mysql_fetch_object($bericht);
+    $bericht = mysqli_fetch_object($bericht);
     echo "Wijzigen van user: <a class=\"edit\">".utf8_encode($bericht->user_inlognaam)."</a> met ID: <a class=\"edit\">".($bericht->user_id)."</a><br /><br />";
     echo "<form action=\"".$_SERVER['PHP_SELF']."\" method=\"POST\" enctype=\"multipart/form-data\">";
     echo "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"2\">";
@@ -205,6 +209,8 @@ function userBewerken()
 
 function userBewerktOpslaan()
 {   
+    global $connection;
+    
     $zoek = array("'", "á", "é", "í", "ó", "ú", "ñ", "ç", "Á", "É", "Í", "Ó", "Ú", "Ñ", "Ç", "à", "è", "ì", "ò", "ù", "À", "È", "Ì", "Ò", "Ù",
      "ä", "ë", "ï", "ö", "ü", "Ä", "Ë", "Ï", "Ö", "Ü", "â", "ê", "î", "ô", "û", "Â", "Ê", "Î", "Ô", "Û", "ā", "ū", "ś", "ī");
 
@@ -221,7 +227,7 @@ function userBewerktOpslaan()
 
     if (isset($_POST['submit_edit_item']))
     {
-        mysql_query("UPDATE `user` SET `user_id` ='".$_POST['user_id']."', `user_authorisatie` ='".$user_authorisatie."', `user_activ`= '".$user_activ."' WHERE `user_id` = ".$_POST['user_id']." ") or die(mysql_error());
+        mysqli_query($connection, "UPDATE `user` SET `user_id` ='".$_POST['user_id']."', `user_authorisatie` ='".$user_authorisatie."', `user_activ`= '".$user_activ."' WHERE `user_id` = ".$_POST['user_id']." ") or die(mysqli_error());
     }
     $result_id=$_POST['user_id'];
     show_tekst($result_id);
@@ -230,8 +236,10 @@ function userBewerktOpslaan()
 
 function show_tekst($result_id)
 {
-    $result_sql = mysql_query("SELECT * FROM user WHERE user_id=".$result_id."");
-    while($q=mysql_fetch_array($result_sql))
+    global $connection;
+        
+    $result_sql = mysqli_query($connection, "SELECT * FROM user WHERE user_id=".$result_id."");
+    while($q=mysqli_fetch_array($result_sql))
     {
         echo "De tekst is gewijzigd en ziet er als onderstaand uit.<br />";
         echo "<a href=\"".$_SERVER['PHP_SELF']."?user_id=".$q['user_id']."\" >Klik hier als u nog iets in de tekst wilt veranderen.</a><br /><br />";

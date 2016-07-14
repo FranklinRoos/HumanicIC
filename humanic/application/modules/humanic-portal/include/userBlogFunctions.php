@@ -3,7 +3,8 @@
 
 function showTotaleBlog ()
 {
-   
+   global $connection;
+
    if(isset($_GET['page']))
      {
       $_SESSION['page']=$_GET['page'];
@@ -27,13 +28,13 @@ function showTotaleBlog ()
   echo "Blog - Overzicht Pieter Spierenburg</h2>";
 
  $query1 = "SELECT * FROM `weblog` WHERE `blog_display`='y'";
- $result1 = mysql_query($query1);
+ $result1 = mysqli_query($connection, $query1);
  
-       if (mysql_num_rows($result1)==0)   
+       if (mysqli_num_rows($result1)==0)   
                      {
                        die ("Je hebt geen gegevens tot je beschikking");
                      }
- while($row=mysql_fetch_assoc($result1))
+ while($row=mysqli_fetch_assoc($result1))
    {
     
     $title = $row['blog_title'];
@@ -58,12 +59,12 @@ function showTotaleBlog ()
     echo "<tr><td width=70%  rowspan=4 colspan=4 div id=\"content\">".$row['blog_content']."</td></tr></div>";
      
       $query2 = "SELECT * FROM `reactie` WHERE `reactie_display`='y' ";
-      $result2 = mysql_query($query2);
-       if (mysql_num_rows($result2)==0)   
+      $result2 = mysqli_query($connection, $query2);
+       if (mysqli_num_rows($result2)==0)   
                      {
                        die ("Je hebt geen gegevens tot je beschikking");
                      }
-      while($row=mysql_fetch_assoc($result2))
+      while($row=mysqli_fetch_assoc($result2))
          { //hier wordt datum naar NL omgezet
            $date_r = $row['reactie_postdate'];
            $datesplit = split('-',$date_r);
@@ -96,7 +97,7 @@ function showTotaleBlog ()
     echo "<tr><td colspan='3'></td></tr>";
     echo "<tr><td>".($prev>=0?"<a href=blog.php?page=". $prev."> prev</a>":"prev")."</td>";
     echo "<td>$from..$to</td>";
-    echo "<td>".(mysql_num_rows($result1)>4?"<a href=blog.php?page=".$next."> next</a>":"next")."</td>"; 
+    echo "<td>".(mysqli_num_rows($result1)>4?"<a href=blog.php?page=".$next."> next</a>":"next")."</td>"; 
     echo "</tr>";
     echo "</table>";
   echo "</div>"; 
@@ -120,12 +121,14 @@ function showTotaleBlog ()
  echo "Einde Google advertentie ruimte";       
  echo "</div>";//einde code advertentie ruimte
     
-  echo "mysql_close($connection)";    
+  echo "mysqli_close($connection)";    
 }
 
   
 function showFormReactie ($blog_id="",$reactie="",$postdatereactie="",$user_inlognaam="")
 {//reactieformulier tonen
+    global $connection;
+
     if(isSet($_POST['reactie']))//er is een reactie geschreven
     {
  
@@ -145,17 +148,17 @@ function showFormReactie ($blog_id="",$reactie="",$postdatereactie="",$user_inlo
         $_SESSION['postdatereactie'] = $postdatereactie; 
       }
     
-     $query1 = "SELECT * FROM `weblog` WHERE `blog_id`='".$_GET['blog_id']."'";//haal uit de tabel weblog,
- $result1 = mysql_query($query1);
+    $query1 = "SELECT * FROM `weblog` WHERE `blog_id`='".$_GET['blog_id']."'";//haal uit de tabel weblog,
+    $result1 = mysqli_query($connection, $query1);
  
-       if (mysql_num_rows($result1)==0)   
+    if (mysqli_num_rows($result1)==0)   
                      {
                        die ("Je hebt geen gegevens tot je beschikking");
                      }
- while($row=mysql_fetch_assoc($result1))
-   {
-    $title = $row['blog_title']; // de blog-titel op, waar de reactie betrekking op heeft
-   } 
+    while($row=mysqli_fetch_assoc($result1))
+       {
+        $title = $row['blog_title']; // de blog-titel op, waar de reactie betrekking op heeft
+       } 
      
     echo "<form action='".htmlspecialchars($_SERVER["PHP_SELF"])."' method='post'>";
     echo "<br /><h5>Blog-id = ".$_GET['blog_id']."<br />";
@@ -173,16 +176,17 @@ function showFormReactie ($blog_id="",$reactie="",$postdatereactie="",$user_inlo
 
 function handleFormReactie($blog_id,$loginnaam)
 { 
-    
+    global $connection;
+
     if(isSet($_POST['reactie'])&& $_POST['reactie']!=="")
     { 
         
         $_SESSION['postdatereactie'] = $_POST['reactie_postdate'];
         $_SESSION['reactie'] = $_POST['reactie'];
           
-       mysql_query("INSERT INTO `reactie` (`blog_id`, `user_inlognaam`, `reactie_content`, `reactie_postdate`, `reactie_tijdstip`) 
+       mysqli_query($connection, "INSERT INTO `reactie` (`blog_id`, `user_inlognaam`, `reactie_content`, `reactie_postdate`, `reactie_tijdstip`) 
                    VALUES('".$_POST['blog_id']."', '".$loginnaam."' , '".$_SESSION['reactie']."' , '".$_SESSION['postdatereactie']."', '".$_SESSION['reactietijdstip']."')") 
-                 or die(mysql_error());
+                 or die(mysqli_error());
     //Door de java script-code hieronder wordt na het toevoegen van een reactie de totale blog inclusief de 
     //zojuist toegevoegde reactie,weer getoond.
        

@@ -39,42 +39,48 @@ OnlineTable(int $sTime)
 
  
 function onlineLog($sTime = 300)
-	{
-	mysql_query("DELETE FROM `online` 
+{
+	global $connection;
+
+	mysqli_query($connection, "DELETE FROM `online` 
 	WHERE `online_tijd` < ".(time()-$sTime))
-	or die(mysql_error());
+	or die(mysqli_error());
     
-	$cCountSql = mysql_query("SELECT COUNT(`online_id`)
+	$cCountSql = mysqli_query($connection, "SELECT COUNT(`online_id`)
 	FROM `online` WHERE `online_ip` = '".$_SERVER['REMOTE_ADDR']."'");
-	$cCount = mysql_result($cCountSql,0);
-	if($cCount == 0)
+//	$cCount = mysqli_result($cCountSql,0);
+	$row = mysqli_fetch_row($cCountSql);
+	if($row[0] == 0)
 		{
-		mysql_query("INSERT INTO `online`(`user_id`, `online_ip`, `online_locatie`, `online_tijd`)
+		mysqli_query($connection, "INSERT INTO `online`(`user_id`, `online_ip`, `online_locatie`, `online_tijd`)
 		VALUES ('".$_SESSION['user_id']."', '".$_SESSION['onlineIP']."',
 		'".$_SERVER['REQUEST_URI']."',".time().")")
-		or die(mysql_error());
+		or die(mysqli_error());
 		}
 	else
 		{
-		mysql_query("UPDATE `online` SET
+		mysqli_query($connection, "UPDATE `online` SET
 		`online_tijd` = ".time().",
 		`online_locatie` = '".$_SERVER['REQUEST_URI']."'
 		WHERE `online_ip` = '".$_SERVER['REMOTE_ADDR']."'")
-		or die(mysql_error());
+		or die(mysqli_error());
 		}
-	}
+}
  
 function onlineShow($sTime = 300)
-	{
-	$sQuery = mysql_query("SELECT COUNT(`online_id`) FROM `online` WHERE `online_tijd` > ".(time()-$sTime));
-	$sResult = mysql_result($sQuery,0);
-	echo ($sResult == 1) ? 'Er is 1 bezoeker online.' : '<h3>Er zijn '.$sResult.' bezoekers online</h3>.';
+{
+	global $connection;
+
+	$sQuery = mysqli_query($connection, "SELECT COUNT(`online_id`) FROM `online` WHERE `online_tijd` > ".(time()-$sTime));
+//	$sResult = mysqli_result($sQuery,0);
+	$row = mysqli_fetch_row($sQuery);
+	echo ($row[0] == 1) ? 'Er is 1 bezoeker online.' : '<h3>Er zijn '.$row[0].' bezoekers online</h3>.';
         
-	}
+}
  
 function onlineTable($sTime = 300)
-	{
-        
+{
+	global $connection;
 	
 	echo "<table align=\"center\">";
 		echo "<tr>";
@@ -83,10 +89,10 @@ function onlineTable($sTime = 300)
 			echo "<th><b>Sinds</b></th>";
 		echo "</tr>";
 	
-	$sSql = mysql_query("SELECT * FROM 
+	$sSql = mysqli_query($connection, "SELECT * FROM 
 	`online` WHERE `online_tijd` > ".(time()-$sTime)." 
-	ORDER BY `online_tijd` DESC") or die(mysql_error());
-	while($sRow = mysql_fetch_assoc($sSql))
+	ORDER BY `online_tijd` DESC") or die(mysqli_error());
+	while($sRow = mysqli_fetch_assoc($sSql))
 		{
 		
 		echo "<tr>";
@@ -97,7 +103,8 @@ function onlineTable($sTime = 300)
 		
 		}
 	echo "</table>";
-	}
+}
+
  /*       
 function updateUserLaatstGezien()
        {

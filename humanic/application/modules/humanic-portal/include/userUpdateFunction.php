@@ -2,10 +2,12 @@
 
 function overzicht()
 {
-    $user_id = $_SESSION["user_id"];//deze sessie variabele werd in de handleForm functie aangemaakt in humanic-functions.php
-    $objecten = mysql_query("SELECT * FROM user where user_id=$user_id ") or die(mysql_error());// ik doe hier een call(query) naar de databse  in de 'user'tabel, voor 1 user
+    global $connection; 
     
-    if (mysql_num_rows($objecten) == 0) 
+    $user_id = $_SESSION["user_id"];//deze sessie variabele werd in de handleForm functie aangemaakt in humanic-functions.php
+    $objecten = mysqli_query($connection, "SELECT * FROM user where user_id=$user_id ") or die(mysqli_error());// ik doe hier een call(query) naar de databse  in de 'user'tabel, voor 1 user
+    
+    if (mysqli_num_rows($objecten) == 0) 
     {
         die("<i>Nog geen users aanwezig !</i>");
     }
@@ -39,7 +41,7 @@ function overzicht()
         
         echo "</tr>";
 
-	while ($bericht = mysql_fetch_object($objecten)) 
+	while ($bericht = mysqli_fetch_object($objecten)) 
         {
             $imagepath=$GLOBALS['path']."assets/images/";
             echo "<tr>";
@@ -82,6 +84,8 @@ function overzicht()
 }
 function userBewerken()
 {
+    global $connection; 
+    
    /* if (!isset($_GET['user_id']))
     {
         redirect($_SERVER['PHP_SELF']);
@@ -89,13 +93,13 @@ function userBewerken()
     }*/
     
     $user_id = $_SESSION['user_id'];
-    //$bericht = mysql_query("SELECT * FROM user WHERE user_id = ".$_GET['user_id']." LIMIT 1") or die(mysql_error());
-    $bericht = mysql_query("SELECT * FROM user WHERE user_id = ".$user_id." LIMIT 1") or die(mysql_error());
-    if (mysql_num_rows($bericht) == 0)
+    //$bericht = mysqli_query("SELECT * FROM user WHERE user_id = ".$_GET['user_id']." LIMIT 1") or die(mysqli_error());
+    $bericht = mysqli_query($connection, "SELECT * FROM user WHERE user_id = ".$user_id." LIMIT 1") or die(mysqli_error());
+    if (mysqli_num_rows($bericht) == 0)
     {
         die("Deze user bestaat niet !");
     }
-    $bericht = mysql_fetch_object($bericht);
+    $bericht = mysqli_fetch_object($bericht);
     echo "<section id=\"section-bewerk\">";// de css voor deze tabel is in styles.css vanaf regel 408
     //echo "<h4 class=\"wijzig\">Wijzigen van user:</h4> <a class=\"edit\">".utf8_encode($bericht->user_inlognaam)."</a> met ID: <a class=\"edit\">".($bericht->user_id)."</a><br /><br />";
     echo "<div id=\"bewerk1\"><h4 style=\"text-align:center; color:#ffcc00;\">Hier kunt u uw gegevens wijzigen</h4><hr/></div><br />";
@@ -151,6 +155,8 @@ function userBewerken()
 
 function userBewerktOpslaan()
 {   
+    global $connection; 
+    
     $zoek = array("'", "á", "é", "í", "ó", "ú", "ñ", "ç", "Á", "É", "Í", "Ó", "Ú", "Ñ", "Ç", "à", "è", "ì", "ò", "ù", "À", "È", "Ì", "Ò", "Ù",
      "ä", "ë", "ï", "ö", "ü", "Ä", "Ë", "Ï", "Ö", "Ü", "â", "ê", "î", "ô", "û", "Â", "Ê", "Î", "Ô", "Û", "ā", "ū", "ś", "ī");
 
@@ -177,9 +183,9 @@ function userBewerktOpslaan()
 
     if (isset($_POST['submit_edit_item']))
     {
-        mysql_query("UPDATE `user` SET `user_id` ='".$_POST['user_id']."', `user_rijbewijs` ='".$user_rijbewijs."', `user_auto`= '".$user_auto."',  `straat`= '".$straat."' "
+        mysqli_query($connection, "UPDATE `user` SET `user_id` ='".$_POST['user_id']."', `user_rijbewijs` ='".$user_rijbewijs."', `user_auto`= '".$user_auto."',  `straat`= '".$straat."' "
                 . " ,`huisnummer` = '".$huisnummer."', `postcode`= '".$postcode."', `plaats`= '".$plaats."',"
-                . "`telefoon`= '".$telefoon."'  WHERE `user_id` = ".$_POST['user_id']." ") or die(mysql_error());
+                . "`telefoon`= '".$telefoon."'  WHERE `user_id` = ".$_POST['user_id']." ") or die(mysqli_error());
     }
     $result_id=$_POST['user_id'];
     show_tekst($result_id);
@@ -188,8 +194,10 @@ function userBewerktOpslaan()
 
 function show_tekst($result_id)
 {
-    $result_sql = mysql_query("SELECT * FROM user WHERE user_id=".$result_id."");
-    while($q=mysql_fetch_array($result_sql))
+    global $connection; 
+    
+    $result_sql = mysqli_query($connection, "SELECT * FROM user WHERE user_id=".$result_id."");
+    while($q=mysqli_fetch_array($result_sql))
     {
         echo "De tekst is gewijzigd en ziet er als onderstaand uit.<br />";
         echo "<a href=\"".$_SERVER['PHP_SELF']."?user_id=".$q['user_id']."\" >Klik hier als u nog iets in de tekst wilt veranderen.</a><br /><br />";

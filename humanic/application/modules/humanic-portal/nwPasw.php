@@ -12,14 +12,14 @@ navigatie($active=$pageNavId);
 
 // haal je gegevens voor de pagina uit database
 
-$sql = mysql_query("SELECT * FROM `pages` where `page_nav_id`='1' and `page_show` ='y'");
-if (mysql_num_rows($sql)==0)   
+$sql = mysqli_query($connection, "SELECT * FROM `pages` where `page_nav_id`='1' and `page_show` ='y'");
+if (mysqli_num_rows($sql)==0)   
 {
     die ("Je hebt geen gegevens tot je beschikking");
 }
 echo "<div class=\"container\">";
 
-while ($content = mysql_fetch_assoc($sql)) 
+while ($content = mysqli_fetch_assoc($sql)) 
 {
     echo $content["page_title"];
     
