@@ -74,7 +74,7 @@ function fHeader($pageNavId="1")
     if (isSet($_SESSION["loginnaam"])) 
     {
          $date = $_SESSION['user_sinds'];//(yyyy-mm-dd)
-         $datesplit = split('-',$date);
+         $datesplit = explode('-',$date);
          $maanden = array('jan','feb','maart','april','mei','juni','juli','aug','sep','okt','nov','dec');
          $datum = ($datesplit[2]*1)."-".$maanden[$datesplit[1]-1]."-".$datesplit[0];//de index bij $maanden[$datesplit[1] wordt met 1 verminderd omdat de array '$maanden' met 0 begint
          
