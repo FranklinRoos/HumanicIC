@@ -87,7 +87,7 @@ function overzicht()
         echo "</table>"; */
         
         //donderdag 7 juli 2016 toegevoegd
-          echo "<h3 style=\"text-align:center; color:#ffcc00;\">Overzicht Geregistreerde Gebruikers</h3>";
+          echo "<h3 style=\"text-align:center; color:black;\">Overzicht Geregistreerde kandidaten</h3>";
         echo "<table id=\"edit\" cellpadding=\"3\" cellspacing=\"3\" >";
         echo "<tr>";
         //echo "<th width=\"50\" align=\"left\">Edit</th>";
@@ -103,7 +103,7 @@ function overzicht()
         echo "<th width=\"50\" align=\"left\">Telefoon</th>";
         echo "<th width=\"50\" align=\"left\">Geb.Datum</th>";
         echo "<th width=\"50\" align=\"left\">Salaris Indicatie</th>";
-        echo "<th width=\"50\" align=\"left\">WW-geldig-tot</th>";
+        echo "<th width=\"50\" align=\"left\">uitkering-geldig-tot</th>";
         echo "<th width=\"50\" align=\"left\">Sector-afkomstig</th>";
         echo "<th width=\"50\" align=\"left\">Bedrijf-grootte</th>";
         echo "<th width=\"50\" align=\"left\">Rijbewijs</th>";
@@ -117,7 +117,7 @@ function overzicht()
             $imagepath=$GLOBALS['path']."assets/images/";
             echo "<tr>";
            // echo "<td width=\"50\" align=\"left\"><a href=\"".$_SERVER['PHP_SELF']."?user_id=".$bericht->user_id."\">edit</a></td>";
-            echo "<td>".utf8_encode("<img width=\"60\" height=\"60\" style=\"margin: 5px;\" src=\"$imagepath").utf8_encode($bericht->foto).".jpg\" /></td>";
+            echo "<td>".utf8_encode("<img width=\"70\" height=\"80\" style=\"margin: 5px;\" src=\"$imagepath").utf8_encode($bericht->foto).".jpg\" /></td>";
             echo "<td>".utf8_encode($bericht->user_sinds)."</td>";
             echo "<td>".utf8_encode($bericht->achternaam)."</td>";
             echo "<td>".utf8_encode($bericht->tussenvoegsel)."</td>";
@@ -129,7 +129,7 @@ function overzicht()
             echo "<td>".utf8_encode($bericht->telefoon)."</td>";
             echo "<td>".utf8_encode($bericht->geboortedatum)."</td>";
             echo "<td>".utf8_encode($bericht->salaris)."</td>";
-            echo "<td>".utf8_encode($bericht->ww_geldig_tot)."</td>";
+            echo "<td>".utf8_encode($bericht->uitkering_geldig_tot)."</td>";
             echo "<td>".utf8_encode($bericht->user_sector)."</td>";
             echo "<td>".utf8_encode($bericht->user_bedrijf_grootte)."</td>";
             echo "<td>".utf8_encode($bericht->user_rijbewijs)."</td>";

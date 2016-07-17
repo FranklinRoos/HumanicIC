@@ -10,7 +10,7 @@ $pageNavId=50;
 fHeader($pageNavId);
 
 
-if($_SESSION['user_authorisatie']=='admin'){
+if(isSet($_SESSION['user_authorisatie']) &&  $_SESSION['user_authorisatie']=='admin'){
     navigatieA($pageNavId);
 }
 else {
@@ -22,7 +22,7 @@ $formactiv = $_SESSION['user-form'];
 }
 echo"<div class=\"container\">";
 
-if(!isset($_SESSION['loginnaam']))
+if(!isSet($_SESSION['loginnaam']))
 {
     echo "<script type=\"text/javascript\">
            window.location = \"".$GLOBALS['path']."/application/modules/admin/indexAdmin.php\"
@@ -36,11 +36,10 @@ elseif(isSet($_SESSION['loginnaam'])  && isSet($formactiv) && $formactiv == 'yes
     //overzicht users, selectie van een user
         If(!isset($_GET['user_id']))
         {
-        echo "<div class=\"container\" style=\"margin-top:40px;\">";
-        userBewerken ();
-        //overzicht();
-        echo "</div>";
-        footer();
+           echo "<div class=\"container\" style=\"margin-top:40px;\">";
+          overzicht ();
+          echo "</div>";
+          footer();
         }
         else
         {    //bewerk het user item met FCKeditor

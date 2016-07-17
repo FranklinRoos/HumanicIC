@@ -24,6 +24,13 @@ if(isSet($_SESSION['blad'])&& $_SESSION['blad'] !=='kandidaat_page')
  $pageNavId=6;
  fHeader($pageNavId);//actief=$pageNavId);
  
+ if( isSet($_SESSION['loginnaam']))
+ {
+         echo "<script type=\"text/javascript\">
+                                    window.location = \"".$GLOBALS['path']."/application/modules/admin/indexAdmin.php\"
+                                     </script>"; 
+ }
+ 
  if(!isSet($_SESSION['user_authorisatie']) OR $_SESSION['user_authorisatie']=='usr')
  {
      navigatie($pageNavId);

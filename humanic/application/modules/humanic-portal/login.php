@@ -30,13 +30,19 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
     
     if($_SESSION["user_authorisatie"]=="usr")
      { 
-              if($_SESSION['user-form']=='no') //deze sessie variable wordt aangemaakt in application/modules/humanic-portal/include/humanic-functions.php
+              if($_SESSION['user-form']=='yes') //deze sessie variable wordt aangemaakt in application/modules/humanic-portal/include/humanic-functions.php
                   {           // in de functie handleForm r153
-                               //als het kandidaatformulier nog niet is ingevuld staat in de database in tabel 'user' de kolom 'user_activ-form' op 'no'
+                               //als het kandidaatformulier nog niet volledig is ingevuld staat in de database in tabel 'user' de kolom 'user_activ-form' op 'no'
                          echo "<script type=\"text/javascript\">
-                                    window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/kandidaat.php\"
+                                    window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/userUpdate.php\"
                                      </script>";
                  }
+            else 
+                {
+                      echo "<script type=\"text/javascript\">
+                                    window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/kandidaat.php\"
+                                     </script>";
+                }
         navigatie($pageNavId);
         echo "<div class=\"container\">";
         echo "<h1>Je bent ingelogd!</h1><br/>";
@@ -52,11 +58,16 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
          }
     if($_SESSION["user_authorisatie"]=="admin")
          {
-           navigatieA($pageNavId);
+        
+           echo "<script type=\"text/javascript\">
+                                    window.location = \"".$GLOBALS['path']."/application/modules/admin/indexAdmin.php\"
+                                     </script>";
+        
+          /* navigatieA($pageNavId);
            echo "<div class=\"container\">";
            echo "<div id=\"welkomPieter\">Dag ".$_SESSION['loginnaam'].",je bent ingelogd als admin en beschikt over volledige admin functies!<br/>";
            echo "De overige gebruikers-functies zijn uiteraard ook tot je beschikking.<br>";
-           echo "Maak je keuze via de navigatieknoppen boven.</div><br>";
+           echo "Maak je keuze via de navigatieknoppen boven.</div><br>";*/
 
          }
          //hieronder wordt bepaald hoe de datum uit de db($_SESSION['laatsgezien'])gepresenteerd zal worden
@@ -66,7 +77,7 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
          $datum = ($datesplit[2]*1)."-".$maanden[$datesplit[1]-1]."-".$datesplit[0];//de index bij $maanden[$datesplit[1] wordt met 1 verminderd omdat de array '$maanden' met 0 begint
          
         //De naam met een hoofdletter laten beginnen bij de presentatie 
-        echo "<h4 class=\"regbericht\">".ucfirst($_SESSION["loginnaam"])." ,je was hier voor het laats op ".$datum." om ".$_SESSION['laatsgezienTijdstip']."</h4>";
+        echo "<h4 class=\"regbericht\">".ucfirst($_SESSION["loginnaam"])." ,je was hier voor het laatst op ".$datum." om ".$_SESSION['laatsgezienTijdstip']."</h4>";
          
       /* mysqli_query($connection, "INSERT INTO `online`(`user_id`) // dit was experimenteel , de tabel 'online' kan dan ook uit de database
 		VALUES ('".$_SESSION["user_id"]."')")
@@ -112,6 +123,8 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
                  }
                elseif(!isSet($_POST["submit"]) &&  isSet($_SESSION['loginnaam']))//als je reeds ingelogd bent en de brouwser verniewd, zou je anders in een loop blijven
                {
+               if($_SESSION['user-form'] ==='no')
+                 {
                      $sql = mysqli_query($connection, "SELECT * FROM `user` where `user_form-activ`='no' and `user_activ` ='yes'");                    
                         if (mysqli_num_rows($sql)==0)   
                             {
@@ -125,10 +138,10 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
                                     window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/kandidaat.php\"
                                      </script>";     
                             }
-
+                     }
                                      $_SESSION["suc6login"] = "suc6login";
                                      echo "<script type=\"text/javascript\">
-                                    window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/kandidaat.php\"
+                                    window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/login.php\"
                                      </script>"; 
 
                }

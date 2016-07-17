@@ -12,7 +12,7 @@
   position: relative;
 }
 .slider.slider-horizontal {
-  width: 100%;;  /*210px */
+  width: 100%;  /*210px */
   height: 30px;
 }
 .slider.slider-horizontal .slider-track {
@@ -140,5 +140,5 @@
 
 .ervaringSlider .slider-selection {
 	/* background: #BABABA; */
-	background : #3A6BAE
+	background : #3A6BAE;
 }

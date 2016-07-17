@@ -107,7 +107,7 @@ function showForm()
         echo "<table id=\"login\">";
         echo "<tr><td>Geef uw login naam:</td>";
         echo "<td><input type='text' name='login'></td></tr>";
-        echo "<tr><td>Geef uw wachtwoord:</td>";       
+        echo "<tr id=\"loginnaam\" ><td>Geef uw wachtwoord:</td>";       
         echo "<td><input type='password' name='passwd'></td></tr>";
         echo "</table>";
         echo "<input type='submit' name='submit' value='Login'>";
@@ -1186,11 +1186,10 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
 						echo "</section>";
 					echo "</section>";	
 					
-				echo "</section>";	
-									
+				echo "</section>";			                               
 				echo "<section id=\"functies\">";
 						echo "<div class=\"kop\">";
-							echo "<p>Vink de functie(s) aan waarin je geinteresseerd bent en geef je werkervaring aan in die functie";
+							echo "<p>Vink de functie(s) aan waarin je geinteresseerd bent en geef je werkervaring aan in die functie(op een schaal van 1 tot 10)";
 						echo "</div>";
 					
 					
