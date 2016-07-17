@@ -340,7 +340,7 @@ body {
      font-size: 12pt;
 }
 #naam, #adres, #postcode, #woonplaats, #land, #telnr, #email {
-     width : 47%;
+     width : 67%;
      color: #000099;
      background: #FFEDA6;
      font-family: serif; 

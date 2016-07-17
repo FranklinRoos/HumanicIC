@@ -1015,7 +1015,9 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
   
  }
  
- function showKandidaatRegForm ($achternaam="", $tussenvoegsel="", $voornaam="", $email="", $straat="", $huisnr="", $toevoeging="", $postcode="", $woonplaats="", $gebdat="", $soortuitkering="") 
+ function showKandidaatRegForm ($achternaam="", $tussenvoegsel="", $voornaam="", $email="", $straat="", $huisnr="", $toevoeging="", $postcode="", $woonplaats="", $gebdat="", $telnr="", $soortuitkering=""
+         , $geldigtot="", $bedrijfgrootte="", $reisafstand="", $cv="", $foto="", $linkedin="", $facebook="", $twitter="", $java="", $javaervaring="", $functioneelOntw="",
+         $functioneelOntwervaring="", $dotnet="", $dotnetervaring="", $testCor="", $testCorervaring="", $frontDev="", $frontDevervaring="", $backDev="", $backDevervaring="" ) 
  { // formulier wordt door Sellahatin gemaakt
           // global $PHP_SELF;
        /* echo "<h2>Vul hieronder uw persoonsgegevens in:</h2><br />";
@@ -1036,20 +1038,13 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
         echo "</table><br />"; 
         echo "<input type='submit' name='submit' value='Verzenden'><br /><br />";
         echo "</form>"; */
-     if(isSet($_SESSION['loginnaam']) && !isSet($_POST['submit']) ) {
-                    $email = $_SESSION['email'];
-        //$telefoon = $_SESSION["telefoon"]; 
-        $achternaam = $_SESSION['achternaam'];
-        $voornaam = $_SESSION['voornaam'];
-        $tussenvoegsel = $_SESSION['tussenvoegsel'];
-        $straat = $_SESSION["straat"];
-        $huisnummer = $_SESSION['huisnummer'];
-        $toevoeging = $_SESSION['toevoeging'];
-        $postcode = $_SESSION["postcode"];
-        $woonplaats = $_SESSION["plaats"];
-        $gebdat = $_SESSION["geb-datum"];
-        $soortuitkering = $_SESSION['uitkeringsoort'];
-         }
+      $voornaam = $_SESSION['voornaam'];
+      $achternaam = $_SESSION['achternaam']; 
+      $straat = $_SESSION['straat'];
+      $straat = $_SESSION['straat'];
+      $huisnr = $_SESSION['huisnummer'];
+      $woonplaats = $_SESSION['plaats'];
+      $email = $_SESSION['email'];  // is al bekend in de aanmeld fase , zie aanmeld afhandeling vanaf r443
       $loginnaam = $_SESSION['loginnaam'];     
   echo " <div class=\"container\">";
 			echo "<h2>Registratie formulier</h2>";
@@ -1069,75 +1064,83 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
 								echo "<div class=\"col-sm-9\">";
 									echo "<Loginnaam : ".$loginnaam." autofocus=\"autofocus\"/>";
 								echo "</div>";
-							echo "</div>";
+							echo "</div><br/>";
 							echo "<div class=\"row\">";
 								echo "<label class=\"col-sm-3\" for=\"achternaam\">Achternaam *</label>";
 								//<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
 								echo "<div class=\"col-sm-9\">";
 									echo "<input type=\"text\" class=\"form-control input-sm\" id=\"achternaam\" name=\"achterNaam\" value='$achternaam' required=\"required\"/>";
 								echo "</div>";	
-							echo "</div>";
+							echo "</div><br/>";
 							echo "<div class=\"row\">";
 								echo "<label class=\"col-sm-3\" for=\"tussenvoegsel\">Tussenvoegsel</label>";
 								//<!-- <input type="email" class="form-control" id="tussenvoegsel" name="TussenVoegsel"/> -->
 								echo "<div class=\"col-sm-2\">";
 									echo "<input type=\"text\" class=\"form-control input-sm\" id=\"tussenvoegsel\" name=\"tussenVoegsel\" value='$tussenvoegsel'/>";
 								echo "</div>";	
-							echo "</div>";
+							echo "</div><br/>";
 							echo "<div class=\"row\">";
 								echo "<label class=\"col-sm-3 text-left\" for=\"voornaam\">Voornaam *</label>";
 								//<!-- <input type="text" class="form-control" id="voornaam" name="VoorNaam" required="required" pattern="[a-zA-Z0-9]{5,}" title="At least 5 letters and numbers"/> -->
 								echo "<div class=\"col-sm-9\">";
 									echo "<input type=\"text\" class=\"form-control input-sm\" id=\"voornaam\" name=\"voorNaam\" value='$voornaam' required=\"required\"  />";
 								echo "</div>";
-							echo "</div>";
-							echo "<div class=\"row\>";
-								echo "<label class=\" col-sm-3 text-left\"  for=\"voornaam\">Email *</label>";
+							echo "</div><br/>";
+							echo "<div class=\"row\">";
+								echo "<label class=\" col-sm-3\"  for=\"email\">Email</label>";
 								//<!-- <input type="text" class="form-control" id="voornaam" name="VoorNaam" required="required" pattern="[a-zA-Z0-9]{5,}" title="At least 5 letters and numbers"/> -->
 								echo "<div class=\"col-sm-9\">";
-									echo "<input type=\"email\" class=\"form-control input-sm\" id=\"voornaam\" name=\"email\" value='$email' required=\"required\" pattern=\"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$\" />";
+									//echo "<input type=\"email\" class=\"form-control input-sm\" id=\"email\" name=\"email\" value='$email' required=\"required\" pattern=\"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$\" />";
+                                                                                                                                                echo "<input type=\"email\" class=\"form-control input-sm\" id=\"email\" name=\"email\" value='$email'  />";
 								echo "</div>";
-							echo "</div>";
+							echo "</div><br/><br/>";
 							echo "<div class=\"row\">";
 								echo "<label class=\"col-sm-3 col-offset-1\" for=\"straat\">Straat </label>";
 								//<!-- <input type="text" class="form-control" id="straat" name="Straat" required="required"/> -->
 								echo "<div class=\"col-sm-9\">";
 									echo "<input type=\"text\" class=\"form-control input-sm\" id=\"straat\" name=\"straat\" value='$straat' />";
 								echo "</div>";
-							echo "</div>";
+							echo "</div><br/>";
 							echo "<div class=\"row\">";
 								echo "<label class=\"col-sm-3\" for=\"huisnummer\">Huisnummer</label>";
 								//<!-- <input type="text" class="form-control" id="huisnummer" name="HuisNummer" placeholder="Huisnummer"/> -->
 								echo "<div class=\"col-sm-2\">";
-									echo "<input type=\"text\" class=\"form-control input-sm\" id=\"huisnummer\" name=\"huisNummer\" value='huisnummer' >";
+									echo "<input type=\"text\" class=\"form-control input-sm\" id=\"huisnummer\" name=\"huisNummer\" value=$huisnr >";
 								echo "</div>";
-							echo "</div>";
+							echo "</div><br/>";
 							echo "<div class=\"row\">";
 								echo "<label class=\"col-sm-3\" for=\"toevoeging\">Toevoeging</label>";
 								//<!-- <input type="text" class="form-control" id="huisnummer" name="HuisNummer" placeholder="Huisnummer"/> -->
 								echo "<div class=\"col-sm-2\">";
 									echo "<input type=\"text\" class=\"form-control input-sm\" id=\"toevoeging\" name=\"toevoeging\"/ value='$toevoeging'>";
 								echo "</div>";
-							echo "</div>";
+							echo "</div><br/>";
 							echo "<div class=\"row\">";
 								echo "<label class=\"col-sm-3\" for=\"postcode\">Postcode</label>";
 								//<!-- <input type="text" class="form-control" id="postcode" name="PostCode" placeholder="1032CJ"/> -->
 								echo "<div class=\"col-sm-3\">";
 									echo "<input type=\"text\" class=\"form-control input-sm\" id=\"postcode\" name=\"postCode\" value='$postcode' placeholder=\"1032CJ\"/>";
 								echo "</div>";	
-							echo "</div>";
+							echo "</div><br/>";
 							echo "<div class=\"row\">";
 								echo "<label class=\"col-sm-3\" for=\"plaats\">Plaats</label>";
 								//<!-- <input type="text" class="form-control" id="plaats" name="Plaats" placeholder="Amsterdam"/> -->
 								echo "<div class=\"col-sm-9\">";
 									echo "<input type=\"text\" class=\"form-control input-sm\" id=\"plaats\" name=\"plaats\" value='$woonplaats'/>";
 								echo "</div>";	
-							echo "</div>";
+							echo "</div><br/>";
 							echo "<div class=\"row\">";
 								echo "<label class=\"col-sm-3\" for=\"geboortedatum\">Geboortedatum</label>";
 								//<!-- <input type="text" class="form-control" id="geboortedatum" name="GeboorteDatum" placeholder="dd-mm-jjjj"/> -->
 								echo "<div class=\"col-sm-4\">";
 									echo "<input type=\"text\" class=\"form-control input-sm\" id=\"geboortedatum\" name=\"geboorteDatum\" value='$gebdat' placeholder=\"dd-mm-jjjj\"/>";
+								echo "</div>";	
+							echo "</div><br/>";
+                                                                                                                echo "<div class=\"row\">";
+								echo "<label class=\"col-sm-3\" for=\"telnr\">Je telefoonnummer *</label>";
+								//<!-- <input type="text" class="form-control" id="geboortedatum" name="GeboorteDatum" placeholder="dd-mm-jjjj"/> -->
+								echo "<div class=\"col-sm-4\">";
+									echo "<input type=\"tel\" class=\"form-control input-sm\" id=\"telnr\" name=\"telnr\" value='$telnr' autocomplete = \"on\" required=\"required\"/>";
 								echo "</div>";	
 							echo "</div>";
 						echo "</section>";
@@ -1148,41 +1151,41 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
 								//<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
 								//<!-- <div  class="col-sm-4 text-left"> -->
 								echo "<div>";
-									echo "<input class=\"form-control col-sm-4\" type=\"file\" class=\"form-control\" id=\"fototest\" name=\"foto\" placeholder=\"test\"/>";
+									echo "<input class=\"form-control col-sm-4\" type=\"file\" class=\"form-control\" id=\"foto\" name=\"foto\" value=$foto placeholder=\"test\"/>";
 									echo "<img class=\"col-sm-4\" id=\"myImg\" sc=\"#\" alt=\"your image\"/>";
 								echo "</div>";
-						echo "</div>";
+						echo "</div><br/><br/><br/>";
 						echo "<div id=\"cv\" class=\"form-group\">";
 								echo "<label  for=\"cv\">CV uploaden</label>";
 								//<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
 								//<!-- <div  class="col-sm-4 text-left"> -->
 								echo "<div>";
-									echo "<input class=\"form-control col-sm-4\" type=\"file\" class=\"form-control\" id=\"fototest\" name=\"cv\" />";
+									echo "<input class=\"form-control col-sm-4\" type=\"file\" class=\"form-control\" id=\"cv\" name=\"cv\" value=$cv />";
 									
 								echo "</div>";
-						echo "</div>";
+						echo "</div><br/><br/><br/>";
 						echo "<section id=\"sociale_media\">";
 						echo "<div class=\"form-group\">";
 								echo "<label class=\"control-label col-sm-2\" for=\"linkedin\">LinkedIn</label>";
 								//<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
 								echo "<div class=\"col-sm-10\">";
-									echo "<input type=\"text\" class=\"form-control input-sm\" id=\"linkedin\" name=\"linkedIn\" placeholder=\"linkedIn link\" />";
+									echo "<input type=\"text\" class=\"form-control input-sm\" id=\"linkedin\" name=\"linkedIn\" value=$linkedin placeholder=\"linkedIn link\" />";
 								echo "</div>";	
-						echo "</div>";
+						echo "</div><br/><br/><br/>";
 						echo "<div class=\"form-group\">";
 								echo "<label class=\"control-label col-sm-2\" for=\"facebook\">Facebook</label>";
 								//<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
 								echo "<div class=\"col-sm-10\">";
-									echo "<input type=\"text\" class=\"form-control input-sm\" id=\"facebook\" name=\"faceBook\" placeholder=\"facebook link\"/>";
+									echo "<input type=\"text\" class=\"form-control input-sm\" id=\"facebook\" name=\"faceBook\" value=$facebook placeholder=\"facebook link\"/>";
 								echo "</div>";	
-						echo "</div>";
+						echo "</div><br/><br/><br/>";
 						echo "<div class=\"form-group\">";
 								echo "<label class=\"control-label col-sm-2\" for=\"twitter\">Twitter</label>";
 								//<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
 								echo "<div class=\"col-sm-10\">";
-									echo "<input type=\"text\" class=\"form-control input-sm\" id=\"twitter\" name=\"twitter\" placeholder=\"twitter link\"/>";
+									echo "<input type=\"text\" class=\"form-control input-sm\" id=\"twitter\" name=\"twitter\" value=$twitter placeholder=\"twitter link\"/>";
 								echo "</div>";	
-						echo "</div>";
+						echo "</div><br/><br/><br/>";
 						echo "</section>";
 					echo "</section>";	
 					
@@ -1194,19 +1197,19 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
 					
 					
 						echo "<div class=\"row\">";
-							echo "<label class=\"col-sm-2 text-left\"><input id=\"functieCheck1\" type=\"checkbox\" value=\"\" name=\"fbox1\" > Java developer</label>";
+							echo "<label class=\"col-sm-2 text-left\"><input id=\"functieCheck1\" type=\"checkbox\"  name=\"fbox1\" value=$java> Java developer</label>";
 							
 							echo "<div  id=\"ervaringSlider1\" class=\"ervaringSlider col-sm-2\">";
-								echo "<input id=\"ervaring1\" data-slider-id=\"ervaringSlider1\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=\"0\" tooltip=\"hide\"/>";		
+								echo "<input id=\"ervaring1\" data-slider-id=\"ervaringSlider1\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$javaervaring  tooltip=\"hide\"/>";		
 								echo "<div>";
 									echo "<span  id=\"ex1CurrentSliderValLabel\"> <span id=\"ex1SliderVal\">&nbsp 0</span></span>";
 								echo "</div>";	
 								
 							echo "</div>";
-							echo "<label class=\"col-sm-2 text-left\"><input id=\"functieCheck2\" type=\"checkbox\" value=\"\" name=\"fbox2\" > Functioneel ontwerper</label>";
+							echo "<label class=\"col-sm-2 text-left\"><input id=\"functieCheck2\" type=\"checkbox\" value=\"\" name=\"fbox2\" value=$functioneelOntw> Functioneel ontwerper</label>";
 							
 								echo "<div id=\"ervaringSlider2\" class=\"ervaringSlider col-sm-2\">";
-									echo "<input id=\"ervaring2\" data-slider-id=\"ervaringSlider2\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=\"0\" tooltip=\"always\"/>";		
+									echo "<input id=\"ervaring2\" data-slider-id=\"ervaringSlider2\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$functioneelOntwervaring tooltip=\"always\"/>";		
 									echo "<div >";
 										echo "<span id=\"ex2CurrentSliderValLabel\"> <span id=\"ex2SliderVal\">0</span></span>";
 									echo "</div>";
@@ -1227,9 +1230,9 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
 							
 						echo "</div>";*/
 						echo "<div class=\"row\">";
-							echo "<label class=\"divSlider col-sm-3 text-left\"><input id=\"functieCheck3\" type=\"checkbox\" value=\"\" name=\"fbox3\" > .NET developer</label>";
+							echo "<label class=\"divSlider col-sm-3 text-left\"><input id=\"functieCheck3\" type=\"checkbox\" value=\"\" name=\"fbox3\" value=$dotnet > .NET developer</label>";
 							echo "<div id=\"ervaringSlider3\" class=\"ervaringSlider col-sm-2\">";
-								echo "<input id=\"ervaring3\" data-slider-id=\"ervaringSlider3\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=\"0\" tooltip=\"always\"/>";		
+								echo "<input id=\"ervaring3\" data-slider-id=\"ervaringSlider3\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$dotnetervaring tooltip=\"always\"/>";		
 								
 								echo "<div>";
 									echo "<span id=\"ex3CurrentSliderValLabel\"> <span id=\"ex3SliderVal\">0</span></span>";
@@ -1238,9 +1241,9 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
 							echo "</div>";
 						echo "</div>";
 						echo "<div class=\"row\">";
-							echo "<label class=\"col-sm-3 text-left\"><input id=\"functieCheck4\" type=\"checkbox\" value=\"\" name=\"fbox4\" > Test Coordinator</label>";
+							echo "<label class=\"col-sm-3 text-left\"><input id=\"functieCheck4\" type=\"checkbox\" value=\"\" name=\"fbox4\" value=$testCor> Test Coordinator</label>";
 							echo "<div  id=\"ervaringSlider4\" class=\"ervaringSlider col-sm-2\">";
-								echo "<input id=\"ervaring4\" data-slider-id=\"ervaringSlider4\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=\"0\" tooltip=\"always\"/>";
+								echo "<input id=\"ervaring4\" data-slider-id=\"ervaringSlider4\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$testCorervaring tooltip=\"always\"/>";
 								echo "<div>";
 									echo "<span id=\"ex4CurrentSliderValLabel\"> <span id=\"ex4SliderVal\">0</span></span>";
 								echo "</div>";	
@@ -1248,9 +1251,9 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
 							echo "</div>";
 						echo "</div>";
 						echo "<div class=\"row\">";
-							echo "<label class=\"col-sm-3 text-left\"><input id=\"functieCheck5\" type=\"checkbox\" value=\"\" name=\"fbox5\" > Front-end developer</label>";
+							echo "<label class=\"col-sm-3 text-left\"><input id=\"functieCheck5\" type=\"checkbox\" value=\"\" name=\"fbox5\" value=$frontDev> Front-end developer</label>";
 							echo "<div id=\"ervaringSlider5\" class=\"ervaringSlider col-sm-2\">";
-								echo "<input id=\"ervaring5\" data-slider-id=\"ervaringSlider5\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=\"0\" tooltip=\"always\"/>";		
+								echo "<input id=\"ervaring5\" data-slider-id=\"ervaringSlider5\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$frontDevervaring tooltip=\"always\"/>";		
 								
 								echo "<div>";
 									echo "<span id=\"ex5CurrentSliderValLabel\"> <span id=\"ex5SliderVal\">0</span></span>";
@@ -1259,9 +1262,9 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
 							echo "</div>";
 						echo "</div>";	 
 						echo "<div class=\"row\">";
-							echo "<label class=\"divSlider col-sm-3 text-left\"><input id=\"functieCheck6\" type=\"checkbox\" value=\"\" name=\"fbox6\" > Back-end developer</label>";
+							echo "<label class=\"divSlider col-sm-3 text-left\"><input id=\"functieCheck6\" type=\"checkbox\" value=\"\" name=\"fbox6\" value=$backDev> Back-end developer</label>";
 							echo "<div id=\"ervaringSlider6\" class=\"ervaringSlider col-sm-2\">";
-								echo "<input  id=\"ervaring6\" data-slider-id=\"ervaringSlider6\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\"  tooltip=\"always\"/>";		
+								echo "<input  id=\"ervaring6\" data-slider-id=\"ervaringSlider6\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-value=$backDevervaring  tooltip=\"always\"/>";		
 							
 								echo "<div>";
 									echo "<span id=\"ex6CurrentSliderValLabel\"> <span id=\"ex6SliderVal\">0</span></span>";
@@ -1278,16 +1281,16 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
 					echo "<section id=\"mobielFinancieel\">";
 						echo "<div class=\"form-group\">";
 							echo "<label class=\"col-sm-5 text-left\"><input id=\"rijbewijsCheck\" type=\"checkbox\" value=\"\"  name=\"rijbewijs\" > Rijbewijs</label>";					
-						echo "</div>";
+						echo "</div><br/><br/>";
 						echo "<div class=\"form-group\" id=\"auto\">";
-							echo "<label class=\"col-sm-5 text-left\"><input id=\"autoCheck\" type=\"checkbox\" value=\"\" > Auto</label>";					
+							echo "<label class=\"col-sm-5 text-left\"><input id=\"autoCheck\" type=\"checkbox\" value=\"$auto\" > Auto</label>";					
 						echo "</div>";
 						echo "<div class=\"form-group\" id=\"financieel\">";
 							echo "<label class=\"col-sm-5\" for=\"salaris\">Salaris indicatie</label>";
 							echo "<div class=\"col-sm-5\">";
-								echo "<input type=\"text\" class=\"form-control input-sm\" id=\"salaris\" name=\"salaris\" />";	
+								echo "<input type=\"text\" class=\"form-control input-sm\" id=\"salaris\" name=\"salaris\" value=\"salaris\"/>";	
 							echo "</div>";	
-						echo "</div>";
+						echo "</div><br/><br/>";
 						echo "<div class=\"form-group\" id=\"uitkering\">";
 							echo "<label class=\"col-sm-5 \" for=\"uitkering\">Soort uitkering</label>";
 							echo "<div class=\"col-sm-4\">";
@@ -1298,11 +1301,11 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
 									<option value=\"WAO\">WAO</option>";
 							 echo "</select>";
 							echo "</div>";	
-						echo "</div>";
+						echo "</div><br/><br/>";
 						echo "<div class=\"form-group\" id=\"ww\">";
 							echo "<label class=\"col-sm-5\" for=\"salaris\">Uitkering geldig tot</label>";
 							echo "<div class=\"col-sm-4\">";
-								echo "<input type=\"text\" class=\"form-control input-sm\" id=\"salaris\" name=\"geldigTot\" placeholder=\"mm-jjjj\" />";
+								echo "<input type=\"text\" class=\"form-control input-sm\" id=\"salaris\" name=\"geldigTot\" value=$geldigtot placeholder=\"mm-jjjj\" />";
 							echo "</div>";	
 						echo "</div>";
 					echo "</section>";	
@@ -1353,7 +1356,7 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
                                                                                      echo "<div class=\"form-group\" id=\"uitkering\">";
 							echo "<label class=\"col-sm-5 \" for=\"uitkering\">Gewenste grootte bedrijf:</label>";
 							echo "<div class=\"col-sm-4\">";
-								echo "<select class=\"form-control input-sm\" name=\"bedrijfgrootte\">";
+								echo "<select class=\"form-control input-sm\" name=\"bedrijfgrootte\" value=\"bedrijfgrootte\">";
 									echo "<option value=\"1-10\">1-10</option>
 									<option value=\"10-50\">10-50</option>
 									<option value=\"50-100\">50-100</option>
@@ -1368,25 +1371,28 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
 				echo "</section>"; 
 				
 										
-				echo "<section id=\"regio\">";
+		                echo "<section id=\"regio\">";
+                                                                      echo "<div class=\"afstand\">";
 					echo "<div class=\"kop\">";
-						echo "<p>Geef de maximale reisafstand en vink de gewenste regio's aan</p>";
+						echo "<p>Geef de maximale reisafstand</p>";
 					echo "</div>";	
 					echo "<div class=\"form-group\">";
 							echo "<label class=\"col-sm-1\" for=\"reisafstand\">Reisafstand</label>";
 							//<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
 							echo "<div class=\"col-sm-2\">";
-								echo "<input type=\"text\" class=\"form-control input-sm\" id=\"reisafstand\" name=\"reisafstand\" placeholder=\"in km\" />";
+								echo "<input type=\"text\" class=\"form-control input-sm\" id=\"reisafstand\" name=\"reisafstand\" value=\"reisafstand\" placeholder=\"in km\" />";
 							echo "</div>";
 
 							/*echo "<label class=\"col-sm-1\" for=\"reisduur\">Reisduur</label>";
 							//<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
 							echo "<div class=\"col-sm-2\">";
-								echo "<input type=\"text\" class=\"form-control input-sm\" id=\"reisduur\" name=\"reisduur\"  />";*/
-							echo "</div>";							
+								echo "<input type=\"text\" class=\"form-control input-sm\" id=\"reisduur\" name=\"reisduur\"  />";*/							
 					echo "</div>";	
-					
-					
+				    echo "</div><br/><br/>";	
+			                 echo "<div class=\"plaatspref\">";
+                                                                      echo "<div class=\"kop\">";
+						echo "<p>Vink de gewenste regio's aan</p>";
+					echo "</div>";
 					echo "<div class=\"form-group\">";
 							echo "<label class=\"col-sm-2 text-left\">";
 								echo "<input  type=\"checkbox\" name=\"noordholland\" value=\"\" > Noord-Holland";
@@ -1453,8 +1459,9 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
 							echo "<label class=\"col-sm-2 text-left\">";
 								echo "<input  type=\"checkbox\" name=\"nijmegen\" value=\"\" > Nijmegen";
 							echo "</label>";
-					echo "</div>";	
-				echo "</section>";
+					echo "</div>";
+                                                               echo "</div>";
+		            echo "</section>";
 				
 				
 				echo "<section id=\"opmerkingSection\">";
@@ -1462,7 +1469,7 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
 						echo "<p>Opmerkingen</p>";
 					echo "</div>";	
 					echo "<div class=\"col-sm-6\">";
-						echo "<textarea class=\"form-control\"  name=\"opmerkingen\" rows=\"5\">	</textarea>";									 
+						echo "<textarea class=\"form-control\"  name=\"opmerkingen\" value=\"opmerking\" rows=\"5\">	</textarea>";									 
 					echo "</div>";	
 					echo "<br>";
 				echo "</section>";
@@ -1516,10 +1523,30 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
  function handleKandidaatRegForm () 
  {
         global $connection;
+      /* 
+                       $email = $_SESSION['email'];
+        //$telefoon = $_SESSION["telefoon"]; 
+        $achternaam = $_SESSION['achternaam'];
+        $voornaam = $_SESSION['voornaam'];
+        $tussenvoegsel = $_SESSION['tussenvoegsel'];
+        $straat = $_SESSION["straat"];
+        $huisnummer = $_SESSION['huisnummer'];
+        $toevoeging = $_SESSION['toevoeging'];
+        $postcode = $_SESSION["postcode"];
+        $woonplaats = $_SESSION["plaats"];
+        $gebdat = $_SESSION["geb-datum"];
+        $soortuitkering = $_SESSION['uitkeringsoort'];
         
+       */
         $email = $_POST['email'];
         //$telefoon = $_POST["telefoon"]; 
-        $achternaam = $_POST['achterNaam'];
+        if(!isSet($_SESSION['achternaam']))
+        {
+           $achternaam = $_POST['achterNaam'];     
+        }
+       else {
+                 $achternaam = $_SESSION['achternaam']; 
+            }
         $voornaam = $_POST['voorNaam'];
         $tussenvoegsel = $_POST['tussenvoegsel'];
         $straat = $_POST["straat"];

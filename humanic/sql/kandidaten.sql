@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 17 jul 2016 om 00:52
+-- Gegenereerd op: 17 jul 2016 om 16:37
 -- Serverversie: 5.6.24
 -- PHP-versie: 5.5.24
 
@@ -330,9 +330,9 @@ CREATE TABLE IF NOT EXISTS `sociale_media` (
 --
 
 INSERT INTO `sociale_media` (`sm_id`, `sm_naam`, `sm_url`) VALUES
-(1, 'LinkedIn', ''),
-(2, 'Twitter', ''),
-(3, 'Facebook', '');
+(1, 'LinkedIn', 'https://www.linkedin.com/'),
+(2, 'Twitter', 'https://twitter.com/'),
+(3, 'Facebook', 'https://www.facebook.com/');
 
 -- --------------------------------------------------------
 
@@ -381,9 +381,9 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`user_id`, `user_inlognaam`, `user_wachtwoord`, `user_authorisatie`, `user_email`, `user_activ`, `user_form-activ`, `activ_code`, `vergeetcode`, `user_online`, `datum_gezien`, `tijdstip_gezien`, `user_sinds`, `achternaam`, `tussenvoegsel`, `voornaam`, `straat`, `huisnummer`, `toevoeging`, `postcode`, `plaats`, `telefoon`, `foto`, `cv`, `geboortedatum`, `salaris`, `uitkeringsoort`, `uitkering_geldig_tot`, `user_sector`, `user_bedrijf_grootte`, `user_rijbewijs`, `user_auto`, `user_reisafstand`) VALUES
-(2, 'blackliq', '8bdc0a760490ca729fa9d4711ca70893', 'admin', 'blachout@upcmail.nl', 'yes', 'yes', '', '', 'n', '2016-07-16', '22:56:37', '2016-07-01', 'Hout', 'van', 'Thijs', 'W.v.Hembyzestraat', '17', '', '1067PM', 'Amsterdam', '0615579992', '10007', 'PK\0\0\0\0\0!\0B?͉\0\0]\0\0\0[', '1978-03-15', 3500, 'WW', '2018-09-03', 'ICT', '100-500', 'ja', 'ja', '15 -25 km'),
-(3, 'Unal', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'selahattin@xs4all.nl', 'yes', 'no', '', '', 'n', '2016-07-17', '00:33:43', '2016-07-05', 'Unal', '', 'Selahattin', 'Hortensiastraat', '18', '5hoog', '1032CJ', 'Amsterdam', '062960228', '10009', '', '1960-05-16', 3000, 'Wajong', '2030-01-31', 'ICT', '1-10', 'ja', 'ja', '1-15 km'),
-(5, 'Franklin', '8bdc0a760490ca729fa9d4711ca70893', 'admin', 'frankieboy37@hotmail.com', 'yes', 'yes', '', '', 'n', '2016-07-17', '00:44:44', '2016-07-06', 'Roos', '', 'Franklin', 'Watermolenstraat', '98', '', '1098bn', 'Amsterdam', '0629359610', '10025', 'Curriculum Vitae Franklin Roos  \r\n \r\nPersoonlijke gegevens  \r\n  \r\nNaam		:		Roos  \r\nVoornaam		:  	Franklin, Imro  \r\nGeboortedatum	:		15-10-1963  \r\nAdres	:	Spaarndammerplantsoen 124  \r\nTelefoonnummer	:  		06-29359610  \r\nE-mail	:	franklin_roos@hotmail.com  \r\nLinkedIn	:	www.linkedin.com/in/franklin-roos	  	  	  \r\n  \r\n \r\nPersoonsprofiel  \r\n  \r\nIk ben een enthousiaste developer die graag zelfstandig werkt ,maar ook in teamverband functioneert. In teamverband floreer ik op mijn best. Mijn wens is om als back-end developer aan de slag te gaan.\r\n\r\nNa mijn dienstverband als facilitaire medewerker , heb ik mijn interesse in development weer opgepakt. Ik heb in 2015 een php opleiding gevolgd bij Eduvision. Als eindopdracht heb ik de website gebouwd, www.pieterspierenburg.com  Hierbij\r\nheb ik ook een relationele database gemaakt.\r\n\r\nZorgzaam: Het afgelopen half jaar heb ik mantelzorg verricht.\r\n\r\nIn mijn vrijetijd wandel ik graag, meestal minimaal 1 uur per dag.  \r\n \r\n  \r\nWerkervaring  \r\n\r\n2015 – heden 		Co3Logie Opleiding via E-learning tot .NET developer ,ik heb ervaring opgedaan in HTML5/.CSS3/JavaScript,  Mobirise en Adobe Muse\r\n	\r\n  \r\n1992 – 2014  	  		Via de firma A.J.v. Deudekom gedetacheerd bij de ING bank. De werkzaamheden: \r\n				het herinrichten van kantoorruimtes,\r\n                                                         oplossen van  eenvoudige technische storingen,\r\n                                                         begeleiden van leveranciers\r\n	het onderhouden van contacten met de klant\r\n                                                         \r\n\r\n1988 – 1992  		Diverse repro werkzaamheden via detacherings bureaus  \r\n  \r\n1986 – 1988  		vervulling van militaire dienstplicht  \r\n  \r\n \r\nOpleidingen \r\n\r\n2015 – heden	opleiding via E-learning tot .NET developer bij Co3Logie\r\n\r\nmei 2015 – september 2015	PHP professional bij Eduvision, met certificaat\r\n\r\n2014	HTML,CSS & JavaScript, zelfstudie\r\n\r\n1984 – 1986  		Vwo certificaat Wiskunde (Knorringa avondschool)  \r\n  \r\n	1984– 1985 			Certificaat Systeem Programmeur/automatisering en                                                   Programmering bij IBM-Nederland N.V. te Amsterdam  \r\n  \r\n1983 – 1984     			Havo certificaat Wiskunde en Economie (Knorringa                                                     avondschool)  \r\n\r\n  \r\n \r\nInteresses\r\n\r\nWandelen, fotografie, computer\r\n\r\n  \r\nTalen  \r\n  \r\nNederlands		moedertaal\r\nEngels		gemiddeld  \r\n  \r\n \r\n', '1973-06-15', 3200, 'WAO', '2017-08-17', 'ICT', '100-500', 'nee', 'nee', '1-15 km');
+(2, 'blackliq', '8bdc0a760490ca729fa9d4711ca70893', 'admin', 'blachout@upcmail.nl', 'yes', 'yes', '', '', 'n', '2016-07-17', '03:37:32', '2016-07-01', 'Hout', 'van', 'Thijs', 'W.v.Hembyzestraat', '17', '', '1067PM', 'Amsterdam', '0615579992', '10007', 'PK\0\0\0\0\0!\0B?͉\0\0]\0\0\0[', '1978-03-15', 3500, 'WW', '2018-09-03', 'ICT', '100-500', 'ja', 'ja', '15 -25 km'),
+(3, 'Unal', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'selahattin@xs4all.nl', 'yes', 'no', '', '', 'n', '2016-07-17', '12:48:50', '2016-07-05', 'Unal', '', 'Selahattin', 'Hortensiastraat', '18', '5hoog', '1032CJ', 'Amsterdam', '062960228', '10009', '', '1960-05-16', 3000, 'Wajong', '2030-01-31', 'ICT', '1-10', 'ja', 'ja', '1-15 km'),
+(5, 'Franklin', '8bdc0a760490ca729fa9d4711ca70893', 'admin', 'frankieboy37@hotmail.com', 'yes', 'yes', '', '', 'n', '2016-07-17', '02:34:21', '2016-07-06', 'Roos', '', 'Franklin', 'Watermolenstraat', '98', '', '1098bn', 'Amsterdam', '0629359610', '10025', 'Curriculum Vitae Franklin Roos  \r\n \r\nPersoonlijke gegevens  \r\n  \r\nNaam		:		Roos  \r\nVoornaam		:  	Franklin, Imro  \r\nGeboortedatum	:		15-10-1963  \r\nAdres	:	Spaarndammerplantsoen 124  \r\nTelefoonnummer	:  		06-29359610  \r\nE-mail	:	franklin_roos@hotmail.com  \r\nLinkedIn	:	www.linkedin.com/in/franklin-roos	  	  	  \r\n  \r\n \r\nPersoonsprofiel  \r\n  \r\nIk ben een enthousiaste developer die graag zelfstandig werkt ,maar ook in teamverband functioneert. In teamverband floreer ik op mijn best. Mijn wens is om als back-end developer aan de slag te gaan.\r\n\r\nNa mijn dienstverband als facilitaire medewerker , heb ik mijn interesse in development weer opgepakt. Ik heb in 2015 een php opleiding gevolgd bij Eduvision. Als eindopdracht heb ik de website gebouwd, www.pieterspierenburg.com  Hierbij\r\nheb ik ook een relationele database gemaakt.\r\n\r\nZorgzaam: Het afgelopen half jaar heb ik mantelzorg verricht.\r\n\r\nIn mijn vrijetijd wandel ik graag, meestal minimaal 1 uur per dag.  \r\n \r\n  \r\nWerkervaring  \r\n\r\n2015 – heden 		Co3Logie Opleiding via E-learning tot .NET developer ,ik heb ervaring opgedaan in HTML5/.CSS3/JavaScript,  Mobirise en Adobe Muse\r\n	\r\n  \r\n1992 – 2014  	  		Via de firma A.J.v. Deudekom gedetacheerd bij de ING bank. De werkzaamheden: \r\n				het herinrichten van kantoorruimtes,\r\n                                                         oplossen van  eenvoudige technische storingen,\r\n                                                         begeleiden van leveranciers\r\n	het onderhouden van contacten met de klant\r\n                                                         \r\n\r\n1988 – 1992  		Diverse repro werkzaamheden via detacherings bureaus  \r\n  \r\n1986 – 1988  		vervulling van militaire dienstplicht  \r\n  \r\n \r\nOpleidingen \r\n\r\n2015 – heden	opleiding via E-learning tot .NET developer bij Co3Logie\r\n\r\nmei 2015 – september 2015	PHP professional bij Eduvision, met certificaat\r\n\r\n2014	HTML,CSS & JavaScript, zelfstudie\r\n\r\n1984 – 1986  		Vwo certificaat Wiskunde (Knorringa avondschool)  \r\n  \r\n	1984– 1985 			Certificaat Systeem Programmeur/automatisering en                                                   Programmering bij IBM-Nederland N.V. te Amsterdam  \r\n  \r\n1983 – 1984     			Havo certificaat Wiskunde en Economie (Knorringa                                                     avondschool)  \r\n\r\n  \r\n \r\nInteresses\r\n\r\nWandelen, fotografie, computer\r\n\r\n  \r\nTalen  \r\n  \r\nNederlands		moedertaal\r\nEngels		gemiddeld  \r\n  \r\n \r\n', '1973-06-15', 3200, 'WAO', '2017-08-17', 'ICT', '100-500', 'nee', 'nee', '1-15 km');
 
 -- --------------------------------------------------------
 
@@ -420,7 +420,7 @@ INSERT INTO `user_functie` (`user_functie_id`, `user_id`, `functie_id`, `functie
 --
 
 CREATE TABLE IF NOT EXISTS `user_regio` (
-  `id` int(8) NOT NULL,
+  `user_regio_id` int(8) NOT NULL,
   `user_id` int(5) NOT NULL,
   `regio_id` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -473,8 +473,8 @@ CREATE TABLE IF NOT EXISTS `user_sociale_media` (
   `user_sm_id` int(8) NOT NULL,
   `user_id` int(5) NOT NULL,
   `sm_id` int(3) NOT NULL,
-  `sm_url` varchar(80) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  `sm_url` varchar(80) NOT NULL DEFAULT ''
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `user_sociale_media`
@@ -484,7 +484,9 @@ INSERT INTO `user_sociale_media` (`user_sm_id`, `user_id`, `sm_id`, `sm_url`) VA
 (1, 5, 1, 'https://nl.linkedin.com/in/franklin-roos'),
 (2, 5, 3, 'https://www.facebook.com'),
 (3, 2, 1, 'https://www.linkedin.com/'),
-(4, 2, 3, 'https://www.facebook.com/');
+(4, 2, 3, 'https://www.facebook.com/'),
+(5, 3, 1, 'https://nl.linkedin.com/in/selahattinunal/nl'),
+(6, 3, 3, 'https://www.facebook.com/');
 
 -- --------------------------------------------------------
 
@@ -607,7 +609,7 @@ ALTER TABLE `user_functie`
 -- Indexen voor tabel `user_regio`
 --
 ALTER TABLE `user_regio`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`user_regio_id`);
 
 --
 -- Indexen voor tabel `user_reis`
@@ -722,7 +724,7 @@ ALTER TABLE `user_functie`
 -- AUTO_INCREMENT voor een tabel `user_regio`
 --
 ALTER TABLE `user_regio`
-  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_regio_id` int(8) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `user_reis`
 --
@@ -737,7 +739,7 @@ ALTER TABLE `user_sector`
 -- AUTO_INCREMENT voor een tabel `user_sociale_media`
 --
 ALTER TABLE `user_sociale_media`
-  MODIFY `user_sm_id` int(8) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `user_sm_id` int(8) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT voor een tabel `user_voorzieningen`
 --

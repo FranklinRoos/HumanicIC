@@ -37,10 +37,23 @@ article{
 	margin-bottom : 25px;
 }
 
+#postcode #email #salaris {
+    width: 70%;
+}
+
+/* reisafstand  */
+
+.afstand {
+
+    margin-bottom: -40px;
+}
+
+
 #sociale_media{
 	
 /* 	heigth : 325px; */
 	border : 1px solid black;
+                padding-top: 25px;
 }
 
 #sociaal_foto{
@@ -117,10 +130,13 @@ article{
 	
 }
 
-#regio{
+section#regio{
 	clear : both;
 	width : 100%;
-	padding : 5px;
+                padding: 25px 0 80px 15px; 
+                /*padding-top: 15px;
+	padding-bottom : 80px;
+                padding-left: 15px;*/
 	border : 1px solid black;
 	/* margin-top : 20px;
  */
@@ -269,25 +285,31 @@ label {
 	border	:	3px solid green;
 }
 /***Gewenste functie plaatsen***/
+
+.plaatspref {
+    margin-top: 10%;
+}
+
+
 #plaatsen{
-	width		:	800px;
-	height	:	200px;
-	border 	: 	3px solid red;
+	width	: 800px;
+	height	: 200px;
+	border 	: 3px solid red;
 }
 #rij-een{
-	display	: 	inline-block;
-	float		:	left;
-	border	: 	3px solid red;
-	width		:	150px;
-	height	:	150px;
-	margin	:	5px;	
+	display	: inline-block;
+	float	: left;
+	border	: 3px solid red;
+	width	: 150px;
+	height	: 150px;
+	margin	: 5px;	
 }
 #rij-twee{
-	float		:	left;
-	border	: 	3px solid red;
-	width		:	150px;
-	height	:	150px;
-	margin	:	5px;	
+	float	: left;
+	border	: 3px solid red;
+	width	: 150px;
+	height	: 150px;
+	margin	: 5px;	
 }
 #rij-drie{
 	float		:	left;
@@ -299,8 +321,8 @@ label {
 /***Opmerkingen***/
 #opmerkingSection{
 	width : 100%;
-	margin-top : 26px;
-	margin-bottom : 25px;
+	margin-top : 100px;
+	margin-bottom : 26px;
 /* 	border : 1px solid black; */
 }
 
