@@ -1,5 +1,4 @@
 <?php
-
 function overzicht()
 {
     global $connection; 
@@ -128,48 +127,68 @@ function overzicht()
 								echo "</div>";
 						echo "</div>";*/ 
                                               
-                          $objecten2 = mysqli_query($connection, "SELECT * FROM user_sociale_media where user_id=$user_id ") or die(mysqli_error());
+                          $objecten2 = mysqli_query($connection, "SELECT * FROM  user_sociale_media  WHERE  user_id=$user_id ") or die(mysqli_error());
                             if (mysqli_num_rows($objecten2) == 0) 
                               {
                                 die("<i>Nog geen users aanwezig !</i>");
                               }
                             while ($bericht2 = mysqli_fetch_object($objecten2)) 
-                              {                                       
-					echo "<section id=\"sociale_media\">";
+                              { 
+                              
+                                if($bericht2->sm_id === '2')
+                                {
+                                    $_SESSION['twitter'] = ".$bericht2->sm_url.";
+                                    $twitter = $_SESSION['twitter'];
+                                }
+                                if($bericht2->sm_id === '3')
+                                {
+                                    $_SESSION['facebook'] = ".utf8_encode($bericht2->sm_url).";
+                                    $facebook = $_SESSION['facebook'];
+                                }                                    
+		  if($bericht2->sm_id === '1')
+                                {
+                                    //$_SESSION['linkedin'] = ".utf8_encode(".$row['sm_url'].").";
+                                    $_SESSION['linkedin'] = ".$bericht2->sm_url.";
+                                    $linkedin = $_SESSION['linkedin'];
+                                }
+                                echo "<section id=\"sociale_media\">";
 					        echo "<div class=\"form-group\">";
 						   echo "<label class=\"control-label col-sm-2\" for=\"linkedin\">LinkedIn</label>";
 						//<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
 						      echo "<div class=\"col-sm-10\">";
-                                                            if(".utf8_encode($bericht2->sm_id)." === 1)
-                                                                {
-                                                                  echo "<input type=\"text\" class=\"form-control input-sm\" id=\"linkedin\" name=\"linkedIn\" value=".utf8_encode($bericht2->sm_url)." />";                                                          
-                                                                 }
+                                                                echo "<input type=\"text\" class=\"form-control input-sm\" id=\"linkedin\" name=\"linkedIn\" value=$linkedin />"; 
+                                                            //if(".utf8_encode($bericht2->sm_id)." === 1)
+                                                                //{
+                                                                  //echo "<input type=\"text\" class=\"form-control input-sm\" id=\"linkedin\" name=\"linkedIn\" value=".utf8_encode($bericht2->sm_url)." />";                                                          
+                                                                 //}
 						     echo "</div>";	
 						echo "</div>";
                                                 echo "<div class=\"form-group\">";
 						   echo "<label class=\"control-label col-sm-2\" for=\"twitter\">Twitter</label>";
 								//<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
 							echo "<div class=\"col-sm-10\">";
-                                                            if(".utf8_encode($bericht2->sm_id)."=== 2)
-                                                                {
-								  echo "<input type=\"text\" class=\"form-control input-sm\" id=\"twitter\" name=\"twitter\" value=".utf8_encode($bericht2->sm_url)."/>";
-                                                                }      
+                                                                 echo "<input type=\"text\" class=\"form-control input-sm\" id=\"twitter\" name=\"twitter\" value=$twitter/>";
+                                                            //if(".utf8_encode($bericht2->sm_id)."=== 2)
+                                                               // {
+								  //echo "<input type=\"text\" class=\"form-control input-sm\" id=\"twitter\" name=\"twitter\" value=".utf8_encode($bericht2->sm_url)."/>";
+                                                                //}      
 							echo "</div>";	
                                                 echo "</div>";
 						echo "<div class=\"form-group\">";
 								echo "<label class=\"control-label col-sm-2\" for=\"facebook\">Facebook</label>";
 								//<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
 							echo "<div class=\"col-sm-10\">";
-                                                            if(".utf8_encode($bericht2->sm_id)."=== 3)
-                                                                {
-							          echo "<input type=\"text\" class=\"form-control input-sm\" id=\"facebook\" name=\"faceBook\" value=".utf8_encode($bericht2->sm_url)."/>";
-                                                                }  
+                                                                  echo "<input type=\"text\" class=\"form-control input-sm\" id=\"facebook\" name=\"faceBook\" value=$facebook/>";
+                                                            //if(".utf8_encode($bericht2->sm_id)."=== 3)
+                                                              //  {
+							          //echo "<input type=\"text\" class=\"form-control input-sm\" id=\"facebook\" name=\"faceBook\" value=".utf8_encode($bericht2->sm_url)."/>";
+                                                              //  }  
 						     echo "</div>";	
 						echo "</div>";
-						
+		                }	
 						//echo "</div>";
 					 echo "</section>";
-                                  }        
+                                         
 			echo "</section>";	
 			       
 	echo "</section>";	
@@ -523,6 +542,7 @@ function overzicht()
              
         
 }
+
 function userBewerken()
 {
     global $connection; 

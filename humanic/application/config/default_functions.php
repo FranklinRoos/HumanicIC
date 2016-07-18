@@ -42,6 +42,7 @@ function fHeader($pageNavId="1")
     echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/style.css\" type=\"text/css\"/>";
     echo "<script src=\"https://code.jquery.com/jquery-2.2.4.min.js\"  ></script>";
     echo  "<script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js\"></script>";
+    echo "<script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.1.1/bootstrap-slider.js\"></script>";
     echo "<script src=\"".$GLOBALS['path']."assets/js/slider.js\" ></script>";
     
     

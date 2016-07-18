@@ -37,14 +37,14 @@ elseif(isSet($_SESSION['loginnaam'])  && isSet($formactiv) && $formactiv == 'yes
         If(!isset($_GET['user_id']))
         {
            echo "<div class=\"container\" style=\"margin-top:40px;\">";
-          overzicht ();
+          overzicht (); // deze functie zit in humanic-portal/include/userUpdateFunction.php
           echo "</div>";
           footer();
         }
         else
         {    //bewerk het user item met FCKeditor
         echo "<div class=\"container\" style=\"margin-top:40px;\">";
-        userBewerken();
+        userBewerken(); // deze functie zit in humanic-portal/include/userUpdateFunction.php
         echo "</div>";
         footer();
         }
@@ -53,7 +53,7 @@ elseif(isSet($_SESSION['loginnaam'])  && isSet($formactiv) && $formactiv == 'yes
     else 
         {
         echo "<div class=\"container\" style=\"margin-top:40px;\">";
-        userBewerktOpslaan();
+        userBewerktOpslaan(); // deze functie zit in humanic-portal/include/userUpdateFunction.php
         echo "</div>";
         footer();
     }

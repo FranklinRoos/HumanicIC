@@ -8,6 +8,7 @@ include("application/config/default_functions.php");
 $pageNavId=1;
 fHeader($pageNavId);//actief=$pageNavId);
 
+// Alle navigatie functies zitten in application/config/default_functions.php
 
 /*if(!isSet($_SESSION['blad']))
 {
@@ -26,7 +27,7 @@ if(!isSet($_SESSION["user_authorisatie"]) OR  (isSet($_SESSION["user_authorisati
      }
 elseif(isSet($_SESSION["user_authorisatie"])&& $_SESSION["user_authorisatie"]=="admin" OR $_SESSION["user_authorisatie"]=="ptr")
          {
-           navigatieA($pageNavId);
+           navigatieA($pageNavId);// zit in 
          }
 $sql = mysqli_query($connection,"SELECT * FROM `pages` WHERE `page_nav_id`=$pageNavId  and `page_taal` = 'nl' and `page_show` ='y' ");
     if (mysqli_num_rows($sql)==0)   
