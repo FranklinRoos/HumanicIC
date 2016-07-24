@@ -83,8 +83,9 @@ article{
 }
 
 #functies{
-	clear : left;
-	width : auto;
+	clear : both;
+        float : left;
+	width : 100%;
 	padding : 5px;
 	border : 1px solid black;
 	margin-bottom : 20px;
@@ -95,6 +96,7 @@ article{
 #mobielFinUitkering{
 	/* margin-bottom : 25px;
 	 */
+        clear : both;
 	width : 100%;
 	height : 250px;
 	/* border : 1px solid black; */
@@ -103,7 +105,7 @@ article{
 	float : left;
 	padding : 10px 5px;
 	/* margin: 10px; */
-	width	:	50%;
+	width	:	45%;
 /* 	height	:	325px; */
 	border	:	1px solid black;
 	;
@@ -113,14 +115,14 @@ article{
 #sectorwerk{
 	float : right;
 	padding : 10px 5px;
-	width : 40%;
+	width : 50%;
 	
 	border : 1px solid black;
 }
 
 #sector{
 	/* border : 1px solid black; */
-	margin-bottom : 20px;
+	margin-bottom : 10px;
 	
 }
 
@@ -130,13 +132,15 @@ article{
 	
 }
 
-section#regio{
+#regio{
 	clear : both;
 	width : 100%;
-                padding: 25px 0 80px 15px; 
+        height : 250px;
+                /*padding: 25px 0 80px 15px;*/ 
                 /*padding-top: 15px;
 	padding-bottom : 80px;
                 padding-left: 15px;*/
+       
 	border : 1px solid black;
 	 margin-top : 5px;
 
@@ -215,15 +219,33 @@ label {
 }
 
 #auto{
-	display : none;
-                /*display : block; */
+    margin-bottom : 40px;
 }
 
+#rijbewijs {
+    margin-bottom : 30px;
+}
 .ervaringSlider {
 	display : none;
+        margin-bottom : 10px;
 }
 
 
+
+.functieVak1 {
+    width : 40%;
+    
+    float : left;
+    margin-right : 50px;
+    
+}
+
+.functieVak2 {
+    width : 40%;
+    float : left;
+    
+    /*border : 1px solid black;*/
+}
 /***Gewenste functies***/
 /* #functies{
 	border	:	3px solid orange;
@@ -287,11 +309,14 @@ label {
 /***Gewenste functie plaatsen***/
 
 .plaatspref {
-    margin-top: 10%;
+    margin-top: 10px;
+    
+    clear : both;
+    
 }
 
 
-#plaatsen{
+/* #plaatsen{
 	width	: 800px;
 	height	: 200px;
 	border 	: 3px solid red;
@@ -317,7 +342,7 @@ label {
 	width		:	150px;
 	height	:	150px;
 	margin	:	5px;
-}
+}*/
 /***Opmerkingen***/
 #opmerkingSection{
 	width : 100%;
