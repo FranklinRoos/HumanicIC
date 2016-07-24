@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
+-- version 4.4.10
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 24 jul 2016 om 22:06
--- Serverversie: 10.1.13-MariaDB
--- PHP-versie: 5.6.23
+-- Gegenereerd op: 17 jul 2016 om 16:37
+-- Serverversie: 5.6.24
+-- PHP-versie: 5.5.24
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -26,20 +26,20 @@ SET time_zone = "+00:00";
 -- Tabelstructuur voor tabel `bedrijf`
 --
 
-CREATE TABLE `bedrijf` (
+CREATE TABLE IF NOT EXISTS `bedrijf` (
   `id` int(11) NOT NULL,
-  `aantal_medewerkers` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `aantal_medewerkers` varchar(10) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `bedrijf`
 --
 
 INSERT INTO `bedrijf` (`id`, `aantal_medewerkers`) VALUES
-(1, 'micro'),
-(2, 'klein'),
-(3, 'middelgroot'),
-(4, 'groot');
+(1, '1-50'),
+(2, '50-100'),
+(3, '100-500'),
+(4, '> 500');
 
 -- --------------------------------------------------------
 
@@ -47,9 +47,9 @@ INSERT INTO `bedrijf` (`id`, `aantal_medewerkers`) VALUES
 -- Tabelstructuur voor tabel `contact`
 --
 
-CREATE TABLE `contact` (
+CREATE TABLE IF NOT EXISTS `contact` (
   `contact_id` int(5) NOT NULL,
-  `user_id` int(5) UNSIGNED NOT NULL,
+  `user_id` int(5) unsigned NOT NULL,
   `user_inlognaam` varchar(25) NOT NULL,
   `contact_naam` varchar(50) NOT NULL,
   `contact_email` varchar(30) NOT NULL,
@@ -63,11 +63,11 @@ CREATE TABLE `contact` (
 -- Tabelstructuur voor tabel `functie`
 --
 
-CREATE TABLE `functie` (
+CREATE TABLE IF NOT EXISTS `functie` (
   `functie_id` int(3) NOT NULL,
   `functie_naam` varchar(50) NOT NULL,
   `functie_omschrijving` tinytext NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `functie`
@@ -91,10 +91,10 @@ INSERT INTO `functie` (`functie_id`, `functie_naam`, `functie_omschrijving`) VAL
 -- Tabelstructuur voor tabel `mobiliteit`
 --
 
-CREATE TABLE `mobiliteit` (
+CREATE TABLE IF NOT EXISTS `mobiliteit` (
   `id` int(3) NOT NULL,
   `soort` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `mobiliteit`
@@ -110,7 +110,7 @@ INSERT INTO `mobiliteit` (`id`, `soort`) VALUES
 -- Tabelstructuur voor tabel `nav`
 --
 
-CREATE TABLE `nav` (
+CREATE TABLE IF NOT EXISTS `nav` (
   `nav_id` int(2) NOT NULL,
   `nav_naam` varchar(240) NOT NULL,
   `nav_url` varchar(80) NOT NULL,
@@ -120,7 +120,7 @@ CREATE TABLE `nav` (
   `nav_taal` enum('nl','en') NOT NULL DEFAULT 'nl',
   `nav_auth` enum('usr','admin','ptr','bos') NOT NULL DEFAULT 'usr',
   `volgorde` int(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `nav`
@@ -152,14 +152,14 @@ INSERT INTO `nav` (`nav_id`, `nav_naam`, `nav_url`, `nav_place`, `nav_show`, `na
 -- Tabelstructuur voor tabel `navadmin`
 --
 
-CREATE TABLE `navadmin` (
+CREATE TABLE IF NOT EXISTS `navadmin` (
   `navadmin_id` int(2) NOT NULL,
   `navadmin_naam` varchar(30) NOT NULL,
   `navadmin_url` varchar(60) NOT NULL,
   `navadmin_show` enum('y','n') NOT NULL,
   `navadmin_auth` enum('ptr','admin') NOT NULL DEFAULT 'admin',
   `navadmin_volgorde` int(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `navadmin`
@@ -177,7 +177,7 @@ INSERT INTO `navadmin` (`navadmin_id`, `navadmin_naam`, `navadmin_url`, `navadmi
 -- Tabelstructuur voor tabel `nav_nl`
 --
 
-CREATE TABLE `nav_nl` (
+CREATE TABLE IF NOT EXISTS `nav_nl` (
   `nav_nl_id` int(2) NOT NULL,
   `nav_nl_naam` varchar(80) NOT NULL,
   `nav_nl_url` varchar(80) NOT NULL,
@@ -195,13 +195,13 @@ CREATE TABLE `nav_nl` (
 -- Tabelstructuur voor tabel `online`
 --
 
-CREATE TABLE `online` (
+CREATE TABLE IF NOT EXISTS `online` (
   `online_id` int(15) NOT NULL,
-  `user_id` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
   `online_ip` varchar(16) NOT NULL DEFAULT '0.0.0.0',
   `online_locatie` varchar(2555) NOT NULL DEFAULT '''''',
   `online_tijd` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `online`
@@ -222,7 +222,7 @@ INSERT INTO `online` (`online_id`, `user_id`, `online_ip`, `online_locatie`, `on
 -- Tabelstructuur voor tabel `pages`
 --
 
-CREATE TABLE `pages` (
+CREATE TABLE IF NOT EXISTS `pages` (
   `page_id` int(2) NOT NULL,
   `page_nav_id` int(2) NOT NULL,
   `page_content` text NOT NULL,
@@ -231,7 +231,7 @@ CREATE TABLE `pages` (
   `page_keywords` varchar(100) NOT NULL,
   `page_show` enum('y','n') NOT NULL,
   `page_taal` enum('en','nl') NOT NULL DEFAULT 'nl'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `pages`
@@ -254,10 +254,10 @@ INSERT INTO `pages` (`page_id`, `page_nav_id`, `page_content`, `page_title`, `pa
 -- Tabelstructuur voor tabel `regio`
 --
 
-CREATE TABLE `regio` (
+CREATE TABLE IF NOT EXISTS `regio` (
   `id` int(11) NOT NULL,
   `naam` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `regio`
@@ -272,14 +272,13 @@ INSERT INTO `regio` (`id`, `naam`) VALUES
 (6, 'Gelderland'),
 (7, 'Overijssel'),
 (8, 'Utrecht'),
-(9, 'Flevoland'),
-(10, 'Drenthe'),
-(11, 'Groningen'),
-(12, 'Friesland'),
-(13, 'Amsterdam e.o.'),
-(14, 'Rotterdam e.o.'),
-(15, 'Utrecht e.o.'),
-(16, 'Eindhoven e.o.');
+(9, 'Drenthe'),
+(10, 'Groningen'),
+(11, 'Friesland'),
+(12, 'Amsterdam e.o.'),
+(13, 'Rotterdam e.o.'),
+(14, 'Urecht e.o.'),
+(15, 'Eindhoven e.o.');
 
 -- --------------------------------------------------------
 
@@ -287,7 +286,7 @@ INSERT INTO `regio` (`id`, `naam`) VALUES
 -- Tabelstructuur voor tabel `reis`
 --
 
-CREATE TABLE `reis` (
+CREATE TABLE IF NOT EXISTS `reis` (
   `id` int(11) NOT NULL,
   `duur` int(2) NOT NULL,
   `afstand` int(3) NOT NULL
@@ -299,10 +298,10 @@ CREATE TABLE `reis` (
 -- Tabelstructuur voor tabel `sector`
 --
 
-CREATE TABLE `sector` (
+CREATE TABLE IF NOT EXISTS `sector` (
   `sector_id` int(2) NOT NULL,
   `sector_naam` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `sector`
@@ -320,11 +319,11 @@ INSERT INTO `sector` (`sector_id`, `sector_naam`) VALUES
 -- Tabelstructuur voor tabel `sociale_media`
 --
 
-CREATE TABLE `sociale_media` (
+CREATE TABLE IF NOT EXISTS `sociale_media` (
   `sm_id` int(3) NOT NULL,
   `sm_naam` varchar(10) NOT NULL,
   `sm_url` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `sociale_media`
@@ -341,7 +340,7 @@ INSERT INTO `sociale_media` (`sm_id`, `sm_naam`, `sm_url`) VALUES
 -- Tabelstructuur voor tabel `user`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `user_id` int(5) NOT NULL,
   `user_inlognaam` varchar(30) NOT NULL,
   `user_wachtwoord` varchar(50) NOT NULL,
@@ -375,7 +374,7 @@ CREATE TABLE `user` (
   `user_rijbewijs` enum('ja','nee') NOT NULL,
   `user_auto` enum('ja','nee') NOT NULL,
   `user_reisafstand` enum('1-15 km','15 -25 km','25-50 km','50km >') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `user`
@@ -383,27 +382,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`user_id`, `user_inlognaam`, `user_wachtwoord`, `user_authorisatie`, `user_email`, `user_activ`, `user_form-activ`, `activ_code`, `vergeetcode`, `user_online`, `datum_gezien`, `tijdstip_gezien`, `user_sinds`, `achternaam`, `tussenvoegsel`, `voornaam`, `straat`, `huisnummer`, `toevoeging`, `postcode`, `plaats`, `telefoon`, `foto`, `cv`, `geboortedatum`, `salaris`, `uitkeringsoort`, `uitkering_geldig_tot`, `user_sector`, `user_bedrijf_grootte`, `user_rijbewijs`, `user_auto`, `user_reisafstand`) VALUES
 (2, 'blackliq', '8bdc0a760490ca729fa9d4711ca70893', 'admin', 'blachout@upcmail.nl', 'yes', 'yes', '', '', 'n', '2016-07-17', '03:37:32', '2016-07-01', 'Hout', 'van', 'Thijs', 'W.v.Hembyzestraat', '17', '', '1067PM', 'Amsterdam', '0615579992', '10007', 'PK\0\0\0\0\0!\0B?͉\0\0]\0\0\0[', '1978-03-15', 3500, 'WW', '2018-09-03', 'ICT', '100-500', 'ja', 'ja', '15 -25 km'),
-(3, 'Unal', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'selahattin@xs4all.nl', 'yes', 'no', '', '', 'y', '2016-07-24', '17:19:16', '2016-07-05', 'Unal', '', 'Selahattin', 'Hortensiastraat', '18', '5hoog', '1032CJ', 'Amsterdam', '062960228', '10009', '', '1960-05-16', 3000, 'Wajong', '2030-01-31', 'ICT', '1-10', 'ja', 'ja', '1-15 km'),
+(3, 'Unal', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'selahattin@xs4all.nl', 'yes', 'no', '', '', 'n', '2016-07-17', '12:48:50', '2016-07-05', 'Unal', '', 'Selahattin', 'Hortensiastraat', '18', '5hoog', '1032CJ', 'Amsterdam', '062960228', '10009', '', '1960-05-16', 3000, 'Wajong', '2030-01-31', 'ICT', '1-10', 'ja', 'ja', '1-15 km'),
 (5, 'Franklin', '8bdc0a760490ca729fa9d4711ca70893', 'admin', 'frankieboy37@hotmail.com', 'yes', 'yes', '', '', 'n', '2016-07-17', '02:34:21', '2016-07-06', 'Roos', '', 'Franklin', 'Watermolenstraat', '98', '', '1098bn', 'Amsterdam', '0629359610', '10025', 'Curriculum Vitae Franklin Roos  \r\n \r\nPersoonlijke gegevens  \r\n  \r\nNaam		:		Roos  \r\nVoornaam		:  	Franklin, Imro  \r\nGeboortedatum	:		15-10-1963  \r\nAdres	:	Spaarndammerplantsoen 124  \r\nTelefoonnummer	:  		06-29359610  \r\nE-mail	:	franklin_roos@hotmail.com  \r\nLinkedIn	:	www.linkedin.com/in/franklin-roos	  	  	  \r\n  \r\n \r\nPersoonsprofiel  \r\n  \r\nIk ben een enthousiaste developer die graag zelfstandig werkt ,maar ook in teamverband functioneert. In teamverband floreer ik op mijn best. Mijn wens is om als back-end developer aan de slag te gaan.\r\n\r\nNa mijn dienstverband als facilitaire medewerker , heb ik mijn interesse in development weer opgepakt. Ik heb in 2015 een php opleiding gevolgd bij Eduvision. Als eindopdracht heb ik de website gebouwd, www.pieterspierenburg.com  Hierbij\r\nheb ik ook een relationele database gemaakt.\r\n\r\nZorgzaam: Het afgelopen half jaar heb ik mantelzorg verricht.\r\n\r\nIn mijn vrijetijd wandel ik graag, meestal minimaal 1 uur per dag.  \r\n \r\n  \r\nWerkervaring  \r\n\r\n2015 – heden 		Co3Logie Opleiding via E-learning tot .NET developer ,ik heb ervaring opgedaan in HTML5/.CSS3/JavaScript,  Mobirise en Adobe Muse\r\n	\r\n  \r\n1992 – 2014  	  		Via de firma A.J.v. Deudekom gedetacheerd bij de ING bank. De werkzaamheden: \r\n				het herinrichten van kantoorruimtes,\r\n                                                         oplossen van  eenvoudige technische storingen,\r\n                                                         begeleiden van leveranciers\r\n	het onderhouden van contacten met de klant\r\n                                                         \r\n\r\n1988 – 1992  		Diverse repro werkzaamheden via detacherings bureaus  \r\n  \r\n1986 – 1988  		vervulling van militaire dienstplicht  \r\n  \r\n \r\nOpleidingen \r\n\r\n2015 – heden	opleiding via E-learning tot .NET developer bij Co3Logie\r\n\r\nmei 2015 – september 2015	PHP professional bij Eduvision, met certificaat\r\n\r\n2014	HTML,CSS & JavaScript, zelfstudie\r\n\r\n1984 – 1986  		Vwo certificaat Wiskunde (Knorringa avondschool)  \r\n  \r\n	1984– 1985 			Certificaat Systeem Programmeur/automatisering en                                                   Programmering bij IBM-Nederland N.V. te Amsterdam  \r\n  \r\n1983 – 1984     			Havo certificaat Wiskunde en Economie (Knorringa                                                     avondschool)  \r\n\r\n  \r\n \r\nInteresses\r\n\r\nWandelen, fotografie, computer\r\n\r\n  \r\nTalen  \r\n  \r\nNederlands		moedertaal\r\nEngels		gemiddeld  \r\n  \r\n \r\n', '1973-06-15', 3200, 'WAO', '2017-08-17', 'ICT', '100-500', 'nee', 'nee', '1-15 km');
-
--- --------------------------------------------------------
-
---
--- Tabelstructuur voor tabel `user_bedrijf`
---
-
-CREATE TABLE `user_bedrijf` (
-  `id` int(11) NOT NULL,
-  `user_id` int(5) NOT NULL,
-  `bedrijf_id` int(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Gegevens worden geëxporteerd voor tabel `user_bedrijf`
---
-
-INSERT INTO `user_bedrijf` (`id`, `user_id`, `bedrijf_id`) VALUES
-(1, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -411,27 +391,27 @@ INSERT INTO `user_bedrijf` (`id`, `user_id`, `bedrijf_id`) VALUES
 -- Tabelstructuur voor tabel `user_functie`
 --
 
-CREATE TABLE `user_functie` (
+CREATE TABLE IF NOT EXISTS `user_functie` (
   `user_functie_id` int(8) NOT NULL,
   `user_id` int(5) NOT NULL,
   `functie_id` int(3) NOT NULL,
-  `ervaring` int(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `functie_ervaring` varchar(2) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `user_functie`
 --
 
-INSERT INTO `user_functie` (`user_functie_id`, `user_id`, `functie_id`, `ervaring`) VALUES
-(1, 1, 5, 3),
-(2, 1, 3, 5),
-(3, 2, 1, 6),
-(4, 2, 2, 8),
-(5, 2, 9, 4),
-(6, 3, 4, 7),
-(7, 3, 5, 7),
-(8, 3, 8, 9),
-(9, 2, 5, 6);
+INSERT INTO `user_functie` (`user_functie_id`, `user_id`, `functie_id`, `functie_ervaring`) VALUES
+(1, 1, 5, '3'),
+(2, 1, 3, '5'),
+(3, 2, 1, '6'),
+(4, 2, 2, '8'),
+(5, 2, 9, '4'),
+(6, 3, 4, '7'),
+(7, 3, 5, '7'),
+(8, 3, 8, '9'),
+(9, 2, 5, '6');
 
 -- --------------------------------------------------------
 
@@ -439,19 +419,11 @@ INSERT INTO `user_functie` (`user_functie_id`, `user_id`, `functie_id`, `ervarin
 -- Tabelstructuur voor tabel `user_regio`
 --
 
-CREATE TABLE `user_regio` (
+CREATE TABLE IF NOT EXISTS `user_regio` (
   `user_regio_id` int(8) NOT NULL,
   `user_id` int(5) NOT NULL,
   `regio_id` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Gegevens worden geëxporteerd voor tabel `user_regio`
---
-
-INSERT INTO `user_regio` (`user_regio_id`, `user_id`, `regio_id`) VALUES
-(1, 3, 6),
-(2, 3, 10);
 
 -- --------------------------------------------------------
 
@@ -459,7 +431,7 @@ INSERT INTO `user_regio` (`user_regio_id`, `user_id`, `regio_id`) VALUES
 -- Tabelstructuur voor tabel `user_reis`
 --
 
-CREATE TABLE `user_reis` (
+CREATE TABLE IF NOT EXISTS `user_reis` (
   `id` int(8) NOT NULL,
   `user_id` int(5) NOT NULL,
   `reis_id` int(3) NOT NULL
@@ -471,24 +443,25 @@ CREATE TABLE `user_reis` (
 -- Tabelstructuur voor tabel `user_sector`
 --
 
-CREATE TABLE `user_sector` (
+CREATE TABLE IF NOT EXISTS `user_sector` (
   `user_sector_id` int(5) NOT NULL,
   `user_id` int(5) NOT NULL,
-  `sector_id` int(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `sector_id` int(2) NOT NULL,
+  `sector_naam` varchar(50) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `user_sector`
 --
 
-INSERT INTO `user_sector` (`user_sector_id`, `user_id`, `sector_id`) VALUES
-(1, 2, 1),
-(2, 2, 2),
-(3, 2, 3),
-(4, 2, 4),
-(5, 1, 1),
-(6, 1, 4),
-(7, 3, 1);
+INSERT INTO `user_sector` (`user_sector_id`, `user_id`, `sector_id`, `sector_naam`) VALUES
+(1, 2, 1, 'ICT'),
+(2, 2, 2, 'Zorg'),
+(3, 2, 3, 'Industrie'),
+(4, 2, 4, 'Retail'),
+(5, 1, 1, 'ICT'),
+(6, 1, 4, 'Retail'),
+(7, 3, 1, 'ICT');
 
 -- --------------------------------------------------------
 
@@ -496,12 +469,12 @@ INSERT INTO `user_sector` (`user_sector_id`, `user_id`, `sector_id`) VALUES
 -- Tabelstructuur voor tabel `user_sociale_media`
 --
 
-CREATE TABLE `user_sociale_media` (
+CREATE TABLE IF NOT EXISTS `user_sociale_media` (
   `user_sm_id` int(8) NOT NULL,
   `user_id` int(5) NOT NULL,
   `sm_id` int(3) NOT NULL,
   `sm_url` varchar(80) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `user_sociale_media`
@@ -521,7 +494,7 @@ INSERT INTO `user_sociale_media` (`user_sm_id`, `user_id`, `sm_id`, `sm_url`) VA
 -- Tabelstructuur voor tabel `user_voorzieningen`
 --
 
-CREATE TABLE `user_voorzieningen` (
+CREATE TABLE IF NOT EXISTS `user_voorzieningen` (
   `id` int(8) NOT NULL,
   `user_id` int(5) NOT NULL,
   `voorzieningen_id` int(3) NOT NULL
@@ -533,7 +506,7 @@ CREATE TABLE `user_voorzieningen` (
 -- Tabelstructuur voor tabel `voorzieningen`
 --
 
-CREATE TABLE `voorzieningen` (
+CREATE TABLE IF NOT EXISTS `voorzieningen` (
   `id` int(3) NOT NULL,
   `voorzieningen` tinytext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -627,12 +600,6 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`);
 
 --
--- Indexen voor tabel `user_bedrijf`
---
-ALTER TABLE `user_bedrijf`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexen voor tabel `user_functie`
 --
 ALTER TABLE `user_functie`
@@ -682,7 +649,7 @@ ALTER TABLE `voorzieningen`
 -- AUTO_INCREMENT voor een tabel `bedrijf`
 --
 ALTER TABLE `bedrijf`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT voor een tabel `contact`
 --
@@ -692,22 +659,22 @@ ALTER TABLE `contact`
 -- AUTO_INCREMENT voor een tabel `functie`
 --
 ALTER TABLE `functie`
-  MODIFY `functie_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `functie_id` int(3) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT voor een tabel `mobiliteit`
 --
 ALTER TABLE `mobiliteit`
-  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT voor een tabel `nav`
 --
 ALTER TABLE `nav`
-  MODIFY `nav_id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `nav_id` int(2) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT voor een tabel `navadmin`
 --
 ALTER TABLE `navadmin`
-  MODIFY `navadmin_id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `navadmin_id` int(2) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT voor een tabel `nav_nl`
 --
@@ -717,17 +684,17 @@ ALTER TABLE `nav_nl`
 -- AUTO_INCREMENT voor een tabel `online`
 --
 ALTER TABLE `online`
-  MODIFY `online_id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `online_id` int(15) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT voor een tabel `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `page_id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `page_id` int(2) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT voor een tabel `regio`
 --
 ALTER TABLE `regio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT voor een tabel `reis`
 --
@@ -737,32 +704,27 @@ ALTER TABLE `reis`
 -- AUTO_INCREMENT voor een tabel `sector`
 --
 ALTER TABLE `sector`
-  MODIFY `sector_id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `sector_id` int(2) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT voor een tabel `sociale_media`
 --
 ALTER TABLE `sociale_media`
-  MODIFY `sm_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `sm_id` int(3) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT voor een tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT voor een tabel `user_bedrijf`
---
-ALTER TABLE `user_bedrijf`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT voor een tabel `user_functie`
 --
 ALTER TABLE `user_functie`
-  MODIFY `user_functie_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `user_functie_id` int(8) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT voor een tabel `user_regio`
 --
 ALTER TABLE `user_regio`
-  MODIFY `user_regio_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_regio_id` int(8) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `user_reis`
 --
@@ -772,12 +734,12 @@ ALTER TABLE `user_reis`
 -- AUTO_INCREMENT voor een tabel `user_sector`
 --
 ALTER TABLE `user_sector`
-  MODIFY `user_sector_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `user_sector_id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT voor een tabel `user_sociale_media`
 --
 ALTER TABLE `user_sociale_media`
-  MODIFY `user_sm_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `user_sm_id` int(8) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT voor een tabel `user_voorzieningen`
 --
