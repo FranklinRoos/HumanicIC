@@ -21,8 +21,7 @@ if($_SESSION['blad']!=='index_page')
 
 
 if(!isSet($_SESSION["user_authorisatie"]) OR  (isSet($_SESSION["user_authorisatie"]) && $_SESSION["user_authorisatie"] === "usr") &&  isSet($_SESSION["loginnaam"]))
-     {
-       
+     {      
        navigatie($pageNavId);    
      }
 elseif(isSet($_SESSION["user_authorisatie"])&& $_SESSION["user_authorisatie"]=="admin" OR $_SESSION["user_authorisatie"]=="ptr")

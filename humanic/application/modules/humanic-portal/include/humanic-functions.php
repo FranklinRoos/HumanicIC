@@ -1,4 +1,55 @@
 <?php
+global $connection;
+// vullen functie array
+/*$functieArray = array();
+$sql = mysqli_query($connection, "SELECT * FROM user_functie WHERE `user_id` = '".$_SESSION['user_id']."'");
+    if ($sql){
+        while ($row = mysqli_fetch_assoc($sql)) {
+            $newArray = array($row['functie_id'], $row['ervaring']);
+            array_push($functieArray, $newArray);
+        }
+    }
+    else {
+        echo "fout";
+    };
+//vullen sectorArray    
+$sectorArray = array();
+    $sql = mysqli_query($connection, "SELECT * FROM user_sector WHERE `user_id` = '".$_SESSION['user_id']."'");
+    if ($sql){
+        while ($row = mysqli_fetch_assoc($sql)) {
+            $newArray = array($row['sector_id']);
+            array_push($sectorArray, $newArray);
+        }
+    }
+    else {
+        echo "fout";
+    };
+//vullen bedrijf Array    
+$bedrijfArray = array();
+    $sql = mysqli_query($connection, "SELECT * FROM user_bedrijf WHERE `user_id` = '".$_SESSION['user_id']."'");
+    if ($sql){
+        while ($row = mysqli_fetch_assoc($sql)) {
+            $newArray = array($row['bedrijf_id']);
+            array_push($bedrijfArray, $newArray);
+        }
+    }
+    else {
+        echo "fout";
+    };
+// vullen regio array    
+$regioArray = array();
+    $sql = mysqli_query($connection, "SELECT * FROM user_regio WHERE `user_id` = '".$_SESSION['user_id']."'");
+    if ($sql){
+        while ($row = mysqli_fetch_assoc($sql)) {
+            $newArray = array($row['regio_id']);
+            array_push($regioArray, $newArray);
+        }
+    }
+    else {
+        echo "fout";
+    };*/
+    
+    
 function showPaswVergForm()// deze functie gebruik ik (nog) niet , is een test.
     {
         echo "<h1>Stel je wachtwoord opnieuw in</h1>";
@@ -281,11 +332,13 @@ function maakSessieVariabelen()
                              $_SESSION['salaris'] = $row['salaris'];
                              $_SESSION['uitkering'] = $row['uitkering'];
                              $_SESSION['uitkeringGeldigTot'] = date_format($row['uitkering_geldig_tot'], "F Y");
-                             echo $row['uitkering_geldig_tot'];
                              $_SESSION['bedrijf-grootte'] = $row['user_bedrijf_grootte'];
                              $_SESSION['rijbewijs'] = $row['user_rijbewijs'];
                              $_SESSION['auto'] = $row['user_auto'];
                              $_SESSION['reisafstand'] = $row['user_reisafstand'];
+                             $_SESSION['linkedIn'] = $row['linkedin'];
+                             $_SESSION['facebook'] = $row['facebook'];
+                             $_SESSION['twitter'] = $row['twitter'];
                          }
                     // Gegevens uit de SECTOR-Tabel halen 
                          $userid = $_SESSION["user_id"];
@@ -1017,268 +1070,30 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
   
  }
  
- function showKandidaatRegForm ($achternaam="", $tussenvoegsel="", $voornaam="", $email="", $straat="", $huisnr="", $toevoeging="", $postcode="", $woonplaats="", $gebdat="", $telnr="", $soortuitkering=""
-         , $geldigtot="", $bedrijfgrootte="", $reisafstand="",  $linkedin="", $facebook="", $twitter="", $java="", $javaervaring="", $functioneelOntw="",
-         $functioneelOntwervaring="", $dotnet="", $dotnetervaring="", $testCor="", $testCorervaring="", $frontDev="", $frontDevervaring="", $backDev="", $backDevervaring="" ) 
+ function showKandidaatRegForm () 
  { 
     global $connection;
-    
+ 
     echo " <div class=\"container\">";
-            echo "<h2>Registratie formulier</h2>";
-            
+            echo "<h2>Registratie formulier</h2>";          
             echo "<form id=\"fuikweb-register\" action='".htmlspecialchars($_SERVER["PHP_SELF"])."' method=post  role=\"form\">";
-                persoonlijkeGegevens($achternaam="", $tussenvoegsel="", $voornaam="", $email="", $straat="", $huisnr="", $toevoeging="", $postcode="", $woonplaats="", $gebdat="", $telnr="", $soortuitkering="",
-                                  $geldigtot="", $linkedin="", $facebook="", $twitter="");		                               
-                
+            
+                persoonlijkeGegevens();		                                               
                 toonFuncties();
                 toonMobielUitkering();
+                toonSector();
+                toonRegio();
+                toonOpmerkingen();
                     
-                            echo "<section id=\"sectorwerk\">";
-                            global $connection;
-    $sectorArray = array();
-    $sql = mysqli_query($connection, "SELECT * FROM user_sector WHERE `user_id` = '".$_SESSION['user_id']."'");
-    if ($sql){
-        while ($row = mysqli_fetch_assoc($sql)) {
-            $newArray = array($row['sector_id']);
-            array_push($sectorArray, $newArray);
-        }
-    }
-    else {
-        echo "fout";
-    };
-    
-    
-    $aantalSector = count($sectorArray);
-    $checkedSector = array();
-    
-    for ($i = 1; $i <= 4; $i++){
-        $sectorIndex = array_search($i, array_column($sectorArray, 0));
-        if (IS_NUMERIC($sectorIndex)){
-            array_push($checkedSector, "checked='checked'");
-        }
-        else {
-            array_push($checkedSector, "");
-        };
-    };
-
-                                    echo "<div id=\"sector\">";
-                                            echo "<div class=\"kop\">";
-                                                    echo "<p>Vink de sector(s) aan waar je in werkzaam bent geweest</p>";
-                                            echo "</div>";
-                                            echo "<label class=\"checkbox-inline\">";
-                                                    echo "<input type=\"checkbox\" value=\"\"  name=\"werbox1\" $checkedSector[0]>ICT";
-                                            echo "</label>";
-                                            echo "<label class=\"checkbox-inline\">";
-                                                    echo "<input type=\"checkbox\" value=\"\"name=\"werbox2\" $checkedSector[1]>Zorg";
-                                            echo "</label>";
-                                            echo "<label class=\"checkbox-inline\">";
-                                                    echo "<input type=\"checkbox\" value=\"\"name=\"werbox3\" $checkedSector[2]>Industrie";
-                                            echo "</label>";
-                                            echo "<label class=\"checkbox-inline\">";
-                                                    echo "<input type=\"checkbox\" value=\"\"name=\"werbox4\" $checkedSector[3]>Retail";
-                                            echo "</label>";
-                                    echo "</div>";
-$bedrijfArray = array();
-    $sql = mysqli_query($connection, "SELECT * FROM user_bedrijf WHERE `user_id` = '".$_SESSION['user_id']."'");
-    if ($sql){
-        while ($row = mysqli_fetch_assoc($sql)) {
-            $newArray = array($row['bedrijf_id']);
-            array_push($bedrijfArray, $newArray);
-        }
-    }
-    else {
-        echo "fout";
-    };
-    
-    
-    $aantalBedrijf = count($sectorArray);
-    $checkedBedrijf = array();
-    
-    for ($i = 1; $i <= 4; $i++){
-        $bedrijfIndex = array_search($i, array_column($bedrijfArray, 0));
-        if (IS_NUMERIC($bedrijfIndex)){
-            array_push($checkedBedrijf, "checked='checked'");
-        }
-        else {
-            array_push($checkedBedrijf, "");
-        };
-    };                         
-
-                                    echo "<div id=\"bedrijf\">";
-                                            echo "<div class=\"kop\">";
-                                                    echo "<p>Gewenste grootte van het bedrijf</p>";
-                                            echo "</div>";
-                                            echo "<label class=\"checkbox-inline\">";
-                                                    echo "<input type=\"checkbox\" value=\"\" $checkedBedrijf[0]>micro (< 10)";
-                                            echo "</label>";
-                                            echo "<label class=\"checkbox-inline\">";
-                                                    echo "<input type=\"checkbox\" value=\"\" $checkedBedrijf[1]>klein (<50)";
-                                            echo "</label>";
-                                            echo "<label class=\"checkbox-inline\">";
-                                                    echo "<input type=\"checkbox\" value=\"\" $checkedBedrijf[2]>middelgroot (< 250)";
-                                            echo "</label>";
-                                            echo "<label class=\"checkbox-inline\">";
-                                                    echo "<input type=\"checkbox\" value=\"\" $checkedBedrijf[3]>groot (> 250)";
-                                            echo "</label>";
-                                    echo "</div>";
-
-
-                                    /*                                     echo "<div class=\"form-group\" id=\"uitkering\">";
-                                            echo "<label class=\"col-sm-5 \" for=\"uitkering\">Gewenste grootte bedrijf:</label>";
-                                            echo "<div class=\"col-sm-4\">";
-                                                    echo "<select class=\"form-control input-sm\" name=\"bedrijfgrootte\" value=\"bedrijfgrootte\">";
-                                                            echo "<option value=\"1-10\">1-10</option>
-                                                            <option value=\"10-50\">10-50</option>
-                                                            <option value=\"50-100\">50-100</option>
-                                                            <option value=\">500\">>500</option>";
-                                             echo "</select>";
-                                            echo "</div>";	
-                                    echo "</div>"; */
-
-
-
-                            echo "</section>";
-                    echo "</section>"; 
-
-
-                    echo "<section id=\"regio\">";
-$regioArray = array();
-    $sql = mysqli_query($connection, "SELECT * FROM user_regio WHERE `user_id` = '".$_SESSION['user_id']."'");
-    if ($sql){
-        while ($row = mysqli_fetch_assoc($sql)) {
-            $newArray = array($row['regio_id']);
-            array_push($bedrijfArray, $newArray);
-        }
-    }
-    else {
-        echo "fout";
-    };
-    
-    
-    $aantalBedrijf = count($sectorArray);
-    $checkedRegio = array();
-    
-    for ($i = 1; $i <= 16; $i++){
-        $regioIndex = array_search($i, array_column($bedrijfArray, 0));
-        if (IS_NUMERIC($regioIndex)){
-            array_push($checkedRegio, "checked='checked'");
-        }
-        else {
-            array_push($checkedRegio, "");
-        };
-    };
-                        echo "<section class=\"afstand\">";
-                            echo "<div class=\"col-sm-12 kop\">";
-                                    echo "<p>Geef de maximale reisafstand</p>";
-                            echo "</div>";	
-                            echo "<div class=\"form-group\">";
-                                            echo "<label class=\"col-sm-3\" for=\"reisafstand\">Reisafstand</label>";
-                                            //<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
-                                            echo "<div class=\"col-sm-3\">";
-                                                    echo "<input type=\"text\" class=\"form-control input-sm\" id=\"reisafstand\" name=\"reisafstand\" value=\"\" placeholder=\"in km\" />";
-                                            echo "</div>";
-        
-
-                                            /*echo "<label class=\"col-sm-1\" for=\"reisduur\">Reisduur</label>";
-                                            //<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
-                                            echo "<div class=\"col-sm-2\">";
-                                                    echo "<input type=\"text\" class=\"form-control input-sm\" id=\"reisduur\" name=\"reisduur\"  />";*/							
-                            echo "</div>";	
-                        echo "</section><br/><br/>";	
-                        echo "<section class=\"plaatspref\">";
-                            echo "<div class=\"col-sm-12 kop\">";
-                                    echo "<p>Vink de gewenste regio's aan</p>";
-                            echo "</div>";
-                            echo "<div class=\"form-group\">";
-                                            echo "<label class=\"col-sm-3 text-left\">";
-                                                    echo "<input  type=\"checkbox\" name=\"noordholland\" value=\"\" $checkedRegio[0]> Noord-Holland";
-                                            echo "</label>";
-
-                                            echo "<label class=\"col-sm-3 text-left\">";
-                                                    echo "<input  type=\"checkbox\" name=\"limburg\" value=\"\" $checkedRegio[4]> Limburg";
-                                            echo "</label>";
-
-                                            echo "<label class=\"col-sm-3 text-left\">";
-                                                    echo "<input  type=\"checkbox\" name=\"flevoland\" value=\"\" $checkedRegio[8]> Flevoland";
-                                            echo "</label>";
-                                            echo "<label class=\"col-sm-3 text-left\">";
-                                                    echo "<input  type=\"checkbox\" name=\"amsterdam\" value=\"\" $checkedRegio[12]> Amsterdam e.o.";
-                                            echo "</label>";
-                            echo "</div>";
-                            echo "<div class=\"form-group\">";
-                                            echo "<label class=\"col-sm-3 text-left\">";
-                                                    echo "<input  type=\"checkbox\" name=\"zuidholland\" value=\"\" $checkedRegio[1]> Zuid-Holland";
-                                            echo "</label>";
-
-                                            echo "<label class=\"col-sm-3\"\>";
-                                                    echo "<input type=\"checkbox\" name=\"gelderland\" value=\"\" $checkedRegio[5]> Gelderland";
-                                            echo "</label>";
-
-                                            echo "<label class=\"col-sm-3 text-left\">";
-                                                    echo "<input  type=\"checkbox\" name=\"drenthe\" value=\"\" $checkedRegio[9]> Drenthe";
-                                            echo "</label>";
-
-                                            echo "<label class=\"col-sm-3 text-left\">";
-                                                    echo "<input  type=\"checkbox\" name=\"rotterdam\" value=\"\" $checkedRegio[13]> Rotterdam";
-                                            echo "</label>";
-                            echo "</div>";
-                            echo "<div class=\"form-group\">";
-                                            echo "<label class=\"col-sm-3 text-left\">";
-                                                    echo "<input  type=\"checkbox\" name=\"zeeland\" value=\"\" $checkedRegio[2]> Zeeland";
-                                            echo "</label>";
-
-                                            echo "<label class=\"col-sm-3 text-left\">";
-                                                    echo "<input  type=\"checkbox\" name=\"overijssel\" value=\"\" $checkedRegio[6]> Overijssel";
-                                            echo "</label>";
-
-                                            echo "<label class=\"col-sm-3 text-left\">";
-                                                    echo "<input  type=\"checkbox\" name=\"friesland\" value=\"\" $checkedRegio[10]> Groningen";
-                                            echo "</label>";
-
-                                            echo "<label class=\"col-sm-3 text-left\">";
-                                                    echo "<input  type=\"checkbox\" name=\"eindhoven\" value=\"\" $checkedRegio[14]> Utrecht";
-                                            echo "</label>";
-                            echo "</div>";
-                            echo "<div class=\"form-group\">";
-                                            echo "<label class=\"col-sm-3 text-left\">";
-                                                    echo "<input  type=\"checkbox\" name=\"noordbrabant\" value=\"\" $checkedRegio[3]> Noord-Brabant";
-                                            echo "</label>";
-
-                                            echo "<label class=\"col-sm-3 text-left\">";
-                                                    echo "<input  type=\"checkbox\" name=\"utrecht\" value=\"\" $checkedRegio[7]> Utrecht";
-                                            echo "</label>";
-
-                                            echo "<label class=\"col-sm-3 text-left\">";
-                                                    echo "<input  type=\"checkbox\" name=\"groningen\" value=\"\" $checkedRegio[11]> Frieland";
-                                            echo "</label>";
-
-                                            echo "<label class=\"col-sm-3 text-left\">";
-                                                    echo "<input  type=\"checkbox\" name=\"nijmegen\" value=\"\" $checkedRegio[15]> Eindhoven";
-                                            echo "</label>";
-                            echo "</div>";
-                        echo "</section>";
+                echo "<section id=\"opslaan\">";
+                        echo "<br><br>";
+                        echo "<div class=\"text-right\">";
+                            echo "<div >";
+                            //echo "<input type='submit' name='submit' value='Verzenden'><br /><br />";
+                            echo "<button id=\"submit\"class=\"col-sm-6 btn btn-primary btn-md\" type=\"submit\" name=\"submit\" value='Verzenden' >Verzenden</button>";
+                            echo "<button class=\" col-sm-5 btn btn-primary btn-md\" type=\"button\" name=\"wissen\">Wissen</button>";
+                        echo "</div>";	
                 echo "</section>";
-
-
-                    echo "<section id=\"opmerkingSection\">";
-                            echo "<div class=\"kop\">";
-                                    echo "<p>Opmerkingen</p>";
-                            echo "</div>";	
-                            echo "<div class=\"col-sm-6\">";
-                                    echo "<textarea class=\"form-control\"  name=\"opmerkingen\" value=\"opmerking\" rows=\"5\">	</textarea>";									 
-                            echo "</div>";	
-                            echo "<br>";
-                    echo "</section>";
-
-                    echo "<section id=\"opslaan\">";
-                            echo "<br><br>";
-                            echo "<div class=\"text-right\">";
-                                    echo "<div class=\"col-sm-12\">";
-                                                                                                      echo "<input type='submit' name='submit' value='Verzenden'><br /><br />";
-                                            //echo "<button class=\"btn btn-primary btn-md\" type=\"button\" name=\"opslaan\" >Verzenden</button>";
-                                            echo "<button class=\"btn btn-primary btn-md\" type=\"button\" name=\"wissen\">Wissen</button>";
-                                    echo "</div>";	
-                    echo "</section>";
             echo "</form>";
     echo "</div>";
 			
@@ -1315,25 +1130,15 @@ $regioArray = array();
  
 }
 
- 
- function handleKandidaatRegForm () 
+function handleKandidaatRegForm () 
  {
-     global $functieArray;
-     echo $functieArray[0][0];
-     verwerkFunctie();   
+     verwerkUser();
+     verwerkFunctie();
+     verwerkRegio();
+     verwerkSector();
+     verwerkBedrijf();
       /* 
-                       $email = $_SESSION['email'];
-        //$telefoon = $_SESSION["telefoon"]; 
-        $achternaam = $_SESSION['achternaam'];
-        $voornaam = $_SESSION['voornaam'];
-        $tussenvoegsel = $_SESSION['tussenvoegsel'];
-        $straat = $_SESSION["straat"];
-        $huisnummer = $_SESSION['huisnummer'];
-        $toevoeging = $_SESSION['toevoeging'];
-        $postcode = $_SESSION["postcode"];
-        $woonplaats = $_SESSION["plaats"];
-        $gebdat = $_SESSION["geb-datum"];
-        $soortuitkering = $_SESSION['uitkeringsoort'];
+                       
         
        */
         
@@ -1377,190 +1182,169 @@ $regioArray = array();
      
  }
  
- function persoonlijkeGegevens($achternaam="", $tussenvoegsel="", $voornaam="", $email="", $straat="", $huisnr="", $toevoeging="", $postcode="", $woonplaats="", $gebdat="", $telnr="", $soortuitkering=""
-         , $geldigtot="", $linkedin="", $facebook="", $twitter=""){
-    $voornaam = $_SESSION['voornaam'];
-    $achternaam = $_SESSION['achternaam']; 
-    $straat = $_SESSION['straat'];
-    $straat = $_SESSION['straat'];
-    $huisnr = $_SESSION['huisnummer'];
-    $woonplaats = $_SESSION['plaats'];
-    $email = $_SESSION['email'];  // is al bekend in de aanmeld fase , zie aanmeld afhandeling vanaf r443
-    $loginnaam = $_SESSION['loginnaam']; 
-    if (isset($_SESSION['cv'])){
-        $cv = $_SESSION['cv'];
-    }
-    else {
-        $cv = "";
-    };
-    if (isset($_SESSION['foto'])){
-        echo "oke";
-        $foto = $_SESSION['foto'];
-    }
-    else {
-       
-        $foto = "";
-    }
-    
+ function persoonlijkeGegevens(){
+    $voornaam = variableWaarde('voornaam');
+    $tussenvoegsel = variableWaarde('tussenvoegsel');
+    $achternaam = variableWaarde('achternaam'); 
+    $straat = variableWaarde('straat');
+    $huisnr = variableWaarde('huisnummer');
+    $toevoeging = variableWaarde('toevoeging');
+    $postcode = variableWaarde('postcode');
+    $woonplaats = variableWaarde('plaats');
+    $telefoon = variableWaarde('telefoon');
+    $geboorteDatum = variableWaarde('geb-datum');
+    $email = variableWaarde('email');  // is al bekend in de aanmeld fase , zie aanmeld afhandeling vanaf r443
+    $loginnaam = variableWaarde('loginnaam'); 
+    $cv = variableWaarde('cv');
+    $foto = variableWaarde('foto');
+    $linkedIn = variableWaarde('linkedIn');
+    $facebook = variableWaarde('facebook');
+    $twitter = variableWaarde('twitter');
+        
     echo "<section id=\"persoonlijke-gegevens\">";
+        echo "<section id=\"personalia\">";
+            echo "<div class=\"kop\">";
+                echo "<p>Vul je persoonlijke gegevens in, velden met een * zijn verplicht.</p>";
+            echo "</div>";
+            
+            echo "<div class=\"row\">";
+                echo "<label class=\"col-sm-3 text-left\" for=\"login-naam\">Loginnaam: </label>";
+                //<input type="text" class='form-control' id="login-naam" name="LoginNaam" required="required" autofocus="autofocus"/> -->
+                echo "<div class=\"col-sm-9\">";
+                    echo "<input type=\"text\" class=\"form-control\" id=\"login-naam\" name=\"LoginNaam\" value='$loginnaam' readonly/>";
+                echo "</div>";
+            echo "</div>";
+            
+            echo "<div class=\"row\">";
+                echo "<label class=\"col-sm-3\" for=\"achternaam\">Achternaam *</label>";
+                echo "<div class=\"col-sm-9\">";
+                    echo "<input type=\"text\" class=\"form-control input-sm\" id=\"achternaam\" name=\"achternaam\" value='$achternaam' required=\"required\" autofocus=\"autofocus\"/>";
+                echo "</div>";	
+            echo "</div>";
+            
+            echo "<div class=\"row\">";
+                echo "<label class=\"col-sm-3\" for=\"tussenvoegsel\">Tussenvoegsel</label>";
+                echo "<div class=\"col-sm-3\">";
+                    echo "<input type=\"text\" class=\"form-control input-sm\" id=\"tussenvoegsel\" name=\"tussenvoegsel\" value='$tussenvoegsel'/>";
+                echo "</div>";	
+            echo "</div>";
+            
+            echo "<div class=\"row\">";
+                echo "<label class=\"col-sm-3 text-left\" for=\"voornaam\">Voornaam *</label>";
+                echo "<div class=\"col-sm-9\">";
+                        echo "<input type=\"text\" class=\"form-control input-sm\" id=\"voornaam\" name=\"voornaam\" value='$voornaam' required=\"required\"  />";
+                echo "</div>";
+            echo "</div>";
+            
+            echo "<div class=\"row\">";
+                echo "<label class=\" col-sm-3\"  for=\"email\">Email</label>";
+                echo "<div class=\"col-sm-9\">";                        
+                    echo "<input type=\"email\" class=\"form-control input-sm\" id=\"email\" name=\"email\" value='$email'  />";
+                echo "</div>";
+            echo "</div>";
+            
+            echo "<div class=\"row\">";
+                echo "<label class=\"col-sm-3 col-offset-1\" for=\"straat\">Straat </label>";
+                echo "<div class=\"col-sm-9\">";
+                    echo "<input type=\"text\" class=\"form-control input-sm\" id=\"straat\" name=\"straat\" value='$straat' />";
+                echo "</div>";
+            echo "</div>";
+            
+            echo "<div class=\"row\">";
+                echo "<label class=\"col-sm-3\" for=\"huisnummer\">Huisnummer</label>";
+                echo "<div class=\"col-sm-2\">";
+                    echo "<input type=\"text\" class=\"form-control input-sm\" id=\"huisnummer\" name=\"huisnummer\" value=$huisnr >";
+                echo "</div>";
+            echo "</div>";
+            
+            echo "<div class=\"row\">";
+                echo "<label class=\"col-sm-3\" for=\"toevoeging\">Toevoeging</label>";
+                echo "<div class=\"col-sm-3\">";
+                    echo "<input type=\"text\" class=\"form-control input-sm\" id=\"toevoeging\" name=\"toevoeging\"/ value='$toevoeging'>";
+                echo "</div>";
+            echo "</div>";
+            
+            echo "<div class=\"row\">";
+                echo "<label class=\"col-sm-3\" for=\"postcode\">Postcode</label>";
+                echo "<div class=\"col-sm-3\">";
+                    echo "<input type=\"text\" class=\"form-control input-sm\" id=\"postcode\" name=\"postcode\" value='$postcode' placeholder=\"1032CJ\"/>";
+                echo "</div>";	
+            echo "</div>";
+            
+            echo "<div class=\"row\">";
+                echo "<label class=\"col-sm-3\" for=\"plaats\">Plaats</label>";
+                echo "<div class=\"col-sm-9\">";
+                    echo "<input type=\"text\" class=\"form-control input-sm\" id=\"plaats\" name=\"plaats\" value='$woonplaats'/>";
+                echo "</div>";	
+            echo "</div>";
+            
+            echo "<div class=\"row\">";
+                echo "<label class=\"col-sm-3\" for=\"geboortedatum\">Geboortedatum</label>";
+                echo "<div class=\"col-sm-4\">";
+                    echo "<input type=\"text\" class=\"form-control input-sm\" id=\"geboortedatum\" name=\"geboortedatum\" value='$geboorteDatum' placeholder=\"dd-mm-jjjj\"/>";
+                echo "</div>";	
+            echo "</div>";
+            
+            echo "<div class=\"row\">";
+                echo "<label class=\"col-sm-3\" for=\"telefoon\">Telefoon *</label>";
+                echo "<div class=\"col-sm-4\">";
+                    echo "<input type=\"tel\" class=\"form-control input-sm\" id=\"telnr\" name=\"telefoon\" value='$telefoon' autocomplete = \"on\" required=\"required\"/>";
+                echo "</div>";	
+            echo "</div>";
+        echo "</section>";
 
-                                     echo "<section id=\"personalia\">";
-                                            echo "<div class=\"kop\">";
-                                                    echo "<p>Vul je persoonlijke gegevens in, velden met een * zijn verplicht.</p>";
-                                            echo "</div>";
-                                    //	<h4>Personalia:</h4> -->
-                                            echo "<div class=\"row\">";
-                                                    echo "<label class=\"col-sm-3 text-left\" for=\"login-naam\">Loginnaam: </label>";
-                                                    //<input type="text" class='form-control' id="login-naam" name="LoginNaam" required="required" autofocus="autofocus"/> -->
-                                                    echo "<div class=\"col-sm-9\">";
-                                                        echo "<Loginnaam : ".$loginnaam." autofocus=\"autofocus\"/>";
-                                                    echo "</div>";
-                                            echo "</div><br/>";
-                                            echo "<div class=\"row\">";
-                                                    echo "<label class=\"col-sm-3\" for=\"achternaam\">Achternaam *</label>";
-                                                    //<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
-                                                    echo "<div class=\"col-sm-9\">";
-                                                            echo "<input type=\"text\" class=\"form-control input-sm\" id=\"achternaam\" name=\"achterNaam\" value='$achternaam' required=\"required\"/>";
-                                                    echo "</div>";	
-                                            echo "</div><br/>";
-                                            echo "<div class=\"row\">";
-                                                    echo "<label class=\"col-sm-3\" for=\"tussenvoegsel\">Tussenvoegsel</label>";
-                                                    //<!-- <input type="email" class="form-control" id="tussenvoegsel" name="TussenVoegsel"/> -->
-                                                    echo "<div class=\"col-sm-2\">";
-                                                            echo "<input type=\"text\" class=\"form-control input-sm\" id=\"tussenvoegsel\" name=\"tussenVoegsel\" value='$tussenvoegsel'/>";
-                                                    echo "</div>";	
-                                            echo "</div><br/>";
-                                            echo "<div class=\"row\">";
-                                                    echo "<label class=\"col-sm-3 text-left\" for=\"voornaam\">Voornaam *</label>";
-                                                    //<!-- <input type="text" class="form-control" id="voornaam" name="VoorNaam" required="required" pattern="[a-zA-Z0-9]{5,}" title="At least 5 letters and numbers"/> -->
-                                                    echo "<div class=\"col-sm-9\">";
-                                                            echo "<input type=\"text\" class=\"form-control input-sm\" id=\"voornaam\" name=\"voorNaam\" value='$voornaam' required=\"required\"  />";
-                                                    echo "</div>";
-                                            echo "</div><br/>";
-                                            echo "<div class=\"row\">";
-                                                    echo "<label class=\" col-sm-3\"  for=\"email\">Email</label>";
-                                                    //<!-- <input type="text" class="form-control" id="voornaam" name="VoorNaam" required="required" pattern="[a-zA-Z0-9]{5,}" title="At least 5 letters and numbers"/> -->
-                                                    echo "<div class=\"col-sm-9\">";
-                                                            //echo "<input type=\"email\" class=\"form-control input-sm\" id=\"email\" name=\"email\" value='$email' required=\"required\" pattern=\"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$\" />";
-                                                                                                                                    echo "<input type=\"email\" class=\"form-control input-sm\" id=\"email\" name=\"email\" value='$email'  />";
-                                                    echo "</div>";
-                                            echo "</div><br/><br/>";
-                                            echo "<div class=\"row\">";
-                                                    echo "<label class=\"col-sm-3 col-offset-1\" for=\"straat\">Straat </label>";
-                                                    //<!-- <input type="text" class="form-control" id="straat" name="Straat" required="required"/> -->
-                                                    echo "<div class=\"col-sm-9\">";
-                                                            echo "<input type=\"text\" class=\"form-control input-sm\" id=\"straat\" name=\"straat\" value='$straat' />";
-                                                    echo "</div>";
-                                            echo "</div><br/>";
-                                            echo "<div class=\"row\">";
-                                                    echo "<label class=\"col-sm-3\" for=\"huisnummer\">Huisnummer</label>";
-                                                    //<!-- <input type="text" class="form-control" id="huisnummer" name="HuisNummer" placeholder="Huisnummer"/> -->
-                                                    echo "<div class=\"col-sm-2\">";
-                                                            echo "<input type=\"text\" class=\"form-control input-sm\" id=\"huisnummer\" name=\"huisNummer\" value=$huisnr >";
-                                                    echo "</div>";
-                                            echo "</div><br/>";
-                                            echo "<div class=\"row\">";
-                                                    echo "<label class=\"col-sm-3\" for=\"toevoeging\">Toevoeging</label>";
-                                                    //<!-- <input type="text" class="form-control" id="huisnummer" name="HuisNummer" placeholder="Huisnummer"/> -->
-                                                    echo "<div class=\"col-sm-2\">";
-                                                            echo "<input type=\"text\" class=\"form-control input-sm\" id=\"toevoeging\" name=\"toevoeging\"/ value='$toevoeging'>";
-                                                    echo "</div>";
-                                            echo "</div><br/>";
-                                            echo "<div class=\"row\">";
-                                                    echo "<label class=\"col-sm-3\" for=\"postcode\">Postcode</label>";
-                                                    //<!-- <input type="text" class="form-control" id="postcode" name="PostCode" placeholder="1032CJ"/> -->
-                                                    echo "<div class=\"col-sm-3\">";
-                                                            echo "<input type=\"text\" class=\"form-control input-sm\" id=\"postcode\" name=\"postCode\" value='$postcode' placeholder=\"1032CJ\"/>";
-                                                    echo "</div>";	
-                                            echo "</div><br/>";
-                                            echo "<div class=\"row\">";
-                                                    echo "<label class=\"col-sm-3\" for=\"plaats\">Plaats</label>";
-                                                    //<!-- <input type="text" class="form-control" id="plaats" name="Plaats" placeholder="Amsterdam"/> -->
-                                                    echo "<div class=\"col-sm-9\">";
-                                                            echo "<input type=\"text\" class=\"form-control input-sm\" id=\"plaats\" name=\"plaats\" value='$woonplaats'/>";
-                                                    echo "</div>";	
-                                            echo "</div><br/>";
-                                            echo "<div class=\"row\">";
-                                                    echo "<label class=\"col-sm-3\" for=\"geboortedatum\">Geboortedatum</label>";
-                                                    //<!-- <input type="text" class="form-control" id="geboortedatum" name="GeboorteDatum" placeholder="dd-mm-jjjj"/> -->
-                                                    echo "<div class=\"col-sm-4\">";
-                                                            echo "<input type=\"text\" class=\"form-control input-sm\" id=\"geboortedatum\" name=\"geboorteDatum\" value='$gebdat' placeholder=\"dd-mm-jjjj\"/>";
-                                                    echo "</div>";	
-                                            echo "</div><br/>";
-                                                                                                    echo "<div class=\"row\">";
-                                                    echo "<label class=\"col-sm-3\" for=\"telnr\">Telefoon *</label>";
-                                                    //<!-- <input type="text" class="form-control" id="geboortedatum" name="GeboorteDatum" placeholder="dd-mm-jjjj"/> -->
-                                                    echo "<div class=\"col-sm-4\">";
-                                                            echo "<input type=\"tel\" class=\"form-control input-sm\" id=\"telnr\" name=\"telnr\" value='$telnr' autocomplete = \"on\" required=\"required\"/>";
-                                                    echo "</div>";	
-                                            echo "</div>";
-                                    echo "</section>";
+        echo "<section id=\"sociaal_foto\">";
+            echo "<div id=\"foto\" class=\"form-group\">";
+                echo "<label  for=\"foto\">Foto uploaden</label>";
+                echo "<div>";
+                    echo "<input class=\"col-sm-3\" type=\"file\" id=\"foto\" name=\"foto\" value=$foto placeholder=\"test\"/>";
+                    echo "<img class=\"col-sm-4\" id=\"myImg\" src=\"#\" alt=\"your image\"/>";
+                echo "</div>";
+            echo "</div>";
+       
+            echo "<div id=\"cv\" class=\"form-group\">";
+                 echo "<label  for=\"cv\">CV uploaden</label>";
+                 echo "<div>";
+                    echo "<input class=\"col-sm-3\" type=\"file\" class=\"form-control\" id=\"cv\" name=\"cv\" value=$cv />";
+                 echo "</div>";
+            echo "</div>";
+        echo "</section>";
+        
+        echo "<section id=\"sociale_media\">";
+            echo "<div class=\"form-group\">";
+                echo "<label class=\"control-label col-sm-3\" for=\"linkedin\">LinkedIn</label>";
+                echo "<div class=\"col-sm-9\">";
+                    echo "<input type=\"text\" class=\"form-control input-sm\" id=\"linkedin\" name=\"linkedIn\" value='$linkedIn'  placeholder=\"linkedIn link\" />";
+                echo "</div>";	
+            echo "</div>";
+            
+            echo "<div class=\"form-group\">";
+                echo "<label class=\"control-label col-sm-3\" for=\"facebook\">Facebook</label>";
+                echo "<div class=\"col-sm-9\">";
+                    echo "<input type=\"text\" class=\"form-control input-sm\" id=\"facebook\" name=\"facebook\" value='$facebook' placeholder=\"facebook link\"/>";
+                echo "</div>";	
+            echo "</div>";
+            
+            echo "<div class=\"form-group\">";
+                echo "<label class=\"control-label col-sm-3\" for=\"twitter\">Twitter</label>";
+                echo "<div class=\"col-sm-9\">";
+                    echo "<input type=\"text\" class=\"form-control input-sm\" id=\"twitter\" name=\"twitter\" value='$twitter' placeholder=\"twitter link\"/>";
+                echo "</div>";	
+            echo "</div>";
+        echo "</section>";
+    echo "</section>";	
 
-                            echo "<section id=\"sociaal_foto\">";
-                                    echo "<div id=\"foto\" class=\"row\">";
-                                                    echo "<label  for=\"foto\">Foto uploaden</label>";
-                                                    //<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
-                                                    //<!-- <div  class="col-sm-4 text-left"> -->
-                                                    echo "<div>";
-                                                            echo "<input class=\"col-sm-3\" type=\"file\" id=\"foto\" name=\"foto\" value=$foto placeholder=\"test\"/>";
-                                                            echo "<img class=\"col-sm-4\" id=\"myImg\" src=\"#\" alt=\"your image\"/>";
-                                                    echo "</div>";
-                                    echo "</div><br/><br/><br/>";
-                                    echo "<div id=\"cv\" class=\"row\">";
-                                                    echo "<label  for=\"cv\">CV uploaden</label>";
-                                                    //<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
-                                                    //<!-- <div  class="col-sm-4 text-left"> -->
-                                                    echo "<div>";
-                                                            echo "<input class=\"col-sm-3\" type=\"file\" class=\"form-control\" id=\"cv\" name=\"cv\" value=$cv />";
 
-                                                    echo "</div>";
-                                    echo "</div><br/><br/><br/>";
-                                    echo "<section id=\"sociale_media\">";
-                                    echo "<div class=\"form-group\">";
-                                                    echo "<label class=\"control-label col-sm-2\" for=\"linkedin\">LinkedIn</label>";
-                                                    //<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
-                                                    echo "<div class=\"col-sm-10\">";
-                                                            echo "<input type=\"text\" class=\"form-control input-sm\" id=\"linkedin\" name=\"linkedIn\" value=\"\"  placeholder=\"linkedIn link\" />";
-                                                    echo "</div>";	
-                                    echo "</div><br/><br/><br/>";
-                                    echo "<div class=\"form-group\">";
-                                                    echo "<label class=\"control-label col-sm-2\" for=\"facebook\">Facebook</label>";
-                                                    //<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
-                                                    echo "<div class=\"col-sm-10\">";
-                                                            echo "<input type=\"text\" class=\"form-control input-sm\" id=\"facebook\" name=\"faceBook\" value=\"\" placeholder=\"facebook link\"/>";
-                                                    echo "</div>";	
-                                    echo "</div><br/><br/><br/>";
-                                    echo "<div class=\"form-group\">";
-                                                    echo "<label class=\"control-label col-sm-2\" for=\"twitter\">Twitter</label>";
-                                                    //<!-- <input type="text" class="form-control" id="achternaam" name="AchterNaam" required="required"/> -->
-                                                    echo "<div class=\"col-sm-10\">";
-                                                            echo "<input type=\"text\" class=\"form-control input-sm\" id=\"twitter\" name=\"twitter\" value=\"\" placeholder=\"twitter link\"/>";
-                                                    echo "</div>";	
-                                    echo "</div><br/><br/><br/>";
-                                    echo "</section>";
-                            echo "</section>";	
-
-                    echo "</section>";
     
     
  }
  function verwerkFunctie() {
     global $connection;
-    $functieArray = array();
-    $sql = mysqli_query($connection, "SELECT * FROM user_functie WHERE `user_id` = '".$_SESSION['user_id']."'");
-    if ($sql){
-        while ($row = mysqli_fetch_assoc($sql)) {
-            $newArray = array($row['functie_id'], $row['ervaring'], "A" );
-            array_push($functieArray, $newArray);
-        }
-    }
-    else {
-        echo "fout";
-    };
+    global $functieArray;
+   
     $checkFunctie = array();
     if (!empty($_POST['functie_List'])) {
-        foreach ($_POST['functie_List'] as $selected){
-            
+        foreach ($_POST['functie_List'] as $selected){            
             $ervaring = bepaalErvaring($selected);
             array_push($checkFunctie, $selected);
         }
@@ -1573,24 +1357,18 @@ $regioArray = array();
             $checkIndex = array_search($i, $checkFunctie);
             if (!is_numeric($checkIndex)){
                 //functie is niet aangevinkt --> Delete database entry
-                echo "DELETE";
                 $sql = mysqli_query($connection, "DELETE FROM user_functie WHERE `user_id`='".$_SESSION["user_id"]."' 
                                                  AND `functie_id` = '".$i."'");
             }
             else {
                 //functie is aangevinkt, controle of ervaring gewijzigd is
-                echo "index '".$checkFunctie[$checkIndex]."'";
                 $ervaring = bepaalErvaring($checkFunctie[$checkIndex]);
                 if ($functieArray[$functieIndex][1] <> $ervaring){
                     //ervaring is gewijzigd
-                    echo $ervaring;
-                    echo $i;
-                    echo $functieArray[$checkIndex][1];
                     $sql = mysqli_query($connection, "UPDATE user_functie SET `ervaring` = '".$ervaring."' WHERE `user_id`='".$_SESSION["user_id"]."' AND `functie_id` = '".$i."'");
                 }
                 else {
                     //ervaring is niet gewijzigd, geen query draaien
-                    echo "NIKS DOEN ";
                 }
             }               
         }
@@ -1599,7 +1377,6 @@ $regioArray = array();
             $checkIndex = array_search($i, $checkFunctie);
             if (!is_numeric($checkIndex)){
                 //functie is niet aangevinkt
-                echo "NIKS DOEN";
                 //$sql = mysqli_query($connection, "DELETE FROM user_functie WHERE `user_id`='".$_SESSION["user_id"]."' 
                 //                                 AND `functie_id` = '".$i."'");
             }
@@ -1607,7 +1384,6 @@ $regioArray = array();
                  //functie is aangevinkt
                 $ervaring = bepaalErvaring($checkFunctie[$checkIndex]);
                 $functieId = $checkFunctie[$checkIndex];
-                 echo "INSERT";
                $sql = mysqli_query($connection, "INSERT INTO user_functie (`user_id`,`functie_id`, `ervaring`)
                         VALUES ('".$_SESSION['user_id']."', '".$functieId."', '".$ervaring."')");
             }       
@@ -1674,18 +1450,8 @@ $regioArray = array();
  
  function toonFuncties(){
     global $connection;
-    $functieArray = array();
-    $sql = mysqli_query($connection, "SELECT * FROM user_functie WHERE `user_id` = '".$_SESSION['user_id']."'");
-    if ($sql){
-        while ($row = mysqli_fetch_assoc($sql)) {
-            $newArray = array($row['functie_id'], $row['ervaring']);
-            array_push($functieArray, $newArray);
-        }
-    }
-    else {
-        echo "fout";
-    };
-    
+    global $functieArray;
+    //$functieArray = array();
     
     $aantal = count($functieArray);
     $checked = array();
@@ -1819,7 +1585,7 @@ $regioArray = array();
          return $_SESSION[$variable];
      }
      else {
-         return "huh";
+         return "\"\"";
      }
  };
  
@@ -1839,12 +1605,30 @@ $regioArray = array();
     else {
         $checkAuto = " ";
     }
+    
     $salaris = variableWaarde('salaris');
     $uitkering = variableWaarde('uitkering');
+    
     $uitkeringGeldigTot = variableWaarde('uitkeringGeldigTot');
     if ($uitkeringGeldigTot != " "){
         $date = new DateTime($uitkeringGeldigTot);
         $uitkeringGeldigTot = date_format($date, 'M-Y');
+    }
+    
+    $selectWW; $selectWajong; $selectIOAW; $selectBijstand = "";
+    switch ($uitkering) {
+        case 'WW' : 
+            $selectWW = "selected";
+            break;
+        case 'Wajong' : 
+            $selectWajong = "selected";
+            break;
+        case 'IOAW' : 
+            $selectIOAW = "selected";
+            break;
+        case 'Bijstand' : 
+            $selectBijstand = "selected";
+            break;
     }
 
 
@@ -1858,27 +1642,414 @@ $regioArray = array();
         echo "<div class=\"form-group\" id=\"financieel\">";
             echo "<label class=\"col-sm-5\" for=\"salaris\">Salaris indicatie</label>";
             echo "<div class=\"col-sm-5\">";
-                echo "<input type=\"text\" class=\"form-control input-sm\" id=\"salaris\" name=\"salaris\" value=$salaris/>";	
+                echo "<input type=\"text\" class=\"form-control input-sm\" id=\"salaris\" name=\"salaris\" value=$salaris>";	
             echo "</div>";	
         echo "</div><br/><br/>";
         echo "<div class=\"form-group\" id=\"uitkering\">";
             echo "<label class=\"col-sm-5 \" for=\"uitkering\">Soort uitkering</label>";
             echo "<div class=\"col-sm-4\">";
                 echo "<select class=\"form-control input-sm\" name=\"uitkering\" value=$uitkering>";
-                    echo   "<option value=\"WW\">WW</option>
-                            <option value=\"IOAW\">IOAW</option>
-                            <option value=\"Wajong\">Wajong</option>
-                            <option value=\"WAO\">WAO</option>";
+                    echo   "<option value=\"WW\" $selectWW>WW</option>
+                            <option value=\"IOAW\" $selectIOAW>IOAW</option>
+                            <option value=\"Wajong\" $selectWajong>Wajong</option>
+                            <option value=\"WAO\" $selectBijstand>WAO</option>";
                 echo "</select>";
             echo "</div>";	
         echo "</div><br/><br/>";
         echo "<div class=\"form-group\" id=\"ww\">";
-            echo "<label class=\"col-sm-5\" for=\"salaris\">Uitkering geldig tot</label>";
+            echo "<label class=\"col-sm-5\" for=\"salaristkeringGeldigTot\">Uitkering geldig tot</label>";
             echo "<div class=\"col-sm-4\">";
-                echo "<input type=\"text\" class=\"form-control input-sm\" id=\"salaris\" name=\"geldigTot\" value=$uitkeringGeldigTot placeholder=\"mm-jjjj\" />";
+                echo "<input type=\"text\" class=\"form-control input-sm\" id=\"salaris\" name=\"uitkeringGeldigTot\" value=$uitkeringGeldigTot placeholder=\"mm-jjjj\" />";
             echo "</div>";	
         echo "</div>";
     echo "</section>";	
 
- }
+ };
  
+ function toonSector() {
+    global $connection;
+    global $sectorArray;
+    global $bedrijfArray;
+
+    echo "<section id=\"sectorwerk\">";
+        $aantalSector = count($sectorArray);
+        $checkedSector = array();
+
+        for ($i = 1; $i <= 4; $i++){
+            $sectorIndex = array_search($i, array_column($sectorArray, 0));
+            if (IS_NUMERIC($sectorIndex)){
+                array_push($checkedSector, "checked='checked'");
+            }
+            else {
+                array_push($checkedSector, "");
+            };
+        };
+
+        echo "<div id=\"sector\">";
+            echo "<div class=\"kop\">";
+                    echo "<p>Vink de sector(s) aan waar je in werkzaam bent geweest</p>";
+            echo "</div>";
+            echo "<label class=\"checkbox-inline\">";
+                    echo "<input type=\"checkbox\" value=1  name=\"sector_List[]\" $checkedSector[0]>ICT";
+            echo "</label>";
+            echo "<label class=\"checkbox-inline\">";
+                    echo "<input type=\"checkbox\" value=2 name=\"sector_List[]\" $checkedSector[1]>Zorg";
+            echo "</label>";
+            echo "<label class=\"checkbox-inline\">";
+                    echo "<input type=\"checkbox\" value=3 name=\"sector_List[]\" $checkedSector[2]>Industrie";
+            echo "</label>";
+            echo "<label class=\"checkbox-inline\">";
+                    echo "<input type=\"checkbox\" value=4 name=\"sector_List[]\" $checkedSector[3]>Retail";
+            echo "</label>";
+        echo "</div>";
+
+
+        $checkedBedrijf = array();
+
+        for ($i = 1; $i <= 4; $i++){
+            $bedrijfIndex = array_search($i, array_column($bedrijfArray, 0));
+            if (IS_NUMERIC($bedrijfIndex)){
+                array_push($checkedBedrijf, "checked='checked'");
+            }
+            else {
+                array_push($checkedBedrijf, "");
+            };
+        };                         
+
+        echo "<div id=\"bedrijf\">";
+            echo "<div class=\"kop\">";
+                    echo "<p>Gewenste grootte van het bedrijf</p>";
+            echo "</div>";
+            echo "<label class=\"checkbox-inline\">";
+                    echo "<input type=\"checkbox\" value=1 name=\"bedrijf_List[]\" $checkedBedrijf[0]>micro (< 10)";
+            echo "</label>";
+            echo "<label class=\"checkbox-inline\">";
+                    echo "<input type=\"checkbox\" value=2 name=\"bedrijf_List[]\" $checkedBedrijf[1]>klein (<50)";
+            echo "</label>";
+            echo "<label class=\"checkbox-inline\">";
+                    echo "<input type=\"checkbox\" value=3 name=\"bedrijf_List[]\" $checkedBedrijf[2]>middelgroot (< 250)";
+            echo "</label>";
+            echo "<label class=\"checkbox-inline\">";
+                    echo "<input type=\"checkbox\" value=4 name=\"bedrijf_List[]\" $checkedBedrijf[3]>groot (> 250)";
+            echo "</label>";
+        echo "</div>";
+
+
+                    /*                                     echo "<div class=\"form-group\" id=\"uitkering\">";
+                            echo "<label class=\"col-sm-5 \" for=\"uitkering\">Gewenste grootte bedrijf:</label>";
+                            echo "<div class=\"col-sm-4\">";
+                                    echo "<select class=\"form-control input-sm\" name=\"bedrijfgrootte\" value=\"bedrijfgrootte\">";
+                                            echo "<option value=\"1-10\">1-10</option>
+                                            <option value=\"10-50\">10-50</option>
+                                            <option value=\"50-100\">50-100</option>
+                                            <option value=\">500\">>500</option>";
+                             echo "</select>";
+                            echo "</div>";	
+                    echo "</div>"; */
+
+
+
+        echo "</section>";
+    echo "</section>"; 
+ };
+ 
+ function toonRegio(){
+    global $regioArray;
+    
+    echo "<section id=\"regio\">";
+        $checkedRegio = array();
+
+        $reisafstand = variableWaarde('reisafstand');
+        
+        for ($i = 1; $i <= 16; $i++){
+            $regioIndex = array_search($i, array_column($regioArray, 0));
+            if (IS_NUMERIC($regioIndex)){
+                array_push($checkedRegio, "checked='checked'");
+            }
+            else {
+                array_push($checkedRegio, "");
+            };
+        };
+
+        echo "<section class=\"afstand\">";
+            echo "<div class=\"col-sm-12 kop\">";
+                echo "<p>Geef de maximale reisafstand</p>";
+            echo "</div>";	
+            echo "<div class=\"form-group\">";
+                echo "<label class=\"col-sm-3\" for=\"reisafstand\">Reisafstand</label>";
+                echo "<div class=\"col-sm-3\">";
+                    echo "<input type=\"text\" class=\"form-control input-sm\" id=\"reisafstand\" name=\"reisafstand\" value=$reisafstand placeholder=\"in km\" />";
+                echo "</div>";
+            echo "</div>";	
+        echo "</section><br/><br/>";
+
+        echo "<section class=\"plaatspref\">";
+            echo "<div class=\"col-sm-12 kop\">";
+                    echo "<p>Vink de gewenste regio's aan</p>";
+            echo "</div>";
+            echo "<div class=\"form-group\">";
+                echo "<label class=\"col-sm-3 text-left\">";
+                        echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=1 $checkedRegio[0]> Noord-Holland";
+                echo "</label>";
+
+                echo "<label class=\"col-sm-3 text-left\">";
+                        echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=5 $checkedRegio[4]> Limburg";
+                echo "</label>";
+
+                echo "<label class=\"col-sm-3 text-left\">";
+                        echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=9 $checkedRegio[8]> Flevoland";
+                echo "</label>";
+                echo "<label class=\"col-sm-3 text-left\">";
+                        echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=13 $checkedRegio[12]> Amsterdam e.o.";
+                echo "</label>";
+            echo "</div>";
+            echo "<div class=\"form-group\">";
+                echo "<label class=\"col-sm-3 text-left\">";
+                        echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=2 $checkedRegio[1]> Zuid-Holland";
+                echo "</label>";
+
+                echo "<label class=\"col-sm-3\"\>";
+                        echo "<input type=\"checkbox\" name=\"regio_List[]\" value=6 $checkedRegio[5]> Gelderland";
+                echo "</label>";
+
+                echo "<label class=\"col-sm-3 text-left\">";
+                        echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=10 $checkedRegio[9]> Drenthe";
+                echo "</label>";
+
+                echo "<label class=\"col-sm-3 text-left\">";
+                        echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=14 $checkedRegio[13]> Rotterdam";
+                echo "</label>";
+            echo "</div>";
+            echo "<div class=\"form-group\">";
+                echo "<label class=\"col-sm-3 text-left\">";
+                        echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=3 $checkedRegio[2]> Zeeland";
+                echo "</label>";
+
+                echo "<label class=\"col-sm-3 text-left\">";
+                        echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=7 $checkedRegio[6]> Overijssel";
+                echo "</label>";
+
+                echo "<label class=\"col-sm-3 text-left\">";
+                        echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=11 $checkedRegio[10]> Groningen";
+                echo "</label>";
+
+                echo "<label class=\"col-sm-3 text-left\">";
+                        echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=15 $checkedRegio[14]> Utrecht";
+                echo "</label>";
+            echo "</div>";
+            echo "<div class=\"form-group\">";
+                echo "<label class=\"col-sm-3 text-left\">";
+                        echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=4 $checkedRegio[3]> Noord-Brabant";
+                echo "</label>";
+
+                echo "<label class=\"col-sm-3 text-left\">";
+                        echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=8 $checkedRegio[7]> Utrecht";
+                echo "</label>";
+
+                echo "<label class=\"col-sm-3 text-left\">";
+                        echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=12 $checkedRegio[11]> Frieland";
+                echo "</label>";
+
+                echo "<label class=\"col-sm-3 text-left\">";
+                        echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=16 $checkedRegio[15]> Eindhoven";
+                echo "</label>";
+            echo "</div>";
+        echo "</section>";
+    echo "</section>";
+ };
+ 
+ function toonOpmerkingen() {
+    echo "<section id=\"opmerkingSection\">";
+        echo "<div class=\"kop\">";
+                echo "<p>Opmerkingen</p>";
+        echo "</div>";	
+        echo "<div class=\"col-sm-6\">";
+                echo "<textarea class=\"form-control\"  name=\"opmerkingen\" value=\"opmerking\" rows=\"5\">	</textarea>";									 
+        echo "</div>";	
+        echo "<br>";
+    echo "</section>";
+ };
+ 
+ function verwerkRegio() {
+    global $connection;
+    global $regioArray;
+   
+    $checkRegio = array();
+    if (!empty($_POST['regio_List'])) {
+        foreach ($_POST['regio_List'] as $selected){            
+            array_push($checkRegio, $selected);
+        }
+    }
+    for ($i=1; $i<=16; $i++){
+        $regioIndex = array_search($i, array_column($regioArray, 0));
+        if (is_numeric($regioIndex)){
+            //functie is gevonden, dus aanwezig in database
+            $checkIndex = array_search($i, $checkRegio);
+            if (!is_numeric($checkIndex)){
+                //functie is niet aangevinkt --> Delete database entry
+                $sql = mysqli_query($connection, "DELETE FROM user_regio WHERE `user_id`='".$_SESSION["user_id"]."' 
+                                                 AND `regio_id` = '".$i."'");
+            }               
+        }
+        else {
+            //functie zit niet in database
+            $checkIndex = array_search($i, $checkRegio);
+            if (!is_numeric($checkIndex)){
+                //functie is niet aangevinkt
+                //$sql = mysqli_query($connection, "DELETE FROM user_functie WHERE `user_id`='".$_SESSION["user_id"]."' 
+                //                                 AND `functie_id` = '".$i."'");
+            }
+            else {
+                 //functie is aangevinkt
+                
+                $regioId = $checkRegio[$checkIndex];
+     
+               $sql = mysqli_query($connection, "INSERT INTO user_regio (`user_id`,`regio_id`)
+                        VALUES ('".$_SESSION['user_id']."', '".$regioId."')");
+            }             
+        }
+    }
+ }; 
+ 
+ function verwerkSector() {
+    global $connection;
+    global $sectorArray;
+   
+    $checkSector = array();
+    if (!empty($_POST['sector_List'])) {
+        foreach ($_POST['sector_List'] as $selected){            
+            array_push($checkSector, $selected);
+        }
+    }
+        
+    for ($i=1; $i<=4; $i++){
+        $sectorIndex = array_search($i, array_column($sectorArray, 0));
+        if (is_numeric($sectorIndex)){
+            //functie is gevonden, dus aanwezig in database
+            $checkIndex = array_search($i, $checkSector);
+            if (!is_numeric($checkIndex)){
+                //functie is niet aangevinkt --> Delete database entry
+                $sql = mysqli_query($connection, "DELETE FROM user_sector WHERE `user_id`='".$_SESSION["user_id"]."' 
+                                                 AND `sector_id` = '".$i."'");
+            }               
+        }
+        else {
+            //functie zit niet in database
+            $checkIndex = array_search($i, $checkSector);
+            if (!is_numeric($checkIndex)){
+                //functie is niet aangevinkt
+                //$sql = mysqli_query($connection, "DELETE FROM user_functie WHERE `user_id`='".$_SESSION["user_id"]."' 
+                //                                 AND `functie_id` = '".$i."'");
+            }
+            else {
+                 //functie is aangevinkt
+                $sectorId = $checkSector[$checkIndex];
+               $sql = mysqli_query($connection, "INSERT INTO user_sector (`user_id`,`sector_id`)
+                        VALUES ('".$_SESSION['user_id']."', '".$sectorId."')");
+            }             
+        }
+    }
+ };
+ 
+ function verwerkBedrijf() {
+    global $connection;
+    global $bedrijfArray;
+   
+    $checkBedrijf = array();
+    if (!empty($_POST['bedrijf_List'])) {
+        foreach ($_POST['bedrijf_List'] as $selected){            
+            array_push($checkBedrijf, $selected);
+        }
+    }
+        
+    for ($i=1; $i<=16; $i++){
+        $bedrijfIndex = array_search($i, array_column($bedrijfArray, 0));
+        if (is_numeric($bedrijfIndex)){
+            //functie is gevonden, dus aanwezig in database
+            $checkIndex = array_search($i, $checkBedrijf);
+            if (!is_numeric($checkIndex)){
+                //functie is niet aangevinkt --> Delete database entry
+                $sql = mysqli_query($connection, "DELETE FROM user_bedrijf WHERE `user_id`='".$_SESSION["user_id"]."' 
+                                                 AND `bedrijf_id` = '".$i."'");
+            }               
+        }
+        else {
+            //functie zit niet in database
+            $checkIndex = array_search($i, $checkBedrijf);
+            if (!is_numeric($checkIndex)){
+                //functie is niet aangevinkt
+                //$sql = mysqli_query($connection, "DELETE FROM user_functie WHERE `user_id`='".$_SESSION["user_id"]."' 
+                //                                 AND `functie_id` = '".$i."'");
+            }
+            else {
+                 //functie is aangevinkt
+                $bedrijfId = $checkBedrijf[$checkIndex];
+               $sql = mysqli_query($connection, "INSERT INTO user_bedrijf (`user_id`,`bedrijf_id`)
+                        VALUES ('".$_SESSION['user_id']."', '".$bedrijfId."')");
+            }             
+        }
+    }
+ };
+ 
+ function verwerkUser() {
+     global $connection;
+        $telefoon = checkPost('telnr');        
+        $voornaam = checkPost('voornaam');
+        $tussenvoegsel = checkPost('tussenvoegsel');
+        $achternaam = checkPost('achternaam');
+        $straat = checkPost('straat');
+        $huisnummer = checkPost('huisnummer');
+        $toevoeging = checkPost('toevoeging');
+        $postcode = checkPost('postcode');
+        $woonplaats = checkPost('plaats');
+        $gebdat = checkPost('geb-datum');
+        $gebdat = "'".$gebdat."'01";
+        
+        $email = checkPost('email');
+        $salaris = checkPost('salaris');
+        $uitkering = checkPost('uitkering');
+        $uitkeringGeldigTot = checkPost('uitkeringGeldigTot'); 
+        $rijbewijs = checkPost('rijbewijs');
+        $auto = checkPost('auto');
+        $reisafstand = checkPost('reisafstand');
+        $linkedIn = checkPost('linkedIn');
+        $facebook = checkPost('facebook');
+        $twitter = checkPost('twitter');
+        
+        $sql = mysqli_query($connection, "UPDATE `user` SET 
+                        `telefoon` =   '".$telefoon."',
+                        `voornaam` =   '".$voornaam."',
+                        `tussenvoegsel` = '".$tussenvoegsel."',
+                        `achternaam` = '".$achternaam."',
+                        `straat` =     '".$straat."',
+                        `huisnummer`=  '".$huisnummer."',
+                        `toevoeging` = '".$toevoeging."',
+                        `plaats` =     '".$woonplaats."',
+                           
+                        `user_email` =      '".$email."',
+                        `salaris` =     '".$salaris."',
+                        `uitkering` =   '".$uitkering."',
+                        `uitkering_geldig_tot` =  '".$uitkeringGeldigTot."',
+                        `user_rijbewijs` =  '".$rijbewijs."',
+                        `user_auto` =   '".$auto."',
+                        `user_reisafstand` = '".$reisafstand."',
+                        `linkedin` =    '".$linkedIn."',
+                        `facebook` =    '".$facebook."',
+                        `twitter` =     '".$twitter."' 
+                         WHERE `user_id` = '".$_SESSION['user_id']."'"); 
+
+        if (mysqli_affected_rows($connection) == -1){
+            echo mysqli_error($connection);
+        }
+};
+ 
+ function checkPost($post){
+     if (isset($_POST[$post])){
+         $_SESSION[$post] = $_POST[$post];
+         return $_POST[$post];
+         
+     }
+     else {
+         return $_SESSION[$post];
+     }    
+ }

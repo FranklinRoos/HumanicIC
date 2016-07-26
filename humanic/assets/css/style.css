@@ -4,7 +4,7 @@
 div#inloggen {
     margin-top: 46px;
 }
-
+/*#email*/
 #kolomRechts {
     float: right;
     height: 100%;
@@ -339,7 +339,7 @@ body {
      font-family: serif; 
      font-size: 12pt;
 }
-#naam, #adres, #postcode, #woonplaats, #land, #telnr, #email {
+/*#naam, #adres, #postcode, #woonplaats, #land, #telnr, #email {
      width : 67%;
      color: #000099;
      background: #FFEDA6;
@@ -354,7 +354,7 @@ body {
      background: #FFEDA6;
      font-family: serif; 
      font-size: 12pt;
-}
+}*/
 
 .bestelR{
      width : 47%;
