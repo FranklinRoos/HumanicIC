@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 27 jul 2016 om 10:33
+-- Gegenereerd op: 24 jul 2016 om 22:06
 -- Serverversie: 10.1.13-MariaDB
 -- PHP-versie: 5.6.23
 
@@ -368,24 +368,23 @@ CREATE TABLE `user` (
   `cv` text NOT NULL,
   `geboortedatum` date NOT NULL,
   `salaris` int(5) NOT NULL,
-  `uitkering` varchar(10) NOT NULL,
+  `uitkeringsoort` varchar(10) NOT NULL,
   `uitkering_geldig_tot` date NOT NULL,
+  `user_sector` enum('ICT','ZORG','INDUSTRIR','RETAIL') NOT NULL DEFAULT 'ICT',
+  `user_bedrijf_grootte` enum('1-10','10-50','50-100','100-500','>500') NOT NULL,
   `user_rijbewijs` enum('ja','nee') NOT NULL,
   `user_auto` enum('ja','nee') NOT NULL,
-  `user_reisafstand` int(3) NOT NULL,
-  `linkedin` varchar(50) NOT NULL,
-  `facebook` varchar(50) NOT NULL,
-  `twitter` varchar(50) NOT NULL
+  `user_reisafstand` enum('1-15 km','15 -25 km','25-50 km','50km >') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `user`
 --
 
-INSERT INTO `user` (`user_id`, `user_inlognaam`, `user_wachtwoord`, `user_authorisatie`, `user_email`, `user_activ`, `user_form-activ`, `activ_code`, `vergeetcode`, `user_online`, `datum_gezien`, `tijdstip_gezien`, `user_sinds`, `achternaam`, `tussenvoegsel`, `voornaam`, `straat`, `huisnummer`, `toevoeging`, `postcode`, `plaats`, `telefoon`, `foto`, `cv`, `geboortedatum`, `salaris`, `uitkering`, `uitkering_geldig_tot`, `user_rijbewijs`, `user_auto`, `user_reisafstand`, `linkedin`, `facebook`, `twitter`) VALUES
-(2, 'blackliq', '8bdc0a760490ca729fa9d4711ca70893', 'admin', 'blachout@upcmail.nl', 'yes', 'yes', '', '', 'n', '2016-07-17', '03:37:32', '2016-07-01', 'Hout', 'van', 'Thijs', 'W.v.Hembyzestraat', '17', '', '1067PM', 'Amsterdam', '0615579992', '10007', 'PK\0\0\0\0\0!\0B?͉\0\0]\0\0\0[', '1978-03-15', 3500, 'WW', '2018-09-03', 'ja', 'ja', 2, '', '', ''),
-(3, 'Unal', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'selahattin@gamil.nl', 'yes', 'no', '', '', 'y', '2016-07-26', '16:34:40', '2016-07-05', 'Linde', 'van der', 'Khaleesi', 'Hoopvollestraat', '297', 'IV', '1032CJ', 'Amsersfoort', '0612345678', '10009', '', '1960-05-16', 4000, 'IOAW', '0000-00-00', 'ja', 'ja', 200, 'linkedin', 'facebook link', 'twitter'),
-(5, 'Franklin', '8bdc0a760490ca729fa9d4711ca70893', 'admin', 'frankieboy37@hotmail.com', 'yes', 'yes', '', '', 'n', '2016-07-17', '02:34:21', '2016-07-06', 'Roos', '', 'Franklin', 'Watermolenstraat', '98', '', '1098bn', 'Amsterdam', '0629359610', '10025', 'Curriculum Vitae Franklin Roos  \r\n \r\nPersoonlijke gegevens  \r\n  \r\nNaam		:		Roos  \r\nVoornaam		:  	Franklin, Imro  \r\nGeboortedatum	:		15-10-1963  \r\nAdres	:	Spaarndammerplantsoen 124  \r\nTelefoonnummer	:  		06-29359610  \r\nE-mail	:	franklin_roos@hotmail.com  \r\nLinkedIn	:	www.linkedin.com/in/franklin-roos	  	  	  \r\n  \r\n \r\nPersoonsprofiel  \r\n  \r\nIk ben een enthousiaste developer die graag zelfstandig werkt ,maar ook in teamverband functioneert. In teamverband floreer ik op mijn best. Mijn wens is om als back-end developer aan de slag te gaan.\r\n\r\nNa mijn dienstverband als facilitaire medewerker , heb ik mijn interesse in development weer opgepakt. Ik heb in 2015 een php opleiding gevolgd bij Eduvision. Als eindopdracht heb ik de website gebouwd, www.pieterspierenburg.com  Hierbij\r\nheb ik ook een relationele database gemaakt.\r\n\r\nZorgzaam: Het afgelopen half jaar heb ik mantelzorg verricht.\r\n\r\nIn mijn vrijetijd wandel ik graag, meestal minimaal 1 uur per dag.  \r\n \r\n  \r\nWerkervaring  \r\n\r\n2015 – heden 		Co3Logie Opleiding via E-learning tot .NET developer ,ik heb ervaring opgedaan in HTML5/.CSS3/JavaScript,  Mobirise en Adobe Muse\r\n	\r\n  \r\n1992 – 2014  	  		Via de firma A.J.v. Deudekom gedetacheerd bij de ING bank. De werkzaamheden: \r\n				het herinrichten van kantoorruimtes,\r\n                                                         oplossen van  eenvoudige technische storingen,\r\n                                                         begeleiden van leveranciers\r\n	het onderhouden van contacten met de klant\r\n                                                         \r\n\r\n1988 – 1992  		Diverse repro werkzaamheden via detacherings bureaus  \r\n  \r\n1986 – 1988  		vervulling van militaire dienstplicht  \r\n  \r\n \r\nOpleidingen \r\n\r\n2015 – heden	opleiding via E-learning tot .NET developer bij Co3Logie\r\n\r\nmei 2015 – september 2015	PHP professional bij Eduvision, met certificaat\r\n\r\n2014	HTML,CSS & JavaScript, zelfstudie\r\n\r\n1984 – 1986  		Vwo certificaat Wiskunde (Knorringa avondschool)  \r\n  \r\n	1984– 1985 			Certificaat Systeem Programmeur/automatisering en                                                   Programmering bij IBM-Nederland N.V. te Amsterdam  \r\n  \r\n1983 – 1984     			Havo certificaat Wiskunde en Economie (Knorringa                                                     avondschool)  \r\n\r\n  \r\n \r\nInteresses\r\n\r\nWandelen, fotografie, computer\r\n\r\n  \r\nTalen  \r\n  \r\nNederlands		moedertaal\r\nEngels		gemiddeld  \r\n  \r\n \r\n', '1973-06-15', 3200, 'WAO', '2017-08-17', 'nee', 'nee', 1, '', '', '');
+INSERT INTO `user` (`user_id`, `user_inlognaam`, `user_wachtwoord`, `user_authorisatie`, `user_email`, `user_activ`, `user_form-activ`, `activ_code`, `vergeetcode`, `user_online`, `datum_gezien`, `tijdstip_gezien`, `user_sinds`, `achternaam`, `tussenvoegsel`, `voornaam`, `straat`, `huisnummer`, `toevoeging`, `postcode`, `plaats`, `telefoon`, `foto`, `cv`, `geboortedatum`, `salaris`, `uitkeringsoort`, `uitkering_geldig_tot`, `user_sector`, `user_bedrijf_grootte`, `user_rijbewijs`, `user_auto`, `user_reisafstand`) VALUES
+(2, 'blackliq', '8bdc0a760490ca729fa9d4711ca70893', 'admin', 'blachout@upcmail.nl', 'yes', 'yes', '', '', 'n', '2016-07-17', '03:37:32', '2016-07-01', 'Hout', 'van', 'Thijs', 'W.v.Hembyzestraat', '17', '', '1067PM', 'Amsterdam', '0615579992', '10007', 'PK\0\0\0\0\0!\0B?͉\0\0]\0\0\0[', '1978-03-15', 3500, 'WW', '2018-09-03', 'ICT', '100-500', 'ja', 'ja', '15 -25 km'),
+(3, 'Unal', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'selahattin@xs4all.nl', 'yes', 'no', '', '', 'y', '2016-07-24', '17:19:16', '2016-07-05', 'Unal', '', 'Selahattin', 'Hortensiastraat', '18', '5hoog', '1032CJ', 'Amsterdam', '062960228', '10009', '', '1960-05-16', 3000, 'Wajong', '2030-01-31', 'ICT', '1-10', 'ja', 'ja', '1-15 km'),
+(5, 'Franklin', '8bdc0a760490ca729fa9d4711ca70893', 'admin', 'frankieboy37@hotmail.com', 'yes', 'yes', '', '', 'n', '2016-07-17', '02:34:21', '2016-07-06', 'Roos', '', 'Franklin', 'Watermolenstraat', '98', '', '1098bn', 'Amsterdam', '0629359610', '10025', 'Curriculum Vitae Franklin Roos  \r\n \r\nPersoonlijke gegevens  \r\n  \r\nNaam		:		Roos  \r\nVoornaam		:  	Franklin, Imro  \r\nGeboortedatum	:		15-10-1963  \r\nAdres	:	Spaarndammerplantsoen 124  \r\nTelefoonnummer	:  		06-29359610  \r\nE-mail	:	franklin_roos@hotmail.com  \r\nLinkedIn	:	www.linkedin.com/in/franklin-roos	  	  	  \r\n  \r\n \r\nPersoonsprofiel  \r\n  \r\nIk ben een enthousiaste developer die graag zelfstandig werkt ,maar ook in teamverband functioneert. In teamverband floreer ik op mijn best. Mijn wens is om als back-end developer aan de slag te gaan.\r\n\r\nNa mijn dienstverband als facilitaire medewerker , heb ik mijn interesse in development weer opgepakt. Ik heb in 2015 een php opleiding gevolgd bij Eduvision. Als eindopdracht heb ik de website gebouwd, www.pieterspierenburg.com  Hierbij\r\nheb ik ook een relationele database gemaakt.\r\n\r\nZorgzaam: Het afgelopen half jaar heb ik mantelzorg verricht.\r\n\r\nIn mijn vrijetijd wandel ik graag, meestal minimaal 1 uur per dag.  \r\n \r\n  \r\nWerkervaring  \r\n\r\n2015 – heden 		Co3Logie Opleiding via E-learning tot .NET developer ,ik heb ervaring opgedaan in HTML5/.CSS3/JavaScript,  Mobirise en Adobe Muse\r\n	\r\n  \r\n1992 – 2014  	  		Via de firma A.J.v. Deudekom gedetacheerd bij de ING bank. De werkzaamheden: \r\n				het herinrichten van kantoorruimtes,\r\n                                                         oplossen van  eenvoudige technische storingen,\r\n                                                         begeleiden van leveranciers\r\n	het onderhouden van contacten met de klant\r\n                                                         \r\n\r\n1988 – 1992  		Diverse repro werkzaamheden via detacherings bureaus  \r\n  \r\n1986 – 1988  		vervulling van militaire dienstplicht  \r\n  \r\n \r\nOpleidingen \r\n\r\n2015 – heden	opleiding via E-learning tot .NET developer bij Co3Logie\r\n\r\nmei 2015 – september 2015	PHP professional bij Eduvision, met certificaat\r\n\r\n2014	HTML,CSS & JavaScript, zelfstudie\r\n\r\n1984 – 1986  		Vwo certificaat Wiskunde (Knorringa avondschool)  \r\n  \r\n	1984– 1985 			Certificaat Systeem Programmeur/automatisering en                                                   Programmering bij IBM-Nederland N.V. te Amsterdam  \r\n  \r\n1983 – 1984     			Havo certificaat Wiskunde en Economie (Knorringa                                                     avondschool)  \r\n\r\n  \r\n \r\nInteresses\r\n\r\nWandelen, fotografie, computer\r\n\r\n  \r\nTalen  \r\n  \r\nNederlands		moedertaal\r\nEngels		gemiddeld  \r\n  \r\n \r\n', '1973-06-15', 3200, 'WAO', '2017-08-17', 'ICT', '100-500', 'nee', 'nee', '1-15 km');
 
 -- --------------------------------------------------------
 
@@ -404,9 +403,7 @@ CREATE TABLE `user_bedrijf` (
 --
 
 INSERT INTO `user_bedrijf` (`id`, `user_id`, `bedrijf_id`) VALUES
-(2, 3, 1),
-(3, 3, 2),
-(4, 3, 3);
+(1, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -431,24 +428,10 @@ INSERT INTO `user_functie` (`user_functie_id`, `user_id`, `functie_id`, `ervarin
 (3, 2, 1, 6),
 (4, 2, 2, 8),
 (5, 2, 9, 4),
+(6, 3, 4, 7),
 (7, 3, 5, 7),
 (8, 3, 8, 9),
-(9, 2, 5, 6),
-(11, 3, 5, 8),
-(12, 3, 8, 9),
-(14, 3, 5, 8),
-(15, 3, 8, 9),
-(17, 3, 5, 8),
-(18, 3, 8, 9),
-(19, 3, 2, 3),
-(21, 3, 5, 7),
-(22, 3, 8, 9),
-(23, 3, 2, 3),
-(25, 3, 5, 7),
-(26, 3, 8, 9),
-(27, 3, 2, 3),
-(28, 3, 5, 7),
-(29, 3, 8, 9);
+(9, 2, 5, 6);
 
 -- --------------------------------------------------------
 
@@ -467,8 +450,8 @@ CREATE TABLE `user_regio` (
 --
 
 INSERT INTO `user_regio` (`user_regio_id`, `user_id`, `regio_id`) VALUES
-(4, 3, 1),
-(5, 3, 13);
+(1, 3, 6),
+(2, 3, 10);
 
 -- --------------------------------------------------------
 
@@ -505,8 +488,7 @@ INSERT INTO `user_sector` (`user_sector_id`, `user_id`, `sector_id`) VALUES
 (4, 2, 4),
 (5, 1, 1),
 (6, 1, 4),
-(9, 3, 4),
-(10, 3, 3);
+(7, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -770,17 +752,17 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT voor een tabel `user_bedrijf`
 --
 ALTER TABLE `user_bedrijf`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT voor een tabel `user_functie`
 --
 ALTER TABLE `user_functie`
-  MODIFY `user_functie_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `user_functie_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT voor een tabel `user_regio`
 --
 ALTER TABLE `user_regio`
-  MODIFY `user_regio_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `user_regio_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT voor een tabel `user_reis`
 --
@@ -790,7 +772,7 @@ ALTER TABLE `user_reis`
 -- AUTO_INCREMENT voor een tabel `user_sector`
 --
 ALTER TABLE `user_sector`
-  MODIFY `user_sector_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `user_sector_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT voor een tabel `user_sociale_media`
 --
