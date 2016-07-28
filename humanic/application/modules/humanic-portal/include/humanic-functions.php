@@ -339,6 +339,8 @@ function maakSessieVariabelen()
                              $_SESSION['linkedIn'] = $row['linkedin'];
                              $_SESSION['facebook'] = $row['facebook'];
                              $_SESSION['twitter'] = $row['twitter'];
+                             $_SESSION['opmerkingen'] = $row['opmerkingen'];
+                             echo "opmerkingen : '".$_SESSION['opmerkingen'].".";
                          }
                     // Gegevens uit de SECTOR-Tabel halen 
                          $userid = $_SESSION["user_id"];
@@ -1076,7 +1078,7 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
  
     echo " <div class=\"container\">";
             echo "<h2>Registratie formulier</h2>";          
-            echo "<form id=\"fuikweb-register\" action='".htmlspecialchars($_SERVER["PHP_SELF"])."' method=post  role=\"form\">";
+            echo "<form id=\"fuikweb-register\" action='".htmlspecialchars($_SERVER["PHP_SELF"])."' method=post  role=\"form\" enctype=\"multipart/form-data\">";
             
                 persoonlijkeGegevens();		                                               
                 toonFuncties();
@@ -1132,7 +1134,10 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
 
 function handleKandidaatRegForm () 
  {
+    verwerkFoto();
+     
      verwerkUser();
+    
      verwerkFunctie();
      verwerkRegio();
      verwerkSector();
@@ -1183,6 +1188,7 @@ function handleKandidaatRegForm ()
  }
  
  function persoonlijkeGegevens(){
+     global $imagepath;
     $voornaam = variableWaarde('voornaam');
     $tussenvoegsel = variableWaarde('tussenvoegsel');
     $achternaam = variableWaarde('achternaam'); 
@@ -1196,7 +1202,7 @@ function handleKandidaatRegForm ()
     $email = variableWaarde('email');  // is al bekend in de aanmeld fase , zie aanmeld afhandeling vanaf r443
     $loginnaam = variableWaarde('loginnaam'); 
     $cv = variableWaarde('cv');
-    $foto = variableWaarde('foto');
+    $foto = $_SESSION['foto'];
     $linkedIn = variableWaarde('linkedIn');
     $facebook = variableWaarde('facebook');
     $twitter = variableWaarde('twitter');
@@ -1292,13 +1298,13 @@ function handleKandidaatRegForm ()
                 echo "</div>";	
             echo "</div>";
         echo "</section>";
-
+ 
         echo "<section id=\"sociaal_foto\">";
             echo "<div id=\"foto\" class=\"form-group\">";
-                echo "<label  for=\"foto\">Foto uploaden</label>";
+                echo "<lab el  for=\"foto\">Foto uploaden</label>";
                 echo "<div>";
                     echo "<input class=\"col-sm-3\" type=\"file\" id=\"foto\" name=\"foto\" value=$foto placeholder=\"test\"/>";
-                    echo "<img class=\"col-sm-4\" id=\"myImg\" src=\"#\" alt=\"your image\"/>";
+                    echo "<img class=\"col-sm-4\" id=\"myImg\" src=\"$imagepath"."$foto\" alt=\"your image\" width=100px height=100px/>";
                 echo "</div>";
             echo "</div>";
        
@@ -1859,12 +1865,14 @@ function handleKandidaatRegForm ()
  };
  
  function toonOpmerkingen() {
+    $opmerkingen = $_SESSION['opmerkingen']; 
+    
     echo "<section id=\"opmerkingSection\">";
         echo "<div class=\"kop\">";
                 echo "<p>Opmerkingen</p>";
         echo "</div>";	
         echo "<div class=\"col-sm-6\">";
-                echo "<textarea class=\"form-control\"  name=\"opmerkingen\" value=\"opmerking\" rows=\"5\">	</textarea>";									 
+                echo "<textarea class=\"form-control\"  name=\"opmerkingen\" value=\"\" rows=\"5\">$opmerkingen	</textarea>";									 
         echo "</div>";	
         echo "<br>";
     echo "</section>";
@@ -1992,8 +2000,9 @@ function handleKandidaatRegForm ()
  };
  
  function verwerkUser() {
+    
      global $connection;
-        $telefoon = checkPost('telnr');        
+        $telefoon = checkPost('telefoon');        
         $voornaam = checkPost('voornaam');
         $tussenvoegsel = checkPost('tussenvoegsel');
         $achternaam = checkPost('achternaam');
@@ -2015,7 +2024,9 @@ function handleKandidaatRegForm ()
         $linkedIn = checkPost('linkedIn');
         $facebook = checkPost('facebook');
         $twitter = checkPost('twitter');
-        
+        $opmerkingen = checkPost('opmerkingen');
+        $foto = $_SESSION['foto'];
+       
         $sql = mysqli_query($connection, "UPDATE `user` SET 
                         `telefoon` =   '".$telefoon."',
                         `voornaam` =   '".$voornaam."',
@@ -2035,7 +2046,9 @@ function handleKandidaatRegForm ()
                         `user_reisafstand` = '".$reisafstand."',
                         `linkedin` =    '".$linkedIn."',
                         `facebook` =    '".$facebook."',
-                        `twitter` =     '".$twitter."' 
+                        `twitter` =     '".$twitter."',
+                        `opmerkingen` = '".$opmerkingen."',
+                        `foto`          = '".$foto."'    
                          WHERE `user_id` = '".$_SESSION['user_id']."'"); 
 
         if (mysqli_affected_rows($connection) == -1){
@@ -2052,4 +2065,65 @@ function handleKandidaatRegForm ()
      else {
          return $_SESSION[$post];
      }    
+ };
+    
+ function verwerkFoto() {
+     // Check if image file is a actual image or fake image
+    error_reporting(0);
+
+    if(isset($_POST["submit"])) {
+        $check = getimagesize($_FILES["foto"]["tmp_name"]);
+        if($check !== false) {
+            $uploadOk = 1;
+        } else {
+            $uploadOk = 0;
+        }
+    }
+    error_reporting(E_ALL);
+
+    if ($uploadOk == 1) {
+        $target_dir = "C:/xampp/htdocs/HumanicKandidaat/humanic/assets/images/";
+        $img_id = uniqid();
+
+
+        $target_file = $target_dir .basename($_FILES["foto"]["name"]);
+        $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+        // Check if file already exists
+        if ($_SESSION['foto']) {
+            $_FILES["foto"]["name"] = $_SESSION['foto'];
+            $target_file = $target_dir .basename($_FILES["foto"]["name"]);
+        }
+        else {
+            $_FILES["foto"]["name"] = $img_id . "." . $imageFileType;
+            $target_file = $target_dir .basename($_FILES["foto"]["name"]);
+        }   
+
+
+
+    // Check file size
+        if ($_FILES["foto"]["size"] > 500000) {
+            echo "Sorry, your file is too large.";
+            $uploadOk = 0;
+        }
+    // Allow certain file formats
+
+        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+            && $imageFileType != "gif" ) {
+            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            $uploadOk = 0;
+        }
+
+    // Check if $uploadOk is set to 0 by an error
+        if ($uploadOk == 0) {
+            echo "Sorry, your file was not uploaded.";
+    // if everything is ok, try to upload file
+        } else {
+            if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
+    //            echo "The file ". basename( $_FILES["foto"]["name"]). " has been uploaded.";
+                $_SESSION['foto'] = basename($_FILES["foto"]["name"]);
+            } else {
+                echo "Sorry, there was an error uploading your file.";
+            }
+        }
+    }
  }
