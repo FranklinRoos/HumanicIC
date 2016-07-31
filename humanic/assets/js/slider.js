@@ -1,4 +1,31 @@
 $(document).ready(function () {
+    
+        $("#buttonCv").click(function() {
+            var newWindow = '';
+            var left = (screen.width/2)-(200);
+            var top = (screen.height/2)-(150);
+
+            newWindow = window.open("http://localhost/HumanicKandidaat/humanic/popUpCV.php", 'popupCV', 'height=300, width=400, left='+left+', top='+top);
+            if (window.focus) 
+            {
+                newWindow.focus();
+            }
+            return false;
+        })
+        
+        $("#buttonFoto").click(function() {
+            var newWindow = '';
+            var left = (screen.width/2)-(200);
+            var top = (screen.height/2)-(150);
+
+            newWindow = window.open("http://localhost/HumanicKandidaat/humanic/popUpFoto.php", 'popupFoto', 'height=300, width=400, left='+left+', top='+top);
+            if (window.focus) 
+            {
+                newWindow.focus();
+            }
+            return false;
+        })
+        
 
 	$("#rijbewijsCheck").change(function() {
 				

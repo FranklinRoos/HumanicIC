@@ -328,6 +328,7 @@ function maakSessieVariabelen()
                              $_SESSION['telefoon'] = $row['telefoon'];
                              $_SESSION['foto'] = $row['foto'];
                              $_SESSION['cv'] = $row['cv'];
+                             echo "cv : '".$_SESSION['cv']."'";
                              $_SESSION['geb-datum'] = $row['geboortedatum'];
                              $_SESSION['salaris'] = $row['salaris'];
                              $_SESSION['uitkering'] = $row['uitkering'];
@@ -1135,6 +1136,7 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
 function handleKandidaatRegForm () 
  {
     verwerkFoto();
+    //verwerkCV();
      
      verwerkUser();
     
@@ -1142,6 +1144,11 @@ function handleKandidaatRegForm ()
      verwerkRegio();
      verwerkSector();
      verwerkBedrijf();
+     error_reporting(0);
+     showKandidaatRegForm();
+     
+     header("Refresh:0");
+     error_reporting(E_ALL);
       /* 
                        
         
@@ -1189,6 +1196,7 @@ function handleKandidaatRegForm ()
  
  function persoonlijkeGegevens(){
      global $imagepath;
+     global $cvpath;
     $voornaam = variableWaarde('voornaam');
     $tussenvoegsel = variableWaarde('tussenvoegsel');
     $achternaam = variableWaarde('achternaam'); 
@@ -1201,7 +1209,7 @@ function handleKandidaatRegForm ()
     $geboorteDatum = variableWaarde('geb-datum');
     $email = variableWaarde('email');  // is al bekend in de aanmeld fase , zie aanmeld afhandeling vanaf r443
     $loginnaam = variableWaarde('loginnaam'); 
-    $cv = variableWaarde('cv');
+    $cv = $_SESSION['cv'];
     $foto = $_SESSION['foto'];
     $linkedIn = variableWaarde('linkedIn');
     $facebook = variableWaarde('facebook');
@@ -1301,17 +1309,34 @@ function handleKandidaatRegForm ()
  
         echo "<section id=\"sociaal_foto\">";
             echo "<div id=\"foto\" class=\"form-group\">";
-                echo "<lab el  for=\"foto\">Foto uploaden</label>";
+                //echo "<label  for=\"foto\">Foto uploaden</label>";
                 echo "<div>";
-                    echo "<input class=\"col-sm-3\" type=\"file\" id=\"foto\" name=\"foto\" value=$foto placeholder=\"test\"/>";
-                    echo "<img class=\"col-sm-4\" id=\"myImg\" src=\"$imagepath"."$foto\" alt=\"your image\" width=100px height=100px/>";
+                    //echo "<input class=\"col-sm-3 btn btn-primary btn-sm foto\" type=\"file\" id=\"foto\" name=\"foto\" multiple/>";
+                    
+                    echo "<img class=\"col-sm-6\" id=\"myImg\" src=\"$imagepath"."$foto\" alt=\"your image\" width=\"100px\" height=\"100px\"/>";
+                    echo "<button class=\"col-sm-4 btn btn-primary btn-sm foto\" type=\"button\" id=\"buttonFoto\">Foto uploaden</button>";
                 echo "</div>";
+                
             echo "</div>";
-       
+            
+
+
             echo "<div id=\"cv\" class=\"form-group\">";
-                 echo "<label  for=\"cv\">CV uploaden</label>";
+                 
                  echo "<div>";
-                    echo "<input class=\"col-sm-3\" type=\"file\" class=\"form-control\" id=\"cv\" name=\"cv\" value=$cv />";
+                    $cvpath = "http://localhost/HumanicKandidaat/humanic/assets/cv/";
+                    if ($cv != ""){
+                        echo "<a class=\"col-sm-4\" href=\"$cvpath".$cv."\"  TARGET=\"_blank\">CV bekijken  </a>";
+                    }    
+                    echo "<button class=\"col-sm-4 btn btn-primary btn-sm cv\" type=\"button\" id=\"buttonCv\">CV uploaden</button>";
+                    
+                    
+                    //$cvpath = "file://localhost/HumanicKandidaat/humanic/assets/cv/$cv";
+                    
+                    
+                    
+                     //echo "<input class=\"col-sm-6 cv\" type=\"file\" id=\"cv\" name=\"cv\"/>";
+                     
                  echo "</div>";
             echo "</div>";
         echo "</section>";
@@ -1616,10 +1641,10 @@ function handleKandidaatRegForm ()
     $uitkering = variableWaarde('uitkering');
     
     $uitkeringGeldigTot = variableWaarde('uitkeringGeldigTot');
-    if ($uitkeringGeldigTot != " "){
+    /*if ($uitkeringGeldigTot != " "){
         $date = new DateTime($uitkeringGeldigTot);
         $uitkeringGeldigTot = date_format($date, 'M-Y');
-    }
+    }*/
     
     $selectWW; $selectWajong; $selectIOAW; $selectBijstand = "";
     switch ($uitkering) {
@@ -2127,3 +2152,5 @@ function handleKandidaatRegForm ()
         }
     }
  }
+ 
+ 

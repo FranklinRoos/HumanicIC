@@ -51,18 +51,19 @@ article{
 
 #sociale_media{
 	float : right;
+        margin-top : 20px;
         width : 40%;
 /* 	heigth : 325px; */
 	border : 1px solid black;
         padding : 10px;
-        margin-left : -50px;
+       /* margin-left : -50px;*/
 }
 
 #sociaal_foto{
-	
-        float: right;
-	margin-left : 25px;
-	/*width : 40%;*/
+        /*border : 1px solid black;*/
+        float: left;
+	/*margin-left : 50px;*/
+	width : 40%;
 }
 
 #fototest{
@@ -70,15 +71,43 @@ article{
 }
 
 #foto {
-	margin-left : 2px;
-        float : left;
-        margin-bottom : 10px;
+	margin-left : 100px;
+        /*float : left;*/
+        margin-bottom : 25px;
 }
 
 #cv {
-	margin-left : 5px;
+	margin-left : 100px;
         margin-bottom : 25px;
         clear : both;
+}
+
+.objSelect {
+    color : blue;
+    margin : 25px;
+    
+}
+
+.objOpslaan {
+    margin-left : 25px;
+}
+
+.objP {
+    color : red;
+}
+
+#myImg {
+    float : left;
+    width : 100px;
+    height : 100px;
+    margin-right : 25px;
+    margin-bottom : 25px;
+}
+
+#myCV {
+    float : left;
+    width : 100px;
+    height : 100px;
 }
 
 .kop{
