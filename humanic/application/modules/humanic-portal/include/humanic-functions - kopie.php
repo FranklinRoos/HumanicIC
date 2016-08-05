@@ -1,6 +1,53 @@
 <?php
 global $connection;
-
+// vullen functie array
+/*$functieArray = array();
+$sql = mysqli_query($connection, "SELECT * FROM user_functie WHERE `user_id` = '".$_SESSION['user_id']."'");
+    if ($sql){
+        while ($row = mysqli_fetch_assoc($sql)) {
+            $newArray = array($row['functie_id'], $row['ervaring']);
+            array_push($functieArray, $newArray);
+        }
+    }
+    else {
+        echo "fout";
+    };
+//vullen sectorArray    
+$sectorArray = array();
+    $sql = mysqli_query($connection, "SELECT * FROM user_sector WHERE `user_id` = '".$_SESSION['user_id']."'");
+    if ($sql){
+        while ($row = mysqli_fetch_assoc($sql)) {
+            $newArray = array($row['sector_id']);
+            array_push($sectorArray, $newArray);
+        }
+    }
+    else {
+        echo "fout";
+    };
+//vullen bedrijf Array    
+$bedrijfArray = array();
+    $sql = mysqli_query($connection, "SELECT * FROM user_bedrijf WHERE `user_id` = '".$_SESSION['user_id']."'");
+    if ($sql){
+        while ($row = mysqli_fetch_assoc($sql)) {
+            $newArray = array($row['bedrijf_id']);
+            array_push($bedrijfArray, $newArray);
+        }
+    }
+    else {
+        echo "fout";
+    };
+// vullen regio array    
+$regioArray = array();
+    $sql = mysqli_query($connection, "SELECT * FROM user_regio WHERE `user_id` = '".$_SESSION['user_id']."'");
+    if ($sql){
+        while ($row = mysqli_fetch_assoc($sql)) {
+            $newArray = array($row['regio_id']);
+            array_push($regioArray, $newArray);
+        }
+    }
+    else {
+        echo "fout";
+    };*/
     
     
 function showPaswVergForm()// deze functie gebruik ik (nog) niet , is een test.
@@ -111,7 +158,6 @@ function showForm()
         echo "<table id=\"login\">";
         echo "<tr><td>Geef uw login naam:</td>";
         echo "<td><input type='text' name='login'></td></tr>";
-        echo "<tr><td>&nbsp</td></tr>";
         echo "<tr id=\"loginnaam\" ><td>Geef uw wachtwoord:</td>";       
         echo "<td><input type='password' name='passwd'></td></tr>";
         echo "</table>";
@@ -129,7 +175,7 @@ function showForm()
 function handleForm()
     {
         global $connection;
-        global $pageNavId;
+        
         if (!isset($_SESSION["tellerInloggen"]))
         {
             $_SESSION["tellerInloggen"]=0;
@@ -151,7 +197,7 @@ function handleForm()
                 $correct_passwd = trim(getPassword($_POST['login']));//hier wordt het ww behorende bij de loginnaam opgevraagd
                 if (md5(trim($_POST['passwd']))==trim($correct_passwd))//hier wordt het ww behorende bij de loginnaam vergeleken met het opgegeven ww
                   {
-                      
+                      maakSessieVariabelen();
                        $sql2 = mysqli_query($connection,"SELECT * FROM `user` WHERE `user_inlognaam`='".$_POST["login"]."' AND `user_activ`='yes'");
                       
                         if (mysqli_num_rows($sql2)==0)  
@@ -161,8 +207,6 @@ function handleForm()
                             }
                        while ($row = mysqli_fetch_assoc($sql2))//de login procedure is succesvol doorlopen,dus kunnen de sessie-variabelen nu gemaakt worden
                          {
-                             $userid = $row['user_id'];
-                             $_SESSION["user_id"] = $userid;
                              $_SESSION['user-form'] = $row['user_form-activ'];
                              $_SESSION['passwd'] = md5(trim($_POST['passwd']));
                              $_SESSION['email'] = $row['user_email'];
@@ -187,11 +231,13 @@ function handleForm()
                                   $laatsgezienTijdstip = $row['tijdstip_gezien'];//en anders het opgeslagen tijdstip uit de db
                                 }
                              //Informatie uit de user tabel
-                             maakSessieVariabelen();
+                             $_SESSION[' '] = $row[' '];
                              $_SESSION['laatsgezien'] = $laatsgezien;
                              $_SESSION['laatsgezienTijdstip'] = $laatsgezienTijdstip;
                            
-                             $_SESSION['onlineIP'] = $_SERVER['REMOTE_ADDR'];                             
+                             $_SESSION['onlineIP'] = $_SERVER['REMOTE_ADDR'];
+                             $userid = $row['user_id'];
+                             $_SESSION["user_id"] = $userid;
                              $_SESSION["user_authorisatie"] = $auth;
                              $_SESSION["loginnaam"] = $_POST["login"];
                              //$_SESSION["password"] = md5(trim($_POST["passwd"]));
@@ -209,9 +255,9 @@ function handleForm()
                                            //de tabel 'online' in de database updaten
                              
                            //Terug naar het logon.php script  
-                          echo "<script type=\"text/javascript\">
+ /*                          echo "<script type=\"text/javascript\">
                            window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/login.php\"
-                           </script>";  
+                           </script>";    */
               
                         $sql = mysqli_query($connection, "SELECT * FROM `pages` WHERE `page_nav_id`=$pageNavId and `page_show` ='y'");
                         echo "<div class=\"container\">";
@@ -260,9 +306,9 @@ function handleForm()
 function maakSessieVariabelen() 
 {
         global $connection;
-        $user_id = $_SESSION['user_id'];
+
                      // Eerst gegevens uit de USER-Tabel halen 
-                         $sql4 = mysqli_query($connection, "SELECT * FROM `user` WHERE `user_id`='".$_SESSION["user_id"]."' AND `user_activ`='yes'");
+                         $sql4 = mysqli_query($connection, "SELECT * FROM `user` WHERE `user_inlognaam`='".$_POST["login"]."' AND `user_activ`='yes'");
                       
                         if (mysqli_num_rows($sql4)==0)  
                             {
@@ -281,23 +327,87 @@ function maakSessieVariabelen()
                              $_SESSION['plaats'] = $row['plaats'];
                              $_SESSION['telefoon'] = $row['telefoon'];
                              $_SESSION['foto'] = $row['foto'];
-                             if(isSet($row['cv'])){$_SESSION['cv'] = $row['cv'];}
-                             else {$_SESSION['cv'] = "";}
+                             $_SESSION['cv'] = $row['cv'];
+                             echo "cv = '".$_SESSION['cv']."'";
                              $_SESSION['geb-datum'] = $row['geboortedatum'];
                              $_SESSION['salaris'] = $row['salaris'];
                              $_SESSION['uitkering'] = $row['uitkering'];
-                             //$_SESSION['uitkeringGeldigTot'] = date_format($row['uitkering_geldig_tot'], "F Y");
-                             $_SESSION['uitkeringGeldigTot'] = $row['uitkering_geldig_tot'];
+                             $_SESSION['uitkeringGeldigTot'] = date_format($row['uitkering_geldig_tot'], "F Y");
                              $_SESSION['bedrijf-grootte'] = $row['user_bedrijf_grootte'];
-                             $_SESSION['rijbewijs'] = $row['rijbewijs'];
-                             $_SESSION['auto'] = $row['auto'];
-                             $_SESSION['reisafstand'] = $row['reisafstand'];
+                             $_SESSION['rijbewijs'] = $row['user_rijbewijs'];
+                             $_SESSION['auto'] = $row['user_auto'];
+                             $_SESSION['reisafstand'] = $row['user_reisafstand'];
                              $_SESSION['linkedIn'] = $row['linkedin'];
                              $_SESSION['facebook'] = $row['facebook'];
                              $_SESSION['twitter'] = $row['twitter'];
-                             $_SESSION['opmerking'] = $row['opmerking'];
+                             $_SESSION['opmerkingen'] = $row['opmerkingen'];
+                             echo "opmerkingen : '".$_SESSION['opmerkingen'].".";
                          }
+                    // Gegevens uit de SECTOR-Tabel halen 
+                         $userid = $_SESSION["user_id"];
+                    $sql5 = mysqli_query("SELECT * FROM `user_sector` WHERE `user_id`='".$userid."' ");
+                      
+                        if (mysqli_num_rows($sql4)==0)  
+                            {
+                             die ("U bent nog niet geregistreerd,of uw registratite is nog niet voltooid  ");
+                            
+                            }
+                       while ($row = mysqli_fetch_assoc($sql4))//de login procedure is succesvol doorlopen,dus kunnen de sessie-variabelen nu gemaakt worden
+                         {
+                            if($row['sector_naam']=='ICT')
+                             $_SESSION['werkbox1'] = '1';
+                            
+                            if($row['sector_naam']=='Zorg')
+                             $_SESSION['werkbox2'] = '2';
+                            
+                            if($row['sector_naam']=='Industrie')
+                             $_SESSION['werkbox3'] = '3';
+                            
+                            if($row['sector_naam']=='Retail')
+                             $_SESSION['werkbox4'] = '4';
 
+                         }     
+           $sql6 = mysqli_query($connection, "SELECT * FROM `user_functie` WHERE `user_id`='".$userid."' ");
+                      
+                        if (mysqli_num_rows($sql4)==0)  
+                            {
+                             die ("U bent nog niet geregistreerd,of uw registratite is nog niet voltooid  ");
+                            
+                            }
+                       while ($row = mysqli_fetch_assoc($sql4))//de login procedure is succesvol doorlopen,dus kunnen de sessie-variabelen nu gemaakt worden
+                         {
+                            if($row['functie_id']=='1')
+                             $_SESSION['fbox'] = '1';
+                            
+                           if($row['functie_id']=='2')
+                             $_SESSION['fbox'] = '2';
+                            
+                           if($row['functie_id']=='3')
+                             $_SESSION['fbox'] = '3';
+                            
+                           if($row['functie_id']=='4')
+                             $_SESSION['fbox'] = '4';
+                           
+                           if($row['functie_id']=='5')
+                             $_SESSION['fbox'] = '5';
+                           
+                           if($row['functie_id']=='6')
+                             $_SESSION['fbox'] = '6';
+                           
+                           if($row['functie_id']=='7')
+                             $_SESSION['fbox'] = '7';
+                           
+                           if($row['functie_id']=='8')
+                             $_SESSION['fbox'] = '8';
+                           
+                           if($row['functie_id']=='9')
+                             $_SESSION['fbox'] = '9';
+                           
+                           if($row['functie_id']=='10')
+                             $_SESSION['fbox'] = '10';
+                         }           
+                                       
+    
 }
     
     
@@ -376,13 +486,10 @@ function showAanmeldForm($naam="",$email="")
         echo "<table id=\"login\">";
         echo "<tr><td>Typ uw login naam:</td>";
         echo "<td><input type='text' name='reglogin' value='".$naam."'</td></tr>";
-        echo "<tr><td>&nbsp</td></tr>";
         echo "<tr><td>E-mailadres: </td>";
         echo "<td><input type='text' name='emailuser' value='".$email."'></td></tr>";
-        echo "<tr><td>&nbsp</td></tr>";
         echo "<tr><td>Typ uw wachtwoord:</td>";
         echo "<td><input type='password' name='regpasswd1'</td></tr>";
-        echo "<tr><td>&nbsp</td></tr>";
         echo "<tr><td>Herhaal uw wachtwoord:</td>";
         echo "<td><input type='password' name='regpasswd2'></td></tr>";
         echo "</table>";
@@ -610,8 +717,8 @@ ini_set('sendmail_from', $from);
 $headers   = array();
 $headers[] = "MIME-Version: 1.0";
 $headers[] = "Content-type: text/plain; charset=iso-8859-1";
-$headers[] = "From: HumanIC <{$from}>";
-$headers[] = "Reply-To: HumanIC <{$from}>";
+$headers[] = "From: Humanic IC <{$from}>";
+$headers[] = "Reply-To: Humanic IC <{$from}>";
 //$headers[] = "Subject: {$subject}";
 $headers[] = "X-Mailer: PHP/".phpversion();
 
@@ -620,8 +727,8 @@ mail($to, $subject, $email, implode("\r\n", $headers) );
     
 }
 
-/*
-// function om het bestelformulier te laten zien       
+// function om het bestelformulier te laten zien
+        
 function showBestelForm($naam="", $adres="", $postcode="", $woonplaats="", $land="nederland", $telefoon="", $email="")//deze functie heb ik niet meer gebruikt
     {
         global $PHP_SELF;
@@ -644,9 +751,8 @@ function showBestelForm($naam="", $adres="", $postcode="", $woonplaats="", $land
         echo "</table><br />"; 
         echo "<input type='submit' name='submit' value='Verzenden'><br /><br />";
         echo "</form>";
-      } */
+      }
 
-/*
 function handleBestelForm()//deze functie heb ik niet meer gebruikt
  {  
         global $connection;
@@ -817,7 +923,7 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
                     }
        
      }
-   } */
+   }
    
 
  function showContactForm($naam="",$email="",$subject="",$bericht="")
@@ -970,18 +1076,18 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
  function showKandidaatRegForm () 
  { 
     global $connection;
-    global $cvpath;
+ 
     echo " <div class=\"container\">";
-            echo "<h1 class=\"profiel\">Je persoonlijk profiel</h1>";          
-           echo "<form id=\"fuikweb-register\" action='".htmlspecialchars($_SERVER["PHP_SELF"])."' method=\"post\"  enctype=\"multipart/form-data\" role=\"form\">";
-           // echo "<form id=\"data\" action='".htmlspecialchars($_SERVER["PHP_SELF"])."' method=\"post\"  enctype=\"multipart/form-data\" role=\"form\">"; 
+            echo "<h2>Registratie formulier</h2>";          
+            echo "<form id=\"fuikweb-register\" action='".htmlspecialchars($_SERVER["PHP_SELF"])."' method=post  role=\"form\" enctype=\"multipart/form-data\">";
+            
                 persoonlijkeGegevens();		                                               
                 toonFuncties();
                 toonMobielUitkering();
                 toonSector();
                 toonRegio();
                 toonOpmerkingen();
-               $_files="";    
+                    
                 echo "<section id=\"opslaan\">";
                         echo "<br><br>";
                         echo "<div class=\"text-right\">";
@@ -994,21 +1100,44 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
             echo "</form>";
     echo "</div>";
 			
+		//echo "<footer>";
+		//echo "</footer>";
+ /*    echo "<script src=\"http://code.jquery.com/jquery-1.11.0.min.js\" type=\"text/javascript\"></script>
+        <script src=\"http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js\"></script>
+        <script src=\"js/bootstrap-slider.js\" type=\"text/javascript\"></script>
+		<script src=\"js/fuik.js\" type=\"text/javascript\"></script>		
+		<script src=\"js/slider.js\" type=\"text/javascript\"></script>";
+                
+     echo "<script type=\"text/javascript\">
+         <!---
+				$("#file").change(function () {
+					if (this.files && this.files[0])
+                                                                                      {
+						var reader = new FileReader();
+						reader.onload = imageIsLoaded;
+						reader.readAsDataURL(this.files[0]);
+					        }
+				});
+		
+			
+	`		function imageIsLoaded(e) {
+				$('#myImg').attr('src', e.target.result);
+			};
+		
+       --->
+              
+              </script> "; */
+     
+     
+     
+ 
 }
 
 function handleKandidaatRegForm () 
  {
-    
-    if($_FILES['foto'])
-                {
-                    //echo "conditie 2, de foto is gewijzigd<br/>";
-                    verwerkFoto();
-                    }
-   if($_FILES['cv'])
-                {
-                    //echo "conditie 3, de cv is veranderd<br/>";
-                    verwerkCV();
-                    }            
+    verwerkFoto();
+    //verwerkCV();
+     
      verwerkUser();
     
      verwerkFunctie();
@@ -1016,10 +1145,53 @@ function handleKandidaatRegForm ()
      verwerkSector();
      verwerkBedrijf();
      error_reporting(0);
-     maakSessieVariabelen();
-     header("Refresh:0");
      showKandidaatRegForm();
+     
+     header("Refresh:0");
      error_reporting(E_ALL);
+      /* 
+                       
+        
+       */
+        
+       
+      /* else //Er zijn geen fouten,presenteer de gegevens  
+       {
+        
+          $sql = mysqli_query($connection, "INSERT INTO bestelling (`boek_id`,`user_id`,`user_inlognaam`, `boek_titel`, `aantal`,
+              `user_email`,`bestelling_naam`,`straatnaam`, `postcode`, `woonplaats`, `land`, `mobiel`)
+              VALUES ('".$boek_id."', '".$_SESSION['user_id']."', '".$_SESSION['loginnaam']."', '".$boek_titel."', '".$_POST['aantal']."',"
+                  . " '".$_POST['email']."', '".$_POST['naam']."', '".$_POST['adres']."', '".$_POST['postcode']."',"
+                  . " '".$_POST['woonplaats']."', '".$_POST['land']."','".$_POST['telefoon']."')");
+                 if (mysqli_affected_rows()==0)
+                    {
+                        //de gegevens zijn niet toegevoegd.
+                        echo "error adding info, try again later";
+                    } 
+                    else
+                    {
+                        
+                     echo "<h3>Uw Bestelling is succesvol verstuurd,de afhandeling kan 2 weken duren !</h3>";
+                     echo "<h4>Dit zijn uw Gegevens</h4><hr>";
+                     echo "<table class=\table\"><h5>";
+                     echo "<tr><td id=\"bestelL\">User-ID:</td><td id=\"bestelR\"> ".$_SESSION['user_id']."</td></tr>";
+                     echo "<tr><td id=\"bestelL\">Inlognaam:</td><td id=\"bestelR\">".$_SESSION['loginnaam']."</td></tr>";
+                     echo "<tr><td id=\"bestelL\">Naam:</td><td id=\"bestelR\"> ".$_POST["naam"]."</td></tr>";
+                     echo "<tr><td id=\"bestelL\">Adres:</td><td id=\"bestelR\"> ".$_POST["adres"]."</td></tr>";
+                     echo "<tr><td id=\"bestelL\">Postcode:</td><td id=\"bestelR\"> ".$_POST["postcode"]."</td></tr>";
+                     echo "<tr><td id=\"bestelL\">Woonplaats:</td><td id=\"bestelR\"> ".$_POST["woonplaats"]."</td></tr>";
+                     echo "<tr><td id=\"bestelL\">Land:</td><td id=\"bestelR\"> ".$_POST['land']."</td></tr>";
+                     echo "<tr><td id=\"bestelL\">Telefoon:</td><td id=\"bestelR\"> ".$_POST["telefoon"]."</td></tr>";
+                     echo "<tr><td id=\"bestelL\">E-Mail:</td><td id=\"bestelR\"> ".$_POST["email"]."</td></tr>";
+                     echo "<tr><td id=\"bestelL\">Boek-ID:</td><td id=\"bestelR\"> ".$boek_id."</td></tr>";
+                     echo "<tr><td id=\"bestelL\">Boek-titel:</td><td id=\"bestelR\"> ".$boek_titel."</td></tr>";
+                     echo "<tr><td id=\"bestelL\">Aantal besteld:</td><td id=\"bestelR\">".$_POST['aantal']."</td></tr>";
+                     echo "</h5></table>";
+                    }
+       
+     }*/
+     
+     
  }
  
  function persoonlijkeGegevens(){
@@ -1037,7 +1209,7 @@ function handleKandidaatRegForm ()
     $geboorteDatum = variableWaarde('geb-datum');
     $email = variableWaarde('email');  // is al bekend in de aanmeld fase , zie aanmeld afhandeling vanaf r443
     $loginnaam = variableWaarde('loginnaam'); 
-    $cv = $_SESSION['cv'];
+    $cv = $_SESSION['cv']; echo "cv : '".$cv."'";
     $foto = $_SESSION['foto'];
     $linkedIn = variableWaarde('linkedIn');
     $facebook = variableWaarde('facebook');
@@ -1134,36 +1306,53 @@ function handleKandidaatRegForm ()
                 echo "</div>";	
             echo "</div>";
         echo "</section>";
-        global $path;
-        global $imagepath;
-        global $cvpath;
- echo "<section id=\"sociaal_foto\">";
-           echo "<div id=\"fotoDiv\" class=\"form-group\">";
-                            
-                    echo "<label  for=\"foto\">Foto uploaden</label>";
-                    echo "<div>";
+ 
+        echo "<section id=\"sociaal_foto\">";
+            echo "<div id=\"foto\" class=\"form-group\">";
+                //echo "<label  for=\"foto\">Foto uploaden</label>";
+                echo "<div>";
+                echo "<input class=\"col-sm-3 btn btn-primary btn-sm \" type=\"file\" id=\"foto\" name=\"foto\" form=\"#myImg\"/>";
+                /*if (isset($_FILES['foto'])){
                     
-                            if($_SESSION['foto']){
-                           // echo "<img class=\"col-sm-4\" id=\"myImg\" src=\"$imagepath"."$foto\" alt=\"your image\" width=80px height=80px style=\"margin: 5px;\"/>";
-                                echo "<img class=\"col-sm-3\" id=\"myImg\" src=\"$imagepath"."$foto\" alt=\"your image\" width=100px height=100px style=\"margin: 5px;\"/>";
-                                }
-                            echo "<input class=\"col-sm-5 btn btn-primary btn-sm\" type=\"file\" id=\"foto\" name=\"foto\"  />";
-                            
-                    echo "</div>";      
-         echo "</div>";
- echo "</section>";           //echo "</div>";
- echo "<section id=\"cv-upload\">";      
-            echo "<div id=\"cvDiv\" class=\"form-group\">";
-                 echo "<label  for=\"cv\">CV uploaden</label>";
+                    $foto = $_FILES['foto'].[name];
+                    
+                }
+                else {
+                    $foto="";
+                }*/
+                
+                //echo "<img class=\"col-sm-6\" id=\"myImg\" src=\"$imagepath"."$foto\" alt=\"your image\" width=\"100px\" height=\"100px\"/>";
+                echo "<img class=\"col-sm-6\" id=\"myImg\" src=\"$imagepath"."$foto\" alt=\"your image\" width=\"100px\" height=\"100px\"/>";
+                    //echo "<button class=\"col-sm-4 btn btn-primary btn-sm foto\" type=\"button\" id=\"buttonFoto\">Foto uploaden</button>";
+                echo "</div>";
+                
+            echo "</div>";
+            
+
+
+            echo "<div id=\"cv\" class=\"form-group\">";
+                 
                  echo "<div>";
-                        if ($_SESSION['cv'] != ""){ 
-                            echo "<p class=\"col-sm-4\">Uw <a id=\"cvRef\" href=\"$cvpath".$_SESSION['cv']."\"  TARGET=\"_blank\">cv inzien.</a></p>";
-                        }
-                         //echo "mark>CV UPLOADEN.</mark><br/><br/>";
-                        echo "<input class=\"col-sm-5 btn btn-primary btn-sm\" type=\"file\" class=\"form-control\" id=\"cv\" name=\"cv\"  />";
-                        echo "<p class=\"col-sm-12\" id=\"fotoMelding\">Let op. De foto wordt pas opgeslagen na het opslaan van het formulier! De nieuwe CV is dan ook zichtbaar.</p>";
-                      //echo "<button class=\"col-sm-4 btn btn-primary btn-sm cv\" type=\"button\" id=\"buttonCv\">CV uploaden</button>";//JS versie Thijs
-                   // echo "een nieuwe cv<a href=\"$path//application/modules/humanic-portal/cv-upload.php\" ><mark> uploaden.</mark></a>";// dit is als voorbeeld voor thijs hoe je nieuwe pagina toevoegd
+                    //$cvpath = "http://localhost/HumanicKandidaat/humanic/assets/cv/";
+                    //if ($cv != ""){
+                      //  echo "<a class=\"col-sm-4\" href=\"$cvpath".$cv."\"  TARGET=\"_blank\">CV bekijken  </a>";
+                    //}    
+                    //echo "<button class=\"col-sm-4 btn btn-primary btn-sm cv\" type=\"button\" id=\"buttonCv\">CV uploaden</button>";
+                    
+                    
+                    //$cvpath = "file://localhost/HumanicKandidaat/humanic/assets/cv/$cv";
+                    
+                    
+                    
+                     echo "<input class=\"col-sm-6 cv\" type=\"file\" id=\"cv\" name=\"cv1\" form=\"#myCV\"/><a href=\"http://localhost/HumanicKandidaat/humanic/application/modules/humanic-portal/verwerkCV.php\></a>";
+                     echo "<a class=\"col-sm-4\" href=\"$cvpath".$cv."\"  TARGET=\"_blank\" id=\"myCV\">CV bekijken  </a>";
+                     /*if (isset($_FILES[1])){
+                        $cv = $_FILES[1].[name];
+                     }
+                     else {
+                         $cv="";
+                     } */ 
+                     //echo "cv '".$cv."'";
                  echo "</div>";
             echo "</div>";
             
@@ -1718,16 +1907,14 @@ function handleKandidaatRegForm ()
  };
  
  function toonOpmerkingen() {
-    //$opmerking = $_SESSION['opmerkingen']; 
+    $opmerkingen = $_SESSION['opmerkingen']; 
     
     echo "<section id=\"opmerkingSection\">";
         echo "<div class=\"kop\">";
                 echo "<p>Opmerkingen</p>";
         echo "</div>";	
         echo "<div class=\"col-sm-6\">";
-                $opmerking = variableWaarde('opmerking');
-                
-                echo "<textarea class=\"form-control\"  name=\"opmerking\"  rows=\"5\">$opmerking	</textarea>";									 
+                echo "<textarea class=\"form-control\"  name=\"opmerkingen\" value=\"\" rows=\"5\">$opmerkingen	</textarea>";									 
         echo "</div>";	
         echo "<br>";
     echo "</section>";
@@ -1857,7 +2044,6 @@ function handleKandidaatRegForm ()
  function verwerkUser() {
     
      global $connection;
-        $user_id = $_SESSION['user_id'];
         $telefoon = checkPost('telefoon');        
         $voornaam = checkPost('voornaam');
         $tussenvoegsel = checkPost('tussenvoegsel');
@@ -1869,8 +2055,7 @@ function handleKandidaatRegForm ()
         $woonplaats = checkPost('plaats');
         $gebdat = checkPost('geb-datum');
         $gebdat = "'".$gebdat."'01";
-        $foto = $_SESSION['foto'];
-        $cv = $_SESSION['cv'];
+        
         $email = checkPost('email');
         $salaris = checkPost('salaris');
         $uitkering = checkPost('uitkering');
@@ -1881,8 +2066,9 @@ function handleKandidaatRegForm ()
         $linkedIn = checkPost('linkedIn');
         $facebook = checkPost('facebook');
         $twitter = checkPost('twitter');
-        $opmerking = checkPost('opmerking');
-        
+        $opmerkingen = checkPost('opmerkingen');
+        $foto = $_SESSION['foto'];
+       
         $sql = mysqli_query($connection, "UPDATE `user` SET 
                         `telefoon` =   '".$telefoon."',
                         `voornaam` =   '".$voornaam."',
@@ -1891,23 +2077,21 @@ function handleKandidaatRegForm ()
                         `straat` =     '".$straat."',
                         `huisnummer`=  '".$huisnummer."',
                         `toevoeging` = '".$toevoeging."',
-                        `postcode` = '".$postcode."',
                         `plaats` =     '".$woonplaats."',
-                         `foto` = '".$foto."',  
+                           
                         `user_email` =      '".$email."',
                         `salaris` =     '".$salaris."',
                         `uitkering` =   '".$uitkering."',
                         `uitkering_geldig_tot` =  '".$uitkeringGeldigTot."',
-                        `rijbewijs` =  '".$rijbewijs."',
-                        `auto` =   '".$auto."',
-                        `reisafstand` = '".$reisafstand."',
-                        `opmerking` = '".$opmerking."',
-                        `linkedin`= '".$linkedIn."',
-                        `twitter`= '".$twitter."',
-                        `facebook` =  '".$facebook."',
-                        `cv` = '".$cv."'
-                     
-                         WHERE `user_id` = '".$user_id."'"); 
+                        `user_rijbewijs` =  '".$rijbewijs."',
+                        `user_auto` =   '".$auto."',
+                        `user_reisafstand` = '".$reisafstand."',
+                        `linkedin` =    '".$linkedIn."',
+                        `facebook` =    '".$facebook."',
+                        `twitter` =     '".$twitter."',
+                        `opmerkingen` = '".$opmerkingen."',
+                        `foto`          = '".$foto."'    
+                         WHERE `user_id` = '".$_SESSION['user_id']."'"); 
 
         if (mysqli_affected_rows($connection) == -1){
             echo mysqli_error($connection);
@@ -1926,7 +2110,6 @@ function handleKandidaatRegForm ()
  };
     
  function verwerkFoto() {
-     global $connection;
      // Check if image file is a actual image or fake image
     error_reporting(0);
 
@@ -1941,22 +2124,20 @@ function handleKandidaatRegForm ()
     error_reporting(E_ALL);
 
     if ($uploadOk == 1) {
-        $target_imgdir = "C:/xampp/htdocs/HumanicKandidaat/humanic/assets/images/";
+        $target_dir = "C:/xampp/htdocs/HumanicKandidaat/humanic/assets/images/";
         $img_id = uniqid();
 
 
-        $target_imgfile = $target_imgdir .basename($_FILES["foto"]["name"]);
-        $imageFileType = pathinfo($target_imgfile,PATHINFO_EXTENSION);
+        $target_file = $target_dir .basename($_FILES["foto"]["name"]);
+        $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
         // Check if file already exists
         if ($_SESSION['foto']) {
-            $_FILES["foto"]["name"] = $img_id. "." . $imageFileType;// ik geef de foto de logginnaam van de user
-            //$_FILES["foto"]["name"] = $_SESSION['user_loginnaam'];
-            $target_imgfile = $target_imgdir .basename($_FILES["foto"]["name"]);
+            $_FILES["foto"]["name"] = $_SESSION['foto'];
+            $target_file = $target_dir .basename($_FILES["foto"]["name"]);
         }
         else {
-            $_FILES["foto"]["name"] = $img_id. "." . $imageFileType;
-            //$_FILES["foto"]["name"] = $img_id . "." . $imageFileType;
-            $target_imgfile = $target_imgdir .basename($_FILES["foto"]["name"]);
+            $_FILES["foto"]["name"] = $img_id . "." . $imageFileType;
+            $target_file = $target_dir .basename($_FILES["foto"]["name"]);
         }   
 
 
@@ -1979,112 +2160,14 @@ function handleKandidaatRegForm ()
             echo "Sorry, your file was not uploaded.";
     // if everything is ok, try to upload file
         } else {
-            if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_imgfile)) {
+            if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
     //            echo "The file ". basename( $_FILES["foto"]["name"]). " has been uploaded.";
-                
                 $_SESSION['foto'] = basename($_FILES["foto"]["name"]);
-                $sql = mysqli_query($connection, "UPDATE `user` SET `foto` = '".$_SESSION['cv']."'
-                                                WHERE `user_id` = '".$_SESSION['foto']."'");
-                header("Refresh:0");
             } else {
                 echo "Sorry, there was an error uploading your file.";
             }
         }
     }
  }
-
-function verwerkCV ()
- {
-        if(isSet($_POST["submit"]) && isSet($_FILES['cv']) && $_FILES['cv'] != "")// Testen op lege FILES variabelen schijnt niet te werken, ze blijken nl nooit 'leeg' te zijn!
-             {
-                     global $connection;
-                    $uploadOk = 1;
-    
-                    $target_dir = "C:/xampp/htdocs/HumanicKandidaat/humanic/assets/cv/";
-                    $img_id = uniqid();
-
-                    $target_file = $target_dir .basename($_FILES["cv"]["name"]);
-                    $nwCvFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-    
-                    //echo "de naam van de sessie cv: '".$_SESSION['cv']."'<br/>";
-                    //echo "de naam van de nieuwe cv: '".$target_file."'<br/>";
-
-                    $extensionPos = strripos($_SESSION['cv'], ".");// achterhaal op welke positie de punt voorkomt in de naam, tellen begint vanaf positie 0
-                    //echo "de positie van de punt in de cv naam: '".$extensionPos."'<br/>";
-    
-                    $strLen = strlen($_SESSION['cv']);// de lengte van de cv bepalen
-                    $cvFileType = substr($_SESSION['cv'], $extensionPos + 1, $strLen);//echo "cvFileType: '".$cvFileType."'<br/>";//het deel van de cv pakken vanaf de punt tot het eind van de cv
-                    $strLenNwCvFileType = strlen($nwCvFileType);//echo "lengte van de neuwe extensie: '".$strLenNwCvFileType."'<br/>";
-                    // Check if file already exists
-                    if ($_SESSION['cv'] != ""  &&  $_FILES['cv'] !="")
-                        {
-                    //controle file type, niet gelijk dan file type vervangen
-                                 if ($nwCvFileType != $cvFileType && $strLenNwCvFileType > 0)// als de extensie van de sessie cv verschilt van de extensie nieuw opgegeven cv en de extensie van de nieuwe cv gorter is dan 0 tekens
-                                     {
-                                            $_FILES["cv"]["name"] = substr_replace($_SESSION['cv'],$nwCvFileType, $extensionPos + 1);//dan de naam van de sessei cv 
-                                            $_SESSION['cv'] = $_FILES["cv"]["name"] ;// behouden en alleen de andere extensie aan plakken en dit weer toekennen aan de sessie cv
-                                            //echo "extensie verschilt of er is geen nieuwe cv geupload: '".$_SESSION['cv']."'";
-                                        }
-                                else 
-                                     {
-                                        $_FILES["cv"]["name"] = $_SESSION['cv']; //echo "extensie hetzelfde: '".$_FILES["cv"]["name"]."'";
-                                       }
-                                $target_file = $target_dir .basename($_FILES["cv"]["name"]);
-                        }
-                    elseif ($_SESSION['cv'] != ""  &&  !isSet($_FILES['cv'])) 
-                        {
-                              $_FILES["cv"]["name"] = $_SESSION['cv'].$cvFileType; //echo "geen nieuwe cv geplaats, dus huidige is: '".$_FILES["cv"]["name"]."'";
-                              $_SESSION['cv'] = $_FILES["cv"]["name"];
-                        }
-                    else
-                        {
-                                $_FILES["cv"]["name"] = $img_id . "." . $nwCvFileType;//echo "er was nog geen cv, nu wel: '".$_FILES["cv"]["name"]."'";
-                                //$target_file = $target_dir .basename($_FILES["cv"]["name"]);
-                        }
-                        
-                        $target_file = $target_dir .basename($_FILES["cv"]["name"]);
-
-                    // Check file size
-    if($_FILES["cv"]["size"] > 0)
-            {
-                    if ($_FILES["cv"]["size"] > 500000) 
-                            {
-                                echo "Sorry, your file is too large.";
-                                $uploadOk = 0;
-                            }
-                    // Allow certain file formats
-
-                     if($nwCvFileType != "doc" && $nwCvFileType != "docx" && $nwCvFileType != "txt" && $nwCvFileType != "pdf") 
-                            {
-                                  echo "Sorry, only DOC, DOCX, PDF and TXT files are allowed.";
-                                  $uploadOk = 0;
-                            }
-
-                    // Check if $uploadOk is set to 0 by an error
-                    if ($uploadOk == 0) 
-                            {
-                                echo "Sorry, your file was not uploaded.";
-                            
-                            } 
-                    else // if everything is ok, try to upload file
-                            {
-                                    if (move_uploaded_file($_FILES["cv"]["tmp_name"], $target_file)) 
-                                            {
-
-                                                    $_SESSION['cv'] = basename($_FILES["cv"]["name"]);
-                                                    /*$sql = mysqli_query($connection, "UPDATE `user` SET `cv` = '".$_SESSION['cv']."'
-                                                    WHERE `user_id` = '".$_SESSION['user_id']."'");
-                                                     if (mysqli_affected_rows($connection) == -1){
-                                                    echo mysqli_error($connection);
-                                                    }*/
-            
-                                               } 
-                                    else 
-                                            {
-                                                    echo "Sorry, there was an error uploading your file.";
-                                            }
-                            } 
-             }
-        }
-        
- }
+ 
+ 

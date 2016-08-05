@@ -6,6 +6,11 @@
 	padding:0;
 	margin :0;
 }
+
+.profiel {
+    margin-top : 5 px;
+    margin-bottom : 20px;
+}
 body{
 	/* border:	2px solid red; */
 	
@@ -43,6 +48,11 @@ article{
 
 /* reisafstand  */
 
+#inlogMelding {
+    width : 50%;
+    margin-left : center;
+    
+}
 .afstand {
 
     margin-bottom: -40px;
@@ -51,7 +61,7 @@ article{
 
 #sociale_media{
 	float : right;
-        margin-top : 20px;
+        /*margin-top : 10px;*/
         width : 40%;
 /* 	heigth : 325px; */
 	border : 1px solid black;
@@ -59,37 +69,30 @@ article{
        /* margin-left : -50px;*/
 }
 
-#sociaal_foto{
-        /*border : 1px solid black;*/
-        float: left;
-	/*margin-left : 50px;*/
-	width : 40%;
+#sociaal_foto, #cv-upload{
+	
+        float: right;
+	margin-left : 25px;
+        margin-bottom: 25px;
+	width : 45%;
 }
 
-#fototest{
-	width : 60%;
-}
+#fotoMelding{   
+	font-size: 10px;
+        color : red;
+} 
 
 #foto {
-	margin-left : 100px;
-        /*float : left;*/
+        margin-left : 6px;
+        float : left;
         margin-bottom : 25px;
 }
 
 #cv {
-	margin-left : 100px;
+        margin-left : 1px;
         margin-bottom : 25px;
-        clear : both;
-}
-
-.objSelect {
-    color : blue;
-    margin : 25px;
-    
-}
-
-.objOpslaan {
-    margin-left : 25px;
+        /*width: 400px;*/
+        float : left;
 }
 
 .objP {
@@ -97,11 +100,9 @@ article{
 }
 
 #myImg {
-    float : left;
-    width : 100px;
-    height : 100px;
-    margin-right : 25px;
-    margin-bottom : 25px;
+    float: left;
+    width: 125px;
+    height: 100px;
 }
 
 #myCV {

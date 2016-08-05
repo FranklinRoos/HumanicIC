@@ -5,7 +5,11 @@ include("../../config/connect.php");
 include("../../config/default_functions.php");
 include("include/humanic-functions.php");
 include("include/formValidatie.php");
+
+
+
     global $connection;
+    echo "hoera, hij komt er";
     $uploadOk = 1;
     
     $target_dir = "C:/xampp/htdocs/HumanicKandidaat/humanic/assets/cv/";
@@ -64,7 +68,28 @@ include("include/formValidatie.php");
             if (mysqli_affected_rows($connection) == -1){
               echo mysqli_error($connection);
             }
-            echo "uw CV is opgeslagen, u kunt het venster sluiten";
+            //echo "uw CV is opgeslagen, u kunt het venster sluiten";
+            echo "<html>
+                 
+                 <script type='text/javascript'>
+                            function closePopup()
+                    {
+                        <?php echo 'oke'; ?>
+                        if(!newWindow.closed && newWindow.location)
+                        {
+                            newWindow.close();
+                        }
+                        else
+                        {
+                            alert('Geen popup geopend!');
+                        }
+                        return false;
+                    }
+                    closePopup();
+            </script>
+            
+            </html>";
+            
         } else {
             echo "Sorry, there was an error uploading your file.";
         }

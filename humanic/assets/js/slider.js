@@ -1,5 +1,78 @@
 $(document).ready(function () {
+  $("#foto").change (function() {      
+    var preview = document.querySelector('#foto');
+    var files   = document.querySelector('input[type=file]').files;
+
+    if (files) {
+      [].forEach.call(files, readAndPreview);
+    }
+
+  });   
+
+  function readAndPreview(file) {
+        // Make sure `file.name` matches our extensions criteria
+    if ( /\.(jpe?g|png|gif)$/i.test(file.name) ) {
+      var reader = new FileReader();
+
+      reader.addEventListener("load", function () {
+        var image = new Image();
+        image.height = 100;
+        image.title = file.name;
+        image.src = this.result;
+        $("#foto").attr("src", image.src);
+        //preview.appendChild( image );
+      }, false);
+
+      reader.readAsDataURL(file);
+    }
+  };        
     
+    $("#cv").change (function() {
+        windows.location = windows.location;
+/*      var preview = document.querySelector('#cv');
+        var files   = document.querySelector('input[type=file]').files;
+
+        if (files) {
+
+          [].forEach.call(files, readAndPreview());
+        }
+                windows.location = windows.location;
+      });   
+
+        function readAndPreview(file) {
+
+            // Make sure `file.name` matches our extensions criteria
+            //if ( /\.(doc|docx|txt|pdf)$/i.test(file.name) ) {
+              var reader = new FileReader();
+              alert("oke");
+              reader.addEventListener("load", function () {
+              /*  var image = new Image();
+                image.height = 100;
+                image.title = file.name;
+                image.src = this.result; 
+                alert("oke" + this.result);
+                $("#cvRef").attr("href", this.result);
+                //preview.appendChild( image );
+              }, false);
+
+              reader.readAsDataURL(file);
+            //  }
+
+          }*/
+    }); 
+    
+        /*if(($foto)) {
+                               
+                               window.location =   "http://localhost/HumanicKandidaat/humanic/application/modules/humanic-portal/kandidaat.php";            
+          }
+       
+     
+        $cv = document.getElementById("cv");
+        if(($cv)) {
+            
+                               window.location =   "http://localhost/HumanicKandidaat/humanic/application/modules/humanic-portal/kandidaat.php";            
+            } */
+        
         $("#buttonCv").click(function() {
             var newWindow = '';
             var left = (screen.width/2)-(200);
@@ -25,7 +98,19 @@ $(document).ready(function () {
             }
             return false;
         })
-        
+
+        function closePopup()
+        {
+            if(!newWindow.closed && newWindow.location)
+            {
+                newWindow.close();
+            }
+            else
+            {
+                alert('Geen popup geopend!');
+            }
+            return false;
+        }
 
 	$("#rijbewijsCheck").change(function() {
 				
