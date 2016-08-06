@@ -1143,10 +1143,10 @@ function handleKandidaatRegForm ()
                     echo "<label  for=\"foto\">Foto uploaden</label>";
                     echo "<div>";
                     
-                            if($_SESSION['foto']){
+                            //if($_SESSION['foto']){
                            // echo "<img class=\"col-sm-4\" id=\"myImg\" src=\"$imagepath"."$foto\" alt=\"your image\" width=80px height=80px style=\"margin: 5px;\"/>";
                                 echo "<img class=\"col-sm-3\" id=\"myImg\" src=\"$imagepath"."$foto\" alt=\"your image\" width=100px height=100px style=\"margin: 5px;\"/>";
-                                }
+                             //   }
                             echo "<input class=\"col-sm-5 btn btn-primary btn-sm\" type=\"file\" id=\"foto\" name=\"foto\"  />";
                             
                     echo "</div>";      
@@ -1927,6 +1927,7 @@ function handleKandidaatRegForm ()
     
  function verwerkFoto() {
      global $connection;
+
      // Check if image file is a actual image or fake image
     error_reporting(0);
 
@@ -1939,9 +1940,9 @@ function handleKandidaatRegForm ()
         }
     }
     error_reporting(E_ALL);
-
+$uploadOk = 1;
     if ($uploadOk == 1) {
-        $target_imgdir = "C:/xampp/htdocs/HumanicKandidaat/humanic/assets/images/";
+        $target_imgdir = "C:/xampp/htdocs/HumanicIC/humanic/assets/images/";
         $img_id = uniqid();
 
 
@@ -1967,7 +1968,7 @@ function handleKandidaatRegForm ()
             $uploadOk = 0;
         }
     // Allow certain file formats
-
+echo "type '".$imageFileType."'";
         if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
             && $imageFileType != "gif" ) {
             echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
@@ -1980,12 +1981,15 @@ function handleKandidaatRegForm ()
     // if everything is ok, try to upload file
         } else {
             if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_imgfile)) {
-    //            echo "The file ". basename( $_FILES["foto"]["name"]). " has been uploaded.";
-                
+
                 $_SESSION['foto'] = basename($_FILES["foto"]["name"]);
-                $sql = mysqli_query($connection, "UPDATE `user` SET `foto` = '".$_SESSION['cv']."'
-                                                WHERE `user_id` = '".$_SESSION['foto']."'");
-                header("Refresh:0");
+                echo "foto '".$_SESSION['foto']."'";
+                $sql = mysqli_query($connection, "UPDATE `user` SET `foto` = '".$_SESSION['foto']."'
+                                                    WHERE `user_id` = '".$_SESSION['user_id']."'");
+                if (mysqli_affected_rows($connection) == -1){
+                  echo mysqli_error($connection);
+                }
+                //header("Refresh:0");
             } else {
                 echo "Sorry, there was an error uploading your file.";
             }
@@ -2000,7 +2004,7 @@ function verwerkCV ()
                      global $connection;
                     $uploadOk = 1;
     
-                    $target_dir = "C:/xampp/htdocs/HumanicKandidaat/humanic/assets/cv/";
+                    $target_dir = "C:/xampp/htdocs/HumanicIC/humanic/assets/cv/";
                     $img_id = uniqid();
 
                     $target_file = $target_dir .basename($_FILES["cv"]["name"]);
@@ -2072,11 +2076,11 @@ function verwerkCV ()
                                             {
 
                                                     $_SESSION['cv'] = basename($_FILES["cv"]["name"]);
-                                                    /*$sql = mysqli_query($connection, "UPDATE `user` SET `cv` = '".$_SESSION['cv']."'
+                                                    $sql = mysqli_query($connection, "UPDATE `user` SET `cv` = '".$_SESSION['cv']."'
                                                     WHERE `user_id` = '".$_SESSION['user_id']."'");
                                                      if (mysqli_affected_rows($connection) == -1){
                                                     echo mysqli_error($connection);
-                                                    }*/
+                                                    }
             
                                                } 
                                     else 
