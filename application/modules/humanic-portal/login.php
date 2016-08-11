@@ -5,7 +5,7 @@ include("../../config/connect.php");
 include("../../config/default_functions.php");
 include("include/humanic-functions.php");
 include("include/onlineFunctions.php");
-
+global $connection;
 
 if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze informatie komt uit functie handeleForm regel 184
 { // inloggen was succesvol
@@ -13,7 +13,7 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
 
     unset($_SESSION["suc6login"]);
         // inloggen
-    $pageNavId=2;
+    $pageNavId=10;
     fHeader($pageNavId);
     //navigatie($pageNavId);
     
@@ -28,13 +28,24 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
          
         
         navigatie($pageNavId);
-        echo "<div class=\"container\">";
-        echo "<h1>Welkom <div class=\"welkom\">".ucfirst($_SESSION["loginnaam"])."</div>  je bent ingelogd!</h1><br/>";
-        echo "<h4 class=\"regbericht\">Maak je keuze via de navigatieknoppen boven, ";
-        echo "je was hier voor het laatst op ".$datum." om ".$_SESSION['laatsgezienTijdstip']."</h4>";
-       
+      
+               
         //De naam met een hoofdletter laten beginnen bij de presentatie 
         //echo "<h4 class=\"regbericht\">".ucfirst($_SESSION["loginnaam"])." ,je was hier voor het laatst op ".$datum." om ".$_SESSION['laatsgezienTijdstip']."</h4>";
+        
+        // onderstaande presentatie vanuit de db heb ik op zondag 7 aug toegevoegd
+        $sql = mysqli_query($connection,"SELECT * FROM `pages` WHERE `page_nav_id`=$pageNavId  and `page_taal` = 'nl' and `page_show` ='y' ");
+        if (mysqli_num_rows($sql)==0)   
+            {
+                die ("Je hebt geen gegevens tot je beschikking");
+            }
+        while ($content = mysqli_fetch_assoc($sql)) 
+            {   // show de inhoud
+               // echo utf8_encode($content["page_title"]);
+                echo utf8_encode($content["page_content"]);
+            }
+        
+        
         
      }
 
@@ -61,7 +72,7 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
             echo "<div class=\"container\">";
             echo "<h1>Je bent uitgelogd</h1>";
             echo "<br/>";
-            echo "<h3>Ik dank je voor je bezoek aan ons website,";
+            echo "<h3>Ik dank je voor je bezoek aan onze website,";
             echo "<br/>";
             echo "en hoop je hier spoedig weer te mogen verwelkomen.</h3>";
             echo "<br/><br/>";

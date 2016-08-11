@@ -1,5 +1,5 @@
-$(document).ready(function () {
-  $("#foto").change (function() {      
+$(document).ready(function () {       
+ $("#foto").change (function() {      
     var preview = document.querySelector('#foto');
     var files   = document.querySelector('input[type=file]').files;
 
@@ -25,20 +25,32 @@ $(document).ready(function () {
 
       reader.readAsDataURL(file);
     }
-  };        
-    
-    $("#cv").change (function() {
-        windows.location = windows.location;
-
-    }); 
-
-        
-       /* $("#buttonCv").click(function() {
+  };      
+            
+          
+         $("#cv").change ( function() {
+                  windows.location= windows.location;  // ververs 
+            } ); 
+            
+      /* $("#buttonCv").click(function() {
             var newWindow = '';
             var left = (screen.width/2)-(200);
             var top = (screen.height/2)-(150);
 
-            newWindow = window.open("http://localhost/HumanicKandidaat/humanic/popUpCV.php", 'popupCV', 'height=300, width=400, left='+left+', top='+top);
+            newWindow = window.open("http://localhost:7777/humanic/popUpCV.php", 'popupCV', 'height=300, width=400, left='+left+', top='+top);
+            if (window.focus) 
+            {
+                newWindow.focus();
+            }
+            return false;
+        })
+        
+        $("#buttonFoto").click(function() {
+            var newWindow = '';
+            var left = (screen.width/2)-(200);
+            var top = (screen.height/2)-(150);
+
+            newWindow = window.open("http://localhost:7777/humanic/popUpFoto.php", 'popupFoto', 'height=300, width=400, left='+left+', top='+top);
             if (window.focus) 
             {
                 newWindow.focus();
@@ -46,32 +58,21 @@ $(document).ready(function () {
             return false;
         }) */
         
-       /* $("#buttonFoto").click(function() {
-            var newWindow = '';
-            var left = (screen.width/2)-(200);
-            var top = (screen.height/2)-(150);
 
-            newWindow = window.open("http://localhost/HumanicKandidaat/humanic/popUpFoto.php", 'popupFoto', 'height=300, width=400, left='+left+', top='+top);
-            if (window.focus) 
-            {
-                newWindow.focus();
-            }
-            return false;
-        }) */
 
-       /* function closePopup()
-        {
-            if(!newWindow.closed && newWindow.location)
-            {
-                newWindow.close();
-            }
-            else
-            {
-                alert('Geen popup geopend!');
-            }
-            return false;
-        } */
 
+			
+         /*   $(":file").change(function () {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = imageIsLoaded;
+                reader.readAsDataURL(this.files[0]);
+            }
+        }); */
+
+       //previewFiles(); // functie aanroep om een geselecteerdep profiel foto te tonen, deze functie op maandag 5 aug toegevoegd , de functie zelf zit tussen r582 en r611
+        
+        
 	$("#rijbewijsCheck").change(function() {
 				
 				if ($("#rijbewijsCheck").prop("checked") == true) {
@@ -82,14 +83,7 @@ $(document).ready(function () {
 					$("#autoCheck").prop("checked", false);
 				}
 			});
-			
-            $(":file").change(function () {
-            if (this.files && this.files[0]) {
-                var reader = new FileReader();
-                reader.onload = imageIsLoaded;
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
+    
         
         if ($("#functieCheck1").prop("checked") === true) {
                 $("#ervaringSlider1").show();
@@ -556,134 +550,51 @@ $(document).ready(function () {
 
 });
 
-function imageIsLoaded(e) {
+
+
+
+
+function imageIsLoaded(e) { // deze functie om de foto voor te vertonen werkt niet(goed)
     $('#myImg').attr('src', e.target.result);
-};
+}; 
+
+
+    
+        //onderstaande functie toegevoegd op vrijdag 5 aug 2016
+/* function previewFiles() {
+
+  var preview = document.querySelector('#preview');
+  var files   = document.querySelector('input[type=file]').files;
+
+  function readAndPreview(file) {
+
+    // Make sure `file.name` matches our extensions criteria
+    if ( /\.(jpe?g|png|gif)$/i.test(file.name) ) {
+      var reader = new FileReader();
+
+      reader.addEventListener("load", function () {
+        var image = new Image();
+        image.height = 100;
+        image.title = file.name;       
+        image.src = this.result;
+        //$("#foto").attr("src", image.src);
+        preview.appendChild( image );
+      }, false);
+
+      reader.readAsDataURL(file);
+    }
+        
+  }
+
+  if (files) {
+    [].forEach.call(files, readAndPreview);
+  }
+
+}  */ //einde functie toegevoegd op vrijdag 5 aug 2016
+        
 
 
 
-
-
-/* $(function(){
-			$('#ervaring1').slider({
-							value : 0,
-							tooltip : 'hide',
-							formatter: function(value) {
-								return 'Current value: ' + value;
-							}
-						});
-			$('#ervaring2').slider({
-							value : 0,
-							tooltip : 'hide',
-							formatter: function(value) {
-								return 'Current value: ' + value;
-							}
-						});
-			});
-			
-			$("#ervaring1").on("slide", function(slideEvt) {
-				$("#ex1SliderVal").text(slideEvt.value); 
-			});
-			
-			
-			$("#ervaring2").on("slide", function(slideEvt) {
-				$("#ex21SliderVal").text(slideEvt.value); 
-			});
- */
-
-
-/* $("#functieCheck1").change(function() {	
-					alert("oke");
-}); */
-/* $(function(){
-				$('#ervaring1').slider({
-							value : 0,
-							tooltip : 'hide',
-							formatter: function(value) {
-								return 'Current value: ' + value;
-							}
-						});
-				$('#ervaring2').slider({
-							value : 0,
-							tooltip : 'hide',
-							formatter: function(value) {
-								return 'Current value: ' + value;
-							}
-						});
-				$('#ervaring3').slider({
-							value : 0,
-							tooltip : 'hide',
-							formatter: function(value) {
-								return 'Current value: ' + value;
-							}
-						});
-				$('#ervaring4').slider({
-							value : 0,
-							tooltip : 'hide',
-							formatter: function(value) {
-								return 'Current value: ' + value;
-							}
-						});
-				$('#ervaring5').slider({
-							value : 0,
-							tooltip : 'hide',
-							formatter: function(value) {
-								return 'Current value: ' + value;
-							}
-						});
-				$('#ervaring6').slider({
-							value : 0,
-							tooltip : 'hide',
-							formatter: function(value) {
-								return 'Current value: ' + value;
-							}
-						});
-			}): */
-				/* $('#ervaring1').slider({
-					value : 0,
-					tooltip : 'hide',
-					formatter: function(value) {
-					return 'Current value: ' + value;
-					}
-				});
-				
-				$('#ervaring2').slider({
-					value : 0,
-					tooltip : 'hide',
-					formatter: function(value) {
-					return 'Current value: ' + value;
-					}
-				});
-				$('#ervaring3').slider({
-					value : 0,
-					tooltip : 'hide',
-					formatter: function(value) {
-					return 'Current value: ' + value;
-					}
-				});	
-				$('#ervaring4').slider({
-					value : 0,
-					tooltip : 'hide',
-					formatter: function(value) {
-					return 'Current value: ' + value;
-					}
-				});	
-				$('#ervaring5').slider({
-					value : 0,
-					tooltip : 'hide',
-					formatter: function(value) {
-					return 'Current value: ' + value;
-					}
-				});
-				$('#ervaring6').slider({
-					value : 0,
-					tooltip : 'hide',
-					formatter: function(value) {
-					return 'Current value: ' + value;
-					}
-				});
- */
-            /* }); */
 			$("#ervaring1").on("slide", function(slideEvt) {
 				$("#ex1SliderVal").text(slideEvt.value);
 			});
@@ -703,3 +614,4 @@ function imageIsLoaded(e) {
 			$("#ervaring6").on("slide", function(slideEvt) {
 				$("#ex6SliderVal").text(slideEvt.value);
 			});
+                        
