@@ -987,8 +987,8 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
                         echo "<div class=\"text-right\">";
                             echo "<div >";
                             //echo "<input type='submit' name='submit' value='Verzenden'><br /><br />";
-                            echo "<button id=\"submit\"class=\"col-sm-6 btn btn-primary btn-md\" type=\"submit\" name=\"submit\" value='Verzenden' >Verzenden</button>";
-                            echo "<button class=\" col-sm-5 btn btn-primary btn-md\" type=\"button\" name=\"wissen\">Wissen</button>";
+                            echo "<button id=\"submit\"class=\"col-sm-6 btn btn-primary btn-md\" type=\"submit\" name=\"submit\" value='Opslaan' >Opslaan</button><br/><br/><br/>";
+                            //echo "<button class=\" col-sm-5 btn btn-primary btn-md\" type=\"button\" name=\"wissen\">Wissen</button>";
                         echo "</div>";	
                 echo "</section>";
             echo "</form>";
@@ -1009,8 +1009,7 @@ function handleKandidaatRegForm ()
                     //echo "conditie 3, de cv is veranderd<br/>";
                     verwerkCV();
                     }            
-     verwerkUser();
-    
+     verwerkUser();  
      verwerkFunctie();
      verwerkRegio();
      verwerkSector();
@@ -1165,9 +1164,8 @@ function handleKandidaatRegForm ()
                       //echo "<button class=\"col-sm-4 btn btn-primary btn-sm cv\" type=\"button\" id=\"buttonCv\">CV uploaden</button>";//JS versie Thijs
                    // echo "een nieuwe cv<a href=\"$path//application/modules/humanic-portal/cv-upload.php\" ><mark> uploaden.</mark></a>";// dit is als voorbeeld voor thijs hoe je nieuwe pagina toevoegd
                  echo "</div>";
-            echo "</div>";
-            
-        echo "</section>";
+            echo "</div>";            
+ echo "</section>";
         
         echo "<section id=\"sociale_media\">";
             echo "<div class=\"form-group\">";
@@ -1440,25 +1438,29 @@ function handleKandidaatRegForm ()
  };
  
  function variableWaarde($variable){
-     if (isset($_SESSION[$variable])){
+     if (isset($_SESSION[$variable]) && !isSet($_POST[$variable])){
          return $_SESSION[$variable];
      }
-     else {
+     elseif(isSet($_POST[$variable])) {
+         return $_POST[$variable];
+     }
+     else
+         {
          return "\"\"";
      }
  };
  
- function toonMobielUitkering () {
+ function toonMobielUitkering ($rijbewijs="", $auto="") {
     echo "<section id=\"mobielFinUitkering\">";
     $rijbewijs = variableWaarde('rijbewijs');
-    if ($rijbewijs){
+    if (isSet($rijbewijs) && $rijbewijs=='ja'){
         $checkRijbewijs = "checked='checked'";
     }
     else {
         $checkRijbewijs = " ";
     }
-    $auto = variableWaarde('auto');
-    if ($auto){
+  $auto = variableWaarde('auto');
+    if (isSet($auto) && $auto=='ja'){
         $checkAuto = "checked='checked'";
     }
     else {
@@ -1488,6 +1490,12 @@ function handleKandidaatRegForm ()
         case 'Bijstand' : 
             $selectBijstand = "selected";
             break;
+        case 'Geen ZZP' : 
+            $selectGeenZzp = "selected";
+            break;
+        case 'Geen Bijstand' : 
+            $selectGeenBijstand = "selected";
+            break;
     }
 
 
@@ -1496,7 +1504,7 @@ function handleKandidaatRegForm ()
             echo "<label class=\"col-sm-12 text-left\"><input id=\"rijbewijsCheck\" type=\"checkbox\" value=$rijbewijs  name=\"rijbewijs\" $checkRijbewijs > Rijbewijs</label>";					
         echo "</div>";
         echo "<div class=\"form-group\" id=\"auto\">";
-            echo "<label class=\"col-sm-12 text-left\"><input id=\"autoCheck\" type=\"checkbox\" value=$auto $checkAuto> Auto</label>";					
+            echo "<label class=\"col-sm-12 text-left\"><input id=\"autoCheck\" type=\"checkbox\" value=$auto name=\"auto\" $checkAuto> Auto</label>";					
         echo "</div>";
         echo "<div class=\"form-group\" id=\"financieel\">";
             echo "<label class=\"col-sm-5\" for=\"salaris\">Salaris indicatie</label>";
@@ -1511,7 +1519,9 @@ function handleKandidaatRegForm ()
                     echo   "<option value=\"WW\" $selectWW>WW</option>
                             <option value=\"IOAW\" $selectIOAW>IOAW</option>
                             <option value=\"Wajong\" $selectWajong>Wajong</option>
-                            <option value=\"WAO\" $selectBijstand>WAO</option>";
+                            <option value=\"WAO\" $selectBijstand>WAO</option>
+                            <option value=\"Geen ZZP\" $selectGeenZzp>Geen ZZP'er</option>
+                            <option value=\"Geen Bijstand\" $selectGeenBijstand>Geen Bijstand</option>";
                 echo "</select>";
             echo "</div>";	
         echo "</div><br/><br/>";
@@ -1523,44 +1533,89 @@ function handleKandidaatRegForm ()
         echo "</div>";
     echo "</section>";	
 
- };
+ }
+ 
+  function bepaalSectorErvaring($selected) {
+     switch ($selected) {
+        case 1 :
+            return $_POST['sectorErvaring0'];
+            break;
+        case 2 :
+            return $_POST['sectorErvaring1'];
+            break;
+        case 3 :
+            return $_POST['sectorErvaring2'];
+            break;
+        case 4 :
+            return $_POST['sectorErvaring3'];
+            break;
+        
+        default:
+            break;
+    }
+ }; 
+ 
  
  function toonSector() {
     global $connection;
-    global $sectorArray;
+    global $sectorArray;// de sectorArray wordt in kandidaat.php gemaakt en bestaat uit een collectie van de sector id's voor de user in de huidige sessie
     global $bedrijfArray;
-
+    global $gewensteSectorArray;
     echo "<section id=\"sectorwerk\">";
-        $aantalSector = count($sectorArray);
-        $checkedSector = array();
+    
+        $checkedGewensteSector = array();
+        for ($i = 1; $i <= 4; $i++){//de sector id's zijn 1 t/m 4
+            $gewensteSectorIndex = array_search($i, array_column($gewensteSectorArray, 0));//verzamel de sector id's van de huidige user en stop ze in de array $sectorIndex
+            if (IS_NUMERIC($gewensteSectorIndex)){
+                array_push($checkedGewensteSector, "checked='checked'");        
+            }
+            else {
+                array_push($checkedGewensteSector, "");
+            };
+        };
+    
 
-        for ($i = 1; $i <= 4; $i++){
-            $sectorIndex = array_search($i, array_column($sectorArray, 0));
+        $checkedSector = array();
+        $sectorErvaring = array();
+        for ($i = 1; $i <= 4; $i++){//de sector id's zijn 1 t/m 4
+            $sectorIndex = array_search($i, array_column($sectorArray, 0));//verzamel de sector id's van de huidige user en stop ze in de array $sectorIndex
             if (IS_NUMERIC($sectorIndex)){
-                array_push($checkedSector, "checked='checked'");
+                array_push($checkedSector, "checked='checked'");        
+                array_push($sectorErvaring, $sectorArray[$sectorIndex][1]);
             }
             else {
                 array_push($checkedSector, "");
+                array_push($sectorErvaring, 0);
             };
         };
 
-        echo "<div id=\"sector\">";
+
+     echo "<div id=\"sector\">";
             echo "<div class=\"kop\">";
-                    echo "<p>Vink de sector(s) aan waar je in werkzaam bent geweest</p>";
+                    echo "<p>Vink de sector(s) aan waar je in werkzaam bent geweest en geef op hoeveel jaren</p>";
             echo "</div>";
             echo "<label class=\"checkbox-inline\">";
-                    echo "<input type=\"checkbox\" value=1  name=\"sector_List[]\" $checkedSector[0]>ICT";
+                    echo "<input type=\"checkbox\" value=1  name=\"sector_List[]\" $checkedSector[0]>ICT ";
+                    echo "<input type=\"text\" id=\"sectorErvaring0\" name=\"sectorErvaring0\" value=$sectorErvaring[0]jaren_gewerkt>";	
             echo "</label>";
-            echo "<label class=\"checkbox-inline\">";
-                    echo "<input type=\"checkbox\" value=2 name=\"sector_List[]\" $checkedSector[1]>Zorg";
-            echo "</label>";
+            echo "<div class=\"subKopRechts\">";
+                    echo "<label class=\"checkbox-inline extra1\">";
+                            echo "<input type=\"checkbox\" value=2 name=\"sector_List[]\" $checkedSector[1]>Zorg";
+                            echo "<input type=\"text\" id=\"sectorErvaring1\" name=\"sectorErvaring1\" value=$sectorErvaring[1]jaren_gewerkt>";	
+                    echo "</label>";
+            echo "</div>";
             echo "<label class=\"checkbox-inline\">";
                     echo "<input type=\"checkbox\" value=3 name=\"sector_List[]\" $checkedSector[2]>Industrie";
+                    echo "<input type=\"text\" id=\"sectorErvaring2\" name=\"sectorErvaring2\" value=$sectorErvaring[2]jaren_gewerkt>";	
             echo "</label>";
-            echo "<label class=\"checkbox-inline\">";
-                    echo "<input type=\"checkbox\" value=4 name=\"sector_List[]\" $checkedSector[3]>Retail";
-            echo "</label>";
-        echo "</div>";
+            echo "<div class=\"subKopRechts\">";
+                    echo "<label class=\"checkbox-inline extra1\">";
+                            echo "<input type=\"checkbox\" value=4 name=\"sector_List[]\" $checkedSector[3]>Retail";
+                            echo "<input type=\"text\" id=\"sectorErvaring3\" name=\"sectorErvaring3\" value=$sectorErvaring[3]jaren_gewerkt>";
+                    //echo "<input type=\"text\" class=\"form-control input-sm\" id=\"sectorErvaring3\" name=\"sectorErvaring3\" value=$sectorErvaring[3]>";	
+                    echo "</label>";
+            echo "</div>";
+      echo "</div>";
 
 
         $checkedBedrijf = array();
@@ -1574,11 +1629,27 @@ function handleKandidaatRegForm ()
                 array_push($checkedBedrijf, "");
             };
         };                         
-
+echo"<hr>";
         echo "<div id=\"bedrijf\">";
             echo "<div class=\"kop\">";
-                    echo "<p>Gewenste grootte van het bedrijf</p>";
+                    echo "<p>Gewenste ICT-SECTOR</p>";
             echo "</div>";
+             echo "<label class=\"checkbox-inline\">";
+                    echo "<input type=\"checkbox\" value=1  name=\"gewenste_Sector_List[]\" $checkedGewensteSector[0]>ICT ";	
+            echo "</label>";
+            echo "<label class=\"checkbox-inline\">";
+                    echo "<input type=\"checkbox\" value=2 name=\"gewenste_Sector_List[]\" $checkedGewensteSector[1]>Zorg";	
+            echo "</label>";
+            echo "<label class=\"checkbox-inline\">";
+                    echo "<input type=\"checkbox\" value=3 name=\"gewenste_Sector_List[]\" $checkedGewensteSector[2]>Industrie";	
+            echo "</label>";
+            echo "<label class=\"checkbox-inline\">";
+                    echo "<input type=\"checkbox\" value=4 name=\"gewenste_Sector_List[]\" $checkedGewensteSector[3]>Retail";	
+            echo "</label>";
+        echo "</div>"; 
+   echo"<hr>";     
+        echo "<div class=\"kop\">"; 
+                 echo "<p>Gewenste grootte van het bedrijf</p>";
             echo "<label class=\"checkbox-inline\">";
                     echo "<input type=\"checkbox\" value=1 name=\"bedrijf_List[]\" $checkedBedrijf[0]>micro (< 10)";
             echo "</label>";
@@ -1593,24 +1664,9 @@ function handleKandidaatRegForm ()
             echo "</label>";
         echo "</div>";
 
-
-                    /*                                     echo "<div class=\"form-group\" id=\"uitkering\">";
-                            echo "<label class=\"col-sm-5 \" for=\"uitkering\">Gewenste grootte bedrijf:</label>";
-                            echo "<div class=\"col-sm-4\">";
-                                    echo "<select class=\"form-control input-sm\" name=\"bedrijfgrootte\" value=\"bedrijfgrootte\">";
-                                            echo "<option value=\"1-10\">1-10</option>
-                                            <option value=\"10-50\">10-50</option>
-                                            <option value=\"50-100\">50-100</option>
-                                            <option value=\">500\">>500</option>";
-                             echo "</select>";
-                            echo "</div>";	
-                    echo "</div>"; */
-
-
-
         echo "</section>";
     echo "</section>"; 
- };
+ }; 
  
  function toonRegio(){
     global $regioArray;
@@ -1774,45 +1830,104 @@ function handleKandidaatRegForm ()
     }
  }; 
  
- function verwerkSector() {
+function verwerkSector() {
     global $connection;
     global $sectorArray;
+    global $gewensteSectorArray;
    
+    $sectorErvaring = array();
     $checkSector = array();
     if (!empty($_POST['sector_List'])) {
         foreach ($_POST['sector_List'] as $selected){            
-            array_push($checkSector, $selected);
+            array_push($checkSector, $selected);// alle in het formulier geselecteerde sectoren in de array $checkSector stoppen
+            $sectorErvaring = bepaalSectorErvaring($selected);// de switch uit de functie bepaalSectorErvaring gebruiken om de bijbehorende ervaring aan de gesecteerde sector te koppelen 
         }
+ 
+       
     }
         
     for ($i=1; $i<=4; $i++){
-        $sectorIndex = array_search($i, array_column($sectorArray, 0));
+        $sectorIndex = array_search($i, array_column($sectorArray, 0));// kijk welke sector_id's al in de database voor komen
         if (is_numeric($sectorIndex)){
-            //functie is gevonden, dus aanwezig in database
-            $checkIndex = array_search($i, $checkSector);
+            //sector is gevonden, dus komt al voor in database
+            $checkIndex = array_search($i, $checkSector);// check of het in het formulier wel is aangevinkt
             if (!is_numeric($checkIndex)){
                 //functie is niet aangevinkt --> Delete database entry
                 $sql = mysqli_query($connection, "DELETE FROM user_sector WHERE `user_id`='".$_SESSION["user_id"]."' 
                                                  AND `sector_id` = '".$i."'");
-            }               
+            } 
+            else{//in het formulier ook aangevinkt, kijk of de sectorErvaring gewijzigd is
+                 $sectorErvaring = bepaalSectorErvaring($checkSector[$checkIndex]);
+                if ($sectorArray[$sectorIndex][1] <> $sectorErvaring){
+                    //ervaring is gewijzigd
+                    $sql = mysqli_query($connection, "UPDATE user_sector SET `jaren` = '".$sectorErvaring."' WHERE `user_id`='".$_SESSION["user_id"]."' AND `sector_id` = '".$i."'");
+                }
+                else {
+                    //ervaring is niet gewijzigd, geen query draaien
+                }
+            }
         }
         else {
             //functie zit niet in database
-            $checkIndex = array_search($i, $checkSector);
+            $checkIndex = array_search($i, $checkSector);// check of het in het formulier wel is aangevinkt
             if (!is_numeric($checkIndex)){
-                //functie is niet aangevinkt
+                //functie is niet aangevinkt , hoeft niets te geburen
                 //$sql = mysqli_query($connection, "DELETE FROM user_functie WHERE `user_id`='".$_SESSION["user_id"]."' 
                 //                                 AND `functie_id` = '".$i."'");
             }
             else {
-                 //functie is aangevinkt
+                 //functie is aangevinkt en komt nog niet voor in de database, moet dus in de database komen
                 $sectorId = $checkSector[$checkIndex];
-               $sql = mysqli_query($connection, "INSERT INTO user_sector (`user_id`,`sector_id`)
-                        VALUES ('".$_SESSION['user_id']."', '".$sectorId."')");
+               $sectorErvaring = bepaalSectorErvaring($checkSector[$checkIndex]);
+               $sql = mysqli_query($connection, "INSERT INTO user_sector (`user_id`,`sector_id`, `jaren`)
+                        VALUES ('".$_SESSION['user_id']."', '".$sectorId."', '".$sectorErvaring."')");
             }             
         }
     }
- };
+    
+ //verwerking gewenste sector
+    $checkGewensteSector = array();
+    if (!empty($_POST['gewenste_Sector_List'])) {
+        foreach ($_POST['gewenste_Sector_List'] as $selected){            
+            array_push($checkGewensteSector, $selected);// alle in het formulier geselecteerde sectoren in de array $checkSector stoppen           
+        }
+ 
+       
+    }
+        
+    for ($i=1; $i<=4; $i++){
+        $gewensteSectorIndex = array_search($i, array_column($gewensteSectorArray, 0));// kijk welke sector_id's al in de database voor komen
+        if (is_numeric($gewensteSectorIndex)){
+            //sector is gevonden, dus komt al voor in database
+            $checkIndex = array_search($i, $checkGewensteSector);// check of het in het formulier wel is aangevinkt
+            if (!is_numeric($checkIndex)){
+                //gewenste sector is niet aangevinkt --> Delete database entry
+                $sql = mysqli_query($connection, "DELETE FROM gewenste_sector WHERE `user_id`='".$_SESSION["user_id"]."' 
+                                                 AND `sector_id` = '".$i."'");
+            } 
+
+        }
+        else {
+            //gewenste sector_id zit nog niet in database
+            $checkIndex = array_search($i, $checkGewensteSector);// check of het in het formulier wel is aangevinkt
+            if (!is_numeric($checkIndex)){
+                //gewenste sector_id is niet aangevinkt , hoeft niets te geburen
+                //$sql = mysqli_query($connection, "DELETE FROM user_functie WHERE `user_id`='".$_SESSION["user_id"]."' 
+                //                                 AND `functie_id` = '".$i."'");
+            }
+            else {
+                 //gewenste sector_id is aangevinkt en komt nog niet voor in de database, moet dus in de database komen
+                $gewensteSectorId = $checkGewensteSector[$checkIndex];echo "sector_id: '".$gewensteSectorId."'";
+               $sql = mysqli_query($connection, "INSERT INTO gewenste_sector (`user_id`,`sector_id`)
+                        VALUES ('".$_SESSION['user_id']."', '".$gewensteSectorId."')");
+            }             
+        }
+    }
+    
+    
+    
+    
+ }; 
  
  function verwerkBedrijf() {
     global $connection;
@@ -1875,8 +1990,24 @@ function handleKandidaatRegForm ()
         $salaris = checkPost('salaris');
         $uitkering = checkPost('uitkering');
         $uitkeringGeldigTot = checkPost('uitkeringGeldigTot'); 
-        $rijbewijs = checkPost('rijbewijs');
-        $auto = checkPost('auto');
+        //$rijbewijs = checkPost('rijbewijs');
+        if(isSet($_POST['rijbewijs']))
+            {
+                $rijbewijs='ja';
+            }
+        else
+            {
+                $rijbewijs='nee';
+            }
+        if(isSet($_POST['auto']))
+            {
+                $auto='ja';
+            }
+        else
+            {
+                $auto='nee';
+            }
+        //$auto = checkPost('auto');
         $reisafstand = checkPost('reisafstand');
         $linkedIn = checkPost('linkedIn');
         $facebook = checkPost('facebook');
@@ -1942,21 +2073,17 @@ function handleKandidaatRegForm ()
     error_reporting(E_ALL);
 $uploadOk = 1;
     if ($uploadOk == 1) {
-        $target_imgdir = "C:/xampp/htdocs/HumanicIC/humanic/assets/images/";
+        $target_imgdir = "C:/xampp/htdocs/humanic/assets/images/";// hier vindt de opslag plaats in de images map van de humanic(kandidaten) app
         $img_id = uniqid();
-
-
         $target_imgfile = $target_imgdir .basename($_FILES["foto"]["name"]);
         $imageFileType = pathinfo($target_imgfile,PATHINFO_EXTENSION);
         // Check if file already exists
         if ($_SESSION['foto']) {
-            $_FILES["foto"]["name"] = $img_id. "." . $imageFileType;// ik geef de foto de logginnaam van de user
-            //$_FILES["foto"]["name"] = $_SESSION['user_loginnaam'];
+            $_FILES["foto"]["name"] = $img_id. "." . $imageFileType;//  de foto krijgt een random nummer als naam           
             $target_imgfile = $target_imgdir .basename($_FILES["foto"]["name"]);
         }
         else {
-            $_FILES["foto"]["name"] = $img_id. "." . $imageFileType;
-            //$_FILES["foto"]["name"] = $img_id . "." . $imageFileType;
+            $_FILES["foto"]["name"] = $img_id. "." . $imageFileType;            
             $target_imgfile = $target_imgdir .basename($_FILES["foto"]["name"]);
         }   
 
@@ -1968,22 +2095,22 @@ $uploadOk = 1;
             $uploadOk = 0;
         }
     // Allow certain file formats
-echo "type '".$imageFileType."'";
+//echo "type '".$imageFileType."'";
         if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
             && $imageFileType != "gif" ) {
-            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            //echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
             $uploadOk = 0;
         }
 
     // Check if $uploadOk is set to 0 by an error
         if ($uploadOk == 0) {
-            echo "Sorry, your file was not uploaded.";
+            //echo "Sorry, your file was not uploaded.";
     // if everything is ok, try to upload file
         } else {
             if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_imgfile)) {
 
                 $_SESSION['foto'] = basename($_FILES["foto"]["name"]);
-                echo "foto '".$_SESSION['foto']."'";
+                //echo "foto '".$_SESSION['foto']."'";
                 $sql = mysqli_query($connection, "UPDATE `user` SET `foto` = '".$_SESSION['foto']."'
                                                     WHERE `user_id` = '".$_SESSION['user_id']."'");
                 if (mysqli_affected_rows($connection) == -1){
@@ -2004,7 +2131,7 @@ function verwerkCV ()
                      global $connection;
                     $uploadOk = 1;
     
-                    $target_dir = "C:/xampp/htdocs/HumanicIC/humanic/assets/cv/";
+                    $target_dir = "C:/xampp/htdocs/humanic/assets/cv/";
                     $img_id = uniqid();
 
                     $target_file = $target_dir .basename($_FILES["cv"]["name"]);
@@ -2023,7 +2150,7 @@ function verwerkCV ()
                     if ($_SESSION['cv'] != ""  &&  $_FILES['cv'] !="")
                         {
                     //controle file type, niet gelijk dan file type vervangen
-                                 if ($nwCvFileType != $cvFileType && $strLenNwCvFileType > 0)// als de extensie van de sessie cv verschilt van de extensie nieuw opgegeven cv en de extensie van de nieuwe cv gorter is dan 0 tekens
+                                 if ($nwCvFileType != $cvFileType && $strLenNwCvFileType > 0)// als de extensie van de sessie cv verschilt van de extensie nieuw opgegeven cv en de extensie van de nieuwe cv groter is dan 0 tekens
                                      {
                                             $_FILES["cv"]["name"] = substr_replace($_SESSION['cv'],$nwCvFileType, $extensionPos + 1);//dan de naam van de sessei cv 
                                             $_SESSION['cv'] = $_FILES["cv"]["name"] ;// behouden en alleen de andere extensie aan plakken en dit weer toekennen aan de sessie cv

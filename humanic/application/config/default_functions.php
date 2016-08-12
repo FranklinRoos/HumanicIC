@@ -68,7 +68,7 @@ function fHeader($pageNavId="1")
     echo "<br><br><br><br>";
 
     echo "<a href=\"".$GLOBALS['path']."index.php?taal_id=nl\">";
-   echo "<img alt=\"logo\" width=\"300\" style=\"margin: -30px 0px 5px 0px;\" src=\"".$GLOBALS['path']."assets/images-humanic/header.png\">";
+   echo "<img alt=\"logo\" width=\"300\" style=\"margin: -30px 0px 5px 0px;\" src=\"".$GLOBALS['path']."assets/images/header.png\">";
     echo "</a>";
     
     echo "<div class=\"navbar-form pull-right\">";

@@ -20,7 +20,7 @@ h1.login {
 }
 
 h1 {
-        margin-top: 5px;
+        margin-top: 70px;
         font-weight: bold;
         color:purple;
         
@@ -432,7 +432,7 @@ body {
     } 
     
  table#edit {
-        margin-left: -180px;       
+        /*margin-left: -180px;   */    
         background-color:lightgrey;
         color:black;
     }
