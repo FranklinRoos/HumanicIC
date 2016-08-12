@@ -13,7 +13,7 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
 
     unset($_SESSION["suc6login"]);
         // inloggen
-    $pageNavId=2;
+    $pageNavId=10;
     fHeader($pageNavId);
     //navigatie($pageNavId);
     
@@ -28,26 +28,24 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
          
         
         navigatie($pageNavId);
-        echo "<div class=\"container\" id=\"inlogMelding\">";
-            //echo "<p>Welkom <div class=\"welkom\">".ucfirst($_SESSION["loginnaam"])."</div>  je bent ingelogd!</p>";
-            echo "<p class=\"col-sm-8\">Welkom ".ucfirst($_SESSION["loginnaam"])." je bent ingelogd!</p>";
-            echo "<p class=\"col-sm-8\">In je profiel kun je je persoonlijke gegevens invullen/aanpassen en je foto en CV uploaden. Verder kan je je voorkeur aangeven
-                 voor welke IT functies je gevraagd wilt worden, in welke regio's je wilt werken en in welke sectoren je ervaring hebt. Hoe meer gegevens je invult, hoe beter we je kunnen helpen.";
-            echo "<p class=\"col-sm-8\">Klik <a class=\"btn btn-primary btn-md\" href=\"kandidaat.php\"> hier </a> om naar je profiel pagina te gaan</p>";
-            
-        echo "</div>";
         
-       
+         // onderstaande presentatie vanuit de db heb ik op zondag 7 aug toegevoegd
+        $sql = mysqli_query($connection,"SELECT * FROM `pages` WHERE `page_nav_id`=$pageNavId  and `page_taal` = 'nl' and `page_show` ='y' ");
+        if (mysqli_num_rows($sql)==0)   
+            {
+                die ("Je hebt geen gegevens tot je beschikking");
+            }
+        while ($content = mysqli_fetch_assoc($sql)) 
+            {   // show de inhoud
+               // echo utf8_encode($content["page_title"]);
+                echo utf8_encode($content["page_content"]); //welkomst tekst uit de database presenteren(tabel pages met met page_nav_id=10) 
+            }
+    
         //De naam met een hoofdletter laten beginnen bij de presentatie 
         //echo "<h4 class=\"regbericht\">".ucfirst($_SESSION["loginnaam"])." ,je was hier voor het laatst op ".$datum." om ".$_SESSION['laatsgezienTijdstip']."</h4>";
         
      }
-
-         
-         
-      /* mysqli_query($connection, "INSERT INTO `online`(`user_id`) // dit was experimenteel , de tabel 'online' kan dan ook uit de database
-		VALUES ('".$_SESSION["user_id"]."')")
-		or die(mysqli_error());   */     
+ 
           
  }        
   else
@@ -55,7 +53,7 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
     // ** Uitloggen **
        if (isset($_GET["idinuit"]) &&  $_GET["idinuit"]==0)// uitloggen,javascript functie(config/default_functions.php regel 38 t/m 44 de parameter '0' of '1' komt van r93 of r102
          {
-            uitloggen();// r559 in humanic-functions.php(of psinfofunctions)
+            uitloggen();// r559 in humanic-functions.php
             //unset($_SESSION["loginnaam"]);
             unset($_GET["idinuit"]);
            // unset($_SESSION["taal"]);//taalkeuze staat nu weer default op nederlands

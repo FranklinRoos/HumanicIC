@@ -1013,6 +1013,7 @@ function handleKandidaatRegForm ()
      verwerkFunctie();
      verwerkRegio();
      verwerkSector();
+     verwerkBedrijfGewerkt();
      verwerkBedrijf();
      error_reporting(0);
      maakSessieVariabelen();
@@ -1561,7 +1562,7 @@ function handleKandidaatRegForm ()
     global $sectorArray;// de sectorArray wordt in kandidaat.php gemaakt en bestaat uit een collectie van de sector id's voor de user in de huidige sessie
     global $bedrijfArray;
     global $gewensteSectorArray;
-    echo "<section id=\"sectorwerk\">";
+    global $bedrijfGewerktArray;
     
         $checkedGewensteSector = array();
         for ($i = 1; $i <= 4; $i++){//de sector id's zijn 1 t/m 4
@@ -1589,7 +1590,32 @@ function handleKandidaatRegForm ()
             };
         };
 
+     $checkedBedrijf = array();
+        for ($i = 1; $i <= 4; $i++){
+            $bedrijfIndex = array_search($i, array_column($bedrijfArray, 0));
+            if (IS_NUMERIC($bedrijfIndex)){
+                array_push($checkedBedrijf, "checked='checked'");
+            }
+            else {
+                array_push($checkedBedrijf, "");
+            };
+        };   
+        
+       $checkedBedrijfGewerkt = array();
 
+        for ($i = 1; $i <= 4; $i++){
+            $bedrijfGewerktIndex = array_search($i, array_column($bedrijfGewerktArray, 0));
+            if (IS_NUMERIC($bedrijfGewerktIndex)){
+                array_push($checkedBedrijfGewerkt, "checked='checked'");
+            }
+            else {
+                array_push($checkedBedrijfGewerkt, "");
+            };
+        };
+ 
+        
+              
+echo "<section id=\"sectorwerk\">";
      echo "<div id=\"sector\">";
             echo "<div class=\"kop\">";
                     echo "<p>Vink de sector(s) aan waar je in werkzaam bent geweest en geef op hoeveel jaren</p>";
@@ -1616,20 +1642,24 @@ function handleKandidaatRegForm ()
                     echo "</label>";
             echo "</div>";
       echo "</div>";
+      echo "<div class=\"kop\">"; 
+                 echo "<p>Gemiddelde grootte van het bedrijven waar gewerkt is</p>";
+            echo "<label class=\"checkbox-inline\">";
+                    echo "<input type=\"checkbox\" value=1 name=\"bedrijfGewerkt_List[]\" $checkedBedrijfGewerkt[0]>micro (< 10)";
+            echo "</label>";
+            echo "<label class=\"checkbox-inline\">";
+                    echo "<input type=\"checkbox\" value=2 name=\"bedrijfGewerkt_List[]\" $checkedBedrijfGewerkt[1]>klein (<50)";
+            echo "</label>";
+            echo "<label class=\"checkbox-inline\">";
+                    echo "<input type=\"checkbox\" value=3 name=\"bedrijfGewerkt_List[]\" $checkedBedrijfGewerkt[2]>middelgroot (< 250)";
+            echo "</label>";
+            echo "<label class=\"checkbox-inline\">";
+                    echo "<input type=\"checkbox\" value=4 name=\"bedrijfGewerkt_List[]\" $checkedBedrijfGewerkt[3]>groot (> 250)";
+            echo "</label>";
+        echo "</div>";   
+echo "</div>"; 
 
-
-        $checkedBedrijf = array();
-
-        for ($i = 1; $i <= 4; $i++){
-            $bedrijfIndex = array_search($i, array_column($bedrijfArray, 0));
-            if (IS_NUMERIC($bedrijfIndex)){
-                array_push($checkedBedrijf, "checked='checked'");
-            }
-            else {
-                array_push($checkedBedrijf, "");
-            };
-        };                         
-echo"<hr>";
+echo "<section id=\"sectorGewenst\">";
         echo "<div id=\"bedrijf\">";
             echo "<div class=\"kop\">";
                     echo "<p>Gewenste ICT-SECTOR</p>";
@@ -1647,7 +1677,7 @@ echo"<hr>";
                     echo "<input type=\"checkbox\" value=4 name=\"gewenste_Sector_List[]\" $checkedGewensteSector[3]>Retail";	
             echo "</label>";
         echo "</div>"; 
-   echo"<hr>";     
+   //echo"<hr>";     
         echo "<div class=\"kop\">"; 
                  echo "<p>Gewenste grootte van het bedrijf</p>";
             echo "<label class=\"checkbox-inline\">";
@@ -1665,7 +1695,7 @@ echo"<hr>";
         echo "</div>";
 
         echo "</section>";
-    echo "</section>"; 
+  echo "</section>"; 
  }; 
  
  function toonRegio(){
@@ -1884,6 +1914,47 @@ function verwerkSector() {
             }             
         }
     }
+    
+   function verwerkBedrijfGewerkt() {
+    global $connection;
+    global $bedrijfGewerktArray;
+   
+    $checkBedrijfGewerkt = array();
+    if (!empty($_POST['bedrijfGewerkt_List'])) {
+        foreach ($_POST['bedrijfGewerkt_List'] as $selected){            
+            array_push($checkBedrijfGewerkt, $selected);
+        }
+    }
+        
+    for ($i=1; $i<=4; $i++){
+        $bedrijfGewerktIndex = array_search($i, array_column($bedrijfGewerktArray, 0));
+        if (is_numeric($bedrijfGewerktIndex)){
+            //bedrijfgroote is gevonden, dus aanwezig in database
+            $checkIndex = array_search($i, $checkBedrijfGewerkt);//check of het ook in het formulier aangevinkt is
+            if (!is_numeric($checkIndex)){
+                //functie is niet aangevinkt --> Delete database entry
+                $sql = mysqli_query($connection, "DELETE FROM bedrijfgewerkt WHERE `user_id`='".$_SESSION["user_id"]."' 
+                                                 AND `bedrijf_id` = '".$i."'");
+            }               
+        }
+        else {
+            //functie zit niet in database
+            $checkIndex = array_search($i, $checkBedrijfGewerkt);
+            if (!is_numeric($checkIndex)){
+                //en ook niet aangevinkt nin het formulier, hoeft dus geen actie ondernomen te worden
+                //$sql = mysqli_query($connection, "DELETE FROM user_functie WHERE `user_id`='".$_SESSION["user_id"]."' 
+                //                                 AND `functie_id` = '".$i."'");
+            }
+            else {
+                 //zit niet in de database, maar functie is wel in het formulier aangevinkt
+                $bedrijfId = $checkBedrijfGewerkt[$checkIndex];
+               $sql = mysqli_query($connection, "INSERT INTO bedrijfgewerkt (`user_id`,`bedrijf_id`)
+                        VALUES ('".$_SESSION['user_id']."', '".$bedrijfId."')");
+            }             
+        }
+    }
+ };  
+    
     
  //verwerking gewenste sector
     $checkGewensteSector = array();

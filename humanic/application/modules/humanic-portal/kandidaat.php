@@ -72,6 +72,21 @@ $sectorArray = array();
     else {
         echo "fout";
     };
+    
+//vullen bedrijfGewerkt Array
+$bedrijfGewerktArray = array();
+$sql = mysqli_query($connection, "SELECT * FROM bedrijfgewerkt WHERE `user_id` = '".$_SESSION['user_id']."'");
+    if ($sql){
+        while ($row = mysqli_fetch_assoc($sql)) {
+            $newArray = array($row['bedrijf_id']);
+            array_push($bedrijfGewerktArray, $newArray);
+        }
+    }
+    else {
+        echo "fout";
+    };    
+    
+    
 //vullen bedrijf Array    
 $bedrijfArray = array();
     $sql = mysqli_query($connection, "SELECT * FROM user_bedrijf WHERE `user_id` = '".$_SESSION['user_id']."'");

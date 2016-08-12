@@ -185,7 +185,7 @@ article{
 	font-size : 12px;
 } 
 
-#sectorwerk{
+#sectorwerk, #sectorGewenst{
 	float : right;
 	padding : 10px 5px;
 	width : 50%;
