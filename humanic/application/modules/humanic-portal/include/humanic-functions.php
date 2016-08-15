@@ -147,7 +147,17 @@ function handleForm()
            if ($_POST['passwd']!="")
             {   // vraag het correcte wachtwoord en de authorisatie op 
                 
-                $auth = getAuthorisatie(strtolower($_POST['login']));//de auhtorisatie wordt hier opgevraagd
+           $auth = getAuthorisatie(strtolower($_POST['login']));//de auhtorisatie wordt hier opgevraagd
+           $_SESSION["user_authorisatie"] = $auth;
+             if($auth == 'admin')
+                    {
+                        echo "<script type=\"text/javascript\">
+                                    window.location = \"".$GLOBALS['path']."/application/modules/admin/indexAdmin.php\"
+                                </script>";                   
+                    
+                    }
+             else
+              {     
                 $correct_passwd = trim(getPassword($_POST['login']));//hier wordt het ww behorende bij de loginnaam opgevraagd
                 if (md5(trim($_POST['passwd']))==trim($correct_passwd))//hier wordt het ww behorende bij de loginnaam vergeleken met het opgegeven ww
                   {
@@ -192,7 +202,7 @@ function handleForm()
                              $_SESSION['laatsgezienTijdstip'] = $laatsgezienTijdstip;
                            
                              $_SESSION['onlineIP'] = $_SERVER['REMOTE_ADDR'];                             
-                             $_SESSION["user_authorisatie"] = $auth;
+                             /*$_SESSION["user_authorisatie"] = $auth;*/
                              $_SESSION["loginnaam"] = $_POST["login"];
                              //$_SESSION["password"] = md5(trim($_POST["passwd"]));
                              $_SESSION["suc6login"] = "suc6login";
@@ -244,6 +254,7 @@ function handleForm()
                     echo "<b>Volgens geruchten mag u maar 3 keer inloggen!</b><br>";
                     }
                  }
+               }
             }
              else
             {  echo "<b>U moet wel een echt wachtwoord invullen!</b><br>";
@@ -1123,7 +1134,7 @@ function handleKandidaatRegForm ()
             echo "<div class=\"row\">";
                 echo "<label class=\"col-sm-3\" for=\"geboortedatum\">Geboortedatum</label>";
                 echo "<div class=\"col-sm-4\">";
-                    echo "<input type=\"text\" class=\"form-control input-sm\" id=\"geboortedatum\" name=\"geboortedatum\" value='$geboorteDatum' placeholder=\"dd-mm-jjjj\"/>";
+                    echo "<input type=\"date\" class=\"form-control input-sm\" id=\"geboortedatum\" name=\"geboortedatum\" value='$geboorteDatum' placeholder=\"dd-mm-jjjj\"/>";
                 echo "</div>";	
             echo "</div>";
             
@@ -1451,7 +1462,7 @@ function handleKandidaatRegForm ()
      }
  };
  
- function toonMobielUitkering ($rijbewijs="", $auto="") {
+ function toonMobielUitkering () {
     echo "<section id=\"mobielFinUitkering\">";
     $rijbewijs = variableWaarde('rijbewijs');
     if (isSet($rijbewijs) && $rijbewijs=='ja'){
@@ -1499,6 +1510,8 @@ function handleKandidaatRegForm ()
             break;
     }
 
+    
+    
 
     echo "<section id=\"mobielFinancieel\">";
         echo "<div id =\"rijbewijs\" class=\"form-group\">";
@@ -1529,7 +1542,7 @@ function handleKandidaatRegForm ()
         echo "<div class=\"form-group\" id=\"ww\">";
             echo "<label class=\"col-sm-5\" for=\"salaristkeringGeldigTot\">Uitkering geldig tot</label>";
             echo "<div class=\"col-sm-4\">";
-                echo "<input type=\"text\" class=\"form-control input-sm\" id=\"salaris\" name=\"uitkeringGeldigTot\" value=$uitkeringGeldigTot placeholder=\"mm-jjjj\" />";
+                echo "<input type=\"date\" class=\"form-control input-sm\" id=\"geldigTot\" name=\"uitkeringGeldigTot\" value=$uitkeringGeldigTot placeholder=\"mm-jjjj\" />";
             echo "</div>";	
         echo "</div>";
     echo "</section>";	
@@ -2052,9 +2065,11 @@ function verwerkSector() {
         $huisnummer = checkPost('huisnummer');
         $toevoeging = checkPost('toevoeging');
         $postcode = checkPost('postcode');
+        $rijbewijs = checkPost('rijbewijs');
+        $auto = checkPost('auto');
         $woonplaats = checkPost('plaats');
-        $gebdat = checkPost('geb-datum');
-        $gebdat = "'".$gebdat."'01";
+        $gebdat = checkPost('geboortedatum');
+        //$gebdat = "'".$gebdat."'01";
         $foto = $_SESSION['foto'];
         $cv = $_SESSION['cv'];
         $email = checkPost('email');
@@ -2078,6 +2093,7 @@ function verwerkSector() {
             {
                 $auto='nee';
             }
+           // echo "Rijbewijs: '".$rijbewijs."' <br/>";echo "Auto: '".$auto."' <br/>";
         //$auto = checkPost('auto');
         $reisafstand = checkPost('reisafstand');
         $linkedIn = checkPost('linkedIn');
@@ -2094,6 +2110,7 @@ function verwerkSector() {
                         `huisnummer`=  '".$huisnummer."',
                         `toevoeging` = '".$toevoeging."',
                         `postcode` = '".$postcode."',
+                        `geboortedatum` = '".$gebdat."',
                         `plaats` =     '".$woonplaats."',
                          `foto` = '".$foto."',  
                         `user_email` =      '".$email."',
@@ -2144,7 +2161,7 @@ function verwerkSector() {
     error_reporting(E_ALL);
 $uploadOk = 1;
     if ($uploadOk == 1) {
-        $target_imgdir = "C:/xampp/htdocs/humanic/assets/images/";// hier vindt de opslag plaats in de images map van de humanic(kandidaten) app
+        $target_imgdir = "C:/xampp/htdocs/HumanicIC/humanic/assets/images/";// hier vindt de opslag plaats in de images map van de humanic(kandidaten) app
         $img_id = uniqid();
         $target_imgfile = $target_imgdir .basename($_FILES["foto"]["name"]);
         $imageFileType = pathinfo($target_imgfile,PATHINFO_EXTENSION);

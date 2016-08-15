@@ -9,8 +9,8 @@ $pageNavId=1;
 fHeader($pageNavId);//actief=$pageNavId);
 
 // Alle navigatie functies zitten in application/config/default_functions.php
-
-/*if(!isSet($_SESSION['blad']))
+/*
+if(!isSet($_SESSION['blad']))
 {
  $_SESSION['blad']='index_page';
 }

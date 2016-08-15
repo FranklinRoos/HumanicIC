@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  
   $("#foto").change (function() {      
     var preview = document.querySelector('#foto');
     var files   = document.querySelector('input[type=file]').files;
@@ -32,45 +33,14 @@ $(document).ready(function () {
 
     }); 
 
-        
-       /* $("#buttonCv").click(function() {
-            var newWindow = '';
-            var left = (screen.width/2)-(200);
-            var top = (screen.height/2)-(150);
 
-            newWindow = window.open("http://localhost/HumanicKandidaat/humanic/popUpCV.php", 'popupCV', 'height=300, width=400, left='+left+', top='+top);
-            if (window.focus) 
-            {
-                newWindow.focus();
-            }
-            return false;
-        }) */
-        
-       /* $("#buttonFoto").click(function() {
-            var newWindow = '';
-            var left = (screen.width/2)-(200);
-            var top = (screen.height/2)-(150);
 
-            newWindow = window.open("http://localhost/HumanicKandidaat/humanic/popUpFoto.php", 'popupFoto', 'height=300, width=400, left='+left+', top='+top);
-            if (window.focus) 
-            {
-                newWindow.focus();
-            }
-            return false;
-        }) */
-
-       /* function closePopup()
-        {
-            if(!newWindow.closed && newWindow.location)
-            {
-                newWindow.close();
-            }
-            else
-            {
-                alert('Geen popup geopend!');
-            }
-            return false;
-        } */
+if (datefield.type!="date"){ //if browser doesn't support input type="date", initialize date picker widget:
+       jQuery(function($){ //on document.ready
+           $('#geboortedatum').datepicker();//het aanroepen van datepicker gebeurd gebeurd buiten document ready vanaf r563
+           $('#geldigTot').datepicker();
+       })
+    }
 
 	$("#rijbewijsCheck").change(function() {
 				
@@ -561,129 +531,8 @@ function imageIsLoaded(e) {
 };
 
 
+   
 
-
-
-/* $(function(){
-			$('#ervaring1').slider({
-							value : 0,
-							tooltip : 'hide',
-							formatter: function(value) {
-								return 'Current value: ' + value;
-							}
-						});
-			$('#ervaring2').slider({
-							value : 0,
-							tooltip : 'hide',
-							formatter: function(value) {
-								return 'Current value: ' + value;
-							}
-						});
-			});
-			
-			$("#ervaring1").on("slide", function(slideEvt) {
-				$("#ex1SliderVal").text(slideEvt.value); 
-			});
-			
-			
-			$("#ervaring2").on("slide", function(slideEvt) {
-				$("#ex21SliderVal").text(slideEvt.value); 
-			});
- */
-
-
-/* $("#functieCheck1").change(function() {	
-					alert("oke");
-}); */
-/* $(function(){
-				$('#ervaring1').slider({
-							value : 0,
-							tooltip : 'hide',
-							formatter: function(value) {
-								return 'Current value: ' + value;
-							}
-						});
-				$('#ervaring2').slider({
-							value : 0,
-							tooltip : 'hide',
-							formatter: function(value) {
-								return 'Current value: ' + value;
-							}
-						});
-				$('#ervaring3').slider({
-							value : 0,
-							tooltip : 'hide',
-							formatter: function(value) {
-								return 'Current value: ' + value;
-							}
-						});
-				$('#ervaring4').slider({
-							value : 0,
-							tooltip : 'hide',
-							formatter: function(value) {
-								return 'Current value: ' + value;
-							}
-						});
-				$('#ervaring5').slider({
-							value : 0,
-							tooltip : 'hide',
-							formatter: function(value) {
-								return 'Current value: ' + value;
-							}
-						});
-				$('#ervaring6').slider({
-							value : 0,
-							tooltip : 'hide',
-							formatter: function(value) {
-								return 'Current value: ' + value;
-							}
-						});
-			}): */
-				/* $('#ervaring1').slider({
-					value : 0,
-					tooltip : 'hide',
-					formatter: function(value) {
-					return 'Current value: ' + value;
-					}
-				});
-				
-				$('#ervaring2').slider({
-					value : 0,
-					tooltip : 'hide',
-					formatter: function(value) {
-					return 'Current value: ' + value;
-					}
-				});
-				$('#ervaring3').slider({
-					value : 0,
-					tooltip : 'hide',
-					formatter: function(value) {
-					return 'Current value: ' + value;
-					}
-				});	
-				$('#ervaring4').slider({
-					value : 0,
-					tooltip : 'hide',
-					formatter: function(value) {
-					return 'Current value: ' + value;
-					}
-				});	
-				$('#ervaring5').slider({
-					value : 0,
-					tooltip : 'hide',
-					formatter: function(value) {
-					return 'Current value: ' + value;
-					}
-				});
-				$('#ervaring6').slider({
-					value : 0,
-					tooltip : 'hide',
-					formatter: function(value) {
-					return 'Current value: ' + value;
-					}
-				});
- */
-            /* }); */
 			$("#ervaring1").on("slide", function(slideEvt) {
 				$("#ex1SliderVal").text(slideEvt.value);
 			});
@@ -703,3 +552,14 @@ function imageIsLoaded(e) {
 			$("#ervaring6").on("slide", function(slideEvt) {
 				$("#ex6SliderVal").text(slideEvt.value);
 			});
+                        
+
+    var datefield=document.createElement("input")
+      datefield.setAttribute("type", "date")
+      if (datefield.type!="date"){ //if browser doesn't support input type="date", load files for jQuery UI Date Picker
+         document.write('<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />\n')
+        document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"><\/script>\n')
+        document.write('<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"><\/script>\n')
+      } 
+
+    

@@ -85,8 +85,7 @@ $sql = mysqli_query($connection, "SELECT * FROM bedrijfgewerkt WHERE `user_id` =
     else {
         echo "fout";
     };    
-    
-    
+        
 //vullen bedrijf Array    
 $bedrijfArray = array();
     $sql = mysqli_query($connection, "SELECT * FROM user_bedrijf WHERE `user_id` = '".$_SESSION['user_id']."'");

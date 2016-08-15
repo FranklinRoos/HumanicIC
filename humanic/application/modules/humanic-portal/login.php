@@ -13,10 +13,12 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
 
     unset($_SESSION["suc6login"]);
         // inloggen
+    
+    //navigatie($pageNavId);
+  
+    
     $pageNavId=10;
     fHeader($pageNavId);
-    //navigatie($pageNavId);
-    
     if($_SESSION["user_authorisatie"]=="usr")
      { 
         
@@ -45,7 +47,13 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
         //echo "<h4 class=\"regbericht\">".ucfirst($_SESSION["loginnaam"])." ,je was hier voor het laatst op ".$datum." om ".$_SESSION['laatsgezienTijdstip']."</h4>";
         
      }
- 
+      else
+         {
+             echo "<script type=\"text/javascript\">
+           window.location = \"".$GLOBALS['path']."/application/modules/admin/indexAdmin.php\"
+            </script>";
+         }
+         
           
  }        
   else

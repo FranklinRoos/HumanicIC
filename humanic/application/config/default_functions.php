@@ -40,6 +40,16 @@ function fHeader($pageNavId="1")
       
     echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/fuikweb.css\" type=\"text/css\"/>";
     echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/style.css\" type=\"text/css\"/>";
+    
+    
+     /*    //toegevoegd zondag 14 aug2016 Modernizer Detect 'date' input type
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"jquery-ui-1.10.3/themes/base/jquery.ui.all.css\"/> ";
+    echo "<script type=\"text/javascript\" src=\"http://ajax.aspnetcdn.com/ajax/modernizr/modernizr-1.7-development-only.js\"></script>";
+    echo "<script type=\"text/javascript\" src=\"jquery-ui-1.10.3/ui/jquery.ui.core.js\"></script> ";
+    echo "<script type=\"text/javascript\" src=\"jquery-ui-1.10.3/ui/jquery.ui.widget.js\"></script> ";
+    echo "<script type=\"text/javascript\" src=\"jquery-ui-1.10.3/ui/jquery.ui.datepicker.js\"></script> ";
+    // einde toevoeging van zondag 14 aug2016*/
+    
     echo "<script src=\"https://code.jquery.com/jquery-2.2.4.min.js\"  ></script>";
     echo  "<script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js\"></script>";
     echo "<script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.1.1/bootstrap-slider.js\"></script>";
