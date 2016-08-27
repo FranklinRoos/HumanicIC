@@ -747,417 +747,93 @@ div#middle {
     background-color: #CCCCA3;
 }
 
-
-/* Hieronder de css voor de het aanmeldformulier */
-/*
-h1 {
-	text-align : center;
-}
-article{
-	border : 3px solid black;
-}
-.page-artical{
-	border	:	3px solid green;
-}
-/***Pesoonlijke gegevens
-#persoonlijke-gegevens{
-	margin-bottom : 2px;
-	
-	width : 100%;
-}
-#personalia{
-	float :left;
-	padding : 10px 10px;
-	width	:	50%;
-	border	:	1px solid black;
-	font-size : 12px;
-	margin-bottom : 25px;
+ul.nav li.dropdown:hover > ul.dropdown-menu{
+    display: block;
+    margin: 0;
 }
 
-#postcode {
-    width: 70%;
+.dropdown-submenu {
+    position: relative;
 }
 
-#sociale_media{
-	
-	border : 1px solid black;
+.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px 6px;
 }
 
-#sociaal_foto{
-	
-	float: right;
-	margin-right : 10px;
-	width : 40%;
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
 }
 
-#fototest{
-	width : 60%;
+.dropdown-submenu>a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #ccc;
+    margin-top: 5px;
+    margin-right: -10px;
 }
 
-#foto {
-	margin-left : 2px;
+.dropdown-submenu:hover>a:after {
+    border-left-color: #fff;
 }
 
-#cv {
-	margin-left : 2px;
+.dropdown-submenu.pull-left {
+    float: none;
 }
 
-.kop{
-	font-size : 11px;
-	color : blue;
-	font-weight : bold;
-	
+.dropdown-submenu.pull-left>.dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
 }
-
-#functies{
-	clear : left;
-	width : auto;
-	padding : 5px;
-	border : 1px solid black;
-	margin-bottom : 20px;
-	font-size : 12px;
-	
+.dropdown-menu>li>a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+    background-color:#AA771A;
 }
-
-#mobielFinUitkering{
-	width : 100%;
-	height : 250px;
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #AA771A;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
 }
-#mobielFinancieel{
-	float : left;
-	padding : 10px 5px;/
-	width	:	50%;
-	border	:	1px solid black;
-	;
-	font-size : 12px;
-} 
-
-#sectorwerk{
-	float : right;
-	padding : 10px 5px;
-	width : 40%;
-	
-	border : 1px solid black;
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus {
+background-image: linear-gradient(to bottom,#222 0,#282828 100%) !important;
+    -webkit-box-shadow: inset 0 3px 9px rgba(0,0,0,.25);
+    box-shadow: inset 0 3px 9px rgba(0,0,0,.25);
+    color: #FFF;
 }
-
-#sector{
-	margin-bottom : 20px;	
-}
-
-#bedrijf{
-
-}
-
-#regio{
-	clear : both;
-	width : 100%;
-	padding : 5px;
-	border : 1px solid black;
-	font-size : 12px;
-	
-}
-
-label {
-	font-size : small;
-	padding-left : 15px;
-}
-
-.checkbox {
-	float :right;
-}
-
-#sociale-links{
-	float		:	right;
-	width		:	300px;
-	height	:	220px;
-	border : 3px solid yellow;	
-}
-#sociale-links #media{
-	margin-top: 65px;
-	width		: 285px;
-	padding	: 5px 0 10px 10px;
-	border	: 1px solid black;
-	font-family	: verdana;
-}
-#media legend{
-	color: #999;
-	font-weight: bold;
-	padding: 4px 6px 4px 0;
-	margin: 0 0 5px 0;
-	font-size: 0.8em;
-}
-
-#media label{
-	width	:	90px;
-	float	: 	left;
-	padding: 2px 0 0 0;
-}
-#media	input{
-	margin	: 2px 0 7px 0;
-	padding	: 1px 3px 2px 3px;
-	border	: 1px solid #000;
-	background-color: transparent;
-	width		: 200px;
-}
-
-#auto{
-	display : none;
-                //display : block;
-}
-
-.ervaringSlider {
-	display : none;
-}
-
-/***Gewenste functies***/
-/* #functies{
-	border	:	3px solid orange;
-	width		:	800px;
-	height	:	200px;
-} */
-
-/***Aanvullende voorzieningen***/
-/*
-.voorziening{
-	width		:	800px;
-	height	:	200px;
-	border	: 3px solid green;
-}
-#mobiliteit #mobiel{
-	float		: left;
-	width		: 300px;
-	padding	: 5px 0 10px 10px;
-	border	: 1px solid black;
-	font-family	: verdana;
-}
-#mobiliteit legend{
-	color: #999;
-	font-weight: bold;
-	padding: 4px 6px 4px 0;
-	margin: 0 0 5px 0;
-	font-size: 0.8em;
-}
-
-#mobiliteit label{
-	width	:	90px;
-	float	: 	left;
-	padding: 2px 0 0 0;
-}
-#mobiliteit	input{
-	margin	: 2px 0 7px 0;
-	padding	: 1px 3px 2px 3px;
-	border	: 1px solid #000;
-	background-color: transparent;
-	width		: 200px;
-}
-
-#aanvulling #tekstVeld{
-	float		:	right;
-	width 	:	400px;
-	height	:	180px;
-}
-
-
-/***De grootte van het bedrijf***/
-/*
-#bedrijf-grootte{
-	width		:	800px;
-	height	:	 50px;
-	border	:	3px solid green;
-}
-/***Gewenste functie plaatsen***/
-/*
-#plaatsen{
-	width		:	800px;
-	height	:	200px;
-	border 	: 	3px solid red;
-}
-#rij-een{
-	display	: 	inline-block;
-	float		:	left;
-	border	: 	3px solid red;
-	width		:	150px;
-	height	:	150px;
-	margin	:	5px;	
-}
-#rij-twee{
-	float		:	left;
-	border	: 	3px solid red;
-	width		:	150px;
-	height	:	150px;
-	margin	:	5px;	
-}
-#rij-drie{
-	float		:	left;
-	border	: 	3px solid red;
-	width		:	150px;
-	height	:	150px;
-	margin	:	5px;
-}
-/***Opmerkingen***/
-/*
-#opmerkingSection{
-	width : 100%;
-	margin-top : 26px;
-	margin-bottom : 25px;
-}
-
-#opslaan{
-	margin-top : 50px;
-	float : right;
-}
-
-
-.button{
-	background-color: transparent;
-	color: #000;
-	font-weight: bold;
-	width: auto;
-	margin: 0 5px 0 0;
-	padding: 1px 5px 2px 5px;
-	cursor: pointer;
-	float: right;
-}
-
-/*!
- * Slider for Bootstrap
- *
- * Copyright 2012 Stefan Petre
- * Licensed under the Apache License v2.0
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- */
-/*
-.slider {
-  vertical-align: middle;
-  position: relative;
-}
-.slider.slider-horizontal {
-  width: 100%;
-  height: 30px;
-}
-.slider.slider-horizontal .slider-track {
-  height: 10px;
-  width: 100%;
-  margin-top: -5px;
-  top: 50%;
-  left: 0;
-}
-.slider.slider-horizontal .slider-selection {
-  height: 100%;;
-  top: 0;
-  bottom: 0;
-}
-.slider.slider-horizontal .slider-handle {
-  margin-left: -10px;
-  margin-top: -5px;
-}
-.slider.slider-horizontal .slider-handle.triangle {
-  border-width: 0 10px 10px 10px;
-  width: 0;
-  height: 0;
-  border-bottom-color: #0480be;
-  margin-top: 0;
-}
-.slider.slider-vertical {
-  height: 210px;
-  width: 20px;
-}
-.slider.slider-vertical .slider-track {
-  width: 10px;
-  height: 100%;
-  margin-left: -5px;
-  left: 50%;
-  top: 0;
-}
-.slider.slider-vertical .slider-selection {
-  width: 100%;
-  left: 0;
-  top: 0;
-  bottom: 0;
-}
-.slider.slider-vertical .slider-handle {
-  margin-left: -5px;
-  margin-top: -10px;
-}
-.slider.slider-vertical .slider-handle.triangle {
-  border-width: 10px 0 10px 10px;
-  width: 1px;
-  height: 1px;
-  border-left-color: #0480be;
-  margin-left: 0;
-}
-.slider input {
-  display: none;
-}
-.slider .tooltip-inner {
-  white-space: nowrap;
-}
-.slider-track {
-  position: absolute;
-  cursor: pointer;
-  background-color: #f7f7f7;
-  background-image: -moz-linear-gradient(top, #f5f5f5, #f9f9f9);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f5f5f5), to(#f9f9f9));
-  background-image: -webkit-linear-gradient(top, #f5f5f5, #f9f9f9);
-  background-image: -o-linear-gradient(top, #f5f5f5, #f9f9f9);
-  background-image: linear-gradient(to bottom, #f5f5f5, #f9f9f9);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f5', endColorstr='#fff9f9f9', GradientType=0);
-  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-}
-.slider-selection {
-  position: absolute;
-  background-color: #f7f7f7;
-  background-image: -moz-linear-gradient(top, #f9f9f9, #f5f5f5);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f9f9f9), to(#f5f5f5));
-  background-image: -webkit-linear-gradient(top, #f9f9f9, #f5f5f5);
-  background-image: -o-linear-gradient(top, #f9f9f9, #f5f5f5);
-  background-image: linear-gradient(to bottom, #f9f9f9, #f5f5f5);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff9f9f9', endColorstr='#fff5f5f5', GradientType=0);
-  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-}
-.slider-handle {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  background-color: #0e90d2;
-  background-image: -moz-linear-gradient(top, #149bdf, #0480be);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#149bdf), to(#0480be));
-  background-image: -webkit-linear-gradient(top, #149bdf, #0480be);
-  background-image: -o-linear-gradient(top, #149bdf, #0480be);
-  background-image: linear-gradient(to bottom, #149bdf, #0480be);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff149bdf', endColorstr='#ff0480be', GradientType=0);
-  -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
-  -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
-  opacity: 0.8;
-  border: 0px solid transparent;
-}
-.slider-handle.round {
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
-}
-.slider-handle.triangle {
-  background: transparent none;
-}
-
-.ervaringSlider .slider-selection {
-	background : #3A6BAE
-} */

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 12 aug 2016 om 19:01
+-- Gegenereerd op: 24 aug 2016 om 11:22
 -- Serverversie: 5.6.24
 -- PHP-versie: 5.5.24
 
@@ -19,6 +19,278 @@ SET time_zone = "+00:00";
 --
 -- Database: `kandidaten`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `bedrijf`
+--
+
+CREATE TABLE IF NOT EXISTS `bedrijf` (
+  `id` int(11) NOT NULL,
+  `aantal_medewerkers` varchar(15) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `bedrijf`
+--
+
+INSERT INTO `bedrijf` (`id`, `aantal_medewerkers`) VALUES
+(1, 'micro'),
+(2, 'klein'),
+(3, 'middelgroot'),
+(4, 'groot');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structuur voor view `bedrijf_view`
+--
+CREATE TABLE IF NOT EXISTS `bedrijf_view` (
+`bedrijf_id` int(11)
+,`grootte` varchar(15)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `contact`
+--
+
+CREATE TABLE IF NOT EXISTS `contact` (
+  `contact_id` int(5) NOT NULL,
+  `user_id` int(5) unsigned NOT NULL,
+  `user_inlognaam` varchar(25) NOT NULL,
+  `contact_naam` varchar(50) NOT NULL,
+  `contact_email` varchar(30) NOT NULL,
+  `contact_subject` varchar(60) NOT NULL,
+  `contact_bericht` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `functie`
+--
+
+CREATE TABLE IF NOT EXISTS `functie` (
+  `functie_id` int(3) NOT NULL,
+  `functie_naam` varchar(50) NOT NULL,
+  `functie_omschrijving` tinytext NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `functie`
+--
+
+INSERT INTO `functie` (`functie_id`, `functie_naam`, `functie_omschrijving`) VALUES
+(1, 'C# developer', 'beschrijving'),
+(2, '.NET developer', 'beschrijving'),
+(3, 'front-end developer', 'beschrijving'),
+(4, 'back-end developer', 'beschrijving'),
+(5, 'Java developer', 'beschrijving'),
+(6, 'project manager', 'beschrijving'),
+(7, 'functioneel ontwerper', 'beschrijving'),
+(8, 'test coordinator', 'beschrijving'),
+(9, 'product owner', 'beschrijving'),
+(10, 'business analist', 'beschrijving');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structuur voor view `functie_view`
+--
+CREATE TABLE IF NOT EXISTS `functie_view` (
+`functie_id` int(3)
+,`functie_naam` varchar(50)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `gewenste_sector`
+--
+
+CREATE TABLE IF NOT EXISTS `gewenste_sector` (
+  `gewenste_sector_id` int(5) NOT NULL,
+  `user_id` int(5) NOT NULL,
+  `sector_id` int(2) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `gewenste_sector`
+--
+
+INSERT INTO `gewenste_sector` (`gewenste_sector_id`, `user_id`, `sector_id`) VALUES
+(25, 3, 3),
+(28, 5, 1),
+(29, 5, 4),
+(32, 2, 1),
+(33, 45, 3),
+(34, 16, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structuur voor view `kandiaten_vw`
+--
+CREATE TABLE IF NOT EXISTS `kandiaten_vw` (
+`user_id` int(5)
+,`user_email` varchar(80)
+,`achternaam` varchar(50)
+,`tussenvoegsel` varchar(10)
+,`voornaam` varchar(50)
+,`plaats` varchar(50)
+,`telefoon` varchar(11)
+,`foto` varchar(30)
+,`cv` varchar(30)
+,`geboortedatum` date
+,`salaris` int(5)
+,`uitkering` varchar(10)
+,`uitkering_geldig_tot` date
+,`rijbewijs` enum('ja','nee')
+,`auto` enum('ja','nee')
+,`reisafstand` int(3)
+,`opmerking` text
+,`linkedin` varchar(80)
+,`facebook` varchar(80)
+,`twitter` varchar(80)
+,`ervaring` int(2)
+,`functie_naam` varchar(50)
+,`grootte` varchar(15)
+,`regio_naam` varchar(50)
+,`sector_naam` varchar(50)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structuur voor view `kandidaten`
+--
+CREATE TABLE IF NOT EXISTS `kandidaten` (
+`user_id` int(5)
+,`voornaam` varchar(50)
+,`tussenvoegsel` varchar(10)
+,`achternaam` varchar(50)
+,`naam` varchar(50)
+,`foto` varchar(30)
+,`cv` varchar(30)
+,`user_email` varchar(80)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `nav`
+--
+
+CREATE TABLE IF NOT EXISTS `nav` (
+  `nav_id` int(2) NOT NULL,
+  `nav_naam` varchar(240) NOT NULL,
+  `nav_url` varchar(80) NOT NULL,
+  `nav_place` enum('header','footer') NOT NULL,
+  `nav_show` enum('y','n') NOT NULL,
+  `nav_parent_id` int(2) NOT NULL DEFAULT '0',
+  `nav_taal` enum('nl','en') NOT NULL DEFAULT 'nl',
+  `nav_auth` enum('usr','admin','ptr','elm') NOT NULL DEFAULT 'usr',
+  `volgorde` int(2) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `nav`
+--
+
+INSERT INTO `nav` (`nav_id`, `nav_naam`, `nav_url`, `nav_place`, `nav_show`, `nav_parent_id`, `nav_taal`, `nav_auth`, `volgorde`) VALUES
+(1, '<div class="nav">Home</div>', 'index.php', 'header', 'y', 0, 'nl', 'usr', 1),
+(2, 'Registratie/Login', 'application/modules/humanic-portal/login.php', 'header', 'n', 0, 'nl', 'usr', 2),
+(3, 'Werkgevers', 'application/modules/humanic-portal/werkgever.php', 'header', 'n', 0, 'nl', 'usr', 5),
+(4, 'Contact', 'http://humanicdevelopment.com/index.html#content5-12', 'footer', 'n', 0, 'nl', 'usr', 8),
+(5, 'Over ons', 'http://humanicdevelopment.com/index.html#content5-12', 'header', 'y', 0, 'nl', 'usr', 9),
+(6, 'Kandidaat-Registratie', 'application/modules/humanic-portal/register.php', 'header', 'y', 0, 'nl', 'usr', 3),
+(7, 'Algemene Voorwaarden', 'alv.php', 'footer', 'n', 0, 'nl', 'usr', 10),
+(8, 'Disclaimer', 'disclaimer.php', 'footer', 'n', 0, 'nl', 'usr', 11),
+(9, 'Privacy Beleid', 'privacy.php', 'footer', 'n', 0, 'nl', 'usr', 12),
+(10, 'Kandidaat-Login', 'application/modules/humanic-portal/login.php', 'header', 'y', 0, 'nl', 'usr', 4),
+(11, 'Werkgever-Registratie', 'application/modules/humanic-portal/werkgever.php', 'header', 'y', 3, 'nl', 'usr', 6),
+(12, 'Werkgever-Inloggen', 'application/modules/humanic-portal/login.php', 'header', 'n', 3, 'nl', 'usr', 7),
+(13, 'ADMIN', 'application/modules/admin/indexAdmin.php', 'header', 'y', 0, 'nl', 'admin', 13),
+(20, '<div class=adres>Programmeurs:</div> F.Roos(franklin_roos@hotmail.com), T v Hout(blackhout@upcmail.nl), B.Kijlstra(bartkijlstra@gmail.com), S.Unal(selahattin@xs4all.nl), R.de Wit(r.dewit@outlook.com)', '', 'footer', 'n', 0, 'nl', 'usr', 18),
+(21, 'Mijn Gegevens', 'application/modules/humanic-portal/kandidaat.php', 'header', 'y', 0, 'nl', 'usr', 15),
+(22, '<div class=adres1><div class=adres>Adres Gegevens</div><br/><div class=adresR>H.E.J. Wenkenbachweg 123<br/>1096 AM Amsterdam Nederland</div>\r\n\r\n', '', 'footer', 'y', 0, 'nl', 'usr', 17),
+(23, '<div class=adres1><div class=adres>Contact</div><br/>\r\n<div class=adresR>Email: info@Humanic.cloud<br/>\r\nTel: +31(0)852736963</div>', '', 'footer', 'y', 0, 'nl', 'usr', 18),
+(24, '', '', '', '', 0, 'nl', 'usr', 0),
+(25, '<div class=nav>Home</div>', 'index.php', 'header', 'y', 0, 'nl', 'elm', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `navadmin`
+--
+
+CREATE TABLE IF NOT EXISTS `navadmin` (
+  `navadmin_id` int(2) NOT NULL,
+  `navadmin_naam` varchar(30) NOT NULL,
+  `navadmin_url` varchar(60) NOT NULL,
+  `navadmin_show` enum('y','n') NOT NULL,
+  `navadmin_auth` enum('ptr','admin') NOT NULL DEFAULT 'admin',
+  `navadmin_volgorde` int(2) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `navadmin`
+--
+
+INSERT INTO `navadmin` (`navadmin_id`, `navadmin_naam`, `navadmin_url`, `navadmin_show`, `navadmin_auth`, `navadmin_volgorde`) VALUES
+(1, 'Home', 'index.php', 'y', 'ptr', 1),
+(4, 'nav', 'application/modules/nav/nav.php', 'n', 'admin', 4),
+(5, 'navadmin', 'application/modules/navadmin/navadmin.php', 'n', 'admin', 5),
+(6, 'Totaal overzicht', 'application/modules/query/overzicht.php', 'y', 'admin', 6),
+(7, 'Query Maken', 'application/modules/query/queryMaken.php', 'y', 'admin', 7);
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `nav_nl`
+--
+
+CREATE TABLE IF NOT EXISTS `nav_nl` (
+  `nav_nl_id` int(2) NOT NULL,
+  `nav_nl_naam` varchar(80) NOT NULL,
+  `nav_nl_url` varchar(80) NOT NULL,
+  `nav_nl_place` enum('header','footer') NOT NULL,
+  `nav_nl_show` enum('y','n') NOT NULL,
+  `nav_nl_parent_id` int(2) NOT NULL,
+  `nav_nl_taal` enum('nl','en') NOT NULL,
+  `nav_nl_auth` enum('usr','admin','ptr') NOT NULL DEFAULT 'usr',
+  `volgorde` int(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `online`
+--
+
+CREATE TABLE IF NOT EXISTS `online` (
+  `online_id` int(15) NOT NULL,
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `online_ip` varchar(16) NOT NULL DEFAULT '0.0.0.0',
+  `online_locatie` varchar(2555) NOT NULL DEFAULT '''''',
+  `online_tijd` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `online`
+--
+
+INSERT INTO `online` (`online_id`, `user_id`, `online_ip`, `online_locatie`, `online_tijd`) VALUES
+(1, 4, '0.0.0.0', '''''', 0),
+(2, 5, '0.0.0.0', '''''', 0),
+(3, 5, '0.0.0.0', '''''', 0),
+(4, 5, '0.0.0.0', '''''', 0),
+(5, 5, '0.0.0.0', '''''', 0),
+(6, 5, '0.0.0.0', '''''', 0),
+(7, 5, '0.0.0.0', '''''', 0);
 
 -- --------------------------------------------------------
 
@@ -56,9 +328,532 @@ INSERT INTO `pages` (`page_id`, `page_nav_id`, `page_content`, `page_title`, `pa
 INSERT INTO `pages` (`page_id`, `page_nav_id`, `page_content`, `page_title`, `page_description`, `page_keywords`, `page_show`, `page_taal`) VALUES
 (13, 10, '<div class="container" id="inlogMelding">\r\n\r\n\r\n<div class="profkop">\r\n			<h3 class="pf">In je<a  href="kandidaat.php"> profiel</a> kun je:</h3>\r\n				<ul class="prof">\r\n					<li>Je persoonlijke gegevens invullen/aanpassen</li> \r\n					<li>Je foto en CV uploaden.</li>\r\n					<li>Aangeven voor welke IT functies je gevraagd wilt worden</li>\r\n					<li>Aangeven in welke regio''s je wilt werken</li>\r\n					<li>Aangeven in welke sectoren je ervaring hebt.</li>\r\n				</ul>\r\n			<aside class="meer">Hoe meer gegevens je invult, hoe beter we je kunnen helpen.</aside><br/><br/>\r\n</div>			\r\n			<p class="naarProfiel">\r\n					<a class="btn btn-primary btn-md" href="kandidaat.php">Je kan hier naar je profiel </a>\r\n			</p>          \r\n </div>', '<h2 style="text-align:center;" class="welkom">Welkom, je bent ingelogd</h2>', '', '', 'y', 'nl');
 
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `regio`
+--
+
+CREATE TABLE IF NOT EXISTS `regio` (
+  `id` int(11) NOT NULL,
+  `naam` varchar(50) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `regio`
+--
+
+INSERT INTO `regio` (`id`, `naam`) VALUES
+(1, 'Noord-Holland'),
+(2, 'Zuid-Holland'),
+(3, 'Zeeland'),
+(4, 'Noord-Brabant'),
+(5, 'Limburg'),
+(6, 'Gelderland'),
+(7, 'Overijssel'),
+(8, 'Utrecht'),
+(9, 'Flevoland'),
+(10, 'Drenthe'),
+(11, 'Groningen'),
+(12, 'Friesland'),
+(13, 'Amsterdam e.o.'),
+(14, 'Rotterdam e.o.'),
+(15, 'Den Haag'),
+(16, 'Eindhoven e.o.'),
+(17, 'Nijmegen');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structuur voor view `regio_view`
+--
+CREATE TABLE IF NOT EXISTS `regio_view` (
+`regio_id` int(11)
+,`regio_naam` varchar(50)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `sector`
+--
+
+CREATE TABLE IF NOT EXISTS `sector` (
+  `sector_id` int(2) NOT NULL,
+  `sector_naam` varchar(50) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `sector`
+--
+
+INSERT INTO `sector` (`sector_id`, `sector_naam`) VALUES
+(1, 'ICT'),
+(2, 'Zorg'),
+(3, 'Industrie'),
+(4, 'Retail');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structuur voor view `sector_view`
+--
+CREATE TABLE IF NOT EXISTS `sector_view` (
+`sector_id` int(2)
+,`sector_naam` varchar(50)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `user`
+--
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `user_id` int(5) NOT NULL,
+  `user_inlognaam` varchar(30) NOT NULL,
+  `user_wachtwoord` varchar(50) NOT NULL,
+  `user_authorisatie` enum('usr','admin','ptr') NOT NULL DEFAULT 'usr',
+  `user_email` varchar(80) NOT NULL,
+  `user_activ` enum('no','yes','','') NOT NULL DEFAULT 'no',
+  `user_form-activ` enum('yes','no') NOT NULL DEFAULT 'no',
+  `activ_code` varchar(50) NOT NULL,
+  `vergeetcode` varchar(50) NOT NULL,
+  `user_online` enum('y','n') NOT NULL DEFAULT 'n',
+  `datum_gezien` date NOT NULL,
+  `tijdstip_gezien` time NOT NULL,
+  `user_sinds` date NOT NULL,
+  `achternaam` varchar(50) NOT NULL,
+  `tussenvoegsel` varchar(10) NOT NULL,
+  `voornaam` varchar(50) NOT NULL,
+  `straat` varchar(100) NOT NULL,
+  `huisnummer` varchar(20) NOT NULL,
+  `toevoeging` varchar(10) NOT NULL,
+  `postcode` varchar(6) NOT NULL,
+  `plaats` varchar(50) NOT NULL,
+  `telefoon` varchar(11) NOT NULL,
+  `foto` varchar(30) NOT NULL,
+  `cv` varchar(30) NOT NULL,
+  `geboortedatum` date NOT NULL,
+  `salaris` int(5) NOT NULL,
+  `uitkering` varchar(10) NOT NULL,
+  `uitkering_geldig_tot` date NOT NULL,
+  `user_sector` enum('ICT','ZORG','INDUSTRIR','RETAIL') NOT NULL DEFAULT 'ICT',
+  `user_bedrijf_grootte` varchar(10) NOT NULL,
+  `rijbewijs` enum('ja','nee') NOT NULL,
+  `auto` enum('ja','nee') NOT NULL,
+  `reisafstand` int(3) NOT NULL,
+  `opmerking` text NOT NULL,
+  `linkedin` varchar(80) NOT NULL,
+  `twitter` varchar(80) NOT NULL,
+  `facebook` varchar(80) NOT NULL,
+  `motivatie` varchar(50) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `user`
+--
+
+INSERT INTO `user` (`user_id`, `user_inlognaam`, `user_wachtwoord`, `user_authorisatie`, `user_email`, `user_activ`, `user_form-activ`, `activ_code`, `vergeetcode`, `user_online`, `datum_gezien`, `tijdstip_gezien`, `user_sinds`, `achternaam`, `tussenvoegsel`, `voornaam`, `straat`, `huisnummer`, `toevoeging`, `postcode`, `plaats`, `telefoon`, `foto`, `cv`, `geboortedatum`, `salaris`, `uitkering`, `uitkering_geldig_tot`, `user_sector`, `user_bedrijf_grootte`, `rijbewijs`, `auto`, `reisafstand`, `opmerking`, `linkedin`, `twitter`, `facebook`, `motivatie`) VALUES
+(2, 'blackliq', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'blachout@upcmail.nl', 'yes', 'no', '', '', 'n', '2016-08-21', '01:33:32', '2016-07-01', 'Hout', 'van', 'Thijs', 'W.v.Hembyzestraat', '17', '', '1067PM', 'Amsterdam', '0615579992', '57a9c5607ad3c.jpg', '57a820630d663.pdf', '1978-03-15', 3500, 'WW', '2017-08-25', 'ICT', '>500', 'ja', 'ja', 30, 'mijn oude fiets is gestolen!																																																																																																			', 'https://nl.linkedin.com/in/thijsvanhout/nl', 'https://twitter.com/', 'https://www.facebook.com/', 'mot1'),
+(3, 'Unal', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'selahattin@xs4all.nl', 'yes', 'no', '', '', 'n', '2016-08-21', '01:37:32', '2016-07-05', 'Unal', '', 'Selahattin', 'Hortensiastraat', '18', '5hoog', '1032CJ', 'Amsterdam', '062960228', '57a9c2eb4659d.jpg', '57a5b514b4073.pdf', '1960-05-16', 3000, 'WW', '2017-08-30', 'ICT', '50-100', 'ja', 'ja', 25, 'foto en cv kunnen vervangen worden																																																																																																																																																																																																			', 'https://nl.linkedin.com/in/selahattinunal/nl', 'https://twitter.com/', 'https://www.facebook.com/', 'mot1'),
+(5, 'Franklin', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'frankieboy37@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-21', '01:36:38', '2016-07-06', 'Roos', '', 'Franklin', 'Watermolenstraat', '98', '', '1098bn', 'Amsterdam', '0629359610', 'Franklin.jpg', 'CV_Roos.pdf', '1973-06-15', 3200, 'WW', '2017-08-29', 'ICT', '100-500', 'ja', 'ja', 25, 'IK HEB HONGER !!!!!!																		', 'https://nl.linkedin.com/in/franklin-roos', 'https://twitter.com/', 'https://www.facebook.com/', 'aan motivatie geen gebrek'),
+(6, 'balboa', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'balboadesus@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-21', '01:41:19', '2016-07-12', 'Dagama', 'Desus', 'Balboa', 'Columbusstraat', '28', '3hoog', '1778BT', 'schagen', '0206194483', '57b060ff7a163.jpg', '57a5d12de9c90.txt', '1975-11-25', 3200, 'WW', '2017-08-25', 'ICT', '1-10', 'ja', 'ja', 35, '	Blablablabla																																																																																	', 'https://nl.linkedin.com/in/selahattinunal/nl', 'https://twitter.com/', 'https://www.facebook.com/', 'mot1'),
+(7, 'bart', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'bartkijlstra@gmail.com', 'yes', 'no', '', '', 'n', '2016-08-21', '01:42:07', '2016-08-01', 'Kijsltra', '', 'Bart', 'Muiderpoortstation', '35', '3hoog', '1092vw', 'Amsterdam', '0619874146', '57a9c7082aac9.jpg', '57a821aaf2de5.txt', '1958-08-10', 3400, 'WW', '0000-00-00', 'ICT', '', 'ja', 'ja', 35, '						', 'https://nl.linkedin.com/in/bartkijlstra', '', '', 'mot1'),
+(8, 'Ron', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'rdewit599@gmail.com', 'yes', 'no', '', '', 'n', '2016-08-21', '01:39:00', '2016-07-13', 'Wit', 'de', 'Ron', 'Hupsakeestraat', '525', '7hoog', '1107ZO', 'Amsterdam', '0645845457', '57a9c6e2f0971.jpg', '57a821d587fea.txt', '1974-04-14', 3300, 'WW', '2017-02-28', 'ICT', '', 'nee', 'nee', 15, '	Ik wil koffie												', 'https://nl.linkedin.com/in/ron-de-wit-3b4928118', 'https://twitter.com/', 'https://www.facebook.com/', 'mot1'),
+(9, 'Elmar', '8bdc0a760490ca729fa9d4711ca70893', 'admin', 'elmar_ziet_@alles.nl', 'yes', 'no', '', '', 'n', '2016-08-23', '13:12:28', '2016-08-05', 'Geurts', '', 'Elmar', '', '', '', '', '', '', '', '', '0000-00-00', 0, '', '0000-00-00', 'ICT', '', '', '', 0, '', '', '', '', 'aan motivatie geen gebrek'),
+(10, 'mercita', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'mmcoronel80@gmail.com', 'yes', 'no', '', '', 'n', '2016-08-21', '01:33:03', '2016-08-09', 'Coronel', '', 'Mercita', 'Da Costa kade', '25', '2hoog', '1058TC', 'Amsterdam', '0611344827', '57a9cbfe76d50.jpg', '', '1975-11-25', 3600, 'WW', '2018-09-09', 'ICT', '', 'ja', 'ja', 25, '	Ben ook als jounalist inzetbaar																																																		', 'https://nl.linkedin.com/in/mercita-coronel-7a89607/nl', 'https://twitter.com/login', 'https://www.facebook.com/mercita.coronel?fref=ts', 'mot1'),
+(11, 'Fred', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'fred@kneefel.com', 'yes', 'no', '', '', 'n', '2016-08-21', '01:43:07', '2016-08-10', 'Kneefel', '', 'Fred', '', '', '', '', '', '0629359610', '57aa5aeccbdcd.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '		', 'https://nl.linkedin.com/in/fred-kneefel-6543b37/nl', '', 'https://www.facebook.com/fred.kneefel?fref=ts', 'mot1'),
+(12, 'Alwin', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'paulisto1@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-10', '00:40:44', '2016-08-10', 'Tjon', '', 'Alwin', '', '', '', '', '', '0629359610', '57aa5bfc70297.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'ja', 'ja', 0, '		', 'https://nl.linkedin.com/in/alwin-tjon-pon-fong-1522656a', '', 'https://www.facebook.com', 'mot1'),
+(13, 'patrick', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'patesa15@gmail.com', 'yes', 'no', '', '', 'n', '2016-08-10', '00:49:35', '2016-08-10', 'Schmitz', '', 'Patrick', '', '', '', '', '', '0628292163', '57aa5e36c6e88.jpg', '', '0000-00-00', 3000, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 30, '	', 'https://nl.linkedin.com/in/pschmitz73', '', 'https://www.facebook.com/patrick.schmitz.9081?fref=ts', 'mot1'),
+(14, 'Jhona', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'jhonathanstuart@gmail.com', 'yes', 'no', '', '', 'n', '2016-08-21', '01:44:22', '2016-08-10', 'Stuart Hoyos ', '', 'Jhonathan', '', '', '', '', '', '0634293329', '57aa60017b517.jpg', '', '0000-00-00', 4300, 'WW', '0000-00-00', 'ICT', '', 'ja', 'ja', 0, '			', 'https://nl.linkedin.com/in/jhonathan-stuart-hoyos-acosta-61b5507a', '', 'https://www.facebook.com/jhonathan.hoyosacosta?fref=ts', 'mot1'),
+(15, 'Merel', '8bdc0a760490ca729fa9d4711ca70893', 'usr', '', 'yes', 'no', '', '', 'n', '2016-08-21', '02:21:11', '2016-08-10', 'Rover', 'de', 'Merel', '', '', '', '', '', '0627492625', '57aa617595194.jpg', '', '0000-00-00', 3600, 'WW', '0000-00-00', 'ICT', '', 'ja', 'ja', 0, '		', 'https://nl.linkedin.com/in/merelderover', '', 'https://www.facebook.com/merel.derover?fref=ts', 'mot1'),
+(16, 'Stella', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'Stellahartog@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-21', '01:36:06', '2016-08-10', 'Hartog', '', 'Stella', '', '', '', '', '', '0634539390', '57aa62ca1a0c2.jpg', '', '1998-04-12', 4500, 'WW', '2017-12-25', 'ICT', '', 'ja', 'ja', 0, '		hallooooo, 	Ik ben Stella	blaaaa								', 'https://nl.linkedin.com/in/stella-hartog-907a244b', '', 'https://www.facebook.com/stellebel.stel?fref=ts', 'mot1'),
+(17, 'Ramon', '8bdc0a760490ca729fa9d4711ca70893', 'usr', '', 'yes', 'no', '', '', 'n', '2016-08-10', '01:14:05', '2016-08-10', 'Kok', '', 'Ramon', '', '', '', '', '', '0633135753', '57aa6418b7f4a.jpg', '', '0000-00-00', 5600, 'WW', '0000-00-00', 'ICT', '', 'ja', 'ja', 0, '			', '', '', '', 'mot1'),
+(18, 'Mike', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'michael_mitrasing@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-21', '13:02:02', '2016-08-10', 'Mitrasing', '', 'Michael', '', '', '', '', '', '0629359610', '57aa65c9dea97.jpg', '', '0000-00-00', 4500, 'WW', '0000-00-00', 'ICT', '', 'ja', 'ja', 0, '				', 'https://nl.linkedin.com/in/michael-mitrasing-257a272/nl', '', 'https://www.facebook.com/cindy.enmichael?fref=ts', 'mot1'),
+(19, 'Jurgen', '8bdc0a760490ca729fa9d4711ca70893', 'usr', '', 'yes', 'no', '', '', 'n', '2016-08-12', '21:12:13', '2016-08-11', 'Dion de Clercq', '', 'Jurgen', '', '', '', '', 'North Fort Myers, Florida', '0629359610', '57ace1247ceb2.jpg', '57ace1339eb03.txt', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '									', 'https://www.linkedin.com/in/jurgendeclercq/nl', 'https://twitter.com/datahousedc', 'https://www.facebook.com/profile.php?id=574775694&fref=ts', 'mot1'),
+(20, 'Mohamed', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'aitmesss@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-21', '01:38:29', '2016-08-14', 'Ait Mesaoud', '', 'Mohamed', 'Mohamedstraat', '5', 'huis', '1015bt', 'Amsterdam', '0629359610', '57b065f65d167.jpg', '', '0000-00-00', 3500, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '		', 'https://nl.linkedin.com/in/mohamed-ait-messaoud-28509a14/nl', 'https://twitter.com/Aitmesss', 'https://www.facebook.com/mohamed.aitmessaoud?fref=ts', ''),
+(21, 'Pedro', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'pedro_calado@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-22', '12:59:11', '2016-08-14', 'Calado', '', 'Pedro', '', '', '', '', '', '0629359610', '57b0995c04bb8.jpg', '', '1960-03-21', 4500, 'Wajong', '2017-12-28', 'ICT', '', 'ja', 'ja', 35, '	geef mij maar paella								', 'https://nl.linkedin.com/in/pedrocalado/nl', '', '', ''),
+(22, 'Orlando', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'orlando_neira@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-21', '14:15:22', '2016-08-14', 'Neira', '', 'Orlando', '', '', '', '', '', '0629359610', '57b0a5514612c.jpg', '', '0000-00-00', 6500, 'WW', '2018-08-23', 'ICT', '', 'nee', 'nee', 0, '	Hello , ik ben Orlando						', 'https://co.linkedin.com/in/orlando-neira-s-6384252b/nl', '', 'https://www.facebook.com/orlyneira?fref=ts', ''),
+(23, 'clemo', '8bdc0a760490ca729fa9d4711ca70893', 'usr', '', 'yes', 'no', '', '', 'n', '2016-08-14', '19:18:18', '2016-08-14', 'Roos', '', 'Clemens', '', '', '', '', '', '0629359610', '57b0a7c14bebf.jpg', '', '0000-00-00', 9000, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '			', 'https://www.linkedin.com/in/clemens-roos-3b19018/nl', '', '', 'mot1'),
+(24, 'Germaine', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'germaine_oostwijk@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-21', '14:15:49', '2016-08-14', 'Oostwijk', '', 'Germaine', '', '', '', '', '', '0629359610', '57b0a9bbccf5e.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '	halloooooooo		', 'https://www.linkedin.com/in/germaine-oostwijk-42203718/nl', '', '', ''),
+(25, 'Lara', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'lara_de_groot@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-15', '00:03:42', '2016-08-14', 'Groot', 'de', 'Lara', 'Jacobastraat', '5', 'huis', '1301al', 'Almere', '0629359610', '57b0ac83e118c.jpg', '', '1998-06-17', 2500, 'WW', '0000-00-00', 'ICT', '', 'ja', 'nee', 0, '		Ola							', 'https://nl.linkedin.com/in/laradegroot/nl', '', 'https://www.facebook.com/lara.m.degroot?fref=ts', ''),
+(26, 'jacob', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'jacob_hahury@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-14', '19:59:20', '2016-08-14', 'Hahury', '', 'Jacob', 'Hoogoordreef', '45', '4hoog', '1107ZO', 'Amsterdam', '0629359610', '57b0b2145885a.jpg', '', '0000-00-00', 3300, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 35, '	BLAAAAAAAAAA		', 'https://nl.linkedin.com/in/jacob-hahury-a26301105', '', 'https://www.facebook.com/jacob.hahury?fref=ts', 'mot1'),
+(27, 'piet', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'pieter_schorn@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-14', '20:21:51', '2016-08-14', 'Schorn', '', 'Pieter', '', '', '', '', '', '0629359610', '57b0b6ce3271e.jpg', '', '0000-00-00', 2500, 'WW', '2017-10-18', 'ICT', '', 'ja', 'ja', 40, '					', 'https://nl.linkedin.com/in/pieter-schorn-a817039/nl', '', 'https://www.facebook.com/pieter.schorn?fref=ts', 'mot1'),
+(28, 'charra', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'shivano_d@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-14', '20:57:50', '2016-08-14', 'Dwarkasing', '', 'Charwin', '', '', '', '', '', '0642430659', '57b0bb907fb16.jpg', '', '0000-00-00', 2300, 'WW', '2017-09-15', 'ICT', '', 'ja', 'ja', 25, '										', 'https://nl.linkedin.com/in/charwin-dwarkasing-819b9b94', '', 'https://www.facebook.com/charra.dwarka?fref=ts', ''),
+(29, 'Jeroen', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'jeroen_schrassen@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-14', '21:02:59', '2016-08-14', 'Schrassen', '', 'Jeroen', '', '', '', '', '', '0629359610', '57b0c09121761.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'ja', 'nee', 0, 'hhhhhhhhhhhhhh																', 'https://nl.linkedin.com/in/jeroen-schrassen-b2934979', '', 'https://www.facebook.com/jeroen.schras?fref=ts', ''),
+(30, 'Mudy', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'mudy59@gmail.com', 'yes', 'no', '', '', 'n', '2016-08-14', '21:12:57', '2016-08-14', 'Taya', '', 'Mudhafar', '', '', '', '', '', '0629359610', '57b0c2c7f34a6.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '	', 'https://nl.linkedin.com/in/mudhafar-taya-763202b/nl', '', 'https://www.facebook.com/tayappa.madhavar?fref=ts', ''),
+(31, 'frank_d', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'fr.daniels@gmail.com', 'yes', 'no', '', '', 'n', '2016-08-15', '00:02:36', '2016-08-14', 'Daniels', '', 'Frank', '', '', '', '', '', '0629359610', '57b0c3e6b8410.jpg', '', '0000-00-00', 3500, 'WW', '2018-11-21', 'ICT', '', 'ja', 'ja', 25, '			bcccccccccccbbbbbbbbb								', '', '', '', ''),
+(32, 'Fred_m', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'fmes@xs4all.nl', 'yes', 'no', '', '', 'n', '2016-08-14', '21:23:11', '2016-08-14', 'Mes', '', 'Fred', '', '', '', '', '', '0652512800', '57b0c54f3b5d5.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '	', 'https://nl.linkedin.com/in/fred-mes-50a55315/nl', '', 'https://www.facebook.com/fred.mesquita.1?fref=ts', ''),
+(33, 'Diana', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'vsichem@xs4all.nl', 'yes', 'no', '', '', 'n', '2016-08-15', '11:32:35', '2016-08-14', 'Sichem', 'van', 'Diana', '', '', '', '', '', '0629359610', '57b0c645cd6d1.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'ja', 'ja', 0, '		', 'https://nl.linkedin.com/in/diana-van-sichem-bb77ba33/nl', '', '', ''),
+(34, 'Anous', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'aibvleijden@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-21', '19:50:37', '2016-08-14', 'Leijden', 'van', 'Anouschka', '', '', '', '', '', '0629359610', '57b0c7831fec6.jpg', '', '0000-00-00', 2800, 'WW', '2018-05-18', 'ICT', '', 'ja', 'ja', 25, 'Wil eens wat anders										', 'ttps://nl.linkedin.com/in/anouschka-van-leijden-05659037/nl', '', '', ''),
+(35, 'Ida', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'idavisser100@gmail.com', 'yes', 'no', '', '', 'n', '2016-08-14', '21:36:19', '2016-08-14', 'Visser', '', 'Ida', '', '', '', '', '', '0629359610', '57b0c83f991a3.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '	', '', '', '', ''),
+(36, 'Jan', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'jan_doedel@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-14', '21:39:19', '2016-08-14', 'Doedel', '', 'Jan', '', '', '', '', '', '0629359610', '57b0c8fc3f89a.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '	', '', '', '', ''),
+(37, 'Piet_b', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'piet_boogaard@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-14', '21:45:03', '2016-08-14', 'Boogaard', '', 'Piet', '', '', '', '', '', '0629359610', '57b0ca52783c7.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '	', '', '', '', ''),
+(38, 'Walter', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'walter_samseer@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-14', '21:47:52', '2016-08-14', 'Samseer', '', 'Walter', '', '', '', '', '', '0629359610', '57b0caf880024.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '	', '', '', '', ''),
+(39, 'Bertus', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'bertusdDridder@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-14', '21:51:22', '2016-08-14', 'Ridder', 'de', 'Bertus', '', '', '', '', '', '0629359610', '57b0cbd2f3eab.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '	', '', '', '', ''),
+(40, 'Ricardo', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'ricardo_geerlings@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-14', '21:55:22', '2016-08-14', 'Geerlings', '', 'Ricardo', '', '', '', '', '', '0629359610', '57b0ccbce40f9.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '	', '', '', '', ''),
+(41, 'Ben', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'benVDriel@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-14', '21:59:21', '2016-08-14', 'Driel', 'van', 'Ben', '', '', '', '', '', '0629359610', '57b0cda7ae6d9.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '	', '', '', '', ''),
+(42, 'Melvin', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'melvin_seymonson@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-14', '22:02:27', '2016-08-14', 'Seymonson', '', 'Melvin', '', '', '', '', '', '0629359610', '57b0ce63b482e.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '	', '', '', '', ''),
+(43, 'Karel', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'karel_bal@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-22', '10:50:04', '2016-08-14', 'Bal', '', 'Karel', '', '', '', '', '', '0629359610', '57b0cf3278ab3.jpg', '', '1958-02-15', 5600, 'WW', '2018-07-06', 'ICT', '', 'ja', 'ja', 35, '			laterzzzzzzzzzzzzzz							', '', '', '', ''),
+(44, 'Max', '8bdc0a760490ca729fa9d4711ca70893', 'usr', '', 'yes', 'no', '', '', 'n', '2016-08-14', '22:08:20', '2016-08-14', 'Cilinder', '', 'Max', '', '', '', '', '', '0629359610', '57b0cfbf7ab88.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '	', '', '', '', 'mot1'),
+(45, 'Randy', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'randy_mauricia@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-18', '21:49:58', '2016-08-16', 'Mauricia', '', 'Randy', '', '', '', '', '', '062935178', '57b61226ae4f8.jpg', '', '0000-00-00', 3400, 'WW', '2017-09-25', 'ICT', '', 'ja', 'ja', 0, '	Fw	', '', '', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `user_bedrijf`
+--
+
+CREATE TABLE IF NOT EXISTS `user_bedrijf` (
+  `id` int(11) NOT NULL,
+  `user_id` int(5) NOT NULL,
+  `bedrijf_id` int(2) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `user_bedrijf`
+--
+
+INSERT INTO `user_bedrijf` (`id`, `user_id`, `bedrijf_id`) VALUES
+(1, 3, 1),
+(2, 2, 4),
+(4, 0, 4),
+(5, 7, 4),
+(6, 45, 4),
+(7, 16, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `user_functie`
+--
+
+CREATE TABLE IF NOT EXISTS `user_functie` (
+  `user_functie_id` int(8) NOT NULL,
+  `user_id` int(5) NOT NULL,
+  `functie_id` int(3) NOT NULL,
+  `ervaring` int(2) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=163 DEFAULT CHARSET=utf8;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `user_functie`
+--
+
+INSERT INTO `user_functie` (`user_functie_id`, `user_id`, `functie_id`, `ervaring`) VALUES
+(2, 1, 3, 5),
+(4, 2, 2, 8),
+(5, 2, 9, 6),
+(10, 5, 2, 3),
+(78, 5, 4, 4),
+(106, 3, 6, 7),
+(110, 3, 10, 8),
+(111, 3, 3, 7),
+(112, 3, 7, 5),
+(115, 15, 8, 6),
+(116, 3, 1, 8),
+(117, 45, 1, 9),
+(118, 16, 1, 5),
+(119, 16, 8, 6),
+(120, 10, 3, 0),
+(121, 2, 3, 0),
+(122, 21, 3, 0),
+(123, 16, 3, 0),
+(124, 5, 3, 0),
+(125, 34, 3, 5),
+(126, 43, 3, 7),
+(127, 20, 3, 6),
+(128, 8, 3, 8),
+(129, 6, 2, 3),
+(130, 6, 5, 8),
+(131, 6, 9, 6),
+(132, 7, 1, 5),
+(133, 7, 3, 4),
+(134, 7, 4, 7),
+(135, 7, 8, 7),
+(136, 7, 10, 8),
+(137, 11, 2, 3),
+(138, 11, 3, 6),
+(139, 11, 4, 5),
+(140, 11, 5, 6),
+(141, 11, 6, 5),
+(142, 11, 7, 8),
+(143, 11, 8, 8),
+(144, 11, 9, 6),
+(145, 11, 10, 6),
+(146, 14, 1, 4),
+(147, 14, 2, 8),
+(148, 14, 5, 5),
+(149, 14, 6, 3),
+(150, 14, 7, 7),
+(151, 14, 8, 7),
+(152, 14, 9, 5),
+(153, 14, 10, 0),
+(154, 14, 3, 0),
+(155, 15, 1, 5),
+(156, 15, 2, 5),
+(157, 15, 3, 3),
+(158, 15, 4, 7),
+(159, 15, 5, 4),
+(160, 18, 3, 0),
+(161, 22, 3, 0),
+(162, 24, 3, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structuur voor view `user_functie_view`
+--
+CREATE TABLE IF NOT EXISTS `user_functie_view` (
+`user_id` int(5)
+,`user_functie_id` int(8)
+,`ervaring` int(2)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `user_regio`
+--
+
+CREATE TABLE IF NOT EXISTS `user_regio` (
+  `user_regio_id` int(8) NOT NULL,
+  `user_id` int(5) NOT NULL,
+  `regio_id` int(3) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `user_regio`
+--
+
+INSERT INTO `user_regio` (`user_regio_id`, `user_id`, `regio_id`) VALUES
+(1, 3, 6),
+(2, 3, 10),
+(5, 3, 13),
+(6, 3, 8),
+(40, 6, 8),
+(41, 6, 13),
+(47, 2, 13),
+(48, 2, 8),
+(49, 2, 1),
+(50, 2, 5),
+(58, 5, 8),
+(59, 5, 13),
+(81, 7, 1),
+(82, 7, 13),
+(83, 15, 12),
+(84, 45, 8),
+(85, 45, 13),
+(86, 16, 5),
+(87, 16, 12),
+(88, 10, 13),
+(89, 21, 13),
+(90, 16, 13),
+(91, 43, 13),
+(92, 20, 13),
+(93, 8, 13),
+(94, 6, 9),
+(95, 6, 11),
+(96, 7, 4),
+(97, 7, 6),
+(98, 7, 15),
+(99, 11, 1),
+(100, 11, 2),
+(101, 11, 3),
+(102, 11, 4),
+(103, 11, 5),
+(104, 11, 6),
+(105, 11, 7),
+(106, 11, 8),
+(107, 11, 9),
+(108, 11, 10),
+(109, 11, 11),
+(110, 11, 12),
+(111, 11, 13),
+(112, 11, 14),
+(113, 11, 15),
+(114, 11, 16),
+(115, 14, 6),
+(116, 14, 7),
+(117, 14, 13),
+(118, 15, 13),
+(119, 15, 16),
+(120, 18, 13),
+(121, 34, 13),
+(122, 22, 13),
+(123, 24, 13);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structuur voor view `user_regio_view`
+--
+CREATE TABLE IF NOT EXISTS `user_regio_view` (
+`user_id` int(5)
+,`regio_id` int(3)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `user_sector`
+--
+
+CREATE TABLE IF NOT EXISTS `user_sector` (
+  `user_sector_id` int(5) NOT NULL,
+  `user_id` int(5) NOT NULL,
+  `sector_id` int(2) NOT NULL,
+  `jaren` varchar(10) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `user_sector`
+--
+
+INSERT INTO `user_sector` (`user_sector_id`, `user_id`, `sector_id`, `jaren`) VALUES
+(1, 2, 1, 'jaren_gewe'),
+(2, 2, 2, 'jaren_gewe'),
+(3, 2, 3, 'jaren_gewe'),
+(4, 2, 4, 'jaren_gewe'),
+(5, 1, 1, ''),
+(6, 1, 4, ''),
+(7, 3, 1, 'jaren_gewe'),
+(8, 3, 4, 'jaren_gewe'),
+(9, 5, 1, 'jaren_gewe'),
+(10, 6, 1, 'jaren_gewe'),
+(11, 6, 4, 'jaren_gewe'),
+(12, 0, 1, ''),
+(13, 0, 4, ''),
+(14, 0, 2, ''),
+(15, 0, 3, ''),
+(16, 7, 1, 'jaren_gewe'),
+(17, 15, 1, '15jaren_ge'),
+(18, 45, 3, '0jaren_gew'),
+(19, 16, 1, '15jaren_ge');
+
+-- --------------------------------------------------------
+
+--
+-- Structuur voor de view `bedrijf_view`
+--
+DROP TABLE IF EXISTS `bedrijf_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `bedrijf_view` AS select `bedrijf`.`id` AS `bedrijf_id`,`bedrijf`.`aantal_medewerkers` AS `grootte` from `bedrijf`;
+
+-- --------------------------------------------------------
+
+--
+-- Structuur voor de view `functie_view`
+--
+DROP TABLE IF EXISTS `functie_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `functie_view` AS select `functie`.`functie_id` AS `functie_id`,`functie`.`functie_naam` AS `functie_naam` from `functie`;
+
+-- --------------------------------------------------------
+
+--
+-- Structuur voor de view `kandiaten_vw`
+--
+DROP TABLE IF EXISTS `kandiaten_vw`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `kandiaten_vw` AS select `user`.`user_id` AS `user_id`,`user`.`user_email` AS `user_email`,`user`.`achternaam` AS `achternaam`,`user`.`tussenvoegsel` AS `tussenvoegsel`,`user`.`voornaam` AS `voornaam`,`user`.`plaats` AS `plaats`,`user`.`telefoon` AS `telefoon`,`user`.`foto` AS `foto`,`user`.`cv` AS `cv`,`user`.`geboortedatum` AS `geboortedatum`,`user`.`salaris` AS `salaris`,`user`.`uitkering` AS `uitkering`,`user`.`uitkering_geldig_tot` AS `uitkering_geldig_tot`,`user`.`rijbewijs` AS `rijbewijs`,`user`.`auto` AS `auto`,`user`.`reisafstand` AS `reisafstand`,`user`.`opmerking` AS `opmerking`,`user`.`linkedin` AS `linkedin`,`user`.`facebook` AS `facebook`,`user`.`twitter` AS `twitter`,`user_functie`.`ervaring` AS `ervaring`,`functie_view`.`functie_naam` AS `functie_naam`,`bedrijf_view`.`grootte` AS `grootte`,`regio_view`.`regio_naam` AS `regio_naam`,`sector_view`.`sector_naam` AS `sector_naam` from ((((`user` left join (`user_functie` join `functie_view` on((`functie_view`.`functie_id` = `user_functie`.`functie_id`))) on((`user_functie`.`user_id` = `user`.`user_id`))) left join (`user_regio` join `regio_view` on((`regio_view`.`regio_id` = `user_regio`.`regio_id`))) on((`user_regio`.`user_id` = `user`.`user_id`))) left join (`user_bedrijf` join `bedrijf_view` on((`user_bedrijf`.`bedrijf_id` = `bedrijf_view`.`bedrijf_id`))) on((`user_bedrijf`.`user_id` = `user`.`user_id`))) left join (`user_sector` join `sector_view` on((`user_sector`.`sector_id` = `sector_view`.`sector_id`))) on((`user_sector`.`user_id` = `user`.`user_id`)));
+
+-- --------------------------------------------------------
+
+--
+-- Structuur voor de view `kandidaten`
+--
+DROP TABLE IF EXISTS `kandidaten`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `kandidaten` AS select distinct `user`.`user_id` AS `user_id`,`user`.`voornaam` AS `voornaam`,`user`.`tussenvoegsel` AS `tussenvoegsel`,`user`.`achternaam` AS `achternaam`,`functie`.`functie_naam` AS `naam`,`user`.`foto` AS `foto`,`user`.`cv` AS `cv`,`user`.`user_email` AS `user_email` from (((((`user` left join (`user_bedrijf` join `bedrijf` on((`user_bedrijf`.`bedrijf_id` = `bedrijf`.`id`))) on((`user_bedrijf`.`user_id` = `user`.`user_id`))) left join (`user_functie` join `functie` on((`user_functie`.`functie_id` = `functie`.`functie_id`))) on((`user_functie`.`user_id` = `user`.`user_id`))) left join (`user_regio` join `regio` on((`user_regio`.`regio_id` = `regio`.`id`))) on((`user_regio`.`user_id` = `user`.`user_id`))) left join (`user_sector` join `sector` `s1` on((`user_sector`.`sector_id` = `s1`.`sector_id`))) on((`user_sector`.`user_id` = `user`.`user_id`))) left join (`gewenste_sector` join `sector` `s2` on((`gewenste_sector`.`sector_id` = `s2`.`sector_id`))) on((`gewenste_sector`.`user_id` = `user`.`user_id`)));
+
+-- --------------------------------------------------------
+
+--
+-- Structuur voor de view `regio_view`
+--
+DROP TABLE IF EXISTS `regio_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `regio_view` AS select `regio`.`id` AS `regio_id`,`regio`.`naam` AS `regio_naam` from `regio`;
+
+-- --------------------------------------------------------
+
+--
+-- Structuur voor de view `sector_view`
+--
+DROP TABLE IF EXISTS `sector_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `sector_view` AS select `sector`.`sector_id` AS `sector_id`,`sector`.`sector_naam` AS `sector_naam` from `sector`;
+
+-- --------------------------------------------------------
+
+--
+-- Structuur voor de view `user_functie_view`
+--
+DROP TABLE IF EXISTS `user_functie_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`admin`@`localhost` SQL SECURITY DEFINER VIEW `user_functie_view` AS select `user_functie`.`user_id` AS `user_id`,`user_functie`.`user_functie_id` AS `user_functie_id`,`user_functie`.`ervaring` AS `ervaring` from `user_functie`;
+
+-- --------------------------------------------------------
+
+--
+-- Structuur voor de view `user_regio_view`
+--
+DROP TABLE IF EXISTS `user_regio_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`admin`@`localhost` SQL SECURITY DEFINER VIEW `user_regio_view` AS select `user_regio`.`user_id` AS `user_id`,`user_regio`.`regio_id` AS `regio_id` from `user_regio`;
+
 --
 -- Indexen voor geëxporteerde tabellen
 --
+
+--
+-- Indexen voor tabel `bedrijf`
+--
+ALTER TABLE `bedrijf`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexen voor tabel `contact`
+--
+ALTER TABLE `contact`
+  ADD PRIMARY KEY (`contact_id`);
+
+--
+-- Indexen voor tabel `functie`
+--
+ALTER TABLE `functie`
+  ADD PRIMARY KEY (`functie_id`);
+
+--
+-- Indexen voor tabel `gewenste_sector`
+--
+ALTER TABLE `gewenste_sector`
+  ADD PRIMARY KEY (`gewenste_sector_id`);
+
+--
+-- Indexen voor tabel `nav`
+--
+ALTER TABLE `nav`
+  ADD PRIMARY KEY (`nav_id`);
+
+--
+-- Indexen voor tabel `navadmin`
+--
+ALTER TABLE `navadmin`
+  ADD PRIMARY KEY (`navadmin_id`);
+
+--
+-- Indexen voor tabel `nav_nl`
+--
+ALTER TABLE `nav_nl`
+  ADD PRIMARY KEY (`nav_nl_id`);
+
+--
+-- Indexen voor tabel `online`
+--
+ALTER TABLE `online`
+  ADD PRIMARY KEY (`online_id`);
 
 --
 -- Indexen voor tabel `pages`
@@ -67,14 +862,131 @@ ALTER TABLE `pages`
   ADD PRIMARY KEY (`page_id`);
 
 --
+-- Indexen voor tabel `regio`
+--
+ALTER TABLE `regio`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexen voor tabel `sector`
+--
+ALTER TABLE `sector`
+  ADD PRIMARY KEY (`sector_id`);
+
+--
+-- Indexen voor tabel `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`user_id`);
+
+--
+-- Indexen voor tabel `user_bedrijf`
+--
+ALTER TABLE `user_bedrijf`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexen voor tabel `user_functie`
+--
+ALTER TABLE `user_functie`
+  ADD PRIMARY KEY (`user_functie_id`);
+
+--
+-- Indexen voor tabel `user_regio`
+--
+ALTER TABLE `user_regio`
+  ADD PRIMARY KEY (`user_regio_id`);
+
+--
+-- Indexen voor tabel `user_sector`
+--
+ALTER TABLE `user_sector`
+  ADD PRIMARY KEY (`user_sector_id`);
+
+--
 -- AUTO_INCREMENT voor geëxporteerde tabellen
 --
 
+--
+-- AUTO_INCREMENT voor een tabel `bedrijf`
+--
+ALTER TABLE `bedrijf`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT voor een tabel `contact`
+--
+ALTER TABLE `contact`
+  MODIFY `contact_id` int(5) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT voor een tabel `functie`
+--
+ALTER TABLE `functie`
+  MODIFY `functie_id` int(3) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT voor een tabel `gewenste_sector`
+--
+ALTER TABLE `gewenste_sector`
+  MODIFY `gewenste_sector_id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=35;
+--
+-- AUTO_INCREMENT voor een tabel `nav`
+--
+ALTER TABLE `nav`
+  MODIFY `nav_id` int(2) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
+--
+-- AUTO_INCREMENT voor een tabel `navadmin`
+--
+ALTER TABLE `navadmin`
+  MODIFY `navadmin_id` int(2) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT voor een tabel `nav_nl`
+--
+ALTER TABLE `nav_nl`
+  MODIFY `nav_nl_id` int(2) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT voor een tabel `online`
+--
+ALTER TABLE `online`
+  MODIFY `online_id` int(15) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT voor een tabel `pages`
 --
 ALTER TABLE `pages`
   MODIFY `page_id` int(2) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
+--
+-- AUTO_INCREMENT voor een tabel `regio`
+--
+ALTER TABLE `regio`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+--
+-- AUTO_INCREMENT voor een tabel `sector`
+--
+ALTER TABLE `sector`
+  MODIFY `sector_id` int(2) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT voor een tabel `user`
+--
+ALTER TABLE `user`
+  MODIFY `user_id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=46;
+--
+-- AUTO_INCREMENT voor een tabel `user_bedrijf`
+--
+ALTER TABLE `user_bedrijf`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT voor een tabel `user_functie`
+--
+ALTER TABLE `user_functie`
+  MODIFY `user_functie_id` int(8) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=163;
+--
+-- AUTO_INCREMENT voor een tabel `user_regio`
+--
+ALTER TABLE `user_regio`
+  MODIFY `user_regio_id` int(8) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=124;
+--
+-- AUTO_INCREMENT voor een tabel `user_sector`
+--
+ALTER TABLE `user_sector`
+  MODIFY `user_sector_id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

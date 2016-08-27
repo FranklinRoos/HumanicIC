@@ -1,7 +1,24 @@
 /* Deze programma wordt door index.html voor de voorgeving gebruikt.
 	Program	: index.css
 	Datum		: 01-07-2016 
-*/	
+*/
+
+
+span.text {
+    color: red;
+}
+
+div.info {
+    background-color: yellow;
+    padding: 5px;
+    display: none;
+}
+
+span.text:hover + div.info {
+    display: block;
+}
+
+
 *{
 	padding:0;
 	margin :0;
@@ -155,7 +172,7 @@ article{
 
 #functies{
 	clear : both;
-        float : left;
+                float : left;
 	width : 100%;
 	padding : 5px;
 	border : 1px solid black;

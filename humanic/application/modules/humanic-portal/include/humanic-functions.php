@@ -1336,23 +1336,68 @@ function handleKandidaatRegForm ()
             array_push($ervaring, 0);
         };
     };
-    
+    //$("#functieCheck1)
+ 
     echo "<section id=\"functies\">";
         echo "<div class=\"kop\">";
                 echo "<p>Vink de functie(s) aan waarin je geinteresseerd bent en geef je werkervaring aan in die functie(op een schaal van 1 tot 10)";
-        echo "</div>";
+        echo "</div>"; 
+                        echo "<div class=\"functieVak1\">";
+                                for($i=0; $i<5; $i++)
+                                { 
+                                      $z = $i + 1;
+                                      $sql = mysqli_query($connection, "SELECT * FROM `functie` WHERE `functie_id`= $z");
+                                      if (mysqli_num_rows($sql)==0)  
+                                        {
+                                            die ("Je heb geen gegevens tot je beschikking");
+                                        }
 
-        echo "<div class=\"functieVak1\">";
-            echo "<div class=\"form-group\">";
-                echo "<label class=\"col-sm-7 text-left\"><input id=\"functieCheck1\" type=\"checkbox\"  name=\"functie_List[]\" value=1 $checked[0]> C# developer</label>";
-                echo "<div  id=\"ervaringSlider1\" class=\"ervaringSlider col-sm-5\">";
-                    echo "<input id=\"ervaring1\" data-slider-id=\"ervaringSlider1\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$ervaring[0]  width=\"5px\" name=\"ervaring1\" tooltip=\"hide\" size=\"5\"/>";		
-                    echo "<div>";
-                            echo "<span  id=\"ex1CurrentSliderValLabel\"> <span id=\"ex1SliderVal\">$ervaring[0]</span></span>";
-                    echo "</div>";	
-                echo "</div>";
-            echo "</div>";
-
+                                    while ($row = mysqli_fetch_assoc($sql)) 
+                                         { 
+                                             $functieInfo = $row['functie_omschrijving'];
+                                             $functie = $row['functie_naam'];
+                                         
+                
+                                             echo "<div class=\"form-group\">";
+                                                       echo "<label class=\"col-sm-7 text-left\"><input id=\"functieCheck".$z."\" type=\"checkbox\"  name=\"functie_List[]\" value=".$z." $checked[$i]> ".utf8_encode($functie)."<span class=\"text\" > info</span><div class=\"info\"> ".utf8_encode($functieInfo)."</div></label>";
+                                                  echo "<div  id=\"ervaringSlider".$z."\" class=\"ervaringSlider col-sm-5\">";
+                                                      echo "<input id=\"ervaring".$z."\" data-slider-id=\"ervaringSlider".$z."\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$ervaring[$i]  width=\"5px\" name=\"ervaring".$z."\" tooltip=\"hide\" size=\"5\"/>";		
+                                                  echo "</div>";
+                                                  echo "<div>"; 
+                                                      echo "<span  id=\"ex".$z."CurrentSliderValLabel\"> <span id=\"ex".$z."SliderVal\">$ervaring[$i]</span></span>";
+                                                  echo "</div>";	
+                                             echo "</div>";
+                                          }
+                                  }                              
+                        echo "</div>";
+                        echo "<div class=\"functieVak2\">";
+                              for($i=5; $i<10; $i++) 
+                               {      
+                                      $z = $i + 1;
+                                      $sql = mysqli_query($connection, "SELECT * FROM `functie` WHERE `functie_id`= $z");
+                                      if (mysqli_num_rows($sql)==0)  
+                                        {
+                                           die ("Je heb geen gegevens tot je beschikking");
+                                        }
+                                     while ($row = mysqli_fetch_assoc($sql)) 
+                                        { 
+                                             $functieInfo = $row['functie_omschrijving'];
+                                             $functie = $row['functie_naam'];
+                                       
+                                             echo "<div class=\"form-group\">";
+                                                   echo "<label class=\"divSlider col-sm-7 text-left\"><input id=\"functieCheck".$z."\" type=\"checkbox\"  name=\"functie_List[]\" value=".$z." $checked[$i]> ".utf8_encode($functie)."<span class=\"text\"> info</span><div class=\"info\"> ".utf8_encode($functieInfo)."</div></label>";
+                                                        echo "<div  id=\"ervaringSlider".$z."\" class=\"ervaringSlider col-sm-5\">";
+                                                             echo "<input id=\"ervaring".$z."\" data-slider-id=\"ervaringSlider".$z."\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$ervaring[$i]  width=\"5px\" name=\"ervaring".$z."\" tooltip=\"hide\" size=\"5\"/>";		
+                                                        echo "</div>";
+                                                       echo "<div>";            
+                                                            echo "<span  id=\"ex".$z."CurrentSliderValLabel\"> <span id=\"ex".$z."SliderVal\">$ervaring[$i]</span></span>";
+                                                       echo "</div>";
+                                          echo "</div>";   
+                                         }
+                              }
+                          echo "</div>";   
+     
+        /*
             echo "<div class=\"form-group\">";
                 echo "<label class=\"divSlider col-sm-7 text-left\"><input id=\"functieCheck2\" type=\"checkbox\"  name=\"functie_List[]\" value=2 $checked[1]> .NET developer</label>";
                 echo "<div id=\"ervaringSlider2\" class=\"ervaringSlider col-sm-5\">";
@@ -1443,10 +1488,12 @@ function handleKandidaatRegForm ()
                     echo "<div>";
                         echo "<span id=\"ex10CurrentSliderValLabel\"> <span id=\"ex10SliderVal\">$ervaring[9]</span></span>";                                   
                     echo "</div>";
-                echo "</div>";
-            echo "</div>";
-        echo "</div>";    
+                //echo "</div>";
+            echo "</div>"; */
+        //echo "</div>";
     echo "</section>";
+ 
+ 
  };
  
  function variableWaarde($variable){
@@ -1791,9 +1838,9 @@ echo "<section id=\"sectorGewenst\">";
                         echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=11 $checkedRegio[10]> Groningen";
                 echo "</label>";
 
-                echo "<label class=\"col-sm-3 text-left\">";
+              /*  echo "<label class=\"col-sm-3 text-left\">";
                         echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=15 $checkedRegio[14]> Utrecht";
-                echo "</label>";
+                echo "</label>";*/
             echo "</div>";
             echo "<div class=\"form-group\">";
                 echo "<label class=\"col-sm-3 text-left\">";
@@ -1805,7 +1852,7 @@ echo "<section id=\"sectorGewenst\">";
                 echo "</label>";
 
                 echo "<label class=\"col-sm-3 text-left\">";
-                        echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=12 $checkedRegio[11]> Frieland";
+                        echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=12 $checkedRegio[11]> Friesland";
                 echo "</label>";
 
                 echo "<label class=\"col-sm-3 text-left\">";

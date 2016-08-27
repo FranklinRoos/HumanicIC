@@ -191,16 +191,16 @@ function navigatie($pageNavId="1")
      
     // aanmaken array voor gebruik in function
     while($ln = mysqli_fetch_assoc($sql))
-    {
-    $menu_items[] = (object) array(
-    'id'   =>$ln['nav_id'] , 
-    'name' =>$ln['nav_naam'],
-    'url'  =>$ln['nav_url'],
-    'place'=>$ln['nav_place'],
-    'show' =>$ln['nav_show'],
-    'parent_id'=>$ln['nav_parent_id']
-    );
-    }
+        {
+            $menu_items[] = (object) array(
+             'id'   =>$ln['nav_id'] , 
+             'name' =>$ln['nav_naam'],
+             'url'  =>$ln['nav_url'],
+            'place'=>$ln['nav_place'],
+            'show' =>$ln['nav_show'],
+            'parent_id'=>$ln['nav_parent_id']
+            );
+        }
 
     global $menuItems;
     global $parentMenuIds;
@@ -286,7 +286,7 @@ function generate_menu($parent)
     global $pageNavId;
     global $menuItems;
     global $parentMenuIds;
-    //gebruik global array variable in plaat van local om het geheugen minder te belasten
+    //gebruik global array variable in plaats van local om het geheugen minder te belasten
     foreach($menuItems as $key => $value)
     {
         if ($value->parent_id == $parent) 
