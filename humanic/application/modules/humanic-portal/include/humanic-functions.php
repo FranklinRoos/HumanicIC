@@ -1030,9 +1030,9 @@ function handleKandidaatRegForm ()
      verwerkBedrijf();
      error_reporting(0);
      maakSessieVariabelen();
-  /*   header("Refresh:0");
+     header("Refresh:0");
      showKandidaatRegForm();
-     error_reporting(E_ALL); */
+     error_reporting(E_ALL); 
  }
  
  function persoonlijkeGegevens(){
@@ -1398,7 +1398,7 @@ function handleKandidaatRegForm ()
                                         if ($row['functie_id'] != 99){
                                             echo "<label class=\"col-sm-7 text-left\">
                                                     <input id=\"functieCheck".$z."\" type=\"checkbox\"  name=\"functie_List[]\" value=".$z." $checked[$i]> ".utf8_encode($functie)."
-                                                    <span class=\"text\" > info</span>
+                                                    <span class=\"text\" ><img src=\"".$GLOBALS['path']."assets/images/info-icon.png\" alt=\"info\" height=\"17\" width=\"12\"></img></span>
                                                     <div class=\"info\"> ".utf8_encode($functieInfo)."
                                                     </div>
                                                 </label>";
