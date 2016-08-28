@@ -194,31 +194,36 @@ article{
 	float : left;
 	padding : 10px 5px;
 	/* margin: 10px; */
-	width	:	45%;
+	width	:	35%;
 /* 	height	:	325px; */
 	border	:	1px solid black;
-	;
+	
 	font-size : 12px;
 } 
 
-#sectorwerk, #sectorGewenst{
+#sectorwerk{
 	float : right;
-	padding : 10px 5px;
-	width : 50%;
+	
+	width : 60%;
+        margin-left : 15px;
 	margin-bottom : 25px;
-	border : 1px solid black;
+	/*border : 1px solid black;*/
 }
 
 #sector{
-	/* border : 1px solid black; */
+	border : 1px solid black; 
 	margin-bottom : 10px;
 	
 }
 
 #bedrijf{
-	/* border : 1px solid black; */
+	border : 1px solid black; 
 	
 	
+}
+
+.sectorErvaring{
+    font-size : 10px;
 }
 
 #regio{

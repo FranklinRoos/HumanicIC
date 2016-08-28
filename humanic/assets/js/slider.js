@@ -507,6 +507,7 @@ if (datefield.type!="date"){ //if browser doesn't support input type="date", ini
 				
             if ($("#functieCheck10").prop("checked") == true) {
                     $("#ervaringSlider10").show();
+                    $("#nwFunctie").show();
 
                     $('#ervaring10').slider({
                         value : 0,
@@ -525,6 +526,7 @@ if (datefield.type!="date"){ //if browser doesn't support input type="date", ini
             else {	
 
                     $("#ervaringSlider10").hide();
+                    $("#nwFunctie").hide();
             }
 	});
 

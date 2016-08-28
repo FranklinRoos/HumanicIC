@@ -40,12 +40,12 @@ $functieArray = array();
 $sql = mysqli_query($connection, "SELECT * FROM user_functie WHERE `user_id` = '".$_SESSION['user_id']."'");
     if ($sql){
         while ($row = mysqli_fetch_assoc($sql)) {
-            $newArray = array($row['functie_id'], $row['ervaring']);
+            $newArray = array($row['functie_id'], $row['ervaring'], $row['nwFunctie']);
             array_push($functieArray, $newArray);
         }
     }
     else {
-        echo "fout";
+        echo "kandiaat 48 fout";
     };
     
 $gewensteSectorArray = array();   
@@ -57,7 +57,7 @@ $gewensteSectorArray = array();
         }
     }
     else {
-        echo "fout";
+        echo "kadidaat 60 fout";
     };    
     
 //vullen sectorArray    
@@ -70,12 +70,12 @@ $sectorArray = array();
         }
     }
     else {
-        echo "fout";
+        echo "kandiaat 73 fout";
     };
     
 //vullen bedrijfGewerkt Array
 $bedrijfGewerktArray = array();
-$sql = mysqli_query($connection, "SELECT * FROM bedrijfgewerkt WHERE `user_id` = '".$_SESSION['user_id']."'");
+$sql = mysqli_query($connection, "SELECT * FROM bedrijf_gewerkt WHERE `user_id` = '".$_SESSION['user_id']."'");
     if ($sql){
         while ($row = mysqli_fetch_assoc($sql)) {
             $newArray = array($row['bedrijf_id']);
@@ -83,7 +83,7 @@ $sql = mysqli_query($connection, "SELECT * FROM bedrijfgewerkt WHERE `user_id` =
         }
     }
     else {
-        echo "fout";
+        echo "kandiaat 86 fout";
     };    
         
 //vullen bedrijf Array    
@@ -96,7 +96,7 @@ $bedrijfArray = array();
         }
     }
     else {
-        echo "fout";
+        echo "kandidaat 99 fout";
     };
 // vullen regio array    
 $regioArray = array();
@@ -108,7 +108,7 @@ $regioArray = array();
         }
     }
     else {
-        echo "fout";
+        echo "kandiaat 111 fout";
     };
 
 if(!isSet($_POST['submit']))

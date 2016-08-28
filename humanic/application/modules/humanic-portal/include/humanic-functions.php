@@ -988,8 +988,10 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
            // echo "<form id=\"data\" action='".htmlspecialchars($_SERVER["PHP_SELF"])."' method=\"post\"  enctype=\"multipart/form-data\" role=\"form\">"; 
                 persoonlijkeGegevens();		                                               
                 toonFuncties();
-                toonMobielUitkering();
-                toonSector();
+                echo "<section id=\"mobielFinUitkering\">";
+                    toonMobielUitkering();
+                    toonSector();
+                echo "</sector>";    
                 toonRegio();
                 toonOpmerkingen();
                $_files="";    
@@ -1028,9 +1030,9 @@ function handleKandidaatRegForm ()
      verwerkBedrijf();
      error_reporting(0);
      maakSessieVariabelen();
-     header("Refresh:0");
+  /*   header("Refresh:0");
      showKandidaatRegForm();
-     error_reporting(E_ALL);
+     error_reporting(E_ALL); */
  }
  
  function persoonlijkeGegevens(){
@@ -1217,9 +1219,10 @@ function handleKandidaatRegForm ()
             $ervaring = bepaalErvaring($selected);
             array_push($checkFunctie, $selected);
         }
+        
     }
         
-    for ($i=1; $i<=10; $i++){
+    for ($i=1; $i<=99; $i++){
         $functieIndex = array_search($i, array_column($functieArray, 0));
         if (is_numeric($functieIndex)){
             //functie is gevonden, dus aanwezig in database
@@ -1232,9 +1235,17 @@ function handleKandidaatRegForm ()
             else {
                 //functie is aangevinkt, controle of ervaring gewijzigd is
                 $ervaring = bepaalErvaring($checkFunctie[$checkIndex]);
-                if ($functieArray[$functieIndex][1] <> $ervaring){
-                    //ervaring is gewijzigd
-                    $sql = mysqli_query($connection, "UPDATE user_functie SET `ervaring` = '".$ervaring."' WHERE `user_id`='".$_SESSION["user_id"]."' AND `functie_id` = '".$i."'");
+                
+                if (ISSET($_POST['nwFunctie'])){
+                    $nwFunctie = $_POST['nwFunctie'];
+                }
+                else {
+                    $nwFunctie = " ";
+                }
+                
+                if (($functieArray[$functieIndex][1] <> $ervaring) || ($functieArray[$functieIndex][2] <> $nwFunctie)){
+                    //ervaring of nieuwe functie is gewijzigd
+                        $sql = mysqli_query($connection, "UPDATE user_functie SET `ervaring` = '".$ervaring."', `nwFunctie` = '".$nwFunctie."' WHERE `user_id`='".$_SESSION["user_id"]."' AND `functie_id` = '".$i."'");
                 }
                 else {
                     //ervaring is niet gewijzigd, geen query draaien
@@ -1252,9 +1263,16 @@ function handleKandidaatRegForm ()
             else {
                  //functie is aangevinkt
                 $ervaring = bepaalErvaring($checkFunctie[$checkIndex]);
+                if (ISSET($_POST['nwFunctie'])){
+                    $nwFunctie = $_POST['nwFunctie'];
+                }
+                else {
+                    $nwFunctie = " ";
+                }
+                
                 $functieId = $checkFunctie[$checkIndex];
                $sql = mysqli_query($connection, "INSERT INTO user_functie (`user_id`,`functie_id`, `ervaring`)
-                        VALUES ('".$_SESSION['user_id']."', '".$functieId."', '".$ervaring."')");
+                        VALUES ('".$_SESSION['user_id']."', '".$functieId."', '".$ervaring."', '".$nwFunctie."')");
             }       
             
         }
@@ -1312,6 +1330,9 @@ function handleKandidaatRegForm ()
         case 10 :
             return $_POST['ervaring10'];
             break;
+        case 99 :
+           return $_POST['ervaring10'];
+            break;
         default:
             break;
     }
@@ -1325,53 +1346,96 @@ function handleKandidaatRegForm ()
     $aantal = count($functieArray);
     $checked = array();
     $ervaring = array();
-    for ($i = 1; $i <= 10; $i++){
+    for ($i = 1; $i <= 99; $i++){
         $functieZoek = array_search($i, array_column($functieArray, 0));
         if (IS_NUMERIC($functieZoek)){
             array_push($checked, "checked='checked'");
             array_push($ervaring, $functieArray[$functieZoek][1]);
+            if ($i == 99){
+                $nwFunctie = $functieArray[$functieZoek][2];
+            }    
         }
         else {
             array_push($checked, "");
             array_push($ervaring, 0);
         };
     };
+ 
     //$("#functieCheck1)
  
     echo "<section id=\"functies\">";
         echo "<div class=\"kop\">";
                 echo "<p>Vink de functie(s) aan waarin je geinteresseerd bent en geef je werkervaring aan in die functie(op een schaal van 1 tot 10)";
         echo "</div>"; 
+                        $sql = mysqli_query($connection, "SELECT * FROM `functie`");
+                                                                            
+                        $aantal_rijen = mysqli_num_rows($sql);
+                        $midden = round($aantal_rijen / 2);
+                        if (mysqli_num_rows($sql)==0)  
+                          {
+                              die ("Je heb geen gegevens tot je beschikking");
+                          };
+                          
                         echo "<div class=\"functieVak1\">";
-                                for($i=0; $i<5; $i++)
+                                for($i=0; $i<$aantal_rijen; $i++)
                                 { 
-                                      $z = $i + 1;
-                                      $sql = mysqli_query($connection, "SELECT * FROM `functie` WHERE `functie_id`= $z");
-                                      if (mysqli_num_rows($sql)==0)  
-                                        {
-                                            die ("Je heb geen gegevens tot je beschikking");
-                                        }
+                                    $z = $i + 1;
+                                    if ($z == ($midden + 1)){
+                                       echo "</div>";
+                                       echo "<div class=\"functieVak2\">"; 
+                                    }
 
-                                    while ($row = mysqli_fetch_assoc($sql)) 
-                                         { 
-                                             $functieInfo = $row['functie_omschrijving'];
-                                             $functie = $row['functie_naam'];
-                                         
-                
-                                             echo "<div class=\"form-group\">";
-                                                       echo "<label class=\"col-sm-7 text-left\"><input id=\"functieCheck".$z."\" type=\"checkbox\"  name=\"functie_List[]\" value=".$z." $checked[$i]> ".utf8_encode($functie)."<span class=\"text\" > info</span><div class=\"info\"> ".utf8_encode($functieInfo)."</div></label>";
-                                                  echo "<div  id=\"ervaringSlider".$z."\" class=\"ervaringSlider col-sm-5\">";
-                                                      echo "<input id=\"ervaring".$z."\" data-slider-id=\"ervaringSlider".$z."\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$ervaring[$i]  width=\"5px\" name=\"ervaring".$z."\" tooltip=\"hide\" size=\"5\"/>";		
-                                                  echo "</div>";
-                                                  echo "<div>"; 
-                                                      echo "<span  id=\"ex".$z."CurrentSliderValLabel\"> <span id=\"ex".$z."SliderVal\">$ervaring[$i]</span></span>";
-                                                  echo "</div>";	
-                                             echo "</div>";
-                                          }
+                                    $row = mysqli_fetch_assoc($sql);
+                                    //while ($row = mysqli_fetch_assoc($sql)) 
+                                         //{ 
+                                    $functieInfo = $row['functie_omschrijving'];
+                                    $functie = $row['functie_naam'];
+                                   
+
+
+
+                                    echo "<div class=\"form-group\">";
+                                        if ($row['functie_id'] != 99){
+                                            echo "<label class=\"col-sm-7 text-left\">
+                                                    <input id=\"functieCheck".$z."\" type=\"checkbox\"  name=\"functie_List[]\" value=".$z." $checked[$i]> ".utf8_encode($functie)."
+                                                    <span class=\"text\" > info</span>
+                                                    <div class=\"info\"> ".utf8_encode($functieInfo)."
+                                                    </div>
+                                                </label>";
+                                            echo "<div  id=\"ervaringSlider".$z."\" class=\"ervaringSlider col-sm-5\">";
+                                            
+                                            echo "<input id=\"ervaring".$z."\" data-slider-id=\"ervaringSlider".$z."\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$ervaring[$i]  width=\"5px\" name=\"ervaring".$z."\" tooltip=\"hide\" size=\"5\"/>";		
+
+                                            echo "<div>"; 
+                                                echo "<span  id=\"ex".$z."CurrentSliderValLabel\"> <span id=\"ex".$z."SliderVal\">$ervaring[$i]</span></span>";
+                                            echo "</div>";
+                                        echo "</div>";
+                                        }
+                                        else {
+                                           
+                                            echo "<label class=\"col-sm-7 text-left\">
+                                                    <input id=\"functieCheck".$z."\" type=\"checkbox\"  name=\"functie_List[]\" value=\"99\" $checked[98]> ".utf8_encode($functie)."
+                                                    
+                                                </label>
+                                                <div id=\"nwFunctie\" class=\"col-sm-7\">
+                                                        <input type=\"text\" name=\"nwFunctie\" placeholder=\"nieuwe functie\" value=".utf8_encode($nwFunctie).">
+                                                </div>";
+                                            echo "<div  id=\"ervaringSlider10\" class=\"ervaringSlider col-sm-5\">";
+                                            
+                                            echo "<input id=\"ervaring10\" data-slider-id=\"ervaringSlider10\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$ervaring[98]  width=\"5px\" name=\"ervaring10\" tooltip=\"hide\" size=\"5\"/>";		
+
+                                            echo "<div>"; 
+                                                echo "<span  id=\"ex10CurrentSliderValLabel\"> <span id=\"ex10SliderVal\">$ervaring[98]</span></span>";
+                                            echo "</div>";
+                                        echo "</div>";
+                                        }
+                                        
+                                    echo "</div>";
+                                          //}
                                   }                              
                         echo "</div>";
-                        echo "<div class=\"functieVak2\">";
-                              for($i=5; $i<10; $i++) 
+                       /* echo "<div class=\"functieVak2\">";
+                              for($i=$midden; $i<$aantal_rijen; $i++) 
                                {      
                                       $z = $i + 1;
                                       $sql = mysqli_query($connection, "SELECT * FROM `functie` WHERE `functie_id`= $z");
@@ -1395,7 +1459,7 @@ function handleKandidaatRegForm ()
                                           echo "</div>";   
                                          }
                               }
-                          echo "</div>";   
+                          echo "</div>";   */
      
         /*
             echo "<div class=\"form-group\">";
@@ -1510,7 +1574,7 @@ function handleKandidaatRegForm ()
  };
  
  function toonMobielUitkering () {
-    echo "<section id=\"mobielFinUitkering\">";
+    
     $rijbewijs = variableWaarde('rijbewijs');
     if (isSet($rijbewijs) && $rijbewijs=='ja'){
         $checkRijbewijs = "checked='checked'";
@@ -1676,86 +1740,89 @@ function handleKandidaatRegForm ()
         
               
 echo "<section id=\"sectorwerk\">";
-     echo "<div id=\"sector\">";
-            echo "<div class=\"kop\">";
-                    echo "<p>Vink de sector(s) aan waar je in werkzaam bent geweest en geef op hoeveel jaren</p>";
-            echo "</div>";
-            echo "<label class=\"checkbox-inline\">";
-                    echo "<input type=\"checkbox\" value=1  name=\"sector_List[]\" $checkedSector[0]>ICT ";
-                    echo "<input type=\"text\" id=\"sectorErvaring0\" name=\"sectorErvaring0\" value=$sectorErvaring[0]jaren_gewerkt>";	
+    echo "<div id=\"sector\">";
+        echo "<div class=\"kop\">";
+            echo "<p class=\"col-sm-12\" >Vink de sector(s) aan waar je in werkzaam bent geweest en geef aan hoeveel jaren je gewerkt hebt</p>";
+        echo "</div>";
+        echo "<div>";
+            echo "<label class=\"col-sm-6 checkbox-inline\">";
+                echo "<input type=\"checkbox\" value=1  name=\"sector_List[]\" $checkedSector[0]>ICT  ";
+                echo "<input type=\"text\" class=\"sectorErvaring\" name=\"sectorErvaring0\" size=\"1\" style=\"text-align:center\" value=$sectorErvaring[0]> jaar gewerkt";	
             echo "</label>";
-            echo "<div class=\"subKopRechts\">";
-                    echo "<label class=\"checkbox-inline extra1\">";
-                            echo "<input type=\"checkbox\" value=2 name=\"sector_List[]\" $checkedSector[1]>Zorg";
-                            echo "<input type=\"text\" id=\"sectorErvaring1\" name=\"sectorErvaring1\" value=$sectorErvaring[1]jaren_gewerkt>";	
-                    echo "</label>";
-            echo "</div>";
-            echo "<label class=\"checkbox-inline\">";
-                    echo "<input type=\"checkbox\" value=3 name=\"sector_List[]\" $checkedSector[2]>Industrie";
-                    echo "<input type=\"text\" id=\"sectorErvaring2\" name=\"sectorErvaring2\" value=$sectorErvaring[2]jaren_gewerkt>";	
-            echo "</label>";
-            echo "<div class=\"subKopRechts\">";
-                    echo "<label class=\"checkbox-inline extra1\">";
-                            echo "<input type=\"checkbox\" value=4 name=\"sector_List[]\" $checkedSector[3]>Retail";
-                            echo "<input type=\"text\" id=\"sectorErvaring3\" name=\"sectorErvaring3\" value=$sectorErvaring[3]jaren_gewerkt>";
-                    //echo "<input type=\"text\" class=\"form-control input-sm\" id=\"sectorErvaring3\" name=\"sectorErvaring3\" value=$sectorErvaring[3]>";	
-                    echo "</label>";
-            echo "</div>";
-      echo "</div>";
-      echo "<div class=\"kop\">"; 
-                 echo "<p>Gemiddelde grootte van het bedrijven waar gewerkt is</p>";
-            echo "<label class=\"checkbox-inline\">";
-                    echo "<input type=\"checkbox\" value=1 name=\"bedrijfGewerkt_List[]\" $checkedBedrijfGewerkt[0]>micro (< 10)";
-            echo "</label>";
-            echo "<label class=\"checkbox-inline\">";
-                    echo "<input type=\"checkbox\" value=2 name=\"bedrijfGewerkt_List[]\" $checkedBedrijfGewerkt[1]>klein (<50)";
-            echo "</label>";
-            echo "<label class=\"checkbox-inline\">";
-                    echo "<input type=\"checkbox\" value=3 name=\"bedrijfGewerkt_List[]\" $checkedBedrijfGewerkt[2]>middelgroot (< 250)";
-            echo "</label>";
-            echo "<label class=\"checkbox-inline\">";
-                    echo "<input type=\"checkbox\" value=4 name=\"bedrijfGewerkt_List[]\" $checkedBedrijfGewerkt[3]>groot (> 250)";
-            echo "</label>";
-        echo "</div>";   
-echo "</div>"; 
-
-echo "<section id=\"sectorGewenst\">";
-        echo "<div id=\"bedrijf\">";
-            echo "<div class=\"kop\">";
-                    echo "<p>Gewenste ICT-SECTOR</p>";
-            echo "</div>";
-             echo "<label class=\"checkbox-inline\">";
-                    echo "<input type=\"checkbox\" value=1  name=\"gewenste_Sector_List[]\" $checkedGewensteSector[0]>ICT ";	
-            echo "</label>";
-            echo "<label class=\"checkbox-inline\">";
-                    echo "<input type=\"checkbox\" value=2 name=\"gewenste_Sector_List[]\" $checkedGewensteSector[1]>Zorg";	
-            echo "</label>";
-            echo "<label class=\"checkbox-inline\">";
-                    echo "<input type=\"checkbox\" value=3 name=\"gewenste_Sector_List[]\" $checkedGewensteSector[2]>Industrie";	
-            echo "</label>";
-            echo "<label class=\"checkbox-inline\">";
-                    echo "<input type=\"checkbox\" value=4 name=\"gewenste_Sector_List[]\" $checkedGewensteSector[3]>Retail";	
-            echo "</label>";
-        echo "</div>"; 
-   //echo"<hr>";     
-        echo "<div class=\"kop\">"; 
-                 echo "<p>Gewenste grootte van het bedrijf</p>";
-            echo "<label class=\"checkbox-inline\">";
-                    echo "<input type=\"checkbox\" value=1 name=\"bedrijf_List[]\" $checkedBedrijf[0]>micro (< 10)";
-            echo "</label>";
-            echo "<label class=\"checkbox-inline\">";
-                    echo "<input type=\"checkbox\" value=2 name=\"bedrijf_List[]\" $checkedBedrijf[1]>klein (<50)";
-            echo "</label>";
-            echo "<label class=\"checkbox-inline\">";
-                    echo "<input type=\"checkbox\" value=3 name=\"bedrijf_List[]\" $checkedBedrijf[2]>middelgroot (< 250)";
-            echo "</label>";
-            echo "<label class=\"checkbox-inline\">";
-                    echo "<input type=\"checkbox\" value=4 name=\"bedrijf_List[]\" $checkedBedrijf[3]>groot (> 250)";
+        
+            echo "<label class=\"col-sm-5 checkbox-inline\">";
+                echo "<input type=\"checkbox\" value=2 name=\"sector_List[]\" $checkedSector[1]>Zorg  ";
+                echo "<input type=\"text\" class=\"sectorErvaring\" name=\"sectorErvaring1\" size=\"1\" style=\"text-align:right\" value=$sectorErvaring[1]> jaar gewerkt";	
             echo "</label>";
         echo "</div>";
+        echo "<div>";
+            echo "<label class=\"col-sm-6 checkbox-inline\">";
+                echo "<input type=\"checkbox\" value=3 name=\"sector_List[]\" $checkedSector[2]>Industrie  ";
+                echo "<input type=\"text\" class=\"sectorErvaring\" name=\"sectorErvaring2\" size=\"1\" style=\"text-align:right\" value=$sectorErvaring[2]> jaar gewerkt";	
+            echo "</label>";
+        
+            echo "<label class=\"col-sm-5 checkbox-inline\">";
+                echo "<input type=\"checkbox\" value=4 name=\"sector_List[]\" $checkedSector[3]>Retail  ";
+                echo "<input type=\"text\" class=\"sectorErvaring\" name=\"sectorErvaring3\" size=\"1\" style=\"text-align:right\" value=$sectorErvaring[3]> jaar gewerkt";
+            //echo "<input type=\"text\" class=\"form-control input-sm\" id=\"sectorErvaring3\" name=\"sectorErvaring3\" value=$sectorErvaring[3]>";	
+            echo "</label>";
+        echo "</div>";
+    
+        echo "<div class=\"kop\">"; 
+            echo "<p class=\"col-sm-12\">Vink de grootte aan van de bedrijven je gewerkt hebt</p>";
+        echo "</div>";    
+        echo "<label class=\"checkbox-inline\">";
+            echo "<input type=\"checkbox\" value=1 name=\"bedrijfGewerkt_List[]\" $checkedBedrijfGewerkt[0]>micro (< 10)";
+        echo "</label>";
+        echo "<label class=\"checkbox-inline\">";
+            echo "<input type=\"checkbox\" value=2 name=\"bedrijfGewerkt_List[]\" $checkedBedrijfGewerkt[1]>klein (<50)";
+        echo "</label>";
+        echo "<label class=\"checkbox-inline\">";
+            echo "<input type=\"checkbox\" value=3 name=\"bedrijfGewerkt_List[]\" $checkedBedrijfGewerkt[2]>middelgroot (< 250)";
+        echo "</label>";
+        echo "<label class=\"checkbox-inline\">";
+                echo "<input type=\"checkbox\" value=4 name=\"bedrijfGewerkt_List[]\" $checkedBedrijfGewerkt[3]>groot (> 250)";
+        echo "</label>";
+    echo "</div>"; 
 
-        echo "</section>";
-  echo "</section>"; 
+
+    echo "<div id=\"bedrijf\">";
+        echo "<div class=\"kop\">";
+            echo "<p class=\"col-sm-12\">Gewenste ICT-SECTOR</p>";
+        echo "</div>";
+        echo "<label class=\"checkbox-inline\">";
+            echo "<input type=\"checkbox\" value=1  name=\"gewenste_Sector_List[]\" $checkedGewensteSector[0]>ICT ";	
+        echo "</label>";
+        echo "<label class=\"checkbox-inline\">";
+            echo "<input type=\"checkbox\" value=2 name=\"gewenste_Sector_List[]\" $checkedGewensteSector[1]>Zorg";	
+        echo "</label>";
+        echo "<label class=\"checkbox-inline\">";
+            echo "<input type=\"checkbox\" value=3 name=\"gewenste_Sector_List[]\" $checkedGewensteSector[2]>Industrie";	
+        echo "</label>";
+        echo "<label class=\"checkbox-inline\">";
+            echo "<input type=\"checkbox\" value=4 name=\"gewenste_Sector_List[]\" $checkedGewensteSector[3]>Retail";	
+        echo "</label>";
+
+    //echo"<hr>";     
+        echo "<div class=\"kop\">"; 
+            echo "<p class=\"col-sm-12\">Gewenste grootte van het bedrijf</p>";
+        echo "</div>"; 
+        echo "<label class=\"checkbox-inline\">";
+            echo "<input type=\"checkbox\" value=1 name=\"bedrijf_List[]\" $checkedBedrijf[0]>micro (< 10)";
+        echo "</label>";
+        echo "<label class=\"checkbox-inline\">";
+            echo "<input type=\"checkbox\" value=2 name=\"bedrijf_List[]\" $checkedBedrijf[1]>klein (<50)";
+        echo "</label>";
+        echo "<label class=\"checkbox-inline\">";
+            echo "<input type=\"checkbox\" value=3 name=\"bedrijf_List[]\" $checkedBedrijf[2]>middelgroot (< 250)";
+        echo "</label>";
+        echo "<label class=\"checkbox-inline\">";
+            echo "<input type=\"checkbox\" value=4 name=\"bedrijf_List[]\" $checkedBedrijf[3]>groot (> 250)";
+        echo "</label>";
+    echo "</div>";    
+
+echo "</section>";
+  
  }; 
  
  function toonRegio(){
