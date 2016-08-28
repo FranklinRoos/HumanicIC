@@ -1396,12 +1396,13 @@ function handleKandidaatRegForm ()
 
                                     echo "<div class=\"form-group\">";
                                         if ($row['functie_id'] != 99){
-                                            echo "<label class=\"col-sm-7 text-left\">
-                                                    <input id=\"functieCheck".$z."\" type=\"checkbox\"  name=\"functie_List[]\" value=".$z." $checked[$i]> ".utf8_encode($functie)."
-                                                    <span class=\"text\" ><img src=\"".$GLOBALS['path']."assets/images/info-icon.png\" alt=\"info\" height=\"17\" width=\"12\"></img></span>
-                                                    <div class=\"info\"> ".utf8_encode($functieInfo)."
-                                                    </div>
-                                                </label>";
+                                            echo "<label class=\"col-sm-7 text-left\">";
+                                                  echo "  <input id=\"functieCheck".$z."\" type=\"checkbox\"  name=\"functie_List[]\" value=".$z." $checked[$i]> ".utf8_encode($functie)."";
+                                                   echo "<span class=\"text\" ><img src=\"".$GLOBALS['path']."assets/images/info-icon.png\" alt=\"info\" height=\"17\" width=\"12\"></img></span>";
+                                                     //echo "  <span class=\"text\" >i</span>"; 
+                                                    echo "<div class=\"info\"> ".utf8_encode($functieInfo)."";
+                                                    echo "</div>";
+                                               echo "</label>";
                                             echo "<div  id=\"ervaringSlider".$z."\" class=\"ervaringSlider col-sm-5\">";
                                             
                                             echo "<input id=\"ervaring".$z."\" data-slider-id=\"ervaringSlider".$z."\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$ervaring[$i]  width=\"5px\" name=\"ervaring".$z."\" tooltip=\"hide\" size=\"5\"/>";		
@@ -1413,13 +1414,13 @@ function handleKandidaatRegForm ()
                                         }
                                         else {
                                            
-                                            echo "<label class=\"col-sm-7 text-left\">
-                                                    <input id=\"functieCheck".$z."\" type=\"checkbox\"  name=\"functie_List[]\" value=\"99\" $checked[98]> ".utf8_encode($functie)."
+                                            echo "<label class=\"col-sm-7 text-left\">";
+                                                   echo " <input id=\"functieCheck".$z."\" type=\"checkbox\"  name=\"functie_List[]\" value=\"99\" $checked[98]> ".utf8_encode($functie)."";
                                                     
-                                                </label>
-                                                <div id=\"nwFunctie\" class=\"col-sm-7\">
-                                                        <input type=\"text\" name=\"nwFunctie\" placeholder=\"nieuwe functie\" value=".utf8_encode($nwFunctie).">
-                                                </div>";
+                                                echo "</label>";
+                                                echo "<div id=\"nwFunctie\" class=\"col-sm-7\">";
+                                                       echo "<input type=\"text\" name=\"nwFunctie\" placeholder=\"nieuwe functie\" value=".utf8_encode($nwFunctie).">";
+                                                echo "</div>";
                                             echo "<div  id=\"ervaringSlider10\" class=\"ervaringSlider col-sm-5\">";
                                             
                                             echo "<input id=\"ervaring10\" data-slider-id=\"ervaringSlider10\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$ervaring[98]  width=\"5px\" name=\"ervaring10\" tooltip=\"hide\" size=\"5\"/>";		
