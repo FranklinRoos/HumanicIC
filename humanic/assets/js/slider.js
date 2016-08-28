@@ -481,51 +481,51 @@ if (datefield.type!="date"){ //if browser doesn't support input type="date", ini
             }
 	});
         
-        if ($("#functieCheck10").prop("checked") === true) {
-                $("#ervaringSlider10").show();
+        if ($("#functieCheck99").prop("checked") === true) {
+                $("#ervaringSlider99").show();
 
-                $('#ervaring10').slider({
+                $('#ervaring99').slider({
                 
                     tooltip : 'hide',
                     formatter: function(value) {
                         return 'Current value: ' + value;
                     }
                 });
-                $("#ervaring10").on("slide", function(slideEvt) {
-                        $("#ex10SliderVal").text(slideEvt.value); 
+                $("#ervaring99").on("slide", function(slideEvt) {
+                        $("#ex99SliderVal").text(slideEvt.value); 
                 });
-                $("#ervaring10").on("slideStop", function(slideEvt) {
+                $("#ervaring99").on("slideStop", function(slideEvt) {
                                             $(this).val($(this).data('slider').getValue()); 
                 });
         }
         else {	
 
-                $("#ervaringSlider10").hide();
+                $("#ervaringSlider99").hide();
         };
         
-        $("#functieCheck10").change(function() {
+        $("#functieCheck99").change(function() {
 				
-            if ($("#functieCheck10").prop("checked") == true) {
-                    $("#ervaringSlider10").show();
+            if ($("#functieCheck99").prop("checked") == true) {
+                    $("#ervaringSlider99").show();
                     $("#nwFunctie").show();
 
-                    $('#ervaring10').slider({
+                    $('#ervaring99').slider({
                         value : 0,
                         tooltip : 'hide',
                         formatter: function(value) {
                             return 'Current value: ' + value;
                         }
                     });
-                    $("#ervaring10").on("slide", function(slideEvt) {
-                            $("#ex10SliderVal").text(slideEvt.value); 
+                    $("#ervaring99").on("slide", function(slideEvt) {
+                            $("#ex99SliderVal").text(slideEvt.value); 
                     });
-                    $("#ervaring10").on("slideStop", function(slideEvt) {
+                    $("#ervaring99").on("slideStop", function(slideEvt) {
 						$(this).val($(this).data('slider').getValue()); 
                     });
             }
             else {	
 
-                    $("#ervaringSlider10").hide();
+                    $("#ervaringSlider99").hide();
                     $("#nwFunctie").hide();
             }
 	});

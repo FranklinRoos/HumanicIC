@@ -1331,7 +1331,7 @@ function handleKandidaatRegForm ()
             return $_POST['ervaring10'];
             break;
         case 99 :
-           return $_POST['ervaring10'];
+           return $_POST['ervaring99'];
             break;
         default:
             break;
@@ -1341,220 +1341,78 @@ function handleKandidaatRegForm ()
  function toonFuncties(){
     global $connection;
     global $functieArray;
-    //$functieArray = array();
     
-    $aantal = count($functieArray);
-    $checked = array();
-    $ervaring = array();
-    for ($i = 1; $i <= 99; $i++){
-        $functieZoek = array_search($i, array_column($functieArray, 0));
+    //de functies uit de functietabel ophalen
+    $sql = mysqli_query($connection, "SELECT * FROM `functie` ORDER BY `functie_id`");
+                                                                            
+    $aantal_rijen = mysqli_num_rows($sql); //aantal rijen in de functietabel
+    $midden = round($aantal_rijen / 2); //voor het bepalen wanneer functieVak2 moet worden getoond
+    if (mysqli_num_rows($sql)==0)  
+      {
+          die ("Er zijn geen functies aanwezig");
+      };   
+ 
+    $functies = array(); //array om alle gegevens van functies bij te houden
+ 
+    while ($row = mysqli_fetch_assoc($sql)){
+        $id = $row['functie_id'];
+        
+        $functieZoek = array_search($id, array_column($functieArray, 0));
         if (IS_NUMERIC($functieZoek)){
-            array_push($checked, "checked='checked'");
-            array_push($ervaring, $functieArray[$functieZoek][1]);
-            if ($i == 99){
-                $nwFunctie = $functieArray[$functieZoek][2];
-            }    
+            $functieElementen = array($row['functie_id'], $row['functie_naam'], $row['functie_omschrijving'],$functieArray[$functieZoek][1], "checked='checked'", $functieArray[$functieZoek][2] );                        
         }
         else {
-            array_push($checked, "");
-            array_push($ervaring, 0);
+            $functieElementen = array($row['functie_id'], $row['functie_naam'], $row['functie_omschrijving'],0 ,"" , "");             
         };
+        array_push($functies, $functieElementen);
     };
- 
-    //$("#functieCheck1)
- 
+     
     echo "<section id=\"functies\">";
         echo "<div class=\"kop\">";
                 echo "<p>Vink de functie(s) aan waarin je geinteresseerd bent en geef je werkervaring aan in die functie(op een schaal van 1 tot 10)";
-        echo "</div>"; 
-                        $sql = mysqli_query($connection, "SELECT * FROM `functie`");
-                                                                            
-                        $aantal_rijen = mysqli_num_rows($sql);
-                        $midden = round($aantal_rijen / 2);
-                        if (mysqli_num_rows($sql)==0)  
-                          {
-                              die ("Je heb geen gegevens tot je beschikking");
-                          };
+        echo "</div>";                        
                           
-                        echo "<div class=\"functieVak1\">";
-                                for($i=0; $i<$aantal_rijen; $i++)
-                                { 
-                                    $z = $i + 1;
-                                    if ($z == ($midden + 1)){
-                                       echo "</div>";
-                                       echo "<div class=\"functieVak2\">"; 
-                                    }
+        echo "<div class=\"functieVak1\">";
+            for($i=0; $i<$aantal_rijen; $i++){
+                if ($i == ($midden)){
+                   echo "</div>";
+                   echo "<div class=\"functieVak2\">"; 
+                }
 
-                                    $row = mysqli_fetch_assoc($sql);
-                                    //while ($row = mysqli_fetch_assoc($sql)) 
-                                         //{ 
-                                    $functieInfo = $row['functie_omschrijving'];
-                                    $functie = $row['functie_naam'];
-                                   
+                $functieId = $functies[$i][0];
+                $functieNaam = $functies[$i][1];
+                $functieInfo = $functies[$i][2];
+                $functieErvaring = $functies[$i][3]; 
+                $functieCheck = $functies[$i][4];
+                $functieNieuw = $functies[$i][5];
 
+                echo "<div class=\"form-group\">";
+                    if ($functieId != 99){
+                        echo "<label class=\"col-sm-7 text-left\">
+                                <input id=\"functieCheck".$functieId."\" type=\"checkbox\"  name=\"functie_List[]\" value=".$functieId." $functieCheck> ".utf8_encode($functieNaam)."
+                                <span class=\"text\" ><img src=\"".$GLOBALS['path']."assets/images/info-icon.png\" alt=\"info\" height=\"17\" width=\"12\"></img></span>
+                                <div class=\"info\"> ".utf8_encode($functieInfo)."
+                                </div>
+                            </label>";
+                    }
+                    else {
+                        echo "<label class=\"col-sm-7 text-left\">
+                                <input id=\"functieCheck".$functieId."\" type=\"checkbox\"  name=\"functie_List[]\" value=\"99\" $functieCheck\> ".utf8_encode($functieNaam)."
 
-
-                                    echo "<div class=\"form-group\">";
-                                        if ($row['functie_id'] != 99){
-                                            echo "<label class=\"col-sm-7 text-left\">
-                                                    <input id=\"functieCheck".$z."\" type=\"checkbox\"  name=\"functie_List[]\" value=".$z." $checked[$i]> ".utf8_encode($functie)."
-                                                    <span class=\"text\" ><img src=\"".$GLOBALS['path']."assets/images/info-icon.png\" alt=\"info\" height=\"17\" width=\"12\"></img></span>
-                                                    <div class=\"info\"> ".utf8_encode($functieInfo)."
-                                                    </div>
-                                                </label>";
-                                            echo "<div  id=\"ervaringSlider".$z."\" class=\"ervaringSlider col-sm-5\">";
-                                            
-                                            echo "<input id=\"ervaring".$z."\" data-slider-id=\"ervaringSlider".$z."\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$ervaring[$i]  width=\"5px\" name=\"ervaring".$z."\" tooltip=\"hide\" size=\"5\"/>";		
-
-                                            echo "<div>"; 
-                                                echo "<span  id=\"ex".$z."CurrentSliderValLabel\"> <span id=\"ex".$z."SliderVal\">$ervaring[$i]</span></span>";
-                                            echo "</div>";
-                                        echo "</div>";
-                                        }
-                                        else {
-                                           
-                                            echo "<label class=\"col-sm-7 text-left\">
-                                                    <input id=\"functieCheck".$z."\" type=\"checkbox\"  name=\"functie_List[]\" value=\"99\" $checked[98]> ".utf8_encode($functie)."
-                                                    
-                                                </label>
-                                                <div id=\"nwFunctie\" class=\"col-sm-7\">
-                                                        <input type=\"text\" name=\"nwFunctie\" placeholder=\"nieuwe functie\" value=".utf8_encode($nwFunctie).">
-                                                </div>";
-                                            echo "<div  id=\"ervaringSlider10\" class=\"ervaringSlider col-sm-5\">";
-                                            
-                                            echo "<input id=\"ervaring10\" data-slider-id=\"ervaringSlider10\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$ervaring[98]  width=\"5px\" name=\"ervaring10\" tooltip=\"hide\" size=\"5\"/>";		
-
-                                            echo "<div>"; 
-                                                echo "<span  id=\"ex10CurrentSliderValLabel\"> <span id=\"ex10SliderVal\">$ervaring[98]</span></span>";
-                                            echo "</div>";
-                                        echo "</div>";
-                                        }
-                                        
-                                    echo "</div>";
-                                          //}
-                                  }                              
+                            </label>
+                            <div id=\"nwFunctie\" class=\"col-sm-7\">
+                                    <input type=\"text\" name=\"nwFunctie\" placeholder=\"nieuwe functie\" value=".utf8_encode($functieNieuw).">
+                            </div>";
+                    }
+                    echo "<div  id=\"ervaringSlider".$functieId."\" class=\"ervaringSlider col-sm-5\">";
+                        echo "<input id=\"ervaring".$functieId."\" data-slider-id=\"ervaringSlider".$functieId."\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$functieErvaring  width=\"5px\" name=\"ervaring".$functieId."\" tooltip=\"hide\" size=\"5\"/>";		
+                        echo "<div>"; 
+                            echo "<span  id=\"ex".$functieId."CurrentSliderValLabel\"> <span id=\"ex".$functieId."SliderVal\">$functieErvaring</span></span>";
                         echo "</div>";
-                       /* echo "<div class=\"functieVak2\">";
-                              for($i=$midden; $i<$aantal_rijen; $i++) 
-                               {      
-                                      $z = $i + 1;
-                                      $sql = mysqli_query($connection, "SELECT * FROM `functie` WHERE `functie_id`= $z");
-                                      if (mysqli_num_rows($sql)==0)  
-                                        {
-                                           die ("Je heb geen gegevens tot je beschikking");
-                                        }
-                                     while ($row = mysqli_fetch_assoc($sql)) 
-                                        { 
-                                             $functieInfo = $row['functie_omschrijving'];
-                                             $functie = $row['functie_naam'];
-                                       
-                                             echo "<div class=\"form-group\">";
-                                                   echo "<label class=\"divSlider col-sm-7 text-left\"><input id=\"functieCheck".$z."\" type=\"checkbox\"  name=\"functie_List[]\" value=".$z." $checked[$i]> ".utf8_encode($functie)."<span class=\"text\"> info</span><div class=\"info\"> ".utf8_encode($functieInfo)."</div></label>";
-                                                        echo "<div  id=\"ervaringSlider".$z."\" class=\"ervaringSlider col-sm-5\">";
-                                                             echo "<input id=\"ervaring".$z."\" data-slider-id=\"ervaringSlider".$z."\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$ervaring[$i]  width=\"5px\" name=\"ervaring".$z."\" tooltip=\"hide\" size=\"5\"/>";		
-                                                        echo "</div>";
-                                                       echo "<div>";            
-                                                            echo "<span  id=\"ex".$z."CurrentSliderValLabel\"> <span id=\"ex".$z."SliderVal\">$ervaring[$i]</span></span>";
-                                                       echo "</div>";
-                                          echo "</div>";   
-                                         }
-                              }
-                          echo "</div>";   */
-     
-        /*
-            echo "<div class=\"form-group\">";
-                echo "<label class=\"divSlider col-sm-7 text-left\"><input id=\"functieCheck2\" type=\"checkbox\"  name=\"functie_List[]\" value=2 $checked[1]> .NET developer</label>";
-                echo "<div id=\"ervaringSlider2\" class=\"ervaringSlider col-sm-5\">";
-                    echo "<input id=\"ervaring2\" data-slider-id=\"ervaringSlider2\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$ervaring[1] name=\"ervaring2\" tooltip=\"always\"/>";		
-
-                    echo "<div>";
-                            echo "<span id=\"ex2CurrentSliderValLabel\"> <span id=\"ex2SliderVal\">$ervaring[1]</span></span>";
-                    echo "</div>";	
-                echo "</div>";
-            echo "</div>";
-
-            echo "<div class=\"form-group\">";
-                echo "<label class=\"col-sm-7 text-left\"><input id=\"functieCheck3\" type=\"checkbox\" name=\"functie_List[]\" value=3 $checked[2]> Front-end developer</label>";
-                echo "<div  id=\"ervaringSlider3\" class=\"ervaringSlider col-sm-5\">";
-                    echo "<input id=\"ervaring3\" data-slider-id=\"ervaringSlider3\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$ervaring[2] name=\"ervaring3\" tooltip=\"always\"/>";
-                    echo "<div>";
-                        echo "<span id=\"ex3CurrentSliderValLabel\"> <span id=\"ex3SliderVal\">$ervaring[2]</span></span>";
-                    echo "</div>";	
-                echo "</div>";
-            echo "</div>";
-
-            echo "<div class=\"form-group\">";                            
-                echo "<label class=\"col-sm-7 text-left\"><input id=\"functieCheck4\" type=\"checkbox\" name=\"functie_List[]\" value=4 $checked[3]> Back-end developer</label>";
-                echo "<div id=\"ervaringSlider4\" class=\"ervaringSlider col-sm-5\">";
-                    echo "<input id=\"ervaring4\" data-slider-id=\"ervaringSlider4\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$ervaring[3] name=\"ervaring4\" tooltip=\"always\"/>";	    
-                    echo "<div>";
-                        echo "<span id=\"ex4CurrentSliderValLabel\"> <span id=\"ex4SliderVal\">$ervaring[3]</span></span>";
                     echo "</div>";
                 echo "</div>";
-            echo "</div>";
-
-            echo "<div class=\"form-group\">";
-                echo "<label class=\"divSlider col-sm-7 text-left\"><input id=\"functieCheck5\" type=\"checkbox\"  name=\"functie_List[]\" value=5 $checked[4]> Java developer</label>";
-                echo "<div id=\"ervaringSlider5\" class=\"ervaringSlider col-sm-5\">";
-                    echo "<input  id=\"ervaring5\" data-slider-id=\"ervaringSlider5\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-value=$ervaring[4] name=\"ervaring5\" tooltip=\"always\"/>";		
-                    echo "<div>";
-                        echo "<span id=\"ex5CurrentSliderValLabel\"> <span id=\"ex5SliderVal\">$ervaring[4]</span></span>";
-                    echo "</div>";
-                echo "</div>";
-            echo "</div>";
+              }                              
         echo "</div>";
-
-        echo "<div class=\"functieVak2\">";
-            echo "<div class=\"form-group\">";
-                    echo "<label class=\"col-sm-7 text-left\"><input id=\"functieCheck6\" type=\"checkbox\"  name=\"functie_List[]\" value=6 $checked[5]> Project manager</label>";
-                    echo "<div id=\"ervaringSlider6\" class=\"ervaringSlider col-sm-5\">";
-                        echo "<input id=\"ervaring6\" data-slider-id=\"ervaringSlider6\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$ervaring[5] name=\"ervaring6\" tooltip=\"always\"/>";		
-                        echo "<div class=\"sliderValue\" >";
-                            echo "<span id=\"ex6CurrentSliderValLabel\"> <span id=\"ex6SliderVal\">$ervaring[5]</span></span>";
-                        echo "</div>";
-                    echo "</div>";
-            echo "</div>";
-
-            echo "<div class=\"form-group\">";
-                echo "<label class=\"divSlider col-sm-7 text-left\"><input id=\"functieCheck7\" type=\"checkbox\"  name=\"functie_List[]\" value=7 $checked[6]> Functioneel ontwerper</label>";
-                echo "<div id=\"ervaringSlider7\" class=\"ervaringSlider col-sm-5\">";
-                    echo "<input id=\"ervaring7\" data-slider-id=\"ervaringSlider7\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$ervaring[6] name=\"ervaring7\" tooltip=\"always\"/>";
-                    echo "<div>";
-                        echo "<span id=\"ex7CurrentSliderValLabel\"> <span id=\"ex7SliderVal\">$ervaring[6]</span></span>";
-                    echo "</div>";	
-                echo "</div>";
-            echo "</div>";
-
-            echo "<div class=\"form-group\">";
-                echo "<label class=\"col-sm-7 text-left\"><input id=\"functieCheck8\" type=\"checkbox\" name=\"functie_List[]\" value=8 $checked[7]> Test coordinator</label>";
-                echo "<div  id=\"ervaringSlider8\" class=\"ervaringSlider col-sm-5\">";
-                    echo "<input id=\"ervaring8\" data-slider-id=\"ervaringSlider8\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$ervaring[7] name=\"ervaring8\" tooltip=\"always\"/>";
-                    echo "<div>";
-                        echo "<span id=\"ex8CurrentSliderValLabel\"> <span id=\"ex8SliderVal\">$ervaring[7]</span></span>";
-                    echo "</div>";	
-                echo "</div>";
-            echo "</div>";
-
-            echo "<div class=\"form-group\">";
-            echo "<label class=\"col-sm-7\"><input id=\"functieCheck9\" type=\"checkbox\" name=\"functie_List[]\" value=9 $checked[8]> Product owner</label>";
-                echo "<div id=\"ervaringSlider9\" class=\"ervaringSlider col-sm-5\">";
-                    echo "<input id=\"ervaring9\" data-slider-id=\"ervaringSlider9\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$ervaring[8] name=\"ervaring9\" tooltip=\"always\"/>";		
-                    echo "<div>";
-                        echo "<span id=\"ex9CurrentSliderValLabel\"> <span id=\"ex9SliderVal\">$ervaring[8]</span></span>";
-                    echo "</div>";
-                echo "</div>";
-            echo "</div>";
-
-            echo "<div class=\"form-group\">";
-            echo "<label class=\"divSlider col-sm-7 text-left\"><input id=\"functieCheck10\" type=\"checkbox\"  name=\"functie_List[]\" value=10 $checked[9]> Business analist</label>";
-                echo "<div id=\"ervaringSlider10\" class=\"ervaringSlider col-sm-5\">";
-                    echo "<input  id=\"ervaring10\" data-slider-id=\"ervaringSlider10\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-value=$ervaring[9] name=\"ervaring10\"  tooltip=\"always\"/>";		
-                    echo "<div>";
-                        echo "<span id=\"ex10CurrentSliderValLabel\"> <span id=\"ex10SliderVal\">$ervaring[9]</span></span>";                                   
-                    echo "</div>";
-                //echo "</div>";
-            echo "</div>"; */
-        //echo "</div>";
     echo "</section>";
  
  
