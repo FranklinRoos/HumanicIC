@@ -1279,25 +1279,7 @@ function handleKandidaatRegForm ()
         }
     };
             
-    /*if (!empty($_POST['functie_List'])) {
-        foreach ($_POST['functie_List'] as $selected){
-            $ervaring = bepaalErvaring($selected);
-            $sql = mysqli_query($connection, "INSERT INTO user_functie (`user_id`,`functie_id`, `ervaring`)
-                        VALUES ('".$_SESSION['user_id']."', '".$selected."', '".$ervaring."')");
-             if (mysqli_affected_rows($connection) == 0)
-                {
-                    $insertStatus = FALSE;
-                } 
-                else
-                {
-                    $insertStatus = TRUE;
-                }
-        }
-    }
-    else {
-        $insertStatus = FALSE;
-    } */   
- }
+
  
  function bepaalErvaring($selected) {
      switch ($selected) {
