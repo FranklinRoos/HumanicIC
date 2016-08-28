@@ -1271,7 +1271,7 @@ function handleKandidaatRegForm ()
                 }
                 
                 $functieId = $checkFunctie[$checkIndex];
-                $sql = mysqli_query($connection, "INSERT INTO user_functie (`user_id`,`functie_id`, `ervaring`, `nwFunctie`)
+               $sql = mysqli_query($connection, "INSERT INTO user_functie (`user_id`,`functie_id`, `ervaring`, `nwFunctie`)
                         VALUES ('".$_SESSION['user_id']."', '".$functieId."', '".$ervaring."', '".$nwFunctie."')");
             }       
             }       
