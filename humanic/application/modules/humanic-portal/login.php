@@ -42,9 +42,7 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
                // echo utf8_encode($content["page_title"]);
                 echo utf8_encode($content["page_content"]); //welkomst tekst uit de database presenteren(tabel pages met met page_nav_id=10) 
             }
-    
-        //De naam met een hoofdletter laten beginnen bij de presentatie 
-        //echo "<h4 class=\"regbericht\">".ucfirst($_SESSION["loginnaam"])." ,je was hier voor het laatst op ".$datum." om ".$_SESSION['laatsgezienTijdstip']."</h4>";
+
         
      }
       else
@@ -97,27 +95,14 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
                {
                     if($_SESSION['user-form'] ==='no')
                         {
-                            /* $sql = mysqli_query($connection, "SELECT * FROM `user` where `user_form-activ`='no' and `user_activ` ='yes'");                    
-                                if (mysqli_num_rows($sql)==0)   
-                                    {
-                                        die ("Je hebt geen gegevens tot je beschikking");
-                                     }
 
-                                        while ($content = mysqli_fetch_assoc($sql)) 
-                                             {
-                                                     $_SESSION["suc6login"] = "suc6login";*/
-                                                echo "<script type=\"text/javascript\">
-                                                                window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/kandidaat.php\"
-                                                        </script>";     
-                                        // }
-                       // }
-                                 /*    $_SESSION["suc6login"] = "suc6login";
-                                     echo "<script type=\"text/javascript\">
-                                    window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/login.php\"
-                                     </script>"; */
+                                echo "<script type=\"text/javascript\">
+                                               window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/kandidaat.php\"
+                                         </script>";     
+
                         }
                  }
-              else
+              elseif(isSet($_POST["submit"]) &&  isSet($_SESSION['loginnaam']))
                  {    
                    handleForm();
                   }

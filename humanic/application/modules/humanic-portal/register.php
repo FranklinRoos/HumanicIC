@@ -29,9 +29,8 @@ while ($content = mysqli_fetch_assoc($sql))
 
 if(isSet($_SESSION['loginnaam'])) 
 {
-     $_SESSION["suc6login"] = "suc6login";
                                      echo "<script type=\"text/javascript\">
-                                    window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/login.php\"
+                                    window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/kandidaat.php\"
                                      </script>"; 
 }
 
