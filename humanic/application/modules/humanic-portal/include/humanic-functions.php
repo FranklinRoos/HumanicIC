@@ -1,4 +1,5 @@
 <?php
+
 global $connection;
 
     
@@ -1212,6 +1213,8 @@ function handleKandidaatRegForm ()
  function verwerkFunctie() {
     global $connection;
     global $functieArray;
+    $functies = $_SESSION['functies'];
+    $aantal_rijen = $_SESSION['aantal_rijen'];
    
     $checkFunctie = array();
     if (!empty($_POST['functie_List'])) {
@@ -1222,19 +1225,23 @@ function handleKandidaatRegForm ()
         
     }
         
-    for ($i=1; $i<=99; $i++){
-        $functieIndex = array_search($i, array_column($functieArray, 0));
+    for ($i=0; $i<$aantal_rijen; $i++){
+        $functieId = $functies[$i][0];
+        $functieIndex = array_search($functieId, array_column($functieArray, 0));
         if (is_numeric($functieIndex)){
+            
             //functie is gevonden, dus aanwezig in database
-            $checkIndex = array_search($i, $checkFunctie);
+            $checkIndex = array_search($functieId, $checkFunctie);
             if (!is_numeric($checkIndex)){
                 //functie is niet aangevinkt --> Delete database entry
                 $sql = mysqli_query($connection, "DELETE FROM user_functie WHERE `user_id`='".$_SESSION["user_id"]."' 
-                                                 AND `functie_id` = '".$i."'");
+                                                 AND `functie_id` = '".$functieId."'");
             }
             else {
                 //functie is aangevinkt, controle of ervaring gewijzigd is
-                $ervaring = bepaalErvaring($checkFunctie[$checkIndex]);
+                //$ervaring = bepaalErvaring($checkFunctie[$checkIndex]);
+                
+                $ervaring = $_POST['ervaring'.$functieId.''];
                 
                 if (ISSET($_POST['nwFunctie'])){
                     $nwFunctie = $_POST['nwFunctie'];
@@ -1245,24 +1252,16 @@ function handleKandidaatRegForm ()
                 
                 if (($functieArray[$functieIndex][1] <> $ervaring) || ($functieArray[$functieIndex][2] <> $nwFunctie)){
                     //ervaring of nieuwe functie is gewijzigd
-                        $sql = mysqli_query($connection, "UPDATE user_functie SET `ervaring` = '".$ervaring."', `nwFunctie` = '".$nwFunctie."' WHERE `user_id`='".$_SESSION["user_id"]."' AND `functie_id` = '".$i."'");
-                }
-                else {
-                    //ervaring is niet gewijzigd, geen query draaien
+                        $sql = mysqli_query($connection, "UPDATE user_functie SET `ervaring` = '".$ervaring."', `nwFunctie` = '".$nwFunctie."' WHERE `user_id`='".$_SESSION["user_id"]."' AND `functie_id` = '".$functieId."'");
                 }
             }               
         }
         else {
             //functie zit niet in database
-            $checkIndex = array_search($i, $checkFunctie);
-            if (!is_numeric($checkIndex)){
-                //functie is niet aangevinkt
-                //$sql = mysqli_query($connection, "DELETE FROM user_functie WHERE `user_id`='".$_SESSION["user_id"]."' 
-                //                                 AND `functie_id` = '".$i."'");
-            }
-            else {
+            $checkIndex = array_search($functieId, $checkFunctie);
+            if (is_numeric($checkIndex)){
                  //functie is aangevinkt
-                $ervaring = bepaalErvaring($checkFunctie[$checkIndex]);
+                $ervaring = $_POST['ervaring'.$functieId.''];
                 if (ISSET($_POST['nwFunctie'])){
                     $nwFunctie = $_POST['nwFunctie'];
                 }
@@ -1270,13 +1269,13 @@ function handleKandidaatRegForm ()
                     $nwFunctie = " ";
                 }
                 
-                $functieId = $checkFunctie[$checkIndex];
+               // $functieId = $checkFunctie[$checkIndex];
                $sql = mysqli_query($connection, "INSERT INTO user_functie (`user_id`,`functie_id`, `ervaring`, `nwFunctie`)
                         VALUES ('".$_SESSION['user_id']."', '".$functieId."', '".$ervaring."', '".$nwFunctie."')");
             }       
-            }       
+        }       
             
-        }
+    }
     };
             
 
@@ -1324,16 +1323,19 @@ function handleKandidaatRegForm ()
  function toonFuncties(){
     global $connection;
     global $functieArray;
+   
     
     //de functies uit de functietabel ophalen
     $sql = mysqli_query($connection, "SELECT * FROM `functie` ORDER BY `functie_id`");
-                                                                            
-    $aantal_rijen = mysqli_num_rows($sql); //aantal rijen in de functietabel
-    $midden = round($aantal_rijen / 2); //voor het bepalen wanneer functieVak2 moet worden getoond
+                                                                                
     if (mysqli_num_rows($sql)==0)  
       {
           die ("Er zijn geen functies aanwezig");
-      };   
+      }; 
+      
+    $aantal_rijen = mysqli_num_rows($sql); //aantal rijen in de functietabel
+    $_SESSION['aantal_rijen'] = $aantal_rijen;
+    $midden = round($aantal_rijen / 2); //voor het bepalen wanneer functieVak2 moet worden getoond
  
     $functies = array(); //array om alle gegevens van functies bij te houden
  
@@ -1349,6 +1351,7 @@ function handleKandidaatRegForm ()
         };
         array_push($functies, $functieElementen);
     };
+    $_SESSION['functies'] = $functies;
      
     echo "<section id=\"functies\">";
         echo "<div class=\"kop\">";
@@ -1394,10 +1397,73 @@ function handleKandidaatRegForm ()
                         echo "</div>";
                     echo "</div>";
                 echo "</div>";
+                
+                echo "<script type=\"text/javascript\">
+                    if ($(\"#functieCheck".$functieId."\").prop(\"checked\") === true) {
+                            $(\"#ervaringSlider".$functieId."\").show();
+                            if ($functieId == 99){
+                                $(\"#nwFunctie\").show();
+                            }
+
+                            $('#ervaring".$functieId."').slider({
+                                tooltip : 'hide',
+                                formatter: function(value) {
+                                    return 'Current value: ' + value;
+                                }
+                            });
+                            
+                            $(\"#ervaring".$functieId."\").on(\"slide\", function(slideEvt) {
+                                    $(\"#ex".$functieId."SliderVal\").text(slideEvt.value); 
+                            });
+                            
+                            $(\"#ervaring".$functieId."\").on(\"slideStop\", function(slideEvt) {
+                                    $(this).val($(this).data('slider').getValue()); 
+                            });
+                        }
+                        else {					
+                            $(\"#ervaringSlider".$functieId."\").hide();
+                            if ($functieId == 99){
+                                $(\"#nwFunctie\").hide();
+                            }
+                    };
+
+                    //controle
+                    $(\"#functieCheck".$functieId."\").change(function() {
+                        if ($(\"#functieCheck".$functieId."\").prop(\"checked\") == true) {
+                                $(\"#ervaringSlider".$functieId."\").show();
+                                if ($functieId == 99){
+                                    $(\"#nwFunctie\").show();
+                                }
+
+                                $('#ervaring".$functieId."').slider({
+                                        value : 0,
+                                        tooltip : 'hide',
+                                        formatter: function(value) {
+                                            return 'Current value: ' + value;
+                                        }
+                                });
+                                $(\"#ervaring".$functieId."\").on(\"slide\", function(slideEvt) {
+                                        $(\"#ex".$functieId."SliderVal\").text(slideEvt.value); 
+                                });
+                                $(\"#ervaring".$functieId."\").on(\"slideStop\", function(slideEvt) {
+                                        $(this).val($(this).data('slider').getValue()); 
+                                });
+
+                        }
+                        else {					
+                                $(\"#ervaringSlider".$functieId."\").hide();
+                                if ($functieId == 99){
+                                    $(\"#nwFunctie\").hide();
+                                }
+                        }
+                    });
+                </script>";
+ 
               }                              
         echo "</div>";
     echo "</section>";
- 
+    
+   
  
  };
  

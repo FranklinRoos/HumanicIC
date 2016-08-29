@@ -24,7 +24,7 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
         
          //hieronder wordt bepaald hoe de datum uit de db($_SESSION['laatsgezien'])gepresenteerd zal worden
          $date = $_SESSION['laatsgezien'];//(yyyy-mm-dd)
-         $datesplit = split('-',$date);
+         $datesplit = explode('-',$date);
          $maanden = array('jan','feb','maart','april','mei','juni','juli','aug','sep','okt','nov','dec');
          $datum = ($datesplit[2]*1)."-".$maanden[$datesplit[1]-1]."-".$datesplit[0];//de index bij $maanden[$datesplit[1] wordt met 1 verminderd omdat de array '$maanden' met 0 begint
          

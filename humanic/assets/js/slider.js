@@ -65,7 +65,7 @@ if (datefield.type!="date"){ //if browser doesn't support input type="date", ini
             }
         });
         
-        if ($("#functieCheck1").prop("checked") === true) {
+        /*if ($("#functieCheck1").prop("checked") === true) {
                 $("#ervaringSlider1").show();
 
 
@@ -114,7 +114,7 @@ if (datefield.type!="date"){ //if browser doesn't support input type="date", ini
 				}
 	});
         
-        if ($("#functieCheck2").prop("checked") === true) {
+     /*   if ($("#functieCheck2").prop("checked") === true) {
                 $("#ervaringSlider2").show();
 
                 $('#ervaring2').slider({
@@ -158,7 +158,7 @@ if (datefield.type!="date"){ //if browser doesn't support input type="date", ini
 				}
 	});	
 	
-        if ($("#functieCheck3").prop("checked") === true) {
+      /*  if ($("#functieCheck3").prop("checked") === true) {
                 $("#ervaringSlider3").show();
 
                 $('#ervaring3').slider({
@@ -177,7 +177,7 @@ if (datefield.type!="date"){ //if browser doesn't support input type="date", ini
         }
         else {					
                 $("#ervaringSlider3").hide();
-            };
+            }; 
 
 	$("#functieCheck3").change(function() {
 				
@@ -203,7 +203,7 @@ if (datefield.type!="date"){ //if browser doesn't support input type="date", ini
 				}
 	});	
 	
-        if ($("#functieCheck4").prop("checked") === true) {
+    /*    if ($("#functieCheck4").prop("checked") === true) {
             $("#ervaringSlider4").show();
 
             $('#ervaring4').slider({
@@ -222,7 +222,7 @@ if (datefield.type!="date"){ //if browser doesn't support input type="date", ini
         }
         else {					
                 $("#ervaringSlider4").hide();
-        };
+        }; 
         
 	$("#functieCheck4").change(function() {
 				
@@ -248,7 +248,7 @@ if (datefield.type!="date"){ //if browser doesn't support input type="date", ini
 				}
 	});
         
-        if ($("#functieCheck5").prop("checked") === true) {
+     /*   if ($("#functieCheck5").prop("checked") === true) {
             $("#ervaringSlider5").show();
 
             $('#ervaring5').slider({
@@ -267,7 +267,7 @@ if (datefield.type!="date"){ //if browser doesn't support input type="date", ini
         }
         else {					
                 $("#ervaringSlider5").hide();
-        };
+        }; 
 		
 	$("#functieCheck5").change(function() {
 				
@@ -528,7 +528,7 @@ if (datefield.type!="date"){ //if browser doesn't support input type="date", ini
                     $("#ervaringSlider99").hide();
                     $("#nwFunctie").hide();
             }
-	});
+	}); */
 
 });
 
@@ -539,7 +539,7 @@ function imageIsLoaded(e) {
 
    
 
-			$("#ervaring1").on("slide", function(slideEvt) {
+		/*	$("#ervaring1").on("slide", function(slideEvt) {
 				$("#ex1SliderVal").text(slideEvt.value);
 			});
 			$("#ervaring2").on("slide", function(slideEvt) {
@@ -557,7 +557,7 @@ function imageIsLoaded(e) {
 			});
 			$("#ervaring6").on("slide", function(slideEvt) {
 				$("#ex6SliderVal").text(slideEvt.value);
-			});
+			}); */
                         
 
  /*  var datefield=document.createElement("input")
