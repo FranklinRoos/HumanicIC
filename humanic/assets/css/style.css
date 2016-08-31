@@ -638,7 +638,12 @@ h4.regbericht {
 }
 
 
-
+.berichtAcc {
+    text-align: center;
+    font-size: 20px;
+    color: red;
+    margin-bottom:15px;
+}
 
 .instappen {
     font-size: 30px;
@@ -653,7 +658,7 @@ tr.login {
      margin: 25px;
 }
 
-section#loginblok, section#aanmeldblok {
+section#loginblok, section#aanmeldblok, section#wachtwoord {
     margin-left: 35%;
 }
 
@@ -805,9 +810,11 @@ ul.nav li.dropdown:hover > ul.dropdown-menu{
     clear: both;
     font-weight: 400;
     line-height: 1.42857143;
-    color: #333;
+    color: #fff5cc;
+    /* color: #333; */
     white-space: nowrap;
-    background-color:#AA771A;
+    /*background-color:#AA771A;*/
+    backgrounhd-color: #ffffcc;
 }
 .dropdown-menu {
     position: absolute;

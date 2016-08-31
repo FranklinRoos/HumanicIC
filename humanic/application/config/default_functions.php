@@ -163,6 +163,7 @@ function footer()
     echo "</html>";
 }
 
+
 function navigatie($pageNavId="1")
 {
     global $connection;
@@ -181,13 +182,21 @@ function navigatie($pageNavId="1")
     echo "<img src=\"".$GLOBALS['path']."assets/images/header2.png\" alt=\"humanic-logo\" width=\"140\" height=\"50\" </a>";
     echo "</a>";
     echo "<ul class=\"nav navbar-nav\">";
-    // selecteer alles (voor de navigatie) voor de header en show=y 
-      if(!isSet($_SESSION["user_authorisatie"]) OR $_SESSION["user_authorisatie"] == 'usr'){
-        $sql = mysqli_query($connection, "SELECT * FROM `nav` where `nav_place`='header' AND `nav_auth`='usr' AND `nav_taal`='nl' AND `nav_show`='y' order by `volgorde` ");
+    // selecteer alles (voor de navigatie) voor de header en show=y
+    if(!isSet($_SESSION['loginnaam']))
+     { 
+      
+        $sql = mysqli_query($connection, "SELECT * FROM `nav` where `nav_place`='header' AND `nav_auth`='usr' AND `nav_taal`='nl' AND (`navIn` = 'no' OR `navIn` = 'both') AND `nav_show`='y' order by `volgorde` ");
+       
+
      }
-     else {
-         $sql = mysqli_query($connection, "SELECT * FROM `nav` where `nav_place`='header' AND `nav_auth`='admin' AND `nav_taal`='nl' AND `nav_show`='y' order by `volgorde` ");
-     }
+
+    else
+      {
+        
+        $sql = mysqli_query($connection, "SELECT * FROM `nav` where `nav_place`='header' AND `nav_auth`='usr' AND `nav_taal`='nl' AND (`navIn` = 'yes' OR `navIn` = 'both') AND `nav_show`='y' order by `volgorde` ");
+      
+      }
      
     // aanmaken array voor gebruik in function
     while($ln = mysqli_fetch_assoc($sql))
@@ -218,6 +227,7 @@ function navigatie($pageNavId="1")
     echo "</ul>";
     echo "</div>";
     echo "</nav>";
+  
     
 }
 

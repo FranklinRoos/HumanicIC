@@ -3,23 +3,23 @@ session_start();
 include ("../../config/config.php");
 include ("../../config/connect.php");
 include("include/accountFunctions.php");
-include("include/psinfofunctions.php");
-include ("include/userBlogFunctions.php");
-include ("include/onlineFunctions.php");
+include("include/humanic-functions.php");
+//include ("include/onlineFunctions.php");
 include("../../config/default_functions.php");
 include ("../FCKeditor/fckeditor.php");
 //maak connectie met je eigen database
 
-if($_SESSION['blad']!=='account_page')    
+/*if($_SESSION['blad']!=='account_page')    
 {
   $_SESSION['blad']='account_page';
-}
+}*/
 
 
  $pageNavId=22;
  fHeader($pageNavId);//actief=$pageNavId);
+ navigatie($pageNavId);
 
- if(isSet($_SESSION["user_authorisatie"])&& $_SESSION["user_authorisatie"]=="admin" OR $_SESSION["user_authorisatie"]=="ptr")
+/* if(isSet($_SESSION["user_authorisatie"])&& $_SESSION["user_authorisatie"]=="admin" OR $_SESSION["user_authorisatie"]=="ptr")
          {
             navigatieA($pageNavId);
          }
@@ -27,7 +27,7 @@ if($_SESSION['blad']!=='account_page')
      {
        navigatie($pageNavId);
 
-     }
+     }*/
   
 if (!isset($_SESSION["loginnaam"]))
    {
@@ -53,14 +53,8 @@ if (!isset($_SESSION["loginnaam"]))
        }
        else
        {
-         handleModifyAccount ();
-         echo "".ucfirst($_SESSION["loginnaam"]).",je wachtwoord is gewijzigd<br>";    
-         echo "Je zal opnieuw moeten inloggen om verder te gaan !";
-    
-            // Unset all of the session variables.
-             $_SESSION = array();
-             session_destroy();
-            
+         handleModifyAccount ($_SESSION["loginnaam"],$_SESSION['email']);
+     
          }
           
      

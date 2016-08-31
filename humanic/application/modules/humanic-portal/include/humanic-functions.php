@@ -461,7 +461,7 @@ function handleAanmeldForm()
             
             echo "</h4></UL>";            
             // Geef het formulier opnieuw
-            ShowRegForm($_POST["reglogin"], $_POST['emailuser']);
+            showAanmeldForm($naam="",$email="");
             
             
                }
@@ -525,7 +525,7 @@ function handleAanmeldForm()
                    else
                     {  
                     echo "<b>De wachtwoorden komen niet overeen, probeer het nogmaals!</b><br>";
-                    showRegForm();
+                    showAanmeldForm($naam="",$email="");
                     }
                }
           } 
@@ -533,12 +533,12 @@ function handleAanmeldForm()
               if ($_POST["reglogin"] == "")
               {
                   echo "<h4>U heeft geen loginnaam ingevuld</h4>";
-                  showRegForm();
+                  showAanmeldForm($naam="",$email="");
               }
               else
                 {  
                   echo "<b>U moet wel een naam en 2x hetzelfde wachtwoord invullen!</b><br>";
-                  showRegForm();
+                  showAanmeldForm($naam="",$email="");
                 } 
     } 
    
@@ -1372,7 +1372,7 @@ function handleKandidaatRegForm ()
                 $functieCheck = $functies[$i][4];
                 $functieNieuw = $functies[$i][5];
 
-                echo "<div class=\"form-group\">";
+            echo "<div class=\"form-group\">";
                     if ($functieId != 99){
                         echo "<label class=\"col-sm-7 text-left\">
                                 <input id=\"functieCheck".$functieId."\" type=\"checkbox\"  name=\"functie_List[]\" value=".$functieId." $functieCheck> ".utf8_encode($functieNaam)."
@@ -1382,13 +1382,12 @@ function handleKandidaatRegForm ()
                             </label>";
                     }
                     else {
-                        echo "<label class=\"col-sm-7 text-left\">
-                                <input id=\"functieCheck".$functieId."\" type=\"checkbox\"  name=\"functie_List[]\" value=\"99\" $functieCheck\> ".utf8_encode($functieNaam)."
-
-                            </label>
-                            <div id=\"nwFunctie\" class=\"col-sm-7\">
-                                    <input type=\"text\" name=\"nwFunctie\" placeholder=\"nieuwe functie\" value=".utf8_encode($functieNieuw).">
-                            </div>";
+                        echo "<label class=\"col-sm-7 text-left\">";
+                                echo "<input id=\"functieCheck".$functieId."\" type=\"checkbox\"  name=\"functie_List[]\" value=\"99\" $functieCheck\> ".utf8_encode($functieNaam)."";
+                            echo "</label>";
+                            echo "<div id=\"nwFunctie\" class=\"col-sm-7\">";
+                                    echo "<input type=\"text\" name=\"nwFunctie\" placeholder=\"nieuwe functie\" value=".utf8_encode($functieNieuw).">";
+                            echo "</div>";
                     }
                     echo "<div  id=\"ervaringSlider".$functieId."\" class=\"ervaringSlider col-sm-5\">";
                         echo "<input id=\"ervaring".$functieId."\" data-slider-id=\"ervaringSlider".$functieId."\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=$functieErvaring  width=\"5px\" name=\"ervaring".$functieId."\" tooltip=\"hide\" size=\"5\"/>";		
@@ -1396,7 +1395,7 @@ function handleKandidaatRegForm ()
                             echo "<span  id=\"ex".$functieId."CurrentSliderValLabel\"> <span id=\"ex".$functieId."SliderVal\">$functieErvaring</span></span>";
                         echo "</div>";
                     echo "</div>";
-                echo "</div>";
+            echo "</div>";
                 
                 echo "<script type=\"text/javascript\">
                     if ($(\"#functieCheck".$functieId."\").prop(\"checked\") === true) {
@@ -1559,7 +1558,7 @@ function handleKandidaatRegForm ()
         echo "</div><br/><br/>";
         echo "<div class=\"form-group\" id=\"ww\">";
             echo "<label class=\"col-sm-5\" for=\"salaristkeringGeldigTot\">Uitkering geldig tot</label>";
-            echo "<div class=\"col-sm-4\">";
+            echo "<div class=\"col-sm-6\">"; // de class stond op col-sm-4 , daardoor zag ik in het formulier alleen dd-mm
                 echo "<input type=\"date\" class=\"form-control input-sm\" id=\"geldigTot\" name=\"uitkeringGeldigTot\" value=$uitkeringGeldigTot placeholder=\"mm-jjjj\" />";
             echo "</div>";	
         echo "</div>";
