@@ -19,28 +19,13 @@ include ("../FCKeditor/fckeditor.php");
  fHeader($pageNavId);//actief=$pageNavId);
  navigatie($pageNavId);
 
-/* if(isSet($_SESSION["user_authorisatie"])&& $_SESSION["user_authorisatie"]=="admin" OR $_SESSION["user_authorisatie"]=="ptr")
-         {
-            navigatieA($pageNavId);
-         }
- else
-     {
-       navigatie($pageNavId);
-
-     }*/
   
 if (!isset($_SESSION["loginnaam"]))
    {
-    /*echo "<br /><br /><br /><h2 align=center>Dit is de website van en over Pieter Spierenburg</h2>";
-    echo "<br /><h3>U dient eerst<a href=\"login.php\"> ingelogd</a> te zijn om deze functie te kunnen gebruiken</h3><br>";
-    echo "<h4>Heeft u zich nog niet geregistreerd?<br/>";
-    echo "Dat kan <a href=\"register.php\">hier.</a></h4>";*/
-    
+  
              echo "<script type=\"text/javascript\">
                            window.location = \"".$GLOBALS['path']."/index.php\"
-                           </script>";    
-              
-    
+                           </script>";     
     
 } 
  else   

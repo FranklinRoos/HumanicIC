@@ -564,7 +564,7 @@ function getUsername($usernaam) //controle op dubbele loginnaam
     
     
 function check_email($email) { // return TRUE or FALSE
-  $patroon = "/^([a-z0-9_-]+\.)*[a-z0-9_-]+@([a-z0-9_-]{2,}\.)+([a-z0-9_-]{2,})$/i";
+  $patroon = "/^([a-z0-9_-]+\.)*[a-z0-9_-]+@([a-z0-9_-]{1,}\.)+([a-z0-9_-]{2,})$/i";
   return preg_match($patroon, $email);
 }    
 
