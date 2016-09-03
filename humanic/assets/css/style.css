@@ -27,6 +27,11 @@ h1 {
         
 }
 
+h2.homeP {
+  color: gold;
+  font-weight: bold;
+}
+
 h2 {
     font-weight: bold;
     

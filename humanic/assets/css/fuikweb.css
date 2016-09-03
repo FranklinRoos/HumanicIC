@@ -534,18 +534,23 @@ table#login {
     color: black;
 }
 
-#inuitKnop {
-    margin-bottom: 15px;   
-}
 
 input#login {
     /*background-image: linear-gradient(to bottom,#FFCC99 0,#ffb72a 100%);*/
      background-image: #e6e6ff;
      border: 1px solid #996600;
     color: #777;
-    padding: 12px;
-    margin: 2px-5px 0px 0px;
+    /*padding: 5px;*/
+    padding-bottom: -20px;
+   /* margin: 2px-5px 0px 0px;*/
 }
+
+
+div#inlognaam {
+    margin-top: -15px;
+    margin-right: -15px;
+}
+
 
 .button{
 	background-color: transparent;
@@ -581,7 +586,9 @@ input#login {
     padding: 10px;
 }
 
-
+h2.homeP {
+	color: gold;
+}
 
 /* de volgende css is noozakelijk voor het functioneren van de dropdown menu*/
 

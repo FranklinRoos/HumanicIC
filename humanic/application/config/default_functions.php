@@ -43,7 +43,7 @@ function fHeader($pageNavId="1")
                         echo  "<script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js\"></script>";
                         echo "<script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.1.1/bootstrap-slider.js\"></script>";
                         echo "<script src=\"".$GLOBALS['path']."assets/js/slider.js\" ></script>";
-    
+                        //echo "<script src=\"".$GLOBALS['path']."assets/js/responsive-slider.js\" ></script>";
     
                         $path=$GLOBALS['path'];
                           //$path=substr_replace($path ,"",-1);
@@ -74,13 +74,13 @@ function fHeader($pageNavId="1")
                                                  $maanden = array('jan','feb','maart','april','mei','juni','juli','aug','sep','okt','nov','dec');
                                                  $datum = ($datesplit[2]*1)."-".$maanden[$datesplit[1]-1]."-".$datesplit[0];//de index bij $maanden[$datesplit[1] wordt met 1 verminderd omdat de array '$maanden' met 0 begint      
                                                  echo "<input type =\"button\" id=\"login\" onclick=\"inofuitLoggen(0)\" value=\"Uitloggen\" class=\"btn\"></button>";
-                           echo "</div>"; 
+                            echo "</div>"; 
                            echo "<div class=\"navbar-form pull-right\">";
                                        echo "<div id=\"inlognaam\"><a class=\"inlognm\">";
                                                   echo "".ucfirst($_SESSION["loginnaam"])."</a><br/>";      
                                                   echo "<a class=\"regsinds\">Registreerd sinds: ".$datum."</a>";
                                        echo "</div>";
-                           echo "</div>" ;
+                        echo "</div>" ;
                                            } 
                                        else
                                            {
