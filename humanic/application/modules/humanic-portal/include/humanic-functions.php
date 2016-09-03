@@ -252,19 +252,23 @@ function handleForm()
                     }
                     else 
                     {
-                    echo "<b>Volgens geruchten mag u maar 3 keer inloggen!</b><br>";
+                           echo "<div class=\"berichtAcc\">"; 
+                           echo "Volgens geruchten mag u maar 3 keer inloggen!</div><br>";
                     }
                  }
                }
             }
              else
-            {  echo "<b>U moet wel een echt wachtwoord invullen!</b><br>";
+            { 
+                 echo "<div class=\"berichtAcc\">";
+                 echo "U moet wel een echt wachtwoord invullen!</div><br>";
                 showForm();
             } 
         }   
          else
             {  
-                echo "<b>U moet wel een naam en een wachtwoord invullen!</b><br>";
+                echo "<div class=\"berichtAcc\">";
+                echo "U moet wel een naam en een wachtwoord invullen!</div><br>";
                 showForm();
             } 
     }
@@ -452,14 +456,15 @@ function handleAanmeldForm()
           {
                        // er zijn fouten
             // geef het lijstje van fouten
-            echo "<UL><h4>";
-            echo ($naam_fout?"<li>U heeft geen loginnaam ingevuld</li>":"");
-            echo ($naamdouble_fout?"<li>Deze naam is al in gebruik</li>":"");
-            echo ($email_fout?"<li><em>U heeft geen e-mailadres ingevuld</em></li>":"");
-            echo ($emailsyntax_fout?"<li><em>U heeft geen geldig email-adres ingevuld</em></li>":"");   
-            echo ($emaildouble_fout?"<li><em>Dit email-adres wordt al gebruikt</em></li>":"");
-            
-            echo "</h4></UL>";            
+            echo "<div class=\"berichtAcc\">";
+                  echo "<UL><h4>";
+                      echo ($naam_fout?"<li>U heeft geen loginnaam ingevuld</li>":"");
+                      echo ($naamdouble_fout?"<li>Deze naam is al in gebruik</li>":"");
+                      echo ($email_fout?"<li><em>U heeft geen e-mailadres ingevuld</em></li>":"");
+                      echo ($emailsyntax_fout?"<li><em>U heeft geen geldig email-adres ingevuld</em></li>":"");   
+                      echo ($emaildouble_fout?"<li><em>Dit email-adres wordt al gebruikt</em></li>":"");      
+                 echo "</h4></UL>";
+            echo "</div>";
             // Geef het formulier opnieuw
             showAanmeldForm($naam="",$email="");
             
@@ -524,7 +529,8 @@ function handleAanmeldForm()
                   
                    else
                     {  
-                    echo "<b>De wachtwoorden komen niet overeen, probeer het nogmaals!</b><br>";
+                       echo "<div class=\"berichtAcc\">";
+                                 echo "De wachtwoorden komen niet overeen, probeer het nogmaals!</div><br>";
                     showAanmeldForm($naam="",$email="");
                     }
                }
@@ -532,12 +538,15 @@ function handleAanmeldForm()
           else
               if ($_POST["reglogin"] == "")
               {
-                  echo "<h4>U heeft geen loginnaam ingevuld</h4>";
+                  echo "<div class=\"berichtAcc\">";
+                      echo "<h4>U heeft geen loginnaam ingevuld</h4>";
+                  echo  "</div>";
                   showAanmeldForm($naam="",$email="");
               }
               else
-                {  
-                  echo "<b>U moet wel een naam en 2x hetzelfde wachtwoord invullen!</b><br>";
+                { 
+                  echo "<div class=\"berichtAcc\">";
+                  echo "U moet wel een naam en 2x hetzelfde wachtwoord invullen!</div><br>";
                   showAanmeldForm($naam="",$email="");
                 } 
     } 

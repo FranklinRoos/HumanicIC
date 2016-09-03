@@ -1,12 +1,8 @@
-/* Dit programma wordt door index.html voor de voorgeving gebruikt.
+/* Deze programma wordt door index.html voor de voorgeving gebruikt.
 	Program	: index.css
 	Datum		: 01-07-2016 
 */
 
-.berichtAcc {
-       text-align: center;
-       color: red;
-}
 
 .merk {
 	
@@ -15,16 +11,23 @@
 	text-align: center;
 	clear: both;
 	padding-top: 25px;
-	margin-bottom: 25px;
+	margin-bottom: 15px;
 }
 
+ul#footerNav li {
+	float: left;
+	display: inline;
+	margin-left:20%;
+	padding-top: 15px;
+	color:yellow;
+}
 
 #footer {
      width: 100%;
     /*float: left;
     display: inline;*/ 
-    margin-left: 15px;  
-    margin-top:80px;
+	margin-left: 15px;  
+	margin-top:80px;
     height: 25px;
     font-size: 14px;
     background-color: rgb(60, 60, 60);
@@ -36,32 +39,6 @@
   height: 160px;
   clear: both;
 }
-
-ul#footerNav li {
-	float: left;
-	display: inline;
-	margin-left:20%;             
-	padding-top: 15px;
-	color:white;
-}
-
-.adres1 {
-    margin-left: 250px;
-    margin-bottom: 15px;
-}
-
-#ftr-xperiment {
-     float: left;
-    display: inline;
-}
-
-
-.adres {
-    float: left;
-    font-weight: bold;
-    color: orange;
-}
-
 
 span.text  {
     color: red;
@@ -98,12 +75,10 @@ ul.prof li {
     color:purple;
    list-style-type:none;
 }
-
 h4.foutMelding {
 	margin-left:30%;
 	color: red;
 }
-
 
 h3.pf {
     color:#663d00;
@@ -124,7 +99,8 @@ h2.welkom {
 }
 
 body{
-    background-color: 	#e6e6e6;	/* border:	2px solid red; */	
+	/* border:	2px solid red; */
+	
 }
 
 #contentwrapper {
@@ -133,6 +109,7 @@ body{
    height: 100%;
    margin: 0 auto -610px;
 }
+
 
 h1 {
 	text-align : center;
@@ -258,7 +235,7 @@ article{
 	 */
         clear : both;
 	width : 100%;
-	height : 200px;
+	/*height : 200px; */
         margin-bottom : 10px;
 	/* border : 1px solid black; */
 }
@@ -301,7 +278,7 @@ article{
 #regio{
 	clear : both;
 	width : 100%;
-        height : 250px;
+       /* height : 250px; */
                 /*padding: 25px 0 80px 15px;*/ 
                 /*padding-top: 15px;
 	padding-bottom : 80px;
@@ -469,49 +446,9 @@ label {
 
 div#navbarpullright {
     /*height: 52px;*/
-	height: 52px;
+	height: 20px;
 }
 
-#navBalk {
-    margin-left:0px;
-    margin-right: 10px;
-    /*background-color: #f5f5f0;*/
-    background-color:#e6faff ; /* kleur van de navigatiebalk */
-    width: 100%;
-   opacity: 0.9;
-}
-
-#navItems {
-    height: 60px;/* hoogte van de navigatie balk */
-}
-
-ul#navItems li:hover {
-    background-color: green;
-}
-
-ul#navItems li {
-    margin-left: 20px;
-    font-size: 150%;
-    color: black;
-}
-
-ul#navItems {
-    display: inline;
-    float: left;
-    margin-left:10%;
-}
-
-#cslider {
-    margin-top: 45px;
-    padding-top:15px;
-}
-
-#hlogo {
-    padding: 0px 0px 10px;
-    /*margin: 0px 20px 25px -15px;*/
-    margin-bottom:0px;
-    margin-left:10%;
-}
 .reg {
     color: #ff9900;
 }
@@ -534,15 +471,13 @@ table#login {
     color: black;
 }
 
-#inuitKnop {
-    margin-bottom: 15px;   
-}
 
 input#login {
     /*background-image: linear-gradient(to bottom,#FFCC99 0,#ffb72a 100%);*/
-     background-image: #e6e6ff;
-     border: 1px solid #996600;
-    color: #777;
+	background-image: #e6e6ff;
+    border: 1px solid #996600;
+    /*color: #777; */
+	color: black;
     padding: 12px;
     margin: 2px-5px 0px 0px;
 }
@@ -552,13 +487,11 @@ input#login {
 	color: #000;
 	font-weight: bold;
 	width: auto;
-	margin: 0 5px 0px 0;
+	margin: 0 5px 0 0;
 	padding: 1px 5px 2px 5px;
 	cursor: pointer;
 	float: right;
-               
 }
-
 
 #submit {
     margin-right : 5px;
@@ -571,17 +504,6 @@ input#login {
     font-size : 18px;
     padding : 5px;
 }
-
-#why {
-    font-weight: bold;
-    font-size: 36px;
-    text-align: center;
-    margin-top: 6%;
-    color: #ef7d1a;
-    padding: 10px;
-}
-
-
 
 /* de volgende css is noozakelijk voor het functioneren van de dropdown menu*/
 

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 01 sep 2016 om 12:27
+-- Gegenereerd op: 03 sep 2016 om 06:25
 -- Serverversie: 5.6.24
 -- PHP-versie: 5.5.24
 
@@ -59,7 +59,7 @@ INSERT INTO `nav` (`nav_id`, `nav_naam`, `nav_url`, `nav_place`, `nav_show`, `na
 (13, 'ADMIN', 'application/modules/admin/indexAdmin.php', 'header', 'y', 0, 'nl', 'admin', 'yes', 13),
 (20, '<div class=adres>Programmeurs:</div> F.Roos(franklin_roos@hotmail.com), T v Hout(blackhout@upcmail.nl), B.Kijlstra(bartkijlstra@gmail.com), S.Unal(selahattin@xs4all.nl), R.de Wit(r.dewit@outlook.com)', '', 'footer', 'n', 0, 'nl', 'usr', 'yes', 18),
 (21, 'Mijn Gegevens', 'application/modules/humanic-portal/kandidaat.php', 'header', 'y', 0, 'nl', 'usr', 'yes', 5),
-(22, '<div class=adres1><div class=adres>Adres Gegevens</div><br/><div class=adresR>H.E.J. Wenkenbachweg 123<br/>1096 AM Amsterdam Nederland</div>\r\n\r\n', '', 'footer', 'y', 0, 'nl', 'usr', 'yes', 17),
+(22, '<div class=adres>\r\n	             Adres Gegevens\r\n	    </div><br/>\r\n		<div class=adresR>\r\n		         H.E.J. Wenkenbachweg 123<br/>1096 AM Amsterdam Nederland\r\n		</div>', '', 'footer', 'y', 0, 'nl', 'usr', 'yes', 17),
 (23, '<div class=adres1><div class=adres>Contact</div><br/>\r\n<div class=adresR>Email: info@Humanic.cloud<br/>\r\nTel: +31(0)852736963</div>', '', 'footer', 'y', 0, 'nl', 'usr', 'yes', 18),
 (24, '', '', '', '', 0, 'nl', 'usr', 'yes', 0),
 (25, '<div class=nav>Home</div>', 'index.php', 'header', 'y', 0, 'nl', 'elm', 'yes', 1),
