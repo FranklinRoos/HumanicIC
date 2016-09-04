@@ -587,7 +587,7 @@ div.bericht h3 {
 
 .navbar-inverse {
    
-    background-image: linear-gradient(to bottom,#ffffff,#ffb72a 100%);
+    background-image: linear-gradient(to bottom,#ffffff,#ffb72a 100%); /* oranje kleur voor de navigatiebalk */
      opacity: 0.9;
 }
 

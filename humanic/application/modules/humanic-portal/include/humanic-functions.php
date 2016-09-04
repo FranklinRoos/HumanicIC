@@ -104,17 +104,17 @@ else
 }
 }   
     
-function showForm()
+function showForm($naam= "", $passwd="")
     {
         echo "<section id=\"loginblok\">";
          echo "<h3>Inloggen</h3>";
         echo "<form action='".htmlspecialchars($_SERVER["PHP_SELF"])."' method='post'>";
         echo "<table id=\"login\">";
         echo "<tr><td>Geef uw login naam:</td>";
-        echo "<td><input type='text' name='login'></td></tr>";
+        echo "<td><input type='text' name='login' value= $naam></td></tr>";
         echo "<tr><td>&nbsp</td></tr>";
         echo "<tr id=\"loginnaam\" ><td>Geef uw wachtwoord:</td>";       
-        echo "<td><input type='password' name='passwd'></td></tr>";
+        echo "<td><input type='password' name='passwd' value=$passwd></td></tr>";
         echo "</table>";
         echo "<input type='submit' name='submit' value='Login'>";
         echo "</form><br/>";
@@ -143,14 +143,17 @@ function handleForm()
             $datum=date("d ").$month.date(" Y")." om ".date("H:i")." uur";
             $_COOKIE['laatsteKeer']= $datum;
         }*/
+        
+        $_SESSION['passwd'] = $_POST['passwd'];;
+        $_SESSION['naam'] = $_POST['login'];
         if ($_POST['login']!="")
         {   // vraag het correcte login op
+            
            if ($_POST['passwd']!="")
             {   // vraag het correcte wachtwoord en de authorisatie op 
-                
-           $auth = getAuthorisatie(strtolower($_POST['login']));//de auhtorisatie wordt hier opgevraagd
-           $_SESSION["user_authorisatie"] = $auth;
-             if($auth == 'admin')
+                $auth = getAuthorisatie(strtolower($_POST['login']));//de auhtorisatie wordt hier opgevraagd
+                $_SESSION["user_authorisatie"] = $auth;
+                if($auth == 'admin')
                     {
                         echo "<script type=\"text/javascript\">
                                     window.location = \"".$GLOBALS['path']."/application/modules/admin/indexAdmin.php\"
@@ -248,7 +251,7 @@ function handleForm()
                     $_SESSION["tellerInloggen"]++;
                     if ($_SESSION["tellerInloggen"]<4)
                     {
-                    showForm();
+                        showForm($_SESSION['naam'], $_SESSION['passwd']);
                     }
                     else 
                     {
@@ -261,15 +264,24 @@ function handleForm()
              else
             { 
                  echo "<div class=\"berichtAcc\">";
-                 echo "U moet wel een echt wachtwoord invullen!</div><br>";
-                showForm();
+                 echo "U moet wel een wachtwoord invullen!</div><br>";
+                showForm($_SESSION['naam'], $_SESSION['passwd']);
             } 
         }   
          else
-            {  
-                echo "<div class=\"berichtAcc\">";
-                echo "U moet wel een naam en een wachtwoord invullen!</div><br>";
-                showForm();
+            { 
+                if($_POST['passwd'] != "")
+                {   
+                    echo "<div class=\"berichtAcc\">";
+                    echo "U moet wel een naam opgeven!</div><br>";
+                    showForm($_SESSION['naam'], $_SESSION['passwd']);
+                 }
+                 else
+                 {
+                     echo "<div class=\"berichtAcc\">";
+                     echo "U moet wel een naam en een wachtwoord invullen!</div><br>";
+                     showForm($_SESSION['naam'], $_SESSION['passwd']);
+                  }
             } 
     }
   
@@ -1841,6 +1853,7 @@ echo "</section>";
                         echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=16 $checkedRegio[15]> Eindhoven";
                 echo "</label>";
             echo "</div>";
+            echo "<div class=\"plaatspref\"></div> ";
         echo "</section>";
     echo "</section>";
  };

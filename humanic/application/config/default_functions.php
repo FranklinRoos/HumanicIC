@@ -34,16 +34,12 @@ function fHeader($pageNavId="1")
                         echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/slider.css\" type=\"text/css\"/>";
                         echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/slider.less\" type=\"text/css\"/>";
                         echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/fuikweb.css\" type=\"text/css\"/>";
-                        echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/newcss.css\" type=\"text/css\"/>";  
                         echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/half-slider.css\" type=\"text/css\"/>";
-                        echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/snipp1165.css\" type=\"text/css\"/>";
-                        echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/card.css\" type=\"text/css\"/>";
-
+                        
                         echo "<script src=\"https://code.jquery.com/jquery-2.2.4.min.js\"  ></script>";
                         echo  "<script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js\"></script>";
                         echo "<script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.1.1/bootstrap-slider.js\"></script>";
                         echo "<script src=\"".$GLOBALS['path']."assets/js/slider.js\" ></script>";
-                        //echo "<script src=\"".$GLOBALS['path']."assets/js/responsive-slider.js\" ></script>";
     
                         $path=$GLOBALS['path'];
                           //$path=substr_replace($path ,"",-1);
@@ -54,17 +50,17 @@ function fHeader($pageNavId="1")
                                                    location.replace('".$path."/application/modules/humanic-portal/login.php?idinuit='+idinuit);}
                                    -->
                                        </script>";
-                                echo "<script type=\"text/javascript\" src=\"assets/flash-flowplayer/flowplayer-3.2.13.min.js\"></script> 
-                                         <script type=\"text/javascript\" src=\"assets/flash-flowplayer/flowplayer.ipad-3.2.13.min.js\"></script>";
+                              /*  echo "<script type=\"text/javascript\" src=\"assets/flash-flowplayer/flowplayer-3.2.12.min.js\"></script> 
+                                         //<script type=\"text/javascript\" src=\"assets/flash-flowplayer/flowplayer.ipad-3.2.13.min.js\"></script>";
                                 echo "<style type=\text/css>";
                                        echo "#ps01 { width: 100%; height: 100%; position: absolute; top: 0; left: 0; }";
                                        echo ".videovak { position: relative; width: 100%; height: 0; padding-bottom: 62.5%; }";
-                               echo "</style>";
+                               echo "</style>"; */
                 echo "</div>";
            echo "</head>";  
      echo "<body>";
                 echo "<div id=\"contentwrapper\">";
-                            echo "<br><br><br><br>";
+                            echo "<br><br>";
                            echo "<div class=\"navbar-form pull-right\" id=\"inuitKnop\">";
                                       //checken op inloggen en de knop in/uitloggen tonen
                                        if (isSet($_SESSION["loginnaam"])) 
