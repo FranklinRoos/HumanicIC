@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 04 sep 2016 om 17:37
+-- Gegenereerd op: 06 sep 2016 om 04:56
 -- Serverversie: 5.6.24
 -- PHP-versie: 5.5.24
 
@@ -476,7 +476,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `twitter` varchar(80) NOT NULL,
   `facebook` varchar(80) NOT NULL,
   `motivatie` varchar(50) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `user`
@@ -501,7 +501,7 @@ INSERT INTO `user` (`user_id`, `user_inlognaam`, `user_wachtwoord`, `user_author
 (18, 'Mike', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'michael_mitrasing@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-30', '13:08:51', '2016-08-10', 'Mitrasing', '', 'Michael', '', '', '', '', '', '0629359610', '57aa65c9dea97.jpg', '', '0000-00-00', 4500, 'WW', '0000-00-00', 'ICT', '', 'ja', 'ja', 0, '																			', 'https://nl.linkedin.com/in/michael-mitrasing-257a272/nl', '', 'https://www.facebook.com/cindy.enmichael?fref=ts', 'mot1'),
 (19, 'Jurgen', '8bdc0a760490ca729fa9d4711ca70893', 'usr', '', 'yes', 'no', '', '', 'n', '2016-08-12', '21:12:13', '2016-08-11', 'Dion de Clercq', '', 'Jurgen', '', '', '', '', 'North Fort Myers, Florida', '0629359610', '57ace1247ceb2.jpg', '57ace1339eb03.txt', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '									', 'https://www.linkedin.com/in/jurgendeclercq/nl', 'https://twitter.com/datahousedc', 'https://www.facebook.com/profile.php?id=574775694&fref=ts', 'mot1'),
 (20, 'Mohamed', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'aitmesss@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-21', '01:38:29', '2016-08-14', 'Ait Mesaoud', '', 'Mohamed', 'Mohamedstraat', '5', 'huis', '1015bt', 'Amsterdam', '0629359610', '57b065f65d167.jpg', '', '0000-00-00', 3500, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '		', 'https://nl.linkedin.com/in/mohamed-ait-messaoud-28509a14/nl', 'https://twitter.com/Aitmesss', 'https://www.facebook.com/mohamed.aitmessaoud?fref=ts', ''),
-(21, 'Pedro', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'pedro_calado@hotmail.com', 'yes', 'no', '', '', 'n', '2016-09-04', '03:49:53', '2016-08-14', 'Calado', '', 'Pedro', '', '', '', '', '', '0629359610', '57b0995c04bb8.jpg', '', '1960-03-21', 4500, 'Wajong', '2017-12-28', 'ICT', '', 'ja', 'ja', 35, '	geef mij maar paella								', 'https://nl.linkedin.com/in/pedrocalado/nl', '', '', ''),
+(21, 'Pedro', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'pedro_calado@hotmail.com', 'yes', 'no', '', '', 'n', '2016-09-05', '23:07:53', '2016-08-14', 'Calado', '', 'Pedro', '', '', '', '', '', '0629359610', '57b0995c04bb8.jpg', '', '1960-03-21', 4500, 'Wajong', '2017-12-28', 'ICT', '', 'ja', 'ja', 35, '	geef mij maar paella								', 'https://nl.linkedin.com/in/pedrocalado/nl', '', '', ''),
 (22, 'Orlando', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'orlando_neira@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-21', '14:15:22', '2016-08-14', 'Neira', '', 'Orlando', '', '', '', '', '', '0629359610', '57b0a5514612c.jpg', '', '0000-00-00', 6500, 'WW', '2018-08-23', 'ICT', '', 'nee', 'nee', 0, '	Hello , ik ben Orlando						', 'https://co.linkedin.com/in/orlando-neira-s-6384252b/nl', '', 'https://www.facebook.com/orlyneira?fref=ts', ''),
 (23, 'clemo', '8bdc0a760490ca729fa9d4711ca70893', 'usr', '', 'yes', 'no', '', '', 'n', '2016-08-14', '19:18:18', '2016-08-14', 'Roos', '', 'Clemens', '', '', '', '', '', '0629359610', '57b0a7c14bebf.jpg', '', '0000-00-00', 9000, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '			', 'https://www.linkedin.com/in/clemens-roos-3b19018/nl', '', '', 'mot1'),
 (24, 'Germaine', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'germaine_oostwijk@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-21', '14:15:49', '2016-08-14', 'Oostwijk', '', 'Germaine', '', '', '', '', '', '0629359610', '57b0a9bbccf5e.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '	halloooooooo		', 'https://www.linkedin.com/in/germaine-oostwijk-42203718/nl', '', '', ''),
@@ -523,9 +523,10 @@ INSERT INTO `user` (`user_id`, `user_inlognaam`, `user_wachtwoord`, `user_author
 (40, 'Ricardo', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'ricardo_geerlings@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-14', '21:55:22', '2016-08-14', 'Geerlings', '', 'Ricardo', '', '', '', '', '', '0629359610', '57b0ccbce40f9.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '	', '', '', '', ''),
 (41, 'Ben', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'benVDriel@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-14', '21:59:21', '2016-08-14', 'Driel', 'van', 'Ben', '', '', '', '', '', '0629359610', '57b0cda7ae6d9.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '	', '', '', '', ''),
 (42, 'Melvin', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'melvin_seymonson@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-14', '22:02:27', '2016-08-14', 'Seymonson', '', 'Melvin', '', '', '', '', '', '0629359610', '57b0ce63b482e.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '	', '', '', '', ''),
-(43, 'Karel', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'karel_bal@hotmail.com', 'yes', 'no', '', '', 'n', '2016-09-01', '13:36:21', '2016-08-14', 'Bal', '', 'Karel', '', '', '', '', '', '0629359610', '57b0cf3278ab3.jpg', '', '1958-02-15', 5600, 'WW', '2018-07-06', 'ICT', '', 'ja', 'ja', 35, '			laterzzzzzzzzzzzzzz								', '', '', '', ''),
+(43, 'Karel', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'karel_bal@hotmail.com', 'yes', 'no', '', '', 'n', '2016-09-06', '04:33:51', '2016-08-14', 'Bal', '', 'Karel', '', '', '', '', '', '0629359610', '57b0cf3278ab3.jpg', '', '1958-02-15', 5600, 'WW', '2018-07-06', 'ICT', '', 'ja', 'ja', 35, '			laterzzzzzzzzzzzzzz								', '', '', '', ''),
 (44, 'Max', '8bdc0a760490ca729fa9d4711ca70893', 'usr', '', 'yes', 'no', '', '', 'n', '2016-08-14', '22:08:20', '2016-08-14', 'Cilinder', '', 'Max', '', '', '', '', '', '0629359610', '57b0cfbf7ab88.jpg', '', '0000-00-00', 0, 'WW', '0000-00-00', 'ICT', '', 'nee', 'nee', 0, '	', '', '', '', 'mot1'),
-(45, 'Randy', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'randy_mauricia@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-18', '21:49:58', '2016-08-16', 'Mauricia', '', 'Randy', '', '', '', '', '', '062935178', '57b61226ae4f8.jpg', '', '0000-00-00', 3400, 'WW', '2017-09-25', 'ICT', '', 'ja', 'ja', 0, '	Fw	', '', '', '', '');
+(45, 'Randy', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'randy_mauricia@hotmail.com', 'yes', 'no', '', '', 'n', '2016-08-18', '21:49:58', '2016-08-16', 'Mauricia', '', 'Randy', '', '', '', '', '', '062935178', '57b61226ae4f8.jpg', '', '0000-00-00', 3400, 'WW', '2017-09-25', 'ICT', '', 'ja', 'ja', 0, '	Fw	', '', '', '', ''),
+(71, 'pablo', '8bdc0a760490ca729fa9d4711ca70893', 'usr', 'rosapaco@hotmail.com', 'no', 'no', '57ce1d7f458b9', '', 'n', '0000-00-00', '00:00:00', '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', '0000-00-00', 0, '', '0000-00-00', 'ICT', '', 'ja', 'ja', 0, '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -1000,7 +1001,7 @@ ALTER TABLE `sector`
 -- AUTO_INCREMENT voor een tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=46;
+  MODIFY `user_id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=72;
 --
 -- AUTO_INCREMENT voor een tabel `user_bedrijf`
 --

@@ -6,7 +6,6 @@ function fHeader($pageNavId="1")
     echo "<!DOCTYPE html>";
     echo "<html lang=\"en\">";
            echo "<head>";
-                echo "<div id =\"header\" role=\"banner\">";
                         echo "<meta charset=\"utf-8\">";
                         echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">";
                         echo "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">";
@@ -42,18 +41,15 @@ function fHeader($pageNavId="1")
                         echo "<script src=\"".$GLOBALS['path']."assets/js/slider.js\" ></script>";
     
                         $path=$GLOBALS['path'];
-                          //$path=substr_replace($path ,"",-1);
-                          //echo "<script src=\"$path/jquery-1.11.3.min.js\"></script>
                                 echo " <script type=\"text/javascript\">
                                    <!--
                                            function inofuitLoggen(idinuit) {
                                                    location.replace('".$path."/application/modules/humanic-portal/login.php?idinuit='+idinuit);}
                                    -->
                                        </script>";
-                echo "</div>";
            echo "</head>";  
      echo "<body>";
-     echo "<div class=\"push\"></div>";
+
 }
 
 function fFooter($pageNavId="1")

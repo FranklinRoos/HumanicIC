@@ -124,6 +124,7 @@ h2.welkom {
 }
 
 body{
+    margin-top: 80px;
     background-color: 	#e6e6e6;	/* border:	2px solid red; */	
 }
 
