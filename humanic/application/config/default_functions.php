@@ -50,41 +50,10 @@ function fHeader($pageNavId="1")
                                                    location.replace('".$path."/application/modules/humanic-portal/login.php?idinuit='+idinuit);}
                                    -->
                                        </script>";
-                              /*  echo "<script type=\"text/javascript\" src=\"assets/flash-flowplayer/flowplayer-3.2.12.min.js\"></script> 
-                                         //<script type=\"text/javascript\" src=\"assets/flash-flowplayer/flowplayer.ipad-3.2.13.min.js\"></script>";
-                                echo "<style type=\text/css>";
-                                       echo "#ps01 { width: 100%; height: 100%; position: absolute; top: 0; left: 0; }";
-                                       echo ".videovak { position: relative; width: 100%; height: 0; padding-bottom: 62.5%; }";
-                               echo "</style>"; */
                 echo "</div>";
            echo "</head>";  
      echo "<body>";
-                echo "<div id=\"contentwrapper\">";
-                            echo "<br><br>";
-                           echo "<div class=\"navbar-form pull-right\" id=\"inuitKnop\">";
-                                      //checken op inloggen en de knop in/uitloggen tonen
-                                       if (isSet($_SESSION["loginnaam"])) 
-                                            {
-                                                 $date = $_SESSION['user_sinds'];//(yyyy-mm-dd)
-                                                 $datesplit = explode('-',$date);
-                                                 $maanden = array('jan','feb','maart','april','mei','juni','juli','aug','sep','okt','nov','dec');
-                                                 $datum = ($datesplit[2]*1)."-".$maanden[$datesplit[1]-1]."-".$datesplit[0];//de index bij $maanden[$datesplit[1] wordt met 1 verminderd omdat de array '$maanden' met 0 begint      
-                                                 echo "<input type =\"button\" id=\"login\" onclick=\"inofuitLoggen(0)\" value=\"Uitloggen\" class=\"btn\"></button>";
-                            echo "</div>"; 
-                           echo "<div class=\"navbar-form pull-right\">";
-                                       echo "<div id=\"inlognaam\"><a class=\"inlognm\">";
-                                                  echo "".ucfirst($_SESSION["loginnaam"])."</a><br/>";      
-                                                  echo "<a class=\"regsinds\">Registreerd sinds: ".$datum."</a>";
-                                       echo "</div>";
-                        echo "</div>" ;
-                                           } 
-                                       else
-                                           {
-                                                echo "<input type =\"button\" id=\"login\" onclick=\"inofuitLoggen(1)\" value=\"Inloggen\" class=\"btn\"></button></div>";
-                                           }
-                           echo "</form>"; 
-                          echo "<div class=\"push\"></div>";
-                echo "</div>";
+     echo "<div class=\"push\"></div>";
 }
 
 function fFooter($pageNavId="1")
@@ -110,12 +79,12 @@ function fFooter($pageNavId="1")
                                                   if ($row['nav_id']==$pageNavId)
                                                          {
                                                               //echo "<li role=\"presentation\" class=\"active\"><a href=\"".$GLOBALS['path'].$row['nav_url']."\">".$row['nav_naam']."</a></li>";
-                                                              echo "<li role=\"presentation\" >".$row['nav_naam']."</a></li>";
+                                                              echo "<li role=\"presentation\" >".$row['nav_naam']."</li>";
                                                           } 
                                                   else
                                                         {
                                                               //echo "<li role=\"presentation\"><a href=\"".$GLOBALS['path'].$row['nav_url']."\">".$row['nav_naam']."</a></li>";
-                                                              echo "<li role=\"presentation\">".$row['nav_naam']."</a></li>";
+                                                              echo "<li role=\"presentation\">".$row['nav_naam']."</li>";
                                                          }
                                             }
                                        echo "<div class=\"merk\">Copyright (c) 2016 Humanic Development BV</div>";
@@ -150,11 +119,8 @@ function footer()
 function navigatie($pageNavId="1")
 {
     global $connection;
-    
-    //echo "<nav class=\"navbar navbar-inverse navbar-fixed-top\">";
-    //echo "<nav class=\"navbar navbar-inverse navbar-fixed-top\">";
- echo "<nav class=\"navbar navbar-inverse \">";
-    echo "<div class=\"container\" id=\"navBalk\">";
+     //echo "<nav class=\"navbar navbar-inverse navbar-fixed-top\" id=\"navBalk\">";
+        echo "<nav class=\"navbar navbar-inverse navbar-fixed-top\" id=\"navBalk\">";
                  echo "<button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">";
                        echo "<span class=\"sr-only\">Toggle navigation</span>";
                        echo "<span class=\"icon-bar\"></span>";
@@ -163,7 +129,7 @@ function navigatie($pageNavId="1")
                  echo "</button>";
                 echo"<div id=\"hlogo\">";
                        echo "<a class=\"navbar-brand\"  href=\"".$GLOBALS['path']."index.php\">";//echo"div hlogo doet dit";
-                            echo "<img src=\"".$GLOBALS['path']."assets/images/header2.png\" alt=\"humanic-logo\" width=\"140\" height=\"50\" </a>";
+                            echo "<img src=\"".$GLOBALS['path']."assets/images/header2.png\" alt=\"humanic-logo\" width=\"140\" height=\"45\" </a>";
                        echo "</a>";
                echo "</div>";
                echo "<ul class=\"nav navbar-nav\" id=\"navItems\">";
@@ -203,9 +169,33 @@ function navigatie($pageNavId="1")
 
                   echo "</li>";
              echo "</ul>";
-    echo "</div>";
- echo "</nav>";
-  
+    //echo "</div>";
+             //toegevoegd op ma 5 sept
+              echo "<div id=\"inuitBlok\">";
+                           echo "<div class=\"navbar-form pull-right\" id=\"inuitKnop\">";
+                                      //checken op inloggen en de knop in/uitloggen tonen
+                                       if (isSet($_SESSION["loginnaam"])) 
+                                            {
+                                                 $date = $_SESSION['user_sinds'];//(yyyy-mm-dd)
+                                                 $datesplit = explode('-',$date);
+                                                 $maanden = array('jan','feb','maart','april','mei','juni','juli','aug','sep','okt','nov','dec');
+                                                 $datum = ($datesplit[2]*1)."-".$maanden[$datesplit[1]-1]."-".$datesplit[0];//de index bij $maanden[$datesplit[1] wordt met 1 verminderd omdat de array '$maanden' met 0 begint      
+                                                 echo "<input type =\"button\" id=\"login\" onclick=\"inofuitLoggen(0)\" value=\"Uitloggen\" class=\"btn\"></button>";
+                           echo "</div>"; 
+                           echo "<div class=\"navbar-form pull-right\">";
+                                       echo "<div id=\"inlognaam\"><a class=\"inlognm\">";
+                                                  echo "".ucfirst($_SESSION["loginnaam"])."</a><br/>";      
+                                                  echo "<a class=\"regsinds\">Registreerd sinds: ".$datum."</a>";
+                                       echo "</div>";
+                        echo "</div>" ;
+                                           } 
+                                       else
+                                           {
+                                                echo "<input type =\"button\" id=\"login\" onclick=\"inofuitLoggen(1)\" value=\"Inloggen\" class=\"btn\"></button></div>";
+                                           }
+                           echo "</form>"; 
+            echo "</div>";      
+    echo "</nav>"; 
     
 }
 

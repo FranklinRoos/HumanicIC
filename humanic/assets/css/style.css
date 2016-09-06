@@ -150,11 +150,14 @@ h6 {
     display: inline;
 }
 
-
 .adres {
     float: left;
     font-weight: bold;
     color: orange;
+}
+
+.adresR {
+	color: blue;
 }
 
 #groep {
@@ -630,7 +633,7 @@ div.bericht h3 {
 }
 
 h4.regdata {
-    
+    text-align: center;
     color: black;
 }
 
@@ -753,7 +756,7 @@ div#middle {
 
 .gegevens{
     color: purple;
-	padding: 10px;
+    padding: 10px;
     border: 1px solid #C9E5F3;
     background-color: #CCCCA3;
 }

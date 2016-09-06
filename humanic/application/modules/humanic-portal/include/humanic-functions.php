@@ -423,144 +423,136 @@ function handleAanmeldForm()
     {
         global $connection;
       
-      if (isSet($_POST['regsubmit']) && isSet($_POST["regpasswd1"]) && $_POST["regpasswd1"] !=""
+          if (isSet($_POST['regsubmit']) && isSet($_POST["regpasswd1"]) && $_POST["regpasswd1"] !=""
                 && isSet($_POST["regpasswd2"]) && $_POST["regpasswd2"] !=""
                 && isSet($_POST["reglogin"]) && $_POST["reglogin"] !="")
-       {  
+               {  
 
-        // Initialiseer fout variabelen
-        global $fout;
-        $fout=FALSE;
-        $naam_fout=False;
-        $email_fout=FALSE;
-        $naamdouble_fout=FALSE;
-        $emailsyntax_fout=FALSE;
-        $emaildouble_fout=FALSE;
+                       // Initialiseer fout variabelen
+                       global $fout;
+                       $fout=FALSE;
+                       $naam_fout=False;
+                       $email_fout=FALSE;
+                       $naamdouble_fout=FALSE;
+                       $emailsyntax_fout=FALSE;
+                       $emaildouble_fout=FALSE;
 
-        // controleer op fouten
-        if ($_POST["reglogin"] == "")
-	{
-	    $fout=TRUE;
-	    $naam_fout=TRUE;
-	}
+                         // controleer op fouten
+                         if ($_POST["reglogin"] == "")
+	            {
+	                $fout=TRUE;
+	                $naam_fout=TRUE;
+	             }
 
-	if ($_POST["emailuser"] == "")
-	{
-	    $fout=TRUE;
-	    $email_fout=TRUE;
-	}
+	         if ($_POST["emailuser"] == "")
+	            {
+	                $fout=TRUE;
+	                $email_fout=TRUE;
+	            }
         
-        $controle = check_email($_POST['emailuser']);//returncode van de functie check_email($email)is false of true  
-        if($controle == false)
-               {
-                  $fout=TRUE;
-                  $emailsyntax_fout=TRUE;
-                } 
+                         $controle = check_email($_POST['emailuser']);//returncode van de functie check_email($email)is false of true  
+                          if($controle == false)
+                              {
+                                   $fout=TRUE;
+                                   $emailsyntax_fout=TRUE;
+                               } 
         
-        $usrdouble = getUsername($_POST['reglogin']);
-        if ($usrdouble==true)
-               {
-                  $fout=TRUE;
-                  $naamdouble_fout=TRUE;
-               }
-                  // controleer of er fouten zijn
-       if($fout)
-          {
-                       // er zijn fouten
-            // geef het lijstje van fouten
-            echo "<div class=\"berichtAcc\">";
-                  echo "<UL><h4>";
-                      echo ($naam_fout?"<li>U heeft geen loginnaam ingevuld</li>":"");
-                      echo ($naamdouble_fout?"<li>Deze naam is al in gebruik</li>":"");
-                      echo ($email_fout?"<li><em>U heeft geen e-mailadres ingevuld</em></li>":"");
-                      echo ($emailsyntax_fout?"<li><em>U heeft geen geldig email-adres ingevuld</em></li>":"");   
-                      echo ($emaildouble_fout?"<li><em>Dit email-adres wordt al gebruikt</em></li>":"");      
-                 echo "</h4></UL>";
-            echo "</div>";
-            // Geef het formulier opnieuw
-            showAanmeldForm($naam="",$email="");
-            
-            
-               }
-             else
-                {
-                   // er zijn geen fouten
-                  echo "<h4 class=\"regdata\">Uw login gegevens:</h4><hr>";
-                  echo"<table class=\"gegevens\">";
-                  echo "<tr><td>Loginnaam:</td><td><h5> ".$_POST["reglogin"]."</h5></td></tr>";
-                  echo "<tr><td>E-Mail:</td><td><h5> ".$_POST['emailuser']."</h5></td></tr>";
-                  echo "</table>";
-                  
-                  $_SESSION['loginnaam']= ucfirst($_POST['reglogin']);    
-                // controle op dezelfde wachtwoorden (typfoutencheck)
-                if ($_POST['regpasswd1']==$_POST['regpasswd2'])
-                {
-                    $_SESSION['regpasswd']=$_POST['regpasswd1'];
-                    $code=uniqid(); // deze moet je zelf ook hebben om op te kunnen controleren later 
-                    $_SESSION['code'] = $code;
-                    reglinkVerzenden ($_POST['emailuser'],$_POST['regpasswd1'],$_SESSION['code']);
-                   //else //emailadres is correct
-                       
-                               $servername = "localhost:7777";
-                               $username = "root";
-                               $password = "123";
-                               $dbname = "kandidaten";
+                         $usrdouble = getUsername($_POST['reglogin']);
+                         if ($usrdouble==true)
+                             {
+                                 $fout=TRUE;
+                                 $naamdouble_fout=TRUE;
+                             }
+                             
+                         $emaildouble = getUseremail($_POST['emailuser']);
+                          if($emaildouble == true)
+                             { 
+                                    $fout=TRUE;
+                                    $emaildouble_fout=TRUE;
+                              }
+                                 // controleer of er fouten zijn
+                         if($fout)
+                            {
+                                  // er zijn fouten
+                                  // geef het lijstje van fouten
+                                  echo "<div class=\"berichtAcc\">";
+                                        echo "<UL><h4>";
+                                             echo ($naam_fout?"<li>U heeft geen loginnaam ingevuld</li>":"");
+                                             echo ($naamdouble_fout?"<li>Deze naam is al in gebruik</li>":"");
+                                             echo ($email_fout?"<li><em>U heeft geen e-mailadres ingevuld</em></li>":"");
+                                             echo ($emailsyntax_fout?"<li><em>U heeft geen geldig email-adres ingevuld</em></li>":"");   
+                                             echo ($emaildouble_fout?"<li><em>Dit email-adres wordt al gebruikt</em></li>":"");      
+                                        echo "</h4></UL>";
+                                 echo "</div>";
+                                         // Geef het formulier opnieuw
+                                        showAanmeldForm($naam="",$email="");       
+                             }
+                         else
+                            {               
+                                    // controle op dezelfde wachtwoorden (typfoutencheck)
+                                  if ($_POST['regpasswd1']===$_POST['regpasswd2'])
+                                        {
+                                                    // er zijn geen fouten
+                                                  echo "<h4 class=\"regdata\">Uw login gegevens:</h4>";
+                                                  echo"<table class=\"gegevens\">";
+                                                  echo "<tr><td>Loginnaam:</td><td><h5> ".$_POST["reglogin"]."</h5></td></tr>";
+                                                  echo "<tr><td>E-Mail:</td><td><h5> ".$_POST['emailuser']."</h5></td></tr>";
+                                                  echo "</table>";   
+                                                  $_SESSION['loginnaam']= ucfirst($_POST['reglogin']);              
+                                                  $_SESSION['regpasswd']=$_POST['regpasswd1'];
+                                                  $code=uniqid(); // deze moet je zelf ook hebben om op te kunnen controleren later 
+                                                  $_SESSION['code'] = $code;
+                                                  reglinkVerzenden ($_POST['emailuser'],$_POST['regpasswd1'],$_SESSION['code']);
+                     
+                                                   $servername = "localhost:7777";
+                                                   $username = "root";
+                                                   $password = "123";
+                                                   $dbname = "kandidaten";
                     
-                    $sql = mysqli_query($connection, "INSERT INTO user (`user_inlognaam`, `user_wachtwoord`,`user_email`,`activ_code`)
-                        VALUES ('".$_POST['reglogin']."', '".md5($_POST['regpasswd1'])."', '".$_POST['emailuser']."', '".$_SESSION['code']."')");
-                    if (mysqli_affected_rows($connection)==0)
-                    {
-                        //de gegevens zijn niet toegevoegd.
-                        echo "error adding info, try again later";
-                    } 
-                    else
-                    {
-                        
-                       session_destroy();
-                      /* echo "<div id=\"welkomPieter\">";
-                       echo "<h3> U bent nu een stap verwijderd van registratie!<br>";
-                       echo "Er is een email naar ".$_POST['emailuser']." verzonden met een activeringslink,<br> ";
-                       echo "u kunt <a href=\"login.php\"> inloggen</a> nadat u hierop heeft geklikt,</h3></div>";
-                       echo "";*/
-                       echo "<h4 class=\"regdata\">";
-                       echo "Nadat u bent ingelogd kunt u verder gaan met de registratie<br>";
-                       echo "Er is een email verzonden naar  ".$_POST['emailuser']." met een activatie link,<br>";
-                       echo "u kunt<a href=\"login.php\"> inloggen </a> nadat u hierop heeft geklikt.";
-                       echo "</h4>";
-                       /* echo "<script type=\"text/javascript\">
-                    window.location = \"".$GLOBALS['path']."/application/modules/psinfoportal/verify.php\"
-                    </script>";  */
-                       
-                       
-                       
-                     //  reglinkVerzenden($_POST['reglogin'],$_POST['regpasswd1'],$_POST['emailuser']);
-                    //echo "U bent nu bij ons geregistreerd.<br/>";
-                    //echo "U kunt <a href=\"login.php\"> hier </a> nu inloggen<br>"; 
-                    }
-                }    
-                  
-                   else
-                    {  
-                       echo "<div class=\"berichtAcc\">";
-                                 echo "De wachtwoorden komen niet overeen, probeer het nogmaals!</div><br>";
-                    showAanmeldForm($naam="",$email="");
-                    }
-               }
-          } 
-          else
-              if ($_POST["reglogin"] == "")
-              {
-                  echo "<div class=\"berichtAcc\">";
-                      echo "<h4>U heeft geen loginnaam ingevuld</h4>";
-                  echo  "</div>";
-                  showAanmeldForm($naam="",$email="");
-              }
-              else
-                { 
-                  echo "<div class=\"berichtAcc\">";
-                  echo "U moet wel een naam en 2x hetzelfde wachtwoord invullen!</div><br>";
-                  showAanmeldForm($naam="",$email="");
+                                                  $sql = mysqli_query($connection, "INSERT INTO user (`user_inlognaam`, `user_wachtwoord`,`user_email`,`activ_code`)
+                                                     VALUES ('".$_POST['reglogin']."', '".md5($_POST['regpasswd1'])."', '".$_POST['emailuser']."', '".$_SESSION['code']."')");
+                                                      if (mysqli_affected_rows($connection)==0)
+                                                           {
+                                                                  //de gegevens zijn niet toegevoegd.
+                                                                echo "error adding info, try again later";
+                                                            } 
+                                                     else
+                                                          {                        
+                                                                session_destroy();
+                                                                echo "<div id=\"regInfo\">";
+                                                                     echo "<h5 class=\"regdata\">";
+                                                                              echo "Nadat u bent ingelogd kunt u verder gaan met de registratie<br>";
+                                                                              echo "Er is een email verzonden naar  ".$_POST['emailuser']." met een activatie link,<br>";
+                                                                              echo "u kunt<a href=\"login.php\"> inloggen </a> nadat u hierop heeft geklikt.";
+                                                                     echo "</h5>";
+                                                                echo "</div>";
+                                                                
+                                                           }
+        
+                                        }                   
+                                     else
+                                        {  
+                                                echo "<div class=\"berichtAcc\">";
+                                                echo "De wachtwoorden komen niet overeen, probeer het nogmaals!</div><br>";
+                                                showAanmeldForm($naam="",$email="");
+                                        }
+                                }
                 } 
+               else
+                 if ($_POST["reglogin"] == "")
+                     {
+                          echo "<div class=\"berichtAcc\">";
+                               echo "<h4>U heeft geen loginnaam ingevuld</h4>";
+                          echo  "</div>";
+                          showAanmeldForm($naam="",$email="");
+                      }
+                 else
+                     { 
+                          echo "<div class=\"berichtAcc\">";
+                          echo "U moet wel een naam en 2x hetzelfde wachtwoord invullen!</div><br>";
+                          showAanmeldForm($naam="",$email="");
+                    }
+           fFooter($pageNavId=1);         
     } 
    
 function getUsername($usernaam) //controle op dubbele loginnaam

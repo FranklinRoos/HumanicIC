@@ -47,10 +47,10 @@ and open the template in the editor.
                      `activ_code`='".$code."', `datum_gezien`='".$laatsgezien."',
                      `tijdstip_gezien`='".$laatsgezienTijdstip."', `user_sinds`= '".$laatsgezien."' WHERE `user_id`=$user");
                      
-                     
-                             echo "Uw account is nu actief<br>";
-                             echo "U kunt nu <a href=\"kandidaat.php\"> het kandidaat formulier </a> invullen<br>";
-                       //  }
+                       echo "<div class=\"berichtAcc\">";
+                             echo "<h4>Uw account is nu actief<br>";
+                             echo "U kunt nu <a href=\"login.php\">inloggen </a>en het kandidaat formulier  invullen</h4><br>";
+                       echo  "</div>";
                  }
                   
          }

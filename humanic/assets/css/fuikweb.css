@@ -3,10 +3,6 @@
 	Datum		: 01-07-2016 
 */
 
-.berichtAcc {
-       text-align: center;
-       color: red;
-}
 
 .merk {
 	
@@ -60,6 +56,10 @@ ul#footerNav li {
     float: left;
     font-weight: bold;
     color: orange;
+}
+
+.adresR {
+   color: #66a3ff;
 }
 
 
@@ -481,15 +481,14 @@ div#navbarpullright {
 	height: 52px;
 }
 
+
+#inuitBlok {
+    margin-top: 1%;
+}
+
 #navBalk {
-    margin-top: -70px;
-    margin-left:0px;
-    margin-right: 10px;
-    /*background-color: #f5f5f0;*/
     background-color: #f5f5f0; /* kleur van de navigatiebalk */
-    /*background-color:#e6faff ;*/ /* kleur van de navigatiebalk */
-    width: 100%;
-   opacity: 0.9;
+    opacity: 0.9;
 }
 
 #navItems {
@@ -527,6 +526,46 @@ ul#navItems {
     margin-bottom:0px;
     margin-left:10%;
 }
+
+/* onderstaande css heeft effect op de registratie data in en is gebruikt in de functie handleAanmeldForm(humanic-functions.php) */
+/* toegevoegd op di 6 sept. Ron dit mag je wat opmaak betreft ook aanpassen, mij ging het op de postionering */
+.berichtAcc { 
+       text-align: center;
+       color: red;
+}
+
+#regInfo {
+    float: left;
+    margin-left: 28%;
+    padding-top: 35px;
+    padding-bottom: 35px;
+    width:45%;
+    clear: both;
+}
+
+h4.regdata{
+    text-align: center;
+    color: black;
+}
+
+h5.regdata {
+    font-weight: bold;
+    text-align: center;
+    color: black;
+    background-color:#f2ffcc;
+}
+
+.gegevens{
+    color: black;
+    padding: 10px;
+    border: 1px solid #C9E5F3;
+    background-color: #e6e6ff;
+    float: left;
+    margin-left:45%;
+}
+/* einde van de css die effect heeft op de registratie data */
+
+
 .reg {
     color: #ff9900;
 }
@@ -548,7 +587,6 @@ table#login {
     
     color: black;
 }
-
 
 input#login {
     /*background-image: linear-gradient(to bottom,#FFCC99 0,#ffb72a 100%);*/
