@@ -30,7 +30,7 @@ function handleModifyAccount ($naam,$email)
 {
     global  $connection;
             
-    if(md5(trim($_POST['modpasswd1']))==md5(trim($_POST['modpasswd2'])))
+    if(($_POST['modpasswd1'] != "" && $_POST['modpasswd2'] != "")&&(md5(trim($_POST['modpasswd1']))==md5(trim($_POST['modpasswd2']))))
     {
         $sql = mysqli_query($connection, "UPDATE `user` SET `user_wachtwoord`='".md5(trim($_POST['modpasswd1']))."' WHERE `user_inlognaam`= '".$_SESSION['loginnaam']."'");
         echo "".ucfirst($_SESSION["loginnaam"]).",je wachtwoord is gewijzigd<br>";    
