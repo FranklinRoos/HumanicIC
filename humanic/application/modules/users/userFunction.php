@@ -43,8 +43,6 @@ function overzicht()
         die("<i>Nog geen users aanwezig !</i>");
     }
         //$GLOBALS['path']="http://www.pieterspierenburg.com/psinfo/";
-        $GLOBALS['path']="http://localhost:7777/humanic/";
-        global $path;
      /*   echo "<h3 align=center>Overzicht Geregistreerde Gebruikers</h3>";
         echo "<table id=\"edit\" cellpadding=\"3\" cellspacing=\"3\" >";
         echo "<tr>";
@@ -114,7 +112,7 @@ function overzicht()
 
 	while ($bericht = mysqli_fetch_object($objecten)) 
         {
-            $imagepath=$GLOBALS['path']."assets/images/";
+            global $imagepath;
             echo "<tr>";
            // echo "<td width=\"50\" align=\"left\"><a href=\"".$_SERVER['PHP_SELF']."?user_id=".$bericht->user_id."\">edit</a></td>";
             echo "<td>".utf8_encode("<img width=\"70\" height=\"80\" style=\"margin: 5px;\" src=\"$imagepath").utf8_encode($bericht->foto).".jpg\" /></td>";

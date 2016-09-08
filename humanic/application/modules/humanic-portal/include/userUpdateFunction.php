@@ -11,8 +11,6 @@ function overzicht()
         die("<i>Nog geen users aanwezig !</i>");
     }
 
-        $GLOBALS['path']="http://localhost:7777/humanic/";
-        global $path;  
         global $imagepath;
         
         //Hier onder gebruik het formulier uit de registratie om de kandidaat gegevens te tonen, toegevoegd op zat 16juli
@@ -507,7 +505,6 @@ function overzicht()
 
 	while ($bericht = mysqli_fetch_object($objecten)) 
         {
-            $imagepath=$GLOBALS['path']."assets/images/";
             echo "<tr>";
             echo "<td width=\"50\" align=\"left\"><a href=\"".$_SERVER['PHP_SELF']."?user_id=".$bericht->user_id."\">edit</a></td>";
             echo "<td>".utf8_encode("<img width=\"60\" height=\"60\" style=\"margin: 5px;\" src=\"$imagepath").utf8_encode($bericht->foto).".jpg\" /></td>";

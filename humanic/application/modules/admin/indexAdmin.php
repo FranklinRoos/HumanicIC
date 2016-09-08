@@ -35,9 +35,9 @@ if(isset($_SESSION['loginnaam']))
  elseif(!isset($_SESSION['loginnaam'])) 
      {
      
-     echo "<br /><div class=\"bericht\"><h2 align=center>Dit is de website van HumanicIC</h2>";
-    echo "<br /><h3>U heeft niet de juiste rechten of bent nog niet <a href=\"../humanic-portal/login.php\"> ingelogd</a> te zijn</h3></div>";
-    fFooter();
+    echo "<br /><div class=\"bericht\"><h2 align=center>Dit is de website van HumanIC</h2>";
+    echo "<br /><h3>U heeft niet de juiste rechten of bent nog niet <a href=\"".$GLOBALS['modulespath']."humanic-portal/login.php\"> ingelogd</a></h3></div>";
+    fFooter(); 
      
     }
 

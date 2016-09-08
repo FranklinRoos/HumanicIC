@@ -50,7 +50,7 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
       else
          {
              echo "<script type=\"text/javascript\">
-           window.location = \"".$GLOBALS['path']."/application/modules/admin/indexAdmin.php\"
+           window.location = \"".$GLOBALS['apppath']."/application/modules/admin/indexAdmin.php\"
             </script>";
          }
          
@@ -107,13 +107,13 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
                                              {
                                                      $_SESSION["suc6login"] = "suc6login";*/
                                                 echo "<script type=\"text/javascript\">
-                                                                window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/kandidaat.php\"
+                                                                window.location = \"".$GLOBALS['apppath']."/application/modules/humanic-portal/kandidaat.php\"
                                                         </script>";     
                                         // }
                        // }
                                  /*    $_SESSION["suc6login"] = "suc6login";
                                      echo "<script type=\"text/javascript\">
-                                    window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/login.php\"
+                                    window.location = \"".$GLOBALS['apppath']."/application/modules/humanic-portal/login.php\"
                                      </script>"; */
                         }
                  }

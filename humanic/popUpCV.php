@@ -7,9 +7,8 @@ and open the template in the editor.
 
 <!--if(!isSet($_SESSION["user_authorisatie"]) OR  (isSet($_SESSION["user_authorisatie"]) && $_SESSION["user_authorisatie"] === "usr") &&  isSet($_SESSION["loginnaam"])){-->
 <?php
-    global $path;
-    echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/fuikweb.css\" type=\"text/css\"/>";
-    echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['path']."assets/css/style.css\" type=\"text/css\"/>";
+    echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['apppath']."assets/css/fuikweb.css\" type=\"text/css\"/>";
+    echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['apppath']."assets/css/style.css\" type=\"text/css\"/>";
     echo "<link rel=\"stylesheet\" href=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">";
     echo "<script src=\"https://code.jquery.com/jquery-2.2.4.min.js\"  ></script>";
     echo  "<script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js\"></script>";
