@@ -22,7 +22,7 @@ echo "<div class=\"container\">";
 if(!isset($_SESSION['loginnaam']))
 {
     echo "<script type=\"text/javascript\">
-           window.location = \"".$GLOBALS['path']."/application/modules/admin/indexAdmin.php\"
+           window.location = \"".$GLOBALS['apppath']."/application/modules/admin/indexAdmin.php\"
       </script>";
 }
 else

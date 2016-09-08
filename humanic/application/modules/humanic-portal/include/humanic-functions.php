@@ -111,7 +111,7 @@ function showForm($naam= "", $passwd="")
         echo "<form action='".htmlspecialchars($_SERVER["PHP_SELF"])."' method='post'>";
         echo "<table id=\"login\">";
         echo "<tr><td>Geef uw login naam:</td>";
-        echo "<td><input type='text' name='login' value= $naam></td></tr>";
+        echo "<td><input type='text' name='login' value=$naam></td></tr>";
         echo "<tr><td>&nbsp</td></tr>";
         echo "<tr id=\"loginnaam\" ><td>Geef uw wachtwoord:</td>";       
         echo "<td><input type='password' name='passwd' value=$passwd></td></tr>";
@@ -143,20 +143,20 @@ function handleForm()
             $datum=date("d ").$month.date(" Y")." om ".date("H:i")." uur";
             $_COOKIE['laatsteKeer']= $datum;
         }*/
-        
-        $_SESSION['passwd'] = $_POST['passwd'];;
+		
+		$_SESSION['passwd'] = $_POST['passwd'];
         $_SESSION['naam'] = $_POST['login'];
         if ($_POST['login']!="")
         {   // vraag het correcte login op
-            
            if ($_POST['passwd']!="")
             {   // vraag het correcte wachtwoord en de authorisatie op 
-                $auth = getAuthorisatie(strtolower($_POST['login']));//de auhtorisatie wordt hier opgevraagd
-                $_SESSION["user_authorisatie"] = $auth;
-                if($auth == 'admin')
+                
+           $auth = getAuthorisatie(strtolower($_POST['login']));//de auhtorisatie wordt hier opgevraagd
+           $_SESSION["user_authorisatie"] = $auth;
+             if($auth == 'admin')
                     {
                         echo "<script type=\"text/javascript\">
-                                    window.location = \"".$GLOBALS['path']."/application/modules/admin/indexAdmin.php\"
+                                    window.location = \"".$GLOBALS['apppath']."/application/modules/admin/indexAdmin.php\"
                                 </script>";                   
                     
                     }
@@ -224,7 +224,7 @@ function handleForm()
                              
                            //Terug naar het logon.php script  
                           echo "<script type=\"text/javascript\">
-                           window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/login.php\"
+                           window.location = \"".$GLOBALS['apppath']."/application/modules/humanic-portal/login.php\"
                            </script>";  
               
                         $sql = mysqli_query($connection, "SELECT * FROM `pages` WHERE `page_nav_id`=$pageNavId and `page_show` ='y'");
@@ -247,30 +247,31 @@ function handleForm()
                 }  
                  else
                  {
-                    echo "<b>Het systeem kon u niet inloggen, probeer het nogmaals!</b><br>";
+					 echo "<div class=\"berichtAcc\">";
+                    echo "Het systeem kon u niet inloggen, probeer het nogmaals!</div><br>";
                     $_SESSION["tellerInloggen"]++;
                     if ($_SESSION["tellerInloggen"]<4)
                     {
-                        showForm($_SESSION['naam'], $_SESSION['passwd']);
+                    showForm($_SESSION['naam'], $_SESSION['passwd']);
                     }
                     else 
                     {
-                           echo "<div class=\"berichtAcc\">"; 
-                           echo "Volgens geruchten mag u maar 3 keer inloggen!</div><br>";
+					  echo "<div class=\"berichtAcc\">";
+                      echo "Volgens geruchten mag u maar 3 keer inloggen!</div><br>";
                     }
                  }
                }
             }
              else
-            { 
-                 echo "<div class=\"berichtAcc\">";
-                 echo "U moet wel een wachtwoord invullen!</div><br>";
-                showForm($_SESSION['naam'], $_SESSION['passwd']);
-            } 
+               { 
+				  echo "<div class=\"berichtAcc\">";
+				  echo "U moet wel een wachtwoord opgeven!</div><br>";
+                  showForm($_SESSION['naam'], $_SESSION['passwd']);
+               } 
         }   
          else
-            { 
-                if($_POST['passwd'] != "")
+            {  
+				if($_POST['passwd'] != "")
                 {   
                     echo "<div class=\"berichtAcc\">";
                     echo "U moet wel een naam opgeven!</div><br>";
@@ -463,13 +464,14 @@ function handleAanmeldForm()
                                  $fout=TRUE;
                                  $naamdouble_fout=TRUE;
                              }
-                             
+						      
                          $emaildouble = getUseremail($_POST['emailuser']);
                           if($emaildouble == true)
                              { 
                                     $fout=TRUE;
                                     $emaildouble_fout=TRUE;
-                              }
+                              }	 
+							 
                                  // controleer of er fouten zijn
                          if($fout)
                             {
@@ -526,9 +528,7 @@ function handleAanmeldForm()
                                                                               echo "u kunt<a href=\"login.php\"> inloggen </a> nadat u hierop heeft geklikt.";
                                                                      echo "</h5>";
                                                                 echo "</div>";
-                                                                
                                                            }
-        
                                         }                   
                                      else
                                         {  
@@ -552,8 +552,9 @@ function handleAanmeldForm()
                           echo "U moet wel een naam en 2x hetzelfde wachtwoord invullen!</div><br>";
                           showAanmeldForm($naam="",$email="");
                     }
-           fFooter($pageNavId=1);         
+		fFooter($pageNavId=1); 	
     } 
+   
    
 function getUsername($usernaam) //controle op dubbele loginnaam
     {
@@ -626,7 +627,7 @@ $subject = 'Uw registratie afronden';
 
 $email="Uw Loginnaam: ".$_SESSION['loginnaam']."
 Uw wachtwoord: ".$_SESSION['regpasswd']."
-Klik op deze link: http://www.localhost:7777/humanic/application/modules/humanic/verify.php?acode=$code\ ,om u te kunnen verifieren";
+Klik op deze link: http://triplers.nl/humanic/application/modules/humanic-portal/verify.php?acode=$code\ ,om u te kunnen verifieren";
 $to = $regemail;
 $from = 'frankieboy37@hotmail.com';
 
@@ -1005,7 +1006,7 @@ function handleBestelForm()//deze functie heb ik niet meer gebruikt
                 echo "<section id=\"mobielFinUitkering\">";
                     toonMobielUitkering();
                     toonSector();
-                echo "</sector>";    
+                echo "</section>";    
                 toonRegio();
                 toonOpmerkingen();
                $_files="";    
@@ -1161,7 +1162,7 @@ function handleKandidaatRegForm ()
                 echo "</div>";	
             echo "</div>";
         echo "</section>";
-        global $path;
+        global $apppath;
         global $imagepath;
         global $cvpath;
  echo "<section id=\"sociaal_foto\">";
@@ -1190,7 +1191,7 @@ function handleKandidaatRegForm ()
                         echo "<input class=\"col-sm-5 btn btn-primary btn-sm\" type=\"file\" class=\"form-control\" id=\"cv\" name=\"cv\"  />";
                         echo "<p class=\"col-sm-12\" id=\"fotoMelding\">Let op. De foto wordt pas opgeslagen na het opslaan van het formulier! De nieuwe CV is dan ook zichtbaar.</p>";
                       //echo "<button class=\"col-sm-4 btn btn-primary btn-sm cv\" type=\"button\" id=\"buttonCv\">CV uploaden</button>";//JS versie Thijs
-                   // echo "een nieuwe cv<a href=\"$path//application/modules/humanic-portal/cv-upload.php\" ><mark> uploaden.</mark></a>";// dit is als voorbeeld voor thijs hoe je nieuwe pagina toevoegd
+                   // echo "een nieuwe cv<a href=\"$apppath//application/modules/humanic-portal/cv-upload.php\" ><mark> uploaden.</mark></a>";// dit is als voorbeeld voor thijs hoe je nieuwe pagina toevoegd
                  echo "</div>";
             echo "</div>";            
  echo "</section>";
@@ -1389,7 +1390,7 @@ function handleKandidaatRegForm ()
                     if ($functieId != 99){
                         echo "<label class=\"col-sm-7 text-left\">
                                 <input id=\"functieCheck".$functieId."\" type=\"checkbox\"  name=\"functie_List[]\" value=".$functieId." $functieCheck> ".utf8_encode($functieNaam)."
-                                <span class=\"text\" ><img src=\"".$GLOBALS['path']."assets/images/info-icon.png\" alt=\"info\" height=\"17\" width=\"12\"></img></span>
+                                <span class=\"text\" ><img src=\"".$GLOBALS['imagepath']."info-icon.png\" alt=\"info\" height=\"17\" width=\"12\"></img></span>
                                 <div class=\"info\"> ".utf8_encode($functieInfo)."
                                 </div>
                             </label>";
@@ -1845,7 +1846,7 @@ echo "</section>";
                         echo "<input  type=\"checkbox\" name=\"regio_List[]\" value=16 $checkedRegio[15]> Eindhoven";
                 echo "</label>";
             echo "</div>";
-            echo "<div class=\"plaatspref\"></div> ";
+			echo "<div class=\"plaatspref\"></div> ";
         echo "</section>";
     echo "</section>";
  };
@@ -1854,7 +1855,7 @@ echo "</section>";
     //$opmerking = $_SESSION['opmerkingen']; 
     
     echo "<section id=\"opmerkingSection\">";
-        echo "<div class=\"kop\">";
+        echo "<div class=\"col-sm-12 kop\">";
                 echo "<p>Opmerkingen</p>";
         echo "</div>";	
         echo "<div class=\"col-sm-6\">";
@@ -2195,7 +2196,7 @@ function verwerkSector() {
     error_reporting(E_ALL);
 $uploadOk = 1;
     if ($uploadOk == 1) {
-        $target_imgdir = "C:/xampp/htdocs/HumanicIC/humanic/assets/images/";// hier vindt de opslag plaats in de images map van de humanic(kandidaten) app
+        $target_imgdir = "../../../assets/images/";// hier vindt de opslag plaats in de images map van de humanic(kandidaten) app
         $img_id = uniqid();
         $target_imgfile = $target_imgdir .basename($_FILES["foto"]["name"]);
         $imageFileType = pathinfo($target_imgfile,PATHINFO_EXTENSION);
@@ -2253,7 +2254,7 @@ function verwerkCV ()
                      global $connection;
                     $uploadOk = 1;
     
-                    $target_dir = "C:/xampp/htdocs/humanic/assets/cv/";
+                    $target_dir = "../../../assets/cv/";
                     $img_id = uniqid();
 
                     $target_file = $target_dir .basename($_FILES["cv"]["name"]);

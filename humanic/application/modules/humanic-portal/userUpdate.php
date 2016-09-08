@@ -25,9 +25,9 @@ echo"<div class=\"container\">";
 if(!isSet($_SESSION['loginnaam']))
 {
     echo "<script type=\"text/javascript\">
-           window.location = \"".$GLOBALS['path']."/application/modules/admin/indexAdmin.php\"
+           window.location = \"".$GLOBALS['apppath']."/application/modules/admin/indexAdmin.php\"
       </script>";
-    //redirect($GLOBALS['path']."/application/modules/admin/indexAdmin.php");
+    //redirect($GLOBALS['apppath']."/application/modules/admin/indexAdmin.php");
 }
 elseif(isSet($_SESSION['loginnaam'])  && isSet($formactiv) && $formactiv == 'yes' && $_SESSION['user_authorisatie']=='usr' OR $_SESSION['user_authorisatie']=='admin')
 {
@@ -62,12 +62,12 @@ elseif(isSet($_SESSION['loginnaam'])  && isSet($formactiv) && $formactiv == 'yes
 }
 elseif(isSet($_SESSION['loginnaam'])  && isSet($formactiv) && $formactiv == 'no' && $_SESSION['user_authorisatie']=='usr') {
       echo "<script type=\"text/javascript\">
-               window.location = \"".$GLOBALS['path']."/application/modules/humanic-portal/kandidaat.php\"
+               window.location = \"".$GLOBALS['apppath']."/application/modules/humanic-portal/kandidaat.php\"
             </script>";
 }
 elseif(isSet($_SESSION['loginnaam']) &&   isSet($formactiv) && $formactiv == 'yes' && $SESSION['user_authorisatie']=='admin') {
       echo "<script type=\"text/javascript\">
-               window.location = \"".$GLOBALS['path']."/application/modules/users/user.php\"
+               window.location = \"".$GLOBALS['apppath']."/application/modules/users/user.php\"
             </script>";
 }
 footer();

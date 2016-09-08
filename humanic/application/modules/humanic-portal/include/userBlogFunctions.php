@@ -191,14 +191,14 @@ function handleFormReactie($blog_id,$loginnaam)
     //zojuist toegevoegde reactie,weer getoond.
        
         echo "<script type=\"text/javascript\">
-           window.location = \"".$GLOBALS['path']."/application/modules/psinfoportal/blog.php\"
+           window.location = \"".$GLOBALS['apppath']."/application/modules/psinfoportal/blog.php\"
       </script>"; 
             
        
     }
     echo "U heeft geen reactie geplaats !";
        /*echo "<script type=\"text/javascript\">
-           window.location = \"".$GLOBALS['path']."/application/modules/psinfoportal/blog.php\"
+           window.location = \"".$GLOBALS['apppath']."/application/modules/psinfoportal/blog.php\"
           </script>"; */
             
 }

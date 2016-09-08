@@ -41,7 +41,6 @@ function reactieOverzicht()//administrator overzicht
     {
          die("<i>Nog geen blogs aanwezig !</i>");
     }
-        global $path;
         echo "<table id=\"edit\" cellpadding=\"3\" cellspacing=\"3\" >";
         echo "<tr>";
         echo "<th width=\"50\" align=\"left\">Edit</th>";
@@ -256,7 +255,6 @@ function overzichtReactieDelete()//administrator Blog-overzicht,selectie te verw
             echo "<td>".utf8_encode($bericht->reactie_display)."</td>";
         }
         
-        global $path;
         echo "<table>";
         echo "<tr><td colspan='3'></td>";
         //echo "<tr><td>".($prev>=0?"<a href=reactieDelete.php?page=".$prev."> prev</a>":"prev")."</td>";
@@ -326,9 +324,6 @@ function overzicht()//administrator Blog-overzicht
 {
     global $connection;
 
-    $GLOBALS['path']="http://localhost/psinfo/";
-    global $path;
-    
      if(isset($_GET['blogEdit_page']))
      {
       $_SESSION['blogEdit_page']=$_GET['blogEdit_page'];
@@ -404,9 +399,6 @@ function overzichtDelete()//administrator Blog-overzicht,selectie te verwijderen
 {
     global $connection;
 
-    $GLOBALS['path']="http://localhost/psinfo/";
-    global $path;
-    
      if(isset($_GET['blogDelete_page']))
      {
       $_SESSION['blogDelete_page']=$_GET['blogDelete_page'];
@@ -466,7 +458,6 @@ function overzichtDelete()//administrator Blog-overzicht,selectie te verwijderen
             echo "<td>".utf8_encode($bericht->blog_display)."</td>";
             
         }
-        global $path;
         echo "<table>";
         echo "<tr><td colspan='3'></td>";
         //echo "<tr><td>".($prev>=0?"<a href=blogDelete.php?page=".$prev."> prev</a>":"prev")."</td>";

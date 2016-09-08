@@ -34,7 +34,7 @@ if (!isset($_SESSION["loginnaam"]))
     echo "<br /><h3>U dient eerst<a href=\"login.php\"> ingelogd</a> te zijn</h3>"; */
     
     echo "<script type=\"text/javascript\">
-                           window.location = \"".$GLOBALS['path']."/index.php\"
+                           window.location = \"".$GLOBALS['apppath']."/index.php\"
                            </script>";    
               
     

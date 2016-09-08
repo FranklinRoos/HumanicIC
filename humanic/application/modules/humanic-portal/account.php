@@ -16,7 +16,7 @@ include("../../config/default_functions.php");
       if (!isset($_SESSION["loginnaam"]))
            {
              echo "<script type=\"text/javascript\">
-                           window.location = \"".$GLOBALS['path']."/index.php\"
+                           window.location = \"".$GLOBALS['apppath']."/index.php\"
                            </script>";         
            } 
      else    
