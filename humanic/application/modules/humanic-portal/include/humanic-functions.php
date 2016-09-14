@@ -1,109 +1,145 @@
 <?php
 
 global $connection;
-
-    
-    
-function showPaswVergForm()// deze functie gebruik ik (nog) niet , is een test.
+// Begin toevoeging m.b.t.  vergeten wachtwoord
+function showPaswVergForm($email="")// aanvraag het (vergeten)wachtwoord opnieuw in te stellen.
     {
-        echo "<h1>Stel je wachtwoord opnieuw in</h1>";
+        echo "<h4 class=\"aanvraag\">Aanvraag wachtwoord opnieuw in te stellen</h4>";
         echo "<form action='".htmlspecialchars($_SERVER["PHP_SELF"])."' method='post'>";
         echo "<table>";
         echo "<tr><td>We hebben uw email-adres nodig om uw wachtwoord opnieuw in te stellen:</td>";
-        echo "<td><input type='text' name='emailuser' value='email'></td></tr>";
+        echo "<td><input type='email' name='email' value=$email></td></tr>";
         echo "</table>";
-        echo "<input type='submit' name='submit' value='wachtwoord opnieuw instellen'>";
+        echo "<input type='submit' name='submit' value='aanvraag versturen'>";
         echo "</form><br/>";
 
     }
 
+
+function handlePaswVergForm($email) // afhandeling van de aanvraag om het (vergeten)wachtwoord opnieuw in te stellen
+{
+    $_SESSION['email'] = $email;
+    global $connection;
+    if(getUseremail($email)=== true) // het email-adres komt voor in de database
+       {
+              $loginnaam = getUserLoginnaam($_SESSION['email']);
+              $_SESSION['naam'] = $loginnaam;
+              $vergCode=uniqid(); // deze moet je zelf ook hebben om op te kunnen controleren later 
+              $_SESSION['vergCode'] = $vergCode;                  
+
+                 $sql = mysqli_query($connection, "UPDATE  `user` SET `vergeetcode`= '".$vergCode."'  WHERE `user_email`= '".$email."'");
+                    if (mysqli_affected_rows($connection)==0)
+                      {
+                        //de gegevens zijn niet toegevoegd.
+                        echo "error adding info, try again later";
+                      } 
+                    else
+                      {
+                                   $sql = mysqli_query($connection, "UPDATE  `user` SET `vergeetstatus`= 'y'  WHERE `user_email`= '".$email."'")  or die(mysqli_error());
+                                   passwVergetenLinkVerzenden ($_SESSION['naam'], $_SESSION['email'], $_SESSION['vergCode']);
+                                   echo "<h4 class=\"regdata\">";
+                                   echo "Er is een email verzonden naar ".$_SESSION['email']." met een activatie link,<br>";
+                                   echo "u kunt uw wachtwoord opnieuw instellen  nadat u hierop heeft geklikt.";
+                                   echo "</h4>";
+                      }  
+         }
+}
  
-/* @var $_POST type */
-function handlePaswVergForm($email) // deze functie gebruik ik (nog) niet , is een test.
-{
-  global $connection;
-
-// Als het gaat om bevestigen van het mailtje
-if(getUseremail($email) === true)//het email-adres komt voor in de db
-{
-    $activatiecode = sqlsafe($_GET['code']);
-    $select_code = "SELECT * FROM `user` WHERE `vergeetcode` = '".$activatiecode."'";
-    $query_code = mysqli_query($connection, $select_code) or die (mysqli_error());
-    $show_code = mysqli_fetch_assoc($query_code);
-
-    if(mysqli_num_rows($query_code) == "0")
+function showFormChangePassw ($naam, $email )// formulier om het wachtwoord te veranderen
+  {
+     echo "<section id=\"loginblok\">";
+        //echo "<h1>Modificeren wachtwoord</h1>";
+             echo "<form action='".htmlspecialchars($_SERVER["PHP_SELF"])."' method='post'>";
+                       echo "<table>";
+                                echo "<tr><td>Uw login naam:</td>";
+                                               echo "<td>".ucfirst($naam)."</td></tr>";
+                                echo "<tr><td>E-mailadres: </td>";
+                                               echo "<td>".$email."</td></tr>";
+                                echo "<tr><td>&nbsp</td></tr>";
+                                echo "<tr><td>&nbsp</td></tr>";
+                                echo "<tr><td>Typ uw nieuw wachtwoord:</td>";
+                                               echo "<td><input type='password' name='modpasswd1'</td></tr>";
+                                echo "<tr><td>&nbsp</td></tr>";
+                                echo "<tr><td>Herhaal uw wachtwoord:</td>";
+                                               echo "<td><input type='password' name='modpasswd2'></td></tr>";
+                       echo "</table>";
+                       echo "<input type='submit' name='passwsubmit' value='veranderen'>";
+             echo "</form>";
+     echo "</section>"; 
+      
+ }
+ 
+function handleFormChangePassw ()
+ {
+    global  $connection;
+            
+    if(md5(trim($_POST['modpasswd1']))==md5(trim($_POST['modpasswd2'])))
     {
-        echo "<div style=\"color:red;\">U heeft een verkeerde activatiecode ingevuld, of uw heeft reeds een bevestiging gedaan!</div>";
+        $vergeetcode = "";
+        $sql = mysqli_query($connection, "UPDATE `user` SET `user_wachtwoord`='".md5(trim($_POST['modpasswd1']))."', `vergeetcode`= '".$vergeetcode."', `vergeetstatus`= 'n' WHERE `user_inlognaam`= '".$_SESSION['naam']."'");
+        echo "<div class=\"berichtAcc\">".ucfirst($_SESSION["naam"]).",je wachtwoord is gewijzigd<br>";    
+                       echo "Je zal opnieuw moeten inloggen om verder te gaan !";
+        echo "</div>";
+            // Unset all of the session variables.
+             $_SESSION = array();
+             session_destroy();
     }
     else
-    {
-        // Email selecteren
-        $res = mysqli_query($connection, "SELECT * FROM `user` WHERE `vergeetcode` = '".$activatiecode."'");
-        $show = mysqli_fetch_assoc($res);
-                    
-        // Password maken
-        $pass = randomcode(10);
-                    
-        // Melding geven
-        echo "Er is een mail met een nieuw wachtwoord gestuurd.";
-                    
-        // Database updaten
-        mysqli_query($connection, "UPDATE `user` SET `vergeetcode` = '', `user_wachtwoord` = '".md5($pass)."' WHERE `vergeetcode` = '".$activatiecode."'");
-                                        
-        // Mail versturen
-        //$headers   = array();
-        $eigen_naam = 'Humanic IC';
-        $eigen_mail = 'frankieboy37@hotmail.com';
-        $aan = $show['user_email'];
-        $onderwerp = "Nieuw wachtwoord";
-        $bericht = "Beste '".$show['user-inlognaam']."',<br /><br />Via de website http://humanicdevelopment.com/index.html#content5-12 heeft u een nieuw wachtwoord aangevraagd.<br /><br /><strong>U kunt nu inloggen met het wachtwoord:</strong> ".$pass."<br /><br />Met vriendelijke groet,<br /><br />".$eigen_naam;
-        $headers = "MIME-Version: 1.0\r\n";
-        $headers .= "Content-type: text/html; charset=iso-8859-1\r\n"; 
-        $headers .= "From: ".$eigen_naam." <".$eigen_mail.">\r\n";
-        //$headers[] = "X-Mailer: PHP/".phpversion();
-        mail($aan, $onderwerp, $bericht, $headers); 
-    }
-}
-else
+     {
+       echo "<div class=\"berichtAcc\">Je moet wel 2x hetzelfde wachtwoord invullen</div>";
+        showFormChangePassw ($naam,$email);
+      }
+}  
+  
+      
+function passwVergetenLinkVerzenden ($loginnaam, $email, $vergCode)
 {
+  /* server versie http://triplers.nl/humanic/application/modules/humanic-portal/verify.php?acode=$vergCode    */
+   $_SESSION['naam'] = $loginnaam;
+   $_SESSION['email'] = $email; 
+  $subject = 'Uw wachtwoord opnieuw instellen';
+  $emailinhoud = "Uw Loginnaam: ".$loginnaam."
+  Klik op deze link: http://localhost:7777/HumanicIC/humanic/application/modules/humanic-portal/passwVergVerify.php?acode=$vergCode ,om uw wachtwoord opnieuw in te stellen";
+  $to = $email;
+  $from = 'humanic_info@outlook.com';
 
-    if(($_SERVER['REQUEST_METHOD'] == "POST") && ($_POST['vergeten'])) 
-    {
-        $que = mysqli_query($connection,"SELECT * FROM `".$ledentabel."` WHERE emailadres = '".sqlsafe($_POST['emailadres'])."'");
-                    
-        if(mysqli_num_rows($que) == 0)
-        {
-            echo "<p>Het ingevuld emailadres is niet geldig of staat niet in de database!</p>";
-        }
-        else
-        {
-            // Code
-            $activatiecode = randomcode(10);
-                        
-            // Melding
-            echo "<p>Er is een bevestigingsmail naar je e-mailadres gestuurd.</p>";
-                    
-            // Database updaten dus code inserten
-            mysqli_query($connection, "UPDATE `".$ledentabel."` SET `vergeetcode` = '".$activatiecode."' WHERE `emailadres` = '".sqlsafe($_POST['emailadres'])."'");
-                    
-            // Mail versturen
-            $aan = sqlsafe($_POST['emailadres']);
-            $onderwerp = "Wachtwoord vergeten";
-            $bericht = "Beste,<br /><br />Via de website ".$eigen_site." is aangegeven dat u uw wachtwoord vergeten bent.<br /><br />Wanneer dit het geval is, dient u op onderstaande link te klikken. Wanneer dit niet zo is, kunt u deze mail als niet verzonden beschouwen.<br /><br />Link: <a href=\"".$eigen_url."addons/wachtwoordvergeten.php?actie=bevestigen&code=".$activatiecode."\">".$eigen_url."addons/wachtwoordvergeten.php?actie=bevestigen&code=".$activatiecode."</a><br /><br />Met vriendelijke groet,<br /><br />".$eigen_naam;
-            $headers = "MIME-Version: 1.0\r\n";
-            $headers .= "Content-type: text/html; charset=iso-8859-1\r\n"; 
-            $headers .= "From: ".$eigen_naam." <".$eigen_mail.">\r\n";
-            mail($aan, $onderwerp, $bericht, $headers); 
-        }
-    }
-    else
-    {
-        echo "<p>Vul hieronder uw emailadres in. Er zal een link naar je emailadres gestuurd worden. Wanneer u hier op klikt wordt er een nieuw wachtwoord aangemaakt.</p><br />";
-        echo "<p><form method=\"post\" action=\"\">E-mailadres:&nbsp;&nbsp;<input type=\"text\" name=\"emailadres\" /><br /><br /><input type=\"submit\" name=\"vergeten\" value=\"Verstuur\" /></form></p>";                
-    }
+  ini_set('sendmail_from', $from);
+
+  $headers   = array();
+  $headers[] = "MIME-Version: 1.0";
+  $headers[] = "Content-type: text/plain; charset=iso-8859-1";
+  $headers[] = "From: HumanIC <{$from}>";
+  $headers[] = "Reply-To: HumanIC <{$from}>";
+  //$headers[] = "Subject: {$subject}";
+  $headers[] = "X-Mailer: PHP/".phpversion();
+
+  mail($to, $subject, $emailinhoud, implode("\r\n", $headers) ); 
+      
 }
-}   
-    
+
+function getUserLoginnaam($email) 
+ {
+    global $connection;
+    $email = $_SESSION['email'];
+      $sql = mysqli_query($connection, "SELECT * FROM `user`");
+      if (mysqli_num_rows($sql)==0)  
+        {
+            die ("Je heb geen gegevens tot je beschikking");
+        }
+        while ($row = mysqli_fetch_assoc($sql)) 
+        {    
+            if($row['user_email'] == $email)
+               {
+                 $loginnaam = $row['user_inlognaam'];
+               }
+        }
+      return $loginnaam;
+ }  
+
+//Einde toevoeging m.b.t vergeten wachtwoord
+
+
+
 function showForm($naam= "", $passwd="")
     {
         echo "<section id=\"loginblok\">";
@@ -111,10 +147,11 @@ function showForm($naam= "", $passwd="")
         echo "<form action='".htmlspecialchars($_SERVER["PHP_SELF"])."' method='post'>";
         echo "<table id=\"login\">";
         echo "<tr><td>Geef uw login naam:</td>";
-        echo "<td><input type='text' name='login' value=$naam></td></tr>";
+        echo "<td><input type='text' name='login' value= $naam></td></tr>";
         echo "<tr><td>&nbsp</td></tr>";
         echo "<tr id=\"loginnaam\" ><td>Geef uw wachtwoord:</td>";       
-        echo "<td><input type='password' name='passwd' value=$passwd></td></tr>";
+        echo "<td><input type='password' name='passwd' value=$passwd><br>";
+        echo "<a href=\"nwPasw.php\">wachtwoord vergeten ?</a></td></tr>";
         echo "</table>";
         echo "<input type='submit' name='submit' value='Login'>";
         echo "</form><br/>";
@@ -123,7 +160,6 @@ function showForm($naam= "", $passwd="")
             echo "Dat kan <a href=\"register.php\"><mark>hier.</mark></a><br/><br/>";
         echo "</div>";
         echo "</section>";
-        //echo "<a href=\"nwPasw.php\">Bent u uw wachtwoord vergeten ?</a>";
     }
 
 
@@ -157,8 +193,7 @@ function handleForm()
                     {
                         echo "<script type=\"text/javascript\">
                                     window.location = \"".$GLOBALS['apppath']."/application/modules/admin/indexAdmin.php\"
-                                </script>";                   
-                    
+                                </script>";                                  
                     }
              else
               {     
@@ -625,11 +660,15 @@ function reglinkVerzenden ($regemail,$regpasswd,$code)
 $code = $_SESSION['code'];
 $subject = 'Uw registratie afronden';
 
-$email="Uw Loginnaam: ".$_SESSION['loginnaam']."
+/*$email="Uw Loginnaam: ".$_SESSION['loginnaam']." //server versie
 Uw wachtwoord: ".$_SESSION['regpasswd']."
-Klik op deze link: http://triplers.nl/humanic/application/modules/humanic-portal/verify.php?acode=$code\ ,om u te kunnen verifieren";
+Klik op deze link: http://triplers.nl/humanic/application/modules/humanic-portal/verify.php?acode=$code ,om u te kunnen verifieren";*/
+
+$email="Uw Loginnaam: ".$_SESSION['loginnaam']." 
+Uw wachtwoord: ".$_SESSION['regpasswd']."
+Klik op deze link: http://www.localhost:7777/HumanicIC/humanic/application/modules/humanic-portal/verify.php?acode=$code ,om u te kunnen verifieren";
 $to = $regemail;
-$from = 'frankieboy37@hotmail.com';
+$from = 'humanic_info@outlook.com';
 
 ini_set('sendmail_from', $from);
 
@@ -646,205 +685,6 @@ mail($to, $subject, $email, implode("\r\n", $headers) );
     
 }
 
-/*
-// function om het bestelformulier te laten zien       
-function showBestelForm($naam="", $adres="", $postcode="", $woonplaats="", $land="nederland", $telefoon="", $email="")//deze functie heb ik niet meer gebruikt
-    {
-        global $PHP_SELF;
-        echo "<h1>Gratis bestelling van 'Please please me's number one'</h1>";
-        echo "<h2>Vul hieronder uw persoonsgegevens in:</h2><br />";
-        echo "<form action='".htmlspecialchars($_SERVER["PHP_SELF"])."' method=post>";
-        echo "<table class=\table\">";
-        echo "<tr><td id=\"bestelL\">Naam: </td><td id=\"bestelR\"><input type='text' name='naam' value='$naam'></td></tr>";
-        echo "<tr><td id=\"bestelL\">Adres: </td><td id=\"bestelR\"><input type='text' name='adres' value='$adres'></td></tr>";
-        echo "<tr><td id=\"bestelL\">Postcode: </td><td id=\"bestelR\"><input type='text' name='postcode' value='$postcode'></td></tr>";
-        echo "<tr><td id=\"bestelL\">Woonplaats: </td><td id=\"bestelR\"><input type='text' name='woonplaats' value='$woonplaats'></td></tr>";
-        echo "<tr><td id=\"bestelL\">Land: </td><td id=\"bestelR\"><input type='text' name='land' value='$land'</td></tr>";
-        echo "<tr><td id=\"bestelL\">Telefoonnr: </td><td id=\"bestelR\"><input type='text' name='telefoon' value='$telefoon'></td></tr>";
-        echo "<tr><td id=\"bestelL\">E-mailadres: </td><td id=\"bestelR\"><input type='text' name='email' value='$email'></td></tr>";
-        echo "<tr><td id=\"bestelL\">Aantal exemplaren(maximaal 4): </td><td id=\"contactR\">";
-        echo "<input type='radio' name='aantal' value='1' checked='true' >1
-         <input type='radio' name='aantal' value='2'>2
-         <input type='radio' name='aantal' value='3'>3
-         <input type='radio' name='aantal' value='4'>4<br /></td></tr>";
-        echo "</table><br />"; 
-        echo "<input type='submit' name='submit' value='Verzenden'><br /><br />";
-        echo "</form>";
-      } */
-
-/*
-function handleBestelForm()//deze functie heb ik niet meer gebruikt
- {  
-        global $connection;
-
-        $boek_id = "9";
-        $boek_titel = "Please please me's number one";
-        $email = $_POST['email'];
-        $telefoon = $_POST["telefoon"]; 
-        $naam = $_POST['naam'];
-        $adres = $_POST["adres"];
-        $postcode = $_POST["postcode"];
-        $woonplaats = $_POST["woonplaats"];
-        $land = $_POST['land'];
-       
-        // BK: Hoe gaat dit i.c.m. de lokale variabelen hierboven?
-         global $naam;
-            global $adres;
-            global $postcode;
-            global $woonplaats;
-            global $telefoon;
-            global $email;
-            valid_naam($naam);
-            valid_adres($adres);
-            valid_postcode($postcode);
-            valid_woonPlaats($woonplaats);
-            valid_telefoon($telefoon);
-    
-        // handel het formulier af
-        // Initialiseer fout variabelen
-        $fout=FALSE;
-        $naam_fout=FALSE;
-        $adres_fout=FALSE;
-        $postcode_fout=FALSE;
-        $woonplaats_fout=FALSE;
-        $telefoon_fout=FALSE;
-        $email_fout=FALSE;
-        $naamsyntax_fout=FALSE;
-        $adressyntax_fout=FALSE;
-        $postcodesyntax_fout=FALSE;
-        $woonplaatssyntax_fout=FALSE;
-        $telefoonsyntax_fout=FALSE;
-        $emailsyntax_fout=FALSE;
-
-        // controleer op lege velden en syntaxfouten
-        if ($_POST["naam"] == "")
-	{
-	    $fout=TRUE;
-	    $naam_fout=TRUE;
-	}
-
-	if ($_POST["adres"] == "")
-	{
-	    $fout=TRUE;
-	    $adres_fout=TRUE;
-	}
-        if ($_POST["postcode"] == "")
-	{
-	    $fout=TRUE;
-	    $postcode_fout=TRUE;
-	}
-
-	if ($_POST["woonplaats"] == "")
-	{
-	    $fout=TRUE;
-	    $woonplaats_fout=TRUE;
-	}
-	if ($_POST["telefoon"] == "")
-	{
-	    $fout=TRUE;
-	    $telefoon_fout=TRUE;
-	}
-
-	if ($_POST["email"] == "")
-	{
-	    $fout=TRUE;
-	    $email_fout=TRUE;
-	}
-
-        if(!valid_naam($_POST["naam"]))
-        {
-            $fout=TRUE;
-            $naamsyntax_fout=TRUE;
-        }
-        if(!valid_adres($_POST["adres"]))
-        {
-          $fout=TRUE;
-          $adressyntax_fout=TRUE;
-        }
-        if(!valid_postcode($_POST["postcode"]))
-        {
-           $fout=TRUE;
-           $postcodesyntax_fout=TRUE;
-        }
-        if(!valid_woonplaats($_POST["woonplaats"]))
-        {
-          $fout=TRUE;
-          $woonplaats_fout_fout=TRUE;
-        }
-        if(!valid_telefoon($_POST["telefoon"]))
-        {
-          $fout=TRUE;
-          $telefoonsyntax_fout=TRUE;
-        }
-        $controle = check_email($_POST['email']);//returncode van de functie check_email($email)is false of true  
-        if($controle == false)
-               {
-                  $fout=TRUE;
-                  $emailsyntax_fout=TRUE;
-                }
-        
-
-        // controleer of er fouten zijn
-        if ($fout)
-        {
-            // er zijn fouten
-            // geef het lijstje van fouten
-            echo "<UL>";
-            echo ($naam_fout?"<li>U heeft geen naam ingevuld</li>":"");
-            echo ($naamsyntax_fout?"<li>Deze naam is niet toegestaan</li>":"");
-            echo ($adres_fout?"<li>U heeft geen adres ingevuld</li>":"");
-            echo ($adressyntax_fout?"<li>Vul een geldig adres in</li>":"");
-            echo ($postcode_fout?"<li>U heeft geen postcode ingevuld</li>":"");
-            echo ($postcodesyntax_fout?"<li>Deze postcode bestaat niet</li>":"");
-            echo ($woonplaats_fout?"<li>U heeft geen woonplaats ingevuld</li>":"");
-            echo ($woonplaatssyntax_fout?"<li>Deze plaats bestaat niet</li>":"");
-            echo ($telefoon_fout?"<li>U heeft geen telefoonnummer ingevuld</li>":"");
-            echo ($telefoonsyntax_fout?"<li>Dit telefoon-nummer is niet correct</li>":"");
-            echo ($email_fout?"<li>U heeft geen e-mailadres ingevuld</li>":"");
-            echo ($emailsyntax_fout?"<li><em>U heeft geen geldig email-adres ingevuld</em></li>":""); 
-            echo "</UL>";            
-            // Geef het formulier opnieuw
-         showBestelForm($_POST["naam"], $_POST["adres"], $_POST["postcode"], $_POST["woonplaats"],$_POST['land'], $_POST["telefoon"], $_POST["email"]);
-
-        } 
-       
-       else //Er zijn geen fouten,presenteer de gegevens  
-       {
-        
-          $sql = mysqli_query($connection, "INSERT INTO bestelling (`boek_id`,`user_id`,`user_inlognaam`, `boek_titel`, `aantal`,
-              `user_email`,`bestelling_naam`,`straatnaam`, `postcode`, `woonplaats`, `land`, `mobiel`)
-              VALUES ('".$boek_id."', '".$_SESSION['user_id']."', '".$_SESSION['loginnaam']."', '".$boek_titel."', '".$_POST['aantal']."',"
-                  . " '".$_POST['email']."', '".$_POST['naam']."', '".$_POST['adres']."', '".$_POST['postcode']."',"
-                  . " '".$_POST['woonplaats']."', '".$_POST['land']."','".$_POST['telefoon']."')");
-                 if (mysqli_affected_rows($connection)==0)
-                    {
-                        //de gegevens zijn niet toegevoegd.
-                        echo "error adding info, try again later";
-                    } 
-                    else
-                    {
-                        
-                     echo "<h3>Uw Bestelling is succesvol verstuurd,de afhandeling kan 2 weken duren !</h3>";
-                     echo "<h4>Dit zijn uw Gegevens</h4><hr>";
-                     echo "<table class=\table\"><h5>";
-                     echo "<tr><td id=\"bestelL\">User-ID:</td><td id=\"bestelR\"> ".$_SESSION['user_id']."</td></tr>";
-                     echo "<tr><td id=\"bestelL\">Inlognaam:</td><td id=\"bestelR\">".$_SESSION['loginnaam']."</td></tr>";
-                     echo "<tr><td id=\"bestelL\">Naam:</td><td id=\"bestelR\"> ".$_POST["naam"]."</td></tr>";
-                     echo "<tr><td id=\"bestelL\">Adres:</td><td id=\"bestelR\"> ".$_POST["adres"]."</td></tr>";
-                     echo "<tr><td id=\"bestelL\">Postcode:</td><td id=\"bestelR\"> ".$_POST["postcode"]."</td></tr>";
-                     echo "<tr><td id=\"bestelL\">Woonplaats:</td><td id=\"bestelR\"> ".$_POST["woonplaats"]."</td></tr>";
-                     echo "<tr><td id=\"bestelL\">Land:</td><td id=\"bestelR\"> ".$_POST['land']."</td></tr>";
-                     echo "<tr><td id=\"bestelL\">Telefoon:</td><td id=\"bestelR\"> ".$_POST["telefoon"]."</td></tr>";
-                     echo "<tr><td id=\"bestelL\">E-Mail:</td><td id=\"bestelR\"> ".$_POST["email"]."</td></tr>";
-                     echo "<tr><td id=\"bestelL\">Boek-ID:</td><td id=\"bestelR\"> ".$boek_id."</td></tr>";
-                     echo "<tr><td id=\"bestelL\">Boek-titel:</td><td id=\"bestelR\"> ".$boek_titel."</td></tr>";
-                     echo "<tr><td id=\"bestelL\">Aantal besteld:</td><td id=\"bestelR\">".$_POST['aantal']."</td></tr>";
-                     echo "</h5></table>";
-                    }
-       
-     }
-   } */
-   
 
  function showContactForm($naam="",$email="",$subject="",$bericht="")
  {

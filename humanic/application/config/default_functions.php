@@ -30,11 +30,14 @@ function fHeader($pageNavId="1")
     //<!-- Optional theme -->
     // echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['csspath']."bootstrap-theme.min.css\" type=\"text/css\">";
     //<!-- My theme -->
+
     echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['csspath']."dropmenu.css\" type=\"text/css\"/>";
     echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['csspath']."slider.css\" type=\"text/css\"/>";
     echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['csspath']."slider.less\" type=\"text/css\"/>";
     echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['csspath']."fuikweb.css\" type=\"text/css\"/>";
     echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['csspath']."half-slider.css\" type=\"text/css\"/>";
+    
+    
     
     echo "<script src=\"https://code.jquery.com/jquery-2.2.4.min.js\"  ></script>";
     echo "<script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js\"></script>";

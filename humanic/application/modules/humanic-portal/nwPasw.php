@@ -1,12 +1,12 @@
 <?php
 session_start();
-//09-07-2015
+//13-09-2016
 //F.Roos
 include("../../config/config.php");
 include("../../config/connect.php");
 include("../../config/default_functions.php");
-include("include/psinfofunctions.php");
-$pageNavId=1;
+include("include/humanic-functions.php");
+$pageNavId= 22;
 fHeader($active=$pageNavId);
 navigatie($active=$pageNavId);
 
@@ -26,15 +26,15 @@ while ($content = mysqli_fetch_assoc($sql))
     //echo "<h3>Registration Form</h3>";
     
 }
-if (!isSet($_POST["submit"]))
+if (!isSet($_POST["submit"]) OR (isSet($_POST["submit"]) && $_POST['email'] == ""))
 {    
     showPaswVergForm();
     fFooter($active=$pageNavId);
 } 
 else
 {    
-    handlePaswVergForm($_POST['emailuser']);
-    
+    handlePaswVergForm($_POST['email']);
+    fFooter($active=$pageNavId);
 }
 echo "</div>";
 

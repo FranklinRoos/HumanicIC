@@ -531,8 +531,11 @@ ul#navItems {
 /* onderstaande css heeft effect op de registratie data in en is gebruikt in de functie handleAanmeldForm(humanic-functions.php) */
 /* toegevoegd op di 6 sept. Ron dit mag je wat opmaak betreft ook aanpassen, mij ging het op de postionering */
 .berichtAcc { 
-       text-align: center;
+       /*text-align: center;*/
        color: red;
+       margin-left: 35%;
+       margin-top: 20%;
+       margin-bottom:20%;
 }
 
 #regInfo {
@@ -577,6 +580,7 @@ tr.login {
 
 section#loginblok, section#aanmeldblok, section#wachtwoord {
     margin-left: 35%;
+    margin-top: 10%;
 }
 
 section#loginblok h3 {
