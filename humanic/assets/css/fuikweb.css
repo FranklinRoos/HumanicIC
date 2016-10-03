@@ -131,19 +131,30 @@ h2.welkom {
     text-align: center;
 }
 
-body{  
+body{
+    text-align: center; //toegevoegd op ma 3 okt 2016
+    min-width: 1300px; //toegevoegd op ma 3 okt 2016 
     margin-top: 80px;
    /* margin-left: 10px;
     margin-right: 10px;*/
     /*background-color: #e6e6e6;*/	/* border:	2px solid red; */	
 }
 
+/****** toegevoegd op ma 3 okt 2016 ************/
 #contentwrapper {
+    width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+}
+/****** einde toevoeging ma 3 okt 2016 *********/
+
+
+/*#contentwrapper {
    min-height: 100%;
    height: auto !important;
    height: 100%;
    margin: 0 auto -610px;
-}
+}*/
 
 h1.slider {
 	font-weight: 400;
