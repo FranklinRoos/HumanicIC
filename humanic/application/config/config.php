@@ -9,8 +9,8 @@ $database = "kandidaten";
 $user= "admin";
 $pass= "123";
 
-$urlpath     = "http://".$_SERVER['HTTP_HOST']."/humanic/"; // de basis URL naar de applicatie.
-$apppath     = "/humanic/";          // de root binnen de applicatie.
+$urlpath     = "http://".$_SERVER['HTTP_HOST'].":7777/HumanicIC/"; // de basis URL naar de applicatie.
+$apppath     = "/HumanicIC/humanic/";          // de root binnen de applicatie.
 
 $modulespath = $GLOBALS['apppath']."application/modules/";
 $jspath      = $GLOBALS['apppath']."assets/js/";

@@ -54,7 +54,7 @@ function fHeader($pageNavId="1")
     </script>";
     echo "</head>";  
     echo "<body>";
-    echo "<div id=\"contentwrapper\">";//toegevoegd op ma 3 okt 2016
+    echo "<div id=\"contentwrapper\">"; // toegevoegd op ma 3 okt 2016
 }
 
 function fFooter($pageNavId="1")
