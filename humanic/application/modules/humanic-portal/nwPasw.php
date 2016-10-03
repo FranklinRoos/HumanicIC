@@ -6,8 +6,19 @@ include("../../config/config.php");
 include("../../config/connect.php");
 include("../../config/default_functions.php");
 include("include/humanic-functions.php");
+
+if(!isSet($_SESSION['blad']))
+  {
+    $_SESSION['blad']='nwPasw_page';
+    }    
+if(isSet($_SESSION['blad']) && $_SESSION['blad'] !=='nwPasw_page')    
+{
+  $_SESSION['blad']='nwPasw_page';
+}
+
+
 $pageNavId= 22;
-fHeader($active=$pageNavId);
+ fHeader($pageNavId);
 navigatie($active=$pageNavId);
 
 // haal je gegevens voor de pagina uit database

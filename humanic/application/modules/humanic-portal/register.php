@@ -5,9 +5,22 @@ session_start();
 include("../../config/config.php");
 include("../../config/connect.php");
 include("../../config/default_functions.php");
+//include("../../config/logo.php");
 include("include/humanic-functions.php");
+
+
+if(!isSet($_SESSION['blad']))
+  {
+    $_SESSION['blad']='register_page';
+    }    
+if(isSet($_SESSION['blad']) && $_SESSION['blad'] !=='register_page')    
+{
+  $_SESSION['blad']='register_page';
+}
+
+
 $pageNavId=6;
-fHeader($active=$pageNavId);
+fHeader($pageNavId);
 navigatie($active=$pageNavId);
 
 
@@ -18,6 +31,7 @@ if(isSet($_SESSION['loginnaam']))
                                     window.location = \"".$GLOBALS['apppath']."/application/modules/humanic-portal/kandidaat.php\"
                                      </script>"; 
 }
+
 
 if (!isSet($_POST["regsubmit"]))
 {    

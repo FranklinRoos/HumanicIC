@@ -4,13 +4,24 @@ include ("../../config/config.php");
 include ("../../config/connect.php");
 include("include/accountFunctions.php");
 include("include/humanic-functions.php");
-//include ("include/onlineFunctions.php");
 include("../../config/default_functions.php");
-//include ("../FCKeditor/fckeditor.php");
+//include("../../config/logo.php");// voor het dynamisch genereren van de logo
+
+ 
+if(!isSet($_SESSION['blad']))
+  {
+    $_SESSION['blad']='account_page';
+    }    
+if(isSet($_SESSION['blad']) && $_SESSION['blad'] !=='account_page')    
+{
+  $_SESSION['blad']='account_page';
+}
+ 
 
  $pageNavId=22;
  fHeader($pageNavId);//actief=$pageNavId);
  navigatie($pageNavId);
+
 
   
       if (!isset($_SESSION["loginnaam"]))

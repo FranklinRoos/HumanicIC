@@ -1,4 +1,4 @@
-/* Dit programma wordt door index.html voor de voorgeving gebruikt.
+/* Dit programma wordt door index.html voor de vormgeving gebruikt.
 	Program	: index.css
 	Datum		: 01-07-2016 
 */
@@ -6,14 +6,20 @@
 
 .merk {
 	
-    color: orange;
-	font-size:110%;
-	text-align: center;
-	clear: both;
-	padding-top: 25px;
-	margin-bottom: 25px;
+    /*color: orange;*/
+    color: black;
+    font-size:110%;
+    text-align: center;
+    clear: both;
+    padding-top: 25px;
+    margin-bottom: 25px;
 }
 
+.lijn {
+    margin-left:2%;
+    margin-right: 2%;
+    color: black;
+}
 
 #footer {
      width: 100%;
@@ -23,13 +29,14 @@
     margin-top:80px;
     height: 25px;
     font-size: 14px;
-    background-color: rgb(60, 60, 60);
+    background-color: #f5f5f0;
+    /*background-color: rgb(60, 60, 60);*/
 }
 
 
 #footer, .push {
   width: 98%;
-  height: 160px;
+  height: 75px;
   clear: both;
 }
 
@@ -38,7 +45,7 @@ ul#footerNav li {
 	display: inline;
 	margin-left:20%;             
 	padding-top: 15px;
-	color:white;
+	color:yellow;
 }
 
 .adres1 {
@@ -55,11 +62,12 @@ ul#footerNav li {
 .adres {
     float: left;
     font-weight: bold;
-    color: orange;
+    color: black;
 }
 
 .adresR {
-   color: #66a3ff;
+   /*color: #66a3ff;*/
+   color: #5c5c3d;
 }
 
 
@@ -78,17 +86,17 @@ span.text:hover + div.info {
 }
 
 
-*{
+/*{
 	padding:0;
 	margin :0;
-}
+}*/
 
 .profkop, .naarProfiel {
     text-align: center;
 }
 
 .profiel {
-    margin-top : 5 px;
+    margin-top : 5px;
     margin-bottom : 20px;
 }
 
@@ -123,9 +131,11 @@ h2.welkom {
     text-align: center;
 }
 
-body{
+body{  
     margin-top: 80px;
-    background-color: 	#e6e6e6;	/* border:	2px solid red; */	
+   /* margin-left: 10px;
+    margin-right: 10px;*/
+    /*background-color: #e6e6e6;*/	/* border:	2px solid red; */	
 }
 
 #contentwrapper {
@@ -133,6 +143,10 @@ body{
    height: auto !important;
    height: 100%;
    margin: 0 auto -610px;
+}
+
+h1.slider {
+	font-weight: 400;
 }
 
 h1 {
@@ -170,7 +184,7 @@ article{
 
 #inlogMelding {
     width : 50%;
-    margin-left : center;
+    text-align : center;
     
 }
 .afstand {
@@ -476,57 +490,83 @@ label {
      background-color: #f5f5f0;
      height: 10%;
 }*/
-
-div#navbarpullright {
-    /*height: 52px;*/
-	height: 52px;
+   
+   
+/***************************************************************/
+/* onderstaande css toegevoegd op zaterdag 24 sept 2016, een experiment met de logo  */
+td.human {
+    padding-bottom:  15px;
 }
 
+span.logoL {
+    font-size: 90%;
+    font-weight: 600;
+    color:orange;
+}
+
+span.logoR {
+    font-size: 90%;
+    font-weight: 600;
+    color:blue;    
+}
+
+/*div#logoDynamisch {
+    width: 140px;
+    height: 35px;
+    display: inline;
+}*/
+
+ul#middenstuk li {
+    margin-top:0.0px;
+    padding-top: 0px;
+}
+
+ul.logoM {
+    padding-left: 0px;
+    padding-bottom:0px;
+}
+
+ul.logoM li {
+    list-style-type:none;
+    display: block;
+}
+
+span.ic {
+    font-weight: 600;
+    margin-left: 4px;
+    color: #9999ff;
+}   
+/*  Einde experiment met de logo */
+/***************************************************************/
+
+
+/******Onderstaande css heet effect op de navigatie balk *****************/
+div#navbarpullright {
+	height: 52px;
+}
 
 #inuitBlok {
     margin-top: 1%;
 }
 
+ul#navItems li a:active { 
+    background-color: red;
+}
+
 #navBalk {
-    background-color: #f5f5f0; /* kleur van de navigatiebalk */
+    background-color: #003366; /* kleur van de navigatiebalk */
+    /*background-color: black; */
     opacity: 0.9;
+    height: 75px;
 }
 
-#navItems {
-    height: 60px;/* hoogte van de navigatie balk */
-}
-
-ul#navItems li:hover {
-    background-color: green;
-}
-
-ul#navItems li {
+ul#navItems li a {
     margin-left: 20px;
-    font-size: 150%;
-    color: black;
+    font-size: 90%;
+    color: white;
 }
-
-ul#navItems {
-    display: inline;
-    float: left;
-    margin-left:10%;
-}
-
-.item active {
-    height: 100%;
-}
-
-#cslider {
-    /*margin-top: 45px;*/
-    padding-top:15px;
-}
-
-#hlogo {
-    padding: 0px 0px 10px;
-    /*margin: 0px 20px 25px -15px;*/
-    margin-bottom:0px;
-    margin-left:10%;
-}
+/*********Einde css dat effect heeft op de navigatie balk ***************/    
+    
 
 /* onderstaande css heeft effect op de registratie data in en is gebruikt in de functie handleAanmeldForm(humanic-functions.php) */
 /* toegevoegd op di 6 sept. Ron dit mag je wat opmaak betreft ook aanpassen, mij ging het op de postionering */
@@ -567,7 +607,7 @@ h5.regdata {
     float: left;
     margin-left:45%;
 }
-/* einde van de css die effect heeft op de registratie data */
+/************** einde van de css die effect heeft op de registratie data *************/
 
 
 .reg {
@@ -580,7 +620,7 @@ tr.login {
 
 section#loginblok, section#aanmeldblok, section#wachtwoord {
     margin-left: 35%;
-    margin-top: 10%;
+    margin-top: 15%;
 }
 
 section#loginblok h3 {
@@ -593,22 +633,41 @@ table#login {
     color: black;
 }
 
-input#login {
-    /*background-image: linear-gradient(to bottom,#FFCC99 0,#ffb72a 100%);*/
+/*input#login {
      background-image: #e6e6ff;
      border: 1px solid #996600;
     color: #777;
-    /*padding: 5px;*/
     padding-bottom: -20px;
-   /* margin: 2px-5px 0px 0px;*/
-}
+}*/
 
+input#login {
+     background-color: #e6e6ff;
+     border: 1px solid #996600;
+    color: #777;
+    padding: 5px;
+    padding-bottom: -20px;
+    margin-right: 10px;
+}
 
 div#inlognaam {
     margin-top: -15px;
     margin-right: -15px;
 }
 
+a.regsinds {
+   /* color: #777769;*/
+   color: white;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+
+a.inlognm {
+    /* color: #777769;*/
+    /* font-size: 20px;*/
+    text-decoration: none;
+    color: white;
+}
 
 .button{
 	background-color: transparent;
@@ -712,8 +771,8 @@ ul.nav li.dropdown:hover > ul.dropdown-menu{
     color: #fff5cc;
     /* color: #333; */
     white-space: nowrap;
-    /*background-color:#AA771A;*/
-    backgrounhd-color: #ffffcc;
+    background-color:#AA771A;
+    /*background-color: #ffffcc;*/
 }
 .dropdown-menu {
     position: absolute;

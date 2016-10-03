@@ -6,6 +6,17 @@ include("../../config/default_functions.php");
 include("include/humanic-functions.php");
 include("include/onlineFunctions.php");
 
+if(!isSet($_SESSION['blad']))
+  {
+    $_SESSION['blad']='login_page';
+    }    
+if(isSet($_SESSION['blad']) && $_SESSION['blad'] !=='login_page')    
+{
+  $_SESSION['blad']='login_page';
+}
+
+
+
 
 if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze informatie komt uit functie handeleForm regel 184
 { // inloggen was succesvol
@@ -14,11 +25,9 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
     unset($_SESSION["suc6login"]);
         // inloggen
     
-    //navigatie($pageNavId);
-  
-    
     $pageNavId=10;
     fHeader($pageNavId);
+    navigatie($pageNavId);
     if($_SESSION["user_authorisatie"]=="usr")
      { 
         
@@ -29,7 +38,7 @@ if (isset($_SESSION["suc6login"]) &&  isSet($_SESSION['loginnaam'])) //deze info
          $datum = ($datesplit[2]*1)."-".$maanden[$datesplit[1]-1]."-".$datesplit[0];//de index bij $maanden[$datesplit[1] wordt met 1 verminderd omdat de array '$maanden' met 0 begint
          
         
-        navigatie($pageNavId);
+        //navigatie($pageNavId);
         
          // onderstaande presentatie vanuit de db heb ik op zondag 7 aug toegevoegd
         $sql = mysqli_query($connection,"SELECT * FROM `pages` WHERE `page_nav_id`=$pageNavId  and `page_taal` = 'nl' and `page_show` ='y' ");

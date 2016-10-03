@@ -1,8 +1,4 @@
 <?php
-//session_start();
-// If we know we don't need to change anything in the
-// session, we can just read and close rightaway to avoid
-// locking the session file and blocking other pages
 session_start();
 include("../../config/config.php");
 include("../../config/connect.php");
@@ -10,29 +6,31 @@ include("../../config/default_functions.php");
 include("include/humanic-functions.php");
 include("include/formValidatie.php");
 
-if(!isSet($_SESSION['loginnaam'])) {
-                    echo "<script type=\"text/javascript\">
-                                    window.location = \"".$GLOBALS['apppath']."/application/modules/admin/indexAdmin.php\"
-                                     </script>";
-}
 
-/*if(!isSet($_SESSION['blad']))
+if(!isSet($_SESSION['blad']))
   {
     $_SESSION['blad']='kandidaat_page';
     }    
 if(isSet($_SESSION['blad'])&& $_SESSION['blad'] !=='kandidaat_page')    
 {
   $_SESSION['blad']='kandidaat_page';
-}*/
+}
+
+if(!isSet($_SESSION['loginnaam'])) {
+                    echo "<script type=\"text/javascript\">
+                                    window.location = \"".$GLOBALS['apppath']."/application/modules/admin/indexAdmin.php\"
+                                     </script>";
+}
+
 
  $pageNavId=6;
  fHeader($pageNavId);//actief=$pageNavId);
-
+ navigatie($pageNavId);
  
- if(!isSet($_SESSION['user_authorisatie']) OR $_SESSION['user_authorisatie']=='usr')
+/* if(!isSet($_SESSION['user_authorisatie']) OR $_SESSION['user_authorisatie']=='usr')
  {
      navigatie($pageNavId);
- }
+ }*/
  
 
 global $connection;

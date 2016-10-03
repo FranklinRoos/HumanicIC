@@ -33,9 +33,10 @@ function fHeader($pageNavId="1")
 
     echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['csspath']."dropmenu.css\" type=\"text/css\"/>";
     echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['csspath']."slider.css\" type=\"text/css\"/>";
-    echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['csspath']."slider.less\" type=\"text/css\"/>";
+    //echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['csspath']."slider.less\" type=\"text/css\"/>";
+    //echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['csspath']."half-slider.css\" type=\"text/css\"/>";
     echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['csspath']."fuikweb.css\" type=\"text/css\"/>";
-    echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['csspath']."half-slider.css\" type=\"text/css\"/>";
+    
     
     
     
@@ -59,12 +60,11 @@ function fHeader($pageNavId="1")
 function fFooter($pageNavId="1")
 {
     global $connection;
-    
+    echo "<div class=\"lijn\"><hr></div>";
     echo "<div id=\"footer\">";
     echo "<footer class=\"footer\">";
-
-    echo "<p class=\"text-muted\">";      
-
+    
+    echo "<p class=\"text-muted\">";         
     echo "<ul class=\"nav nav-pills\" id=\"footerNav\">";
  
     $sql = mysqli_query($connection, "SELECT * FROM `nav` WHERE `nav_place` = 'footer' AND  `nav_show`= 'y' ");
@@ -114,16 +114,25 @@ function navigatie($pageNavId="1")
     global $connection;
 
     echo "<nav class=\"navbar navbar-inverse navbar-fixed-top\" id=\"navBalk\">";
+    //echo "<nav class=\"navbar navbar-inverse navbar-fixed-top\" >";
     echo "<button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">";
-    echo "<span class=\"sr-only\">Toggle navigation</span>";
-    echo "<span class=\"icon-bar\"></span>";
-    echo "<span class=\"icon-bar\"></span>";
-    echo "<span class=\"icon-bar\"></span>";
+         echo "<span class=\"sr-only\">Toggle navigation</span>";
+         echo "<span class=\"icon-bar\"></span>";
+         echo "<span class=\"icon-bar\"></span>";
+         echo "<span class=\"icon-bar\"></span>";
     echo "</button>";
-    echo"<div id=\"hlogo\">";
-    echo "<a class=\"navbar-brand\"  href=\"".$GLOBALS['apppath']."index.php\">";//echo"div hlogo doet dit";
-    echo "<img src=\"".$GLOBALS['imagepath']."header2.png\" alt=\"humanic-logo\" width=\"140\" height=\"45\" </a>";
-    echo "</a>";
+    echo "<div>";
+         echo "<a class=\"navbar-brand\"  href=\"".$GLOBALS['apppath']."index.php\">";
+              echo "<img src=\"".$GLOBALS['imagepath']."header2.png\" alt=\"humanic-logo\" width=\"140\" height=\"40\" ></a>"; // de logo als image gepresenteerd
+              /* if(isSet($_SESSION['blad']) && $_SESSION['blad'] ==='index_page')      
+                   {
+                        include("/application/config/logo.php");//de logo dynamisch gegenereerd , deels als tekst
+                    }
+              else
+                    {
+                        include ("../../config/logo.php");//de logo dynamisch gegenereerd , deels als tekst
+                    }*/
+         echo "</a>";
     echo "</div>";
     echo "<ul class=\"nav navbar-nav\" id=\"navItems\">";
     // selecteer alles (voor de navigatie) voor de header en show=y
@@ -206,9 +215,14 @@ function navigatieA($pageNavId="1")
     echo "<span class=\"icon-bar\"></span>";
     echo "<span class=\"icon-bar\"></span>";
     echo "</button>";
-    echo "<a class=\"navbar-brand\"id=\"brand\"  href=\"".$GLOBALS['apppath']."index.php\">";
-    echo "<img src=\"".$GLOBALS['imagepath']."header2.png\" alt=\"humanic-logo\" width=\"80\" height=\"50\"</a>";
-    echo "<ul class=\"nav navbar-nav\">";
+    echo"<div id=\"hlogo\">";
+         echo "<a class=\"navbar-brand\"  href=\"".$GLOBALS['apppath']."index.php\">";
+                 //echo "<img src=\"".$GLOBALS['imagepath']."header2.png\" alt=\"humanic-logo\" width=\"140\" height=\"40\" ></a>"; // tijdelijk uitgeschakeld om te xperimenteren
+                 include 'logo.php';
+         echo "</a>";
+    echo "</div>";
+    //echo "<ul class=\"nav navbar-nav\" >";
+    echo "<ul class=\"nav navbar-nav\" id=\"navItems\">";
     // selecteer alles (voor de navigatie) voor de header en show=y 
     $sql = mysqli_query($connection, "SELECT * FROM `nav` where `nav_place`='header'  and `nav_show`='y' and `nav_auth`='admin' order by `volgorde` ");
 
