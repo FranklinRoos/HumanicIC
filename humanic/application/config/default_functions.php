@@ -253,6 +253,29 @@ function navigatieA($pageNavId="1")
 
     echo "</li>";
     echo "</ul>";
+    echo "<div id=\"inuitBlok\">";
+    echo "<div class=\"navbar-form pull-right\" id=\"inuitKnop\">";
+    //checken op inloggen en de knop in/uitloggen tonen
+    if (isSet($_SESSION["loginnaam"])) 
+    {
+        $date = $_SESSION['user_sinds'];//(yyyy-mm-dd)
+        $datesplit = explode('-',$date);
+        $maanden = array('jan','feb','maart','april','mei','juni','juli','aug','sep','okt','nov','dec');
+        $datum = ($datesplit[2]*1)."-".$maanden[$datesplit[1]-1]."-".$datesplit[0];//de index bij $maanden[$datesplit[1] wordt met 1 verminderd omdat de array '$maanden' met 0 begint      
+        echo "<input type =\"button\" id=\"login\" onclick=\"inofuitLoggen(0)\" value=\"Uitloggen\" class=\"btn\"></button>";
+        echo "</div>"; 
+        echo "<div class=\"navbar-form pull-right\">";
+        echo "<div id=\"inlognaam\"><a class=\"inlognm\">";
+        echo "".ucfirst($_SESSION["loginnaam"])."</a><br/>";      
+        echo "<a class=\"regsinds\">Registreerd sinds: ".$datum."</a>";
+        echo "</div>";
+        echo "</div>" ;
+    } 
+    else
+    {
+        echo "<input type =\"button\" id=\"login\" onclick=\"inofuitLoggen(1)\" value=\"Inloggen\" class=\"btn\"></button></div>";
+    }
+    echo "</form>"; 
     echo "</div>";
     echo "</nav>";
 
