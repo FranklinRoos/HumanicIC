@@ -652,8 +652,8 @@ table#login {
 }*/
 
 input#login {
-     background-color: #e6e6ff;
-     border: 1px solid #996600;
+    background-color: #e6e6ff;/* kleur van de inlog/uitlog knop */
+    border: 1px solid #996600;
     color: #777;
     padding: 5px;
     padding-bottom: -20px;
@@ -688,10 +688,8 @@ a.inlognm {
 	margin: 0 5px 0px 0;
 	padding: 1px 5px 2px 5px;
 	cursor: pointer;
-	float: right;
-               
+	float: right;              
 }
-
 
 #submit {
     margin-right : 5px;
