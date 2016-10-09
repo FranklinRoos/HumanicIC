@@ -2,7 +2,7 @@
 function fHeader($pageNavId="1")
 {
     global $connection;
-    
+
     echo "<!DOCTYPE html>";
     echo "<html lang=\"en\">";
     echo "<head>";
@@ -11,40 +11,53 @@ function fHeader($pageNavId="1")
     echo "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">";
     //<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    // haal de gegevens voor de desbetreffende pagina uit de database
+    // haal description en keywords voor de pagina uit de database.
     $sql = mysqli_query($connection, "SELECT * FROM `pages` where `page_nav_id`=$pageNavId and `page_show` ='y'")
         or die ("Je hebt geen gegevens tot je beschikking");
-    if (mysqli_num_rows($sql)==0)   
+    if (mysqli_num_rows($sql)==0)
     {
         die ("Je hebt geen gegevens tot je beschikking");
     }
-    while ($content = mysqli_fetch_assoc($sql)) 
+    while ($content = mysqli_fetch_assoc($sql))
     {
         echo "<meta name=\"description\" content=\"".$content["page_description"]."\">";
         echo "<meta name=\"keywords\" content=\"".$content["page_keywords"]."\">";
     }
-    echo "<meta name=\"author\" content=\"Franklin Roos, Thijs v Hout,Bart Kijlstra, Ron de Wit & Sellahatin\">";
-    echo "<title>Humanic IC</title>";
+    echo "<meta name=\"author\" content=\"Franklin Roos, Thijs v Hout, Bart, Ron de Wit & Sellahatin Unal\">";
+    echo "<title>HumanIC</title>";
+
     //<!-- Bootstrap -->
     echo "<link rel=\"stylesheet\" href=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">";
-    //<!-- Optional theme -->
-    // echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['csspath']."bootstrap-theme.min.css\" type=\"text/css\">";
-    //<!-- My theme -->
+
+    // Uit tabel kandidaten.pages[1]:
+        // <!-- Bootstrap Core CSS --> Lijkt me dezelfde als hierboven; voorlopig die hierboven gekozen.
+        // echo "<link href=\"".$GLOBALS['csspath']."bootstrap.min.css\" rel=\"stylesheet\">";
+
+        // <!-- Custom CSS -->
+        echo "<link href=\"".$GLOBALS['csspath']."modern-business.css\" rel=\"stylesheet\">";
+
+        // <!-- Custom Fonts -->
+        // <!--Card with Media-->
+        echo "<link rel=\"stylesheet\" href=\"http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css\"/>";
+
+        // <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        // <!-- WARNING: Respond.js doesn''t work if you view the page via file:// -->
+        echo "<!--[if lt IE 9]>";
+        echo "<script src=\"https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js\"></script>";
+        echo "<script src=\"https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js\"></script>";
+        echo "<![endif]-->";
+    // Einde "Uit tabel kandidaten.pages[1]"
+
 
     echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['csspath']."dropmenu.css\" type=\"text/css\"/>";
     echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['csspath']."slider.css\" type=\"text/css\"/>";
-    //echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['csspath']."slider.less\" type=\"text/css\"/>";
-    //echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['csspath']."half-slider.css\" type=\"text/css\"/>";
     echo "<link rel=\"stylesheet\" href=\"".$GLOBALS['csspath']."fuikweb.css\" type=\"text/css\"/>";
-    
-    
-    
-    
-    echo "<script src=\"https://code.jquery.com/jquery-2.2.4.min.js\"  ></script>";
+
+    echo "<script src=\"https://code.jquery.com/jquery-2.2.4.min.js\"></script>";
     echo "<script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js\"></script>";
     echo "<script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.1.1/bootstrap-slider.js\"></script>";
     echo "<script src=\"".$GLOBALS['jspath']."slider.js\" ></script>";
-    
+
     $path=$GLOBALS['apppath'];
     echo " <script type=\"text/javascript\">
     <!--
@@ -52,7 +65,7 @@ function fHeader($pageNavId="1")
     location.replace('".$path."application/modules/humanic-portal/login.php?idinuit='+idinuit);}
     -->
     </script>";
-    echo "</head>";  
+    echo "</head>";
     echo "<body>";
     echo "<div id=\"contentwrapper\">"; // toegevoegd op ma 3 okt 2016
 }
@@ -63,21 +76,21 @@ function fFooter($pageNavId="1")
     echo "<div class=\"lijn\"><hr></div>";
     echo "<div id=\"footer\">";
     echo "<footer class=\"footer\">";
-    
-    echo "<p class=\"text-muted\">";         
+
+//  echo "<p class=\"text-muted\">";
     echo "<ul class=\"nav nav-pills\" id=\"footerNav\">";
- 
+
     $sql = mysqli_query($connection, "SELECT * FROM `nav` WHERE `nav_place` = 'footer' AND  `nav_show`= 'y' ");
-    if (mysqli_num_rows($sql)==0)  
+    if (mysqli_num_rows($sql)==0)
     {
         die ("Je hebt geen gegevens nav tot je beschikking");
-    }     
+    }
     while ($row = mysqli_fetch_assoc($sql))
-    {       
+    {
         if ($row['nav_id']==$pageNavId)
         {
             echo "<li role=\"presentation\" >".$row['nav_naam']."</li>";
-        } 
+        }
         else
         {
             echo "<li role=\"presentation\">".$row['nav_naam']."</li>";
@@ -85,25 +98,22 @@ function fFooter($pageNavId="1")
     }
     echo "<div class=\"merk\">Copyright (c) 2016 Humanic Development BV</div>";
     echo "</ul>";
-    echo "</p>";
+//  echo "</p>";
     echo "</footer>";
     echo "<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 
           <!-- Latest compiled and minified JavaScript -->
           <!-- Include all compiled plugins (below), or include individual files as needed -->
           ";
-    echo "</div>";     
-    echo "</body>";     
+    echo "</div>";  // footer
+    echo "</div>";  // contentwrapper
+    echo "</body>";
  echo "</html>";
-    
+
 }
 
 function footer()
 {
-    //<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-
-    //<!-- Latest compiled and minified JavaScript -->
-    //<!-- Include all compiled plugins (below), or include individual files as needed -->
     echo "</body>";
     echo "</html>";
 }
@@ -114,7 +124,6 @@ function navigatie($pageNavId="1")
     global $connection;
 
     echo "<nav class=\"navbar navbar-inverse navbar-fixed-top\" id=\"navBalk\">";
-    //echo "<nav class=\"navbar navbar-inverse navbar-fixed-top\" >";
     echo "<button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">";
          echo "<span class=\"sr-only\">Toggle navigation</span>";
          echo "<span class=\"icon-bar\"></span>";
@@ -124,31 +133,23 @@ function navigatie($pageNavId="1")
     echo "<div>";
          echo "<a class=\"navbar-brand\"  href=\"".$GLOBALS['apppath']."index.php\">";
               echo "<img src=\"".$GLOBALS['imagepath']."header2.png\" alt=\"humanic-logo\" width=\"140\" height=\"40\" ></a>"; // de logo als image gepresenteerd
-              /* if(isSet($_SESSION['blad']) && $_SESSION['blad'] ==='index_page')      
-                   {
-                        include("/application/config/logo.php");//de logo dynamisch gegenereerd , deels als tekst
-                    }
-              else
-                    {
-                        include ("../../config/logo.php");//de logo dynamisch gegenereerd , deels als tekst
-                    }*/
          echo "</a>";
     echo "</div>";
     echo "<ul class=\"nav navbar-nav\" id=\"navItems\">";
     // selecteer alles (voor de navigatie) voor de header en show=y
     if(!isSet($_SESSION['loginnaam']))
-    {       
+    {
         $sql = mysqli_query($connection, "SELECT * FROM `nav` where `nav_place`='header' AND `nav_auth`='usr' AND `nav_taal`='nl' AND (`navIn` = 'no' OR `navIn` = 'both') AND `nav_show`='y' order by `volgorde` ");
     }
     else
-    {        
-        $sql = mysqli_query($connection, "SELECT * FROM `nav` where `nav_place`='header' AND `nav_auth`='usr' AND `nav_taal`='nl' AND (`navIn` = 'yes' OR `navIn` = 'both') AND `nav_show`='y' order by `volgorde` ");     
-    }     
+    {
+        $sql = mysqli_query($connection, "SELECT * FROM `nav` where `nav_place`='header' AND `nav_auth`='usr' AND `nav_taal`='nl' AND (`navIn` = 'yes' OR `navIn` = 'both') AND `nav_show`='y' order by `volgorde` ");
+    }
     // aanmaken array voor gebruik in function
     while($ln = mysqli_fetch_assoc($sql))
     {
         $menu_items[] = (object) array(
-              'id'   =>$ln['nav_id'] , 
+              'id'   =>$ln['nav_id'] ,
               'name' =>$ln['nav_naam'],
               'url'  =>$ln['nav_url'],
               'place'=>$ln['nav_place'],
@@ -174,29 +175,29 @@ function navigatie($pageNavId="1")
     echo "<div id=\"inuitBlok\">";
     echo "<div class=\"navbar-form pull-right\" id=\"inuitKnop\">";
     //checken op inloggen en de knop in/uitloggen tonen
-    if (isSet($_SESSION["loginnaam"])) 
+    if (isSet($_SESSION["loginnaam"]))
     {
         $date = $_SESSION['user_sinds'];//(yyyy-mm-dd)
         $datesplit = explode('-',$date);
         $maanden = array('jan','feb','maart','april','mei','juni','juli','aug','sep','okt','nov','dec');
-        $datum = ($datesplit[2]*1)."-".$maanden[$datesplit[1]-1]."-".$datesplit[0];//de index bij $maanden[$datesplit[1] wordt met 1 verminderd omdat de array '$maanden' met 0 begint      
+        $datum = ($datesplit[2]*1)."-".$maanden[$datesplit[1]-1]."-".$datesplit[0];//de index bij $maanden[$datesplit[1] wordt met 1 verminderd omdat de array '$maanden' met 0 begint
         echo "<input type =\"button\" id=\"login\" onclick=\"inofuitLoggen(0)\" value=\"Uitloggen\" class=\"btn\"></button>";
-        echo "</div>"; 
+        echo "</div>";
         echo "<div class=\"navbar-form pull-right\">";
         echo "<div id=\"inlognaam\"><a class=\"inlognm\">";
-        echo "".ucfirst($_SESSION["loginnaam"])."</a><br/>";      
-        echo "<a class=\"regsinds\">Registreerd sinds: ".$datum."</a>";
+        echo "".ucfirst($_SESSION["loginnaam"])."</a><br/>";
+        echo "<a class=\"regsinds\">Geregistreerd sinds: ".$datum."</a>";
         echo "</div>";
         echo "</div>" ;
-    } 
+    }
     else
     {
         echo "<input type =\"button\" id=\"login\" onclick=\"inofuitLoggen(1)\" value=\"Inloggen\" class=\"btn\"></button></div>";
     }
-    echo "</form>"; 
-    echo "</div>";      
-    echo "</nav>"; 
-    
+    echo "</form>";
+    echo "</div>";
+    echo "</nav>";
+
 }
 
 
@@ -204,9 +205,7 @@ function navigatie($pageNavId="1")
 function navigatieA($pageNavId="1")
 {
     global $connection;
-    
-    //echo "<nav class=\"navbar navbar-inverse navbar-fixed-top\">";
-    //echo "<nav class=\"navbar navbar-inverse navbar-fixed-top\">";
+
     echo "<nav class=\"navbar navbar-inverse \">";
     echo "<div class=\"container\">";
     echo "<button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">";
@@ -217,20 +216,19 @@ function navigatieA($pageNavId="1")
     echo "</button>";
     echo"<div id=\"hlogo\">";
          echo "<a class=\"navbar-brand\"  href=\"".$GLOBALS['apppath']."index.php\">";
-                 //echo "<img src=\"".$GLOBALS['imagepath']."header2.png\" alt=\"humanic-logo\" width=\"140\" height=\"40\" ></a>"; // tijdelijk uitgeschakeld om te xperimenteren
                  include 'logo.php';
          echo "</a>";
     echo "</div>";
-    //echo "<ul class=\"nav navbar-nav\" >";
     echo "<ul class=\"nav navbar-nav\" id=\"navItems\">";
-    // selecteer alles (voor de navigatie) voor de header en show=y 
+
+    // selecteer alles (voor de navigatie) voor de header en show=y
     $sql = mysqli_query($connection, "SELECT * FROM `nav` where `nav_place`='header'  and `nav_show`='y' and `nav_auth`='admin' order by `volgorde` ");
 
     // aanmaken array voor gebruik in function
     while($ln = mysqli_fetch_assoc($sql))
     {
         $menu_items[] = (object) array(
-        'id'   =>$ln['nav_id'] , 
+        'id'   =>$ln['nav_id'] ,
         'name' =>$ln['nav_naam'],
         'url'  =>$ln['nav_url'],
         'place'=>$ln['nav_place'],
@@ -294,12 +292,12 @@ function generate_menu($parent)
     //gebruik global array variable in plaats van local om het geheugen minder te belasten
     foreach($menuItems as $key => $value)
     {
-        if ($value->parent_id == $parent) 
-        {    
+        if ($value->parent_id == $parent)
+        {
             //Indien het eerste child '<ul>'
             if ($has_childs === false)
             {
-                //blokkeer '<ul>' tegen vaker gebruik  
+                //blokkeer '<ul>' tegen vaker gebruik
                 $has_childs = true;
                 if($parent != 0)
                 {
@@ -351,7 +349,7 @@ function generate_menu($parent)
                     } else
                     {
                         echo '<li class="active"><a href="'.$value->url.'" TARGET="_blank">' . $value->name . '</a>';
- 
+
                     }
                 } else
                 {
@@ -377,16 +375,16 @@ function generate_menu($parent)
 function navigatieAdmin($pageNavId="1")
 {
     global $connection;
-    
+
     echo "<div class=\"navbar navbar-fixed-top\">";
     echo "<ul class=\"nav nav-tabs\" style=\"background-color: #FFF;\">";
     // haal uit database gegevens
     // verwerk het in de list-item
     $sql = mysqli_query($connection, "SELECT * FROM `navadmin` WHERE  `navadmin_show` = 'y'  order by `navadmin_volgorde`");
-    if (mysqli_num_rows($sql)==0)  
+    if (mysqli_num_rows($sql)==0)
     {
         die ("Je hebt geen gegevens nav tot je beschikking,ga fietsen");
-    } 
+    }
     while ($row = mysqli_fetch_assoc($sql))
     {
         if ($row['navadmin_id']==$pageNavId)
@@ -404,16 +402,16 @@ function navigatieAdmin($pageNavId="1")
 function navigatiePtr($pageNavId="1")
 {
     global $connection;
-    
+
     echo "<div class=\"navbar navbar-fixed-top\">";
     echo "<ul class=\"nav nav-tabs\" style=\"background-color: #FFF;\">";
     // haal uit database gegevens
     // verwerk het in de list-item
     $sql = mysqli_query($connection, "SELECT * FROM `navadmin` WHERE  `navadmin_show` = 'y' and `navadmin_auth` = 'ptr' order by `navadmin_volgorde`");
-    if (mysqli_num_rows($sql)==0)  
+    if (mysqli_num_rows($sql)==0)
     {
         die ("Je hebt geen gegevens nav tot je beschikking,ga fietsen");
-    } 
+    }
     while ($row = mysqli_fetch_assoc($sql))
     {
         if ($row['navadmin_id']==$pageNavId)
@@ -441,7 +439,7 @@ function loginAdmin()
     echo "Geef uw wachtwoord:";
     echo "<input type='password' name='passwd'><br>";
     echo "<input type='submit' name='submit' value='Login'>";
-    echo "</form>";  
+    echo "</form>";
 }
 
 function handleFormAdmin()
@@ -449,7 +447,7 @@ function handleFormAdmin()
     if (!isset($tellerInloggen))
     {
         $tellerInloggen=0;
-    }    
+    }
     if (!isset($_COOKIE['laatsteKeer']))
     {
         $_COOKIE['laatsteKeer']= date("j, M, Y");
@@ -466,7 +464,7 @@ function handleFormAdmin()
                 $_SESSION["loginnaam"] = $_POST["login"];
                 $_SESSION["password"] = md5($_POST["passwd"]);
             } else
-            {  
+            {
                 echo "<b>Het systeem kon u niet inloggen, probeer het nogmaals!</b><br>";
                 $tellerInloggen++;
                 if ($tellerInloggen<4)
@@ -478,31 +476,31 @@ function handleFormAdmin()
                 }
             }
         } else
-        {  
+        {
             echo "<b>U moet wel een echt wachtwoord invullen!</b><br>";
             loginAdmin();
-        } 
-    }   
+        }
+    }
 }
-    
+
 function getPasswordAdmin($usernaam)
 {
     global $connection;
-    
+
     $pass = "";
     $sql = mysqli_query($connection, "SELECT * FROM `user`");
-    if (mysqli_num_rows($sql)==0)  
+    if (mysqli_num_rows($sql)==0)
     {
         die ("Je heb geen gegevens tot je beschikking");
     }
-    while ($row = mysqli_fetch_assoc($sql)) 
+    while ($row = mysqli_fetch_assoc($sql))
     {
         if ($usernaam == $row['user_inlognaam'])
-        { 
+        {
             $pass = $row['user_wachtwoord'];
         }
     }
     return $pass;
 }
- 
+
 ?>
