@@ -39,12 +39,12 @@ $(document).ready(function () {
 
 
 
-if (datefield.type!="date"){ //if browser doesn't support input type="date", initialize date picker widget:
+/*if (datefield.type!="date"){ //if browser doesn't support input type="date", initialize date picker widget:
        jQuery(function($){ //on document.ready
            $('#geboortedatum').datepicker();//het aanroepen van datepicker gebeurd gebeurd buiten document ready vanaf r563
            $('#geldigTot').datepicker();
        })
-    };
+    };*/
 
 	$("#rijbewijsCheck").change(function() {
 				
