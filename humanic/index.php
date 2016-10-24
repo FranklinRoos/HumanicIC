@@ -22,11 +22,13 @@ navigatie($active=$pageNavId);
 /*if(!isSet($_SESSION["user_authorisatie"]) OR  (isSet($_SESSION["user_authorisatie"]) && $_SESSION["user_authorisatie"] === "usr") &&  isSet($_SESSION["loginnaam"]))
 {      
     navigatie($pageNavId);    
-}
-elseif(isSet($_SESSION["user_authorisatie"])&& $_SESSION["user_authorisatie"]=="admin" OR $_SESSION["user_authorisatie"]=="ptr")
-{
-    navigatieA($pageNavId);
 }*/
+if(isSet($_SESSION["user_authorisatie"])&& $_SESSION["user_authorisatie"] != "usr")
+{
+     echo "<script type=\"text/javascript\">
+           window.location = \"".$GLOBALS['apppath']."/application/modules/admin/indexAdmin.php\"
+            </script>";
+}
 $sql = mysqli_query($connection,"SELECT * FROM `pages` WHERE `page_nav_id`=$pageNavId  and `page_taal` = 'nl' and `page_show` ='y' ");
 if (mysqli_num_rows($sql)==0)   
 {
