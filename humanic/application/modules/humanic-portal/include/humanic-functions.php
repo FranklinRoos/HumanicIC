@@ -905,8 +905,24 @@ function handleKandidaatRegForm ()
     $geboorteDatum = variableWaarde('geb-datum');
     $email = variableWaarde('email');  // is al bekend in de aanmeld fase , zie aanmeld afhandeling vanaf r443
     $loginnaam = variableWaarde('loginnaam'); 
-    $cv = $_SESSION['cv'];
-    $foto = $_SESSION['foto'];
+    if(isSet($_SESSION['cv']))
+       {
+          $cv = $_SESSION['cv'];
+       }
+    else 
+        {
+           $cv="";
+           $_SESSION['cv']=$cv;
+       }
+    if(isSet($_SESSION['foto']))
+       {
+          $foto = $_SESSION['foto'];
+       }
+     else 
+        {
+           $foto="";
+           $_SESSION['foto']=$foto;
+       }  
     $linkedIn = variableWaarde('linkedIn');
     $facebook = variableWaarde('facebook');
     $twitter = variableWaarde('twitter');
